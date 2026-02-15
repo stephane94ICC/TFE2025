@@ -1,0 +1,6 @@
+CREATE TABLE subscription (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    duration_months INT NOT NULL
+) ENGINE=InnoDB;
