@@ -1,9 +1,0 @@
-CREATE TABLE orders (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    total_amount DECIMAL(10,2) NOT NULL,
-    user_id BIGINT NOT NULL,
-    CONSTRAINT fk_orders_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
