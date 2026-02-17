@@ -1,7 +1,7 @@
 package be.loisirs.tfe2025.plateforme_loisirs.mapper;
 
 import be.loisirs.tfe2025.plateforme_loisirs.dto.UserDTO;
-import be.loisirs.tfe2025.plateforme_loisirs.model.User;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component

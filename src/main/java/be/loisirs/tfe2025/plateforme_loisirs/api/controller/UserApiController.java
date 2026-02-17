@@ -2,7 +2,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.api.controller;
 
 import be.loisirs.tfe2025.plateforme_loisirs.dto.UserDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.mapper.UserMapper;
-import be.loisirs.tfe2025.plateforme_loisirs.model.User;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.api.controller;
 
-import be.loisirs.tfe2025.plateforme_loisirs.model.*;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.*;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

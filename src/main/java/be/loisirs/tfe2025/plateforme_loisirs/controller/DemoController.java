@@ -1,6 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.controller;
 
-import be.loisirs.tfe2025.plateforme_loisirs.model.User;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs.model;
+package be.loisirs.tfe2025.plateforme_loisirs.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
