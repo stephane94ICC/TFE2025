@@ -37,7 +37,11 @@ public class UserApiController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         User user = userService.getUser(id);
-        if (user == null) return ResponseEntity.notFound().build();
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(userMapper.toDTO(user));
     }
 
@@ -49,19 +53,24 @@ public class UserApiController {
 
         // Vérification RGPD
         if (dto.getConsentRgpd() == null || !dto.getConsentRgpd()) {
-            return ResponseEntity.badRequest().body(null); // message : "Vous devez accepter la RGPD"
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Le mot de passe est obligatoire lors de la création
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
+            return ResponseEntity.badRequest().build();
         }
 
         User user = userMapper.toEntity(dto);
 
-        // Vérification mot de passe et hash
-        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            user.setPassword(userService.encodePassword(dto.getPassword()));
-        } else {
-            return ResponseEntity.badRequest().build(); // mot de passe obligatoire
-        }
-
+        /*
+         * Important :
+         * On ne hash PAS le mot de passe ici.
+         * Le hash doit être fait dans UserService.addUser(user)
+         * pour éviter un double encodage du mot de passe.
+         */
         userService.addUser(user);
+
         return ResponseEntity.ok(userMapper.toDTO(user));
     }
 
@@ -70,18 +79,27 @@ public class UserApiController {
     // ========================
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO dto) {
+
         User existing = userService.getUser(id);
-        if (existing == null) return ResponseEntity.notFound().build();
 
-        // Mise à jour via le mapper pour centraliser la logique
-        userMapper.updateEntity(dto, existing);
-
-        // Hash du mot de passe si modifié
-        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            existing.setPassword(userService.encodePassword(dto.getPassword()));
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
         }
 
+        /*
+         * Le mapper met à jour les informations de l'utilisateur.
+         * Attention : si le mot de passe est vide ou null,
+         * il ne faut pas écraser l'ancien mot de passe.
+         */
+        userMapper.updateEntity(dto, existing);
+
+        /*
+         * Important :
+         * On ne hash PAS le mot de passe ici.
+         * Si un nouveau mot de passe est fourni, le service doit s'occuper du hash.
+         */
         userService.updateUser(existing);
+
         return ResponseEntity.ok(userMapper.toDTO(existing));
     }
 
@@ -90,10 +108,15 @@ public class UserApiController {
     // ========================
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+
         User existing = userService.getUser(id);
-        if (existing == null) return ResponseEntity.notFound().build();
+
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         userService.deleteUser(id);
+
         return ResponseEntity.noContent().build();
     }
 }
