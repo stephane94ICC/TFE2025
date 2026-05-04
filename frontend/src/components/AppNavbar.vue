@@ -13,6 +13,7 @@
       <router-link to="/shop" class="nav-link">Boutique</router-link>
       <router-link to="/cart" class="nav-link">Panier</router-link>
       <router-link to="/login" class="nav-link login-link">Connexion</router-link>
+      <router-link to="/register" class="nav-link login-link">Inscription</router-link>
     </div>
   </nav>
 </template>

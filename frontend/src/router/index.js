@@ -7,6 +7,8 @@ import ActivityDetailPage from '../pages/ActivityDetailPage.vue';
 import ShopPage from '../pages/ShopPage.vue';
 import ProductDetailPage from '../pages/ProductDetailPage.vue';
 import CartPage from '../pages/CartPage.vue';
+import RegisterPage from "../pages/RegisterPage.vue";
+import LoginPage from "../pages/LoginPage.vue";
 
 const routes = [
     {
@@ -43,6 +45,16 @@ const routes = [
         path: '/cart',
         name : 'CartPage',
         component: CartPage
+    },
+    {
+      path: "/register",
+      name: "Register",
+      component: RegisterPage
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: LoginPage
     }
 
 

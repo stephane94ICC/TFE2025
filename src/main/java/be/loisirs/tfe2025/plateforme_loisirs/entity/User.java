@@ -1,18 +1,21 @@
 package be.loisirs.tfe2025.plateforme_loisirs.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
-@Data              // <- génère getters, setters, toString, equals, hashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "password")
 public class User {
 
     @Id
