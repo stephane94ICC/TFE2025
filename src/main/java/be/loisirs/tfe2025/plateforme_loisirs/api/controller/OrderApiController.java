@@ -25,7 +25,6 @@ public class OrderApiController {
     public OrderDTO getOrderById(@PathVariable Long id) {
         return orderService.getOrderById(id);
     }
-
     @GetMapping("/user/{userId}")
     public List<OrderDTO> getOrdersByUserId(@PathVariable Long userId) {
         return orderService.getOrdersByUserId(userId);
