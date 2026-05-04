@@ -2,14 +2,16 @@ package be.loisirs.tfe2025.plateforme_loisirs.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "activity")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Activity {
@@ -24,6 +26,7 @@ public class Activity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
     @Column(name = "duration_minutes")
