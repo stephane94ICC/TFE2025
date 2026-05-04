@@ -11,6 +11,7 @@
       <router-link to="/users" class="nav-link">Utilisateurs</router-link>
       <router-link to="/activities" class="nav-link">Activités</router-link>
       <router-link to="/shop" class="nav-link">Boutique</router-link>
+      <router-link to="/cart" class="nav-link">Panier</router-link>
       <router-link to="/login" class="nav-link login-link">Connexion</router-link>
     </div>
   </nav>

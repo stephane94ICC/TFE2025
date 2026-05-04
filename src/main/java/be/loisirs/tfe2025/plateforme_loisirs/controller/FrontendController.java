@@ -13,6 +13,7 @@ public class FrontendController {
             "/activities/{id}",
             "/shop",
             "/products/{id}",
+            "/cart",
             "/login",
             "/register"
     })

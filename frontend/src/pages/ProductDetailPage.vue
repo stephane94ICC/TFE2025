@@ -47,6 +47,7 @@
         <button
             class="btn btn-primary"
             :disabled="!product.active || product.stockQuantity <= 0"
+            @click="addProductToCart"
         >
           Ajouter au panier
         </button>
@@ -57,6 +58,7 @@
 
 <script>
 import { getProductById } from '../services/ProductService';
+import CartService from '../services/CartService';
 
 export default {
   name: 'ProductDetailPage',
@@ -91,6 +93,11 @@ export default {
           .finally(() => {
             this.loading = false;
           });
+    },
+
+    addProductToCart() {
+      CartService.addToCart(this.product);
+      alert("Produit ajouté au panier !");
     }
   }
 };

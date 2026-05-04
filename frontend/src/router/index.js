@@ -6,6 +6,7 @@ import ActivityListPage from '../pages/ActivityListPage.vue';
 import ActivityDetailPage from '../pages/ActivityDetailPage.vue';
 import ShopPage from '../pages/ShopPage.vue';
 import ProductDetailPage from '../pages/ProductDetailPage.vue';
+import CartPage from '../pages/CartPage.vue';
 
 const routes = [
     {
@@ -37,7 +38,14 @@ const routes = [
         path: '/products/:id',
         name: 'product-detail',
         component: ProductDetailPage
+    },
+    {
+        path: '/cart',
+        name : 'CartPage',
+        component: CartPage
     }
+
+
 ];
 
 const router = createRouter({
