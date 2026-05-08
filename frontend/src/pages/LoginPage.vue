@@ -75,14 +75,15 @@ export default {
       this.successMessage = "";
 
       AuthService.login(this.form)
-          .then(response => {
-            this.successMessage = response.message;
-            localStorage.setItem("connectedUser", JSON.stringify(response));
-          })
-          .catch(error => {
-            console.error(error);
-            this.errorMessage = "Adresse e-mail ou mot de passe incorrect.";
-          });
+        .then(response => {
+          AuthService.saveConnectedUser(response);
+          this.successMessage = response.message;
+          this.$router.push("/");
+        })
+        .catch(error => {
+          console.error(error);
+          this.errorMessage = "Adresse e-mail ou mot de passe incorrect.";
+        });
     }
   }
 };

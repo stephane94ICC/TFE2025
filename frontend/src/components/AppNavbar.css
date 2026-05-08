@@ -40,15 +40,32 @@
     color: white;
 }
 
-.login-link {
+.login-link,
+.register-link {
     background: #2563eb;
     color: white;
     padding: 9px 14px;
     border-radius: 8px;
 }
 
-.login-link:hover {
+.login-link:hover,
+.register-link:hover {
     background: #1d4ed8;
+}
+
+.logout-button {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: #b91c1c;
 }
 
 @media (max-width: 768px) {

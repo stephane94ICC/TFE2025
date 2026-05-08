@@ -1,11 +1,15 @@
 package be.loisirs.tfe2025.plateforme_loisirs.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
