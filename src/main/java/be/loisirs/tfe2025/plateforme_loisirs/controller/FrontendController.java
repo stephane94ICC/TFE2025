@@ -18,6 +18,7 @@ public class FrontendController {
             "/register",
             "/partner",
             "/admin",
+            "/admin/products",
             "/profile"
     })
     public String forward() {

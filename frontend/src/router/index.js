@@ -9,10 +9,11 @@ import ProductDetailPage from '../pages/ProductDetailPage.vue';
 import CartPage from '../pages/CartPage.vue';
 import RegisterPage from "../pages/RegisterPage.vue";
 import LoginPage from "../pages/LoginPage.vue";
-import PartnerPage from "../pages/PertnerPage.vue";
+import PartnerPage from "../pages/PartnerPage.vue";
 import AuthService from "../services/AuthService";
 import AdminPage from "../pages/AdminPage.vue";
 import ProfilePage from "../pages/ProfilePage.vue";
+import AdminProductsPage from "../pages/AdminProductsPage.vue";
 
 
 const routes = [
@@ -88,6 +89,15 @@ const routes = [
         }
     },
     {
+        path: "/admin/products",
+        name: "AdminProducts",
+        component: AdminProductsPage,
+        meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
         path: "/profile",
         name: "Profile",
         component: ProfilePage,
@@ -96,7 +106,6 @@ const routes = [
             roles: ["MEMBER", "ADMIN", "PARTNER"]
         }
     }
-
 
 ];
 
