@@ -11,10 +11,16 @@
       <router-link to="/activities" class="nav-link">Activités</router-link>
       <router-link to="/shop" class="nav-link">Boutique</router-link>
 
+      <router-link v-if="isAdmin" to="/admin" class="nav-link">
+        Admin
+      </router-link>
+
       <router-link v-if="isAdmin" to="/users" class="nav-link">
         Utilisateurs
       </router-link>
-
+      <router-link v-if="isLoggedIn" to="/profile" class="nav-link">
+        Profile
+      </router-link>
       <router-link v-if="isLoggedIn" to="/cart" class="nav-link">
         Panier
       </router-link>
