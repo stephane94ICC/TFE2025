@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "maven", "jdk21"]
+
+[phases.install]
+cmds = ["cd frontend && npm install"]
+
+[phases.build]
+cmds = [
+    "cd frontend && npm run build",
+    "mvn clean package -DskipTests"
+]
+
+[start]
+cmd = "java -jar target/plateforme-loisirs-0.0.1-SNAPSHOT.jar"
