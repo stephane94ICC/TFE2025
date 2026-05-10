@@ -15,7 +15,10 @@ public class FrontendController {
             "/products/{id}",
             "/cart",
             "/login",
-            "/register"
+            "/register",
+            "/partner",
+            "/admin",
+            "/profile"
     })
     public String forward() {
         return "forward:/index.html";
