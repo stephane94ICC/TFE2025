@@ -1,6 +1,6 @@
 INSERT INTO users (id, email, password, first_name, last_name, consent_rgpd)
 VALUES
-    (1,'daniel.marcelin@example.com','$2a$10$abcdefghijklmnopqrstuv','Daniel','Marcelin',true),
+    (1,'hash.test@email.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','hash','test',true),
     (2,'philippe.laurent@example.com','$2a$10$abcdefghijklmnopqrstuv','Philippe','Laurent',true),
     (3,'marius.vonmayenburg@example.com','$2a$10$abcdefghijklmnopqrstuv','Marius','Von Mayenburg',true),
     (4,'olivier.boudon@example.com','$2a$10$abcdefghijklmnopqrstuv','Olivier','Boudon',true),
