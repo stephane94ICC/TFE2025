@@ -1,20 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import HomePage from '../pages/HomePage.vue';
+import HomePage from '../pages/public/HomePage.vue';
 import UserList from '../components/UserList.vue';
-import ActivityListPage from '../pages/ActivityListPage.vue';
-import ActivityDetailPage from '../pages/ActivityDetailPage.vue';
-import ShopPage from '../pages/ShopPage.vue';
-import ProductDetailPage from '../pages/ProductDetailPage.vue';
-import CartPage from '../pages/CartPage.vue';
-import RegisterPage from "../pages/RegisterPage.vue";
-import LoginPage from "../pages/LoginPage.vue";
-import PartnerPage from "../pages/PartnerPage.vue";
+import ActivityListPage from '../pages/public/ActivityListPage.vue';
+import ActivityDetailPage from '../pages/public/ActivityDetailPage.vue';
+import ShopPage from '../pages/public/ShopPage.vue';
+import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
+import CartPage from '../pages/member/CartPage.vue';
+import RegisterPage from "../pages/auth/RegisterPage.vue";
+import LoginPage from "../pages/auth/LoginPage.vue";
+import PartnerPage from "../pages/partner/PartnerPage.vue";
 import AuthService from "../services/AuthService";
-import AdminPage from "../pages/AdminPage.vue";
-import ProfilePage from "../pages/ProfilePage.vue";
-import AdminProductsPage from "../pages/AdminProductsPage.vue";
 
+import ProfilePage from "../pages/member/ProfilePage.vue";
+
+import AdminPage from "../pages/admin/AdminPage.vue";
+import AdminProductsPage from "../pages/admin/AdminProductsPage.vue";
+import AdminProductFormPage from "../pages/admin/AdminProductFormPage.vue";
 
 const routes = [
     {
@@ -97,6 +99,26 @@ const routes = [
             roles: ["ADMIN"]
         }
     },
+    {
+        path: "/admin/products/new",
+        name: "AdminProductNew",
+        component: AdminProductFormPage,
+        meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
+        path: "/admin/products/edit/:id",
+        name: "AdminProductEdit",
+        component: AdminProductFormPage,
+        meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+
+
     {
         path: "/profile",
         name: "Profile",

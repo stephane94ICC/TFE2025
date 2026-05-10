@@ -19,6 +19,8 @@ public class FrontendController {
             "/partner",
             "/admin",
             "/admin/products",
+            "/admin/products/new",
+            "/admin/products/edit/{id}",
             "/profile"
     })
     public String forward() {

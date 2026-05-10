@@ -31,6 +31,7 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        //routes frontend controllé via Routeur
                         .requestMatchers(
                                 "/",
                                 "/login",
@@ -39,6 +40,11 @@ public class SecurityConfig {
                                 "/shop",
                                 "/products/**",
                                 "/cart",
+                                "/partner",
+                                "/admin",
+                                "/admin/products",
+                                "/profile",
+                                "/users",
                                 "/assets/**",
                                 "/css/**",
                                 "/js/**",
@@ -46,15 +52,19 @@ public class SecurityConfig {
                                 "/favicon.ico"
                         ).permitAll()
 
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/api/activities/**",
-                                "/api/products/**"
-                        ).permitAll()
+                            // Authentification publique
+                            .requestMatchers("/api/auth/**").permitAll()
 
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                            // API publiques
+                            .requestMatchers("/api/activities/**").permitAll()
+                            .requestMatchers("/api/products/**").permitAll()
 
-                        .anyRequest().permitAll()
+                            // API admin protégées
+                            .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                            .requestMatchers("/api/users/**").hasRole("ADMIN")
+
+                            // Le reste
+                            .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import AuthService from "../services/AuthService";
+import AuthService from "../../services/AuthService";
 import "./ProfilePage.css";
 
 export default {

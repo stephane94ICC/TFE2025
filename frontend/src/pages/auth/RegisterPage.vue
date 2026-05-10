@@ -75,7 +75,7 @@
 
 <script>
 import "./RegisterPage.css";
-import AuthService from "../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 export default {
   name: "RegisterPage",

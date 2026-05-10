@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getActivityById } from '../services/ActivityService';
+import { getActivityById } from '../../services/ActivityService';
 
 export default {
   name: 'ActivityDetailPage',

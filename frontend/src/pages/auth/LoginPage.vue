@@ -53,7 +53,7 @@
 
 <script>
 import "./LoginPage.css";
-import AuthService from "../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 export default {
   name: "LoginPage",

@@ -21,10 +21,7 @@ public class ProductApiController {
         this.productMapper = productMapper;
     }
 
-    // ========================
-    // GET ACTIVE PRODUCTS
-    // Boutique publique
-    // ========================
+    // Produits publics affichés dans la boutique
     @GetMapping
     public List<ProductDTO> getActiveProducts() {
         return productService.getActiveProducts()
@@ -33,85 +30,15 @@ public class ProductApiController {
                 .toList();
     }
 
-    // ========================
-    // GET ALL PRODUCTS
-    // Plus tard : admin / partenaire
-    // ========================
-    @GetMapping("/all")
-    public List<ProductDTO> getAllProducts() {
-        return productService.getAllProducts()
-                .stream()
-                .map(productMapper::toDTO)
-                .toList();
-    }
-
-    // ========================
-    // GET PRODUCT BY ID
-    // ========================
+    // Détail public d’un produit actif
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         Product product = productService.getProduct(id);
 
-        if (product == null) {
+        if (product == null || !Boolean.TRUE.equals(product.getActive())) {
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(productMapper.toDTO(product));
-    }
-
-    // ========================
-    // CREATE PRODUCT
-    // Plus tard : admin / partenaire
-    // ========================
-    @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO dto) {
-
-        if (dto.getName() == null || dto.getName().isBlank()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (dto.getPrice() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Product product = productMapper.toEntity(dto);
-        Product savedProduct = productService.addProduct(product);
-
-        return ResponseEntity.ok(productMapper.toDTO(savedProduct));
-    }
-
-    // ========================
-    // UPDATE PRODUCT
-    // Plus tard : admin / partenaire
-    // ========================
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO dto) {
-        Product existing = productService.getProduct(id);
-
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        productMapper.updateEntity(dto, existing);
-        Product updatedProduct = productService.updateProduct(existing);
-
-        return ResponseEntity.ok(productMapper.toDTO(updatedProduct));
-    }
-
-    // ========================
-    // DELETE PRODUCT
-    // Plus tard : admin / partenaire
-    // ========================
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        Product existing = productService.getProduct(id);
-
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        productService.deleteProduct(id);
-
-        return ResponseEntity.noContent().build();
     }
 }

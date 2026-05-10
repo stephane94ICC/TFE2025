@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getProducts } from '../services/ProductService';
+import { getProducts } from '../../services/ProductService';
 
 export default {
   name: 'ShopPage',

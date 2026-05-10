@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { getActivities } from '../services/ActivityService';
+import { getActivities } from '../../services/ActivityService';
 
 export default {
   name: 'ActivityListPage',

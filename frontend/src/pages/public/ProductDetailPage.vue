@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import { getProductById } from '../services/ProductService';
-import CartService from '../services/CartService';
+import { getProductById } from '../../services/ProductService';
+import CartService from '../../services/CartService';
 
 export default {
   name: 'ProductDetailPage',

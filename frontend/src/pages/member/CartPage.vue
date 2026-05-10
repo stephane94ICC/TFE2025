@@ -62,10 +62,10 @@
 </template>
 
 <script>
-import CartService from '../services/CartService';
+import CartService from "../../services/CartService";
 
 export default {
-  name: 'CartPage',
+  name: "CartPage",
 
   data() {
     return {
