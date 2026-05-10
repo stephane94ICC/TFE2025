@@ -1,34 +1,23 @@
-import axios from "axios";
-import AuthService from "./AuthService";
+import axios from 'axios';
 
-const API_URL = "/api/users";
-
-function getAuthHeaders() {
-    const token = AuthService.getToken();
-
-    return {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
-}
+const API_URL = '/api/users';
 
 export function getUsers() {
-    return axios.get(API_URL, getAuthHeaders());
+    return axios.get(API_URL);
 }
 
 export function getUser(id) {
-    return axios.get(`${API_URL}/${id}`, getAuthHeaders());
+    return axios.get(`${API_URL}/${id}`);
 }
 
 export function createUser(user) {
-    return axios.post(API_URL, user, getAuthHeaders());
+    return axios.post(API_URL, user);
 }
 
 export function updateUser(id, user) {
-    return axios.put(`${API_URL}/${id}`, user, getAuthHeaders());
+    return axios.put(`${API_URL}/${id}`, user);
 }
 
 export function deleteUser(id) {
-    return axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+    return axios.delete(`${API_URL}/${id}`);
 }
