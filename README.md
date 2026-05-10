@@ -76,33 +76,31 @@ Les mots de passe sont chiffrés avec BCrypt avant d’être enregistrés en bas
 
 Les routes d’administration sont protégées et réservées aux utilisateurs ayant le rôle `ADMIN`.
 
+
+
 ## État actuel du projet
+### Fonctionnalités déjà mises en place :
+- inscription ; 
+- connexion ; 
+- hashage des mots de passe avec BCrypt ; 
+- génération et utilisation d’un token JWT ; 
+- gestion des rôles ; 
+- protection des routes frontend avec Vue Router ; 
+- protection des routes backend avec Spring Security ; 
+- page profil ; 
+- page panier ; 
+- tableau de bord administrateur ; 
+- gestion complète des produits côté administrateur ; 
+- séparation des endpoints publics et administrateur. 
+### Améliorations prévues
+### Fonctionnalités prévues pour la suite :
+- upload d’image pour les produits ; 
+- amélioration esthétique des pages ; 
+- gestion des activités côté administrateur ; 
+- développement de l’espace partenaire ; 
+- validation complète du panier et création de commande ; 
+- système d’avis ou de commentaires ; 
+- amélioration de la gestion du profil utilisateur. 
 
-Fonctionnalités déjà mises en place :
-
-inscription ;
-connexion ;
-chiffrement des mots de passe avec BCrypt ;
-génération et utilisation d’un token JWT ;
-gestion des rôles ;
-protection des routes frontend avec Vue Router ;
-protection des routes backend avec Spring Security ;
-page profil ;
-page panier ;
-tableau de bord administrateur ;
-gestion complète des produits côté administrateur ;
-séparation des endpoints publics et administrateur.
-Améliorations prévues
-
-Fonctionnalités prévues pour la suite :
-
-upload d’image pour les produits ;
-amélioration esthétique des pages ;
-gestion des activités côté administrateur ;
-développement de l’espace partenaire ;
-validation complète du panier et création de commande ;
-système d’avis ou de commentaires ;
-amélioration de la gestion du profil utilisateur.
-Auteur
-
-Projet réalisé dans le cadre d’un travail de fin d’études.
+## Auteur
+### Projet réalisé dans le cadre d’un travail de fin d’études.
