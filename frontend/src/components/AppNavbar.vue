@@ -15,7 +15,7 @@
         Admin
       </router-link>
 
-      <router-link v-if="isAdmin" to="/users" class="nav-link">
+      <router-link v-if="isAdmin" to="/admin/users" class="nav-link">
         Utilisateurs
       </router-link>
       <router-link v-if="isLoggedIn" to="/profile" class="nav-link">

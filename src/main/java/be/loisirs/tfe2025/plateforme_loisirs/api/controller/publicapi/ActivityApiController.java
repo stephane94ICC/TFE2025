@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs.api.controller;
+package be.loisirs.tfe2025.plateforme_loisirs.api.controller.publicapi;
 
 import be.loisirs.tfe2025.plateforme_loisirs.dto.ActivityDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Activity;

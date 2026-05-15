@@ -47,10 +47,9 @@
         </div>
       </div>
 
-      <label class="checkbox-line">
-        <input type="checkbox" v-model="newUser.consentRgpd">
-        J’accepte le traitement de mes données personnelles.
-      </label>
+      <p class="info-text">
+        Le consentement RGPD est donné par l’utilisateur lors de son inscription.
+      </p>
 
       <div class="actions">
         <button class="btn btn-primary" @click="createUser">
@@ -125,9 +124,9 @@
           <td>{{ user.firstName }}</td>
           <td>{{ user.lastName }}</td>
           <td>
-              <span :class="user.consentRgpd ? 'badge badge-success' : 'badge badge-danger'">
-                {{ user.consentRgpd ? 'Oui' : 'Non' }}
-              </span>
+            <span :class="user.consentRgpd ? 'badge badge-success' : 'badge badge-danger'">
+              {{ user.consentRgpd ? 'Oui' : 'Non' }}
+            </span>
           </td>
           <td class="table-actions">
             <button class="btn btn-small btn-secondary" @click="startEdit(user)">
@@ -153,10 +152,10 @@ import {
   createUser as apiCreateUser,
   updateUser as apiUpdateUser,
   deleteUser as apiDeleteUser
-} from '../services/UserService';
+} from '../../services/UserService';
 
 export default {
-  name: 'UserList',
+  name: 'AdminUsersPage',
 
   data() {
     return {
@@ -171,8 +170,7 @@ export default {
         email: '',
         firstName: '',
         lastName: '',
-        password: '',
-        consentRgpd: false
+        password: ''
       },
 
       editForm: {
@@ -220,11 +218,6 @@ export default {
         return;
       }
 
-      if (!this.newUser.consentRgpd) {
-        this.errorMessage = "Vous devez accepter le traitement des données personnelles.";
-        return;
-      }
-
       apiCreateUser(this.newUser)
           .then(() => {
             this.successMessage = "Utilisateur créé avec succès.";
@@ -242,8 +235,7 @@ export default {
         email: '',
         firstName: '',
         lastName: '',
-        password: '',
-        consentRgpd: false
+        password: ''
       };
 
       this.showCreateForm = false;
@@ -327,4 +319,4 @@ export default {
 };
 </script>
 
-<style scoped src="./UserList.css"></style>
+<style scoped src="./AdminUsersPage.css"></style>

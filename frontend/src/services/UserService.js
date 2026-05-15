@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthService from "./AuthService";
 
-const API_URL = "/api/users";
+const API_URL = "/api/admin/users";
 
 function getAuthHeaders() {
     const token = AuthService.getToken();

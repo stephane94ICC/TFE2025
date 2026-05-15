@@ -7,6 +7,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 public class SecurityConfig {
@@ -56,12 +57,14 @@ public class SecurityConfig {
                             .requestMatchers("/api/auth/**").permitAll()
 
                             // API publiques
-                            .requestMatchers("/api/activities/**").permitAll()
-                            .requestMatchers("/api/products/**").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/api/activities/**").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
 
-                            // API admin protégées
+                            // API protégées
                             .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                            .requestMatchers("/api/users/**").hasRole("ADMIN")
+                            .requestMatchers("/api/partner/**" ).hasRole("PARTNER")
+                            .requestMatchers( "/api/member/**" ).hasAnyRole("MEMBER","ADMIN","PARTNER")
+
 
                             // Le reste
                             .anyRequest().permitAll()

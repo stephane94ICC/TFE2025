@@ -1,20 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomePage from '../pages/public/HomePage.vue';
-import UserList from '../components/UserList.vue';
 import ActivityListPage from '../pages/public/ActivityListPage.vue';
 import ActivityDetailPage from '../pages/public/ActivityDetailPage.vue';
 import ShopPage from '../pages/public/ShopPage.vue';
 import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
-import CartPage from '../pages/member/CartPage.vue';
+
 import RegisterPage from "../pages/auth/RegisterPage.vue";
 import LoginPage from "../pages/auth/LoginPage.vue";
+
+import CartPage from '../pages/member/CartPage.vue';
+import ProfilePage from "../pages/member/ProfilePage.vue";
+
 import PartnerPage from "../pages/partner/PartnerPage.vue";
 import AuthService from "../services/AuthService";
 
-import ProfilePage from "../pages/member/ProfilePage.vue";
-
 import AdminPage from "../pages/admin/AdminPage.vue";
+import AdminUsersPage from "../pages/admin/AdminUsersPage.vue";
 import AdminProductsPage from "../pages/admin/AdminProductsPage.vue";
 import AdminProductFormPage from "../pages/admin/AdminProductFormPage.vue";
 
@@ -23,15 +25,6 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomePage
-    },
-    {
-        path: '/users',
-        name: 'users',
-        component: UserList,
-        meta: {
-            requiresAuth: true,
-            roles: ["ADMIN"]
-        }
     },
     {
         path: '/activities',
@@ -85,6 +78,15 @@ const routes = [
         path : "/admin",
         name : "Admin",
         component: AdminPage,
+        meta: {
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
+        path: '/admin/users',
+        name: 'AdminUsers',
+        component: AdminUsersPage,
         meta: {
             requiresAuth: true,
             roles: ["ADMIN"]

@@ -1,6 +1,8 @@
 package be.loisirs.tfe2025.plateforme_loisirs.mapper;
 
-import be.loisirs.tfe2025.plateforme_loisirs.dto.UserDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AdminUserCreateDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AdminUserUpdateDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.user.UserResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -8,56 +10,58 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     // ========================
-    // User -> DTO
+    // User -> Response DTO
     // ========================
-    public UserDTO toDTO(User user) {
+    public UserResponseDTO toResponseDTO(User user) {
         if (user == null) return null;
 
-        UserDTO dto = new UserDTO();
+        UserResponseDTO dto = new UserResponseDTO();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setConsentRgpd(user.getConsentRgpd());
-        // password jamais renvoyé au front
+
+        // Le mot de passe n'est jamais renvoyé au frontend
         return dto;
     }
 
     // ========================
-    // DTO -> User (nouvelle entité)
+    // AdminUserCreateDTO -> User
     // ========================
-    public User toEntity(UserDTO dto) {
+    public User toEntity(AdminUserCreateDTO dto) {
         if (dto == null) return null;
 
         User user = new User();
-        user.setId(dto.getId());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
-        user.setConsentRgpd(dto.getConsentRgpd());
+        user.setPassword(dto.getPassword());
 
-        // Mot de passe uniquement si fourni
-        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            user.setPassword(dto.getPassword());
-        }
+        /*
+         * L'admin ne peut pas accepter le RGPD à la place de l'utilisateur.
+         * Donc, si un utilisateur est créé par l'admin, on met false par défaut.
+         */
+        user.setConsentRgpd(false);
 
         return user;
     }
 
     // ========================
-    // Mise à jour d'un User existant depuis DTO
+    // AdminUserUpdateDTO -> User
     // ========================
-    public void updateEntity(UserDTO dto, User existing) {
-        if (dto.getEmail() != null) existing.setEmail(dto.getEmail());
-        if (dto.getFirstName() != null) existing.setFirstName(dto.getFirstName());
-        if (dto.getLastName() != null) existing.setLastName(dto.getLastName());
+    public User toEntity(AdminUserUpdateDTO dto) {
+        if (dto == null) return null;
 
-        // RGPD : ne modifier que si fourni
-        if (dto.getConsentRgpd() != null) existing.setConsentRgpd(dto.getConsentRgpd());
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
 
-        // Password à mettre à jour seulement si fourni
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            existing.setPassword(dto.getPassword());
+            user.setPassword(dto.getPassword());
         }
+
+        return user;
     }
 }

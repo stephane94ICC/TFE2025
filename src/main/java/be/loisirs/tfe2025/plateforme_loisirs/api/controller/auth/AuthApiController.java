@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs.api.controller;
+package be.loisirs.tfe2025.plateforme_loisirs.api.controller.auth;
 
 import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;

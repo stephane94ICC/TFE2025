@@ -9,7 +9,7 @@
     </section>
 
     <section class="admin-dashboard">
-      <router-link to="/users" class="admin-block admin-block-active">
+      <router-link to="/admin/users" class="admin-block admin-block-active">
         <h2>Utilisateurs</h2>
         <p>
           Consulter et gérer les comptes utilisateurs inscrits sur la plateforme.
