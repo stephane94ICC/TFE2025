@@ -52,6 +52,19 @@
           />
         </div>
 
+        <div class="checkbox-group">
+          <input
+              id="consentRgpd"
+              v-model="form.consentRgpd"
+              type="checkbox"
+              required
+          />
+
+          <label for="consentRgpd">
+            J’accepte le traitement de mes données personnelles.
+          </label>
+        </div>
+
         <button type="submit" class="register-button">
           S'inscrire
         </button>
@@ -86,7 +99,8 @@ export default {
         firstName: "",
         lastName: "",
         email: "",
-        password: ""
+        password: "",
+        consentRgpd: false
       },
       errorMessage: "",
       successMessage: ""
@@ -98,6 +112,11 @@ export default {
       this.errorMessage = "";
       this.successMessage = "";
 
+      if (!this.form.consentRgpd) {
+        this.errorMessage = "Vous devez accepter le traitement de vos données personnelles.";
+        return;
+      }
+
       AuthService.register(this.form)
           .then(response => {
             this.successMessage = response.message;
@@ -106,7 +125,8 @@ export default {
               firstName: "",
               lastName: "",
               email: "",
-              password: ""
+              password: "",
+              consentRgpd: false
             };
           })
           .catch(error => {

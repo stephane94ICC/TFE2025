@@ -1,9 +1,9 @@
 INSERT INTO users (id, email, password, first_name, last_name, consent_rgpd)
 VALUES
     (1,'hash.test@email.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','hash','test',true),
-    (2,'philippe.laurent@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Philippe','Laurent',true),
-    (3,'marius.vonmayenburg@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Marius','Von Mayenburg',true),
-    (4,'olivier.boudon@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Olivier','Boudon',true),
+    (2,'philippe.partner@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Philippe','Laurent',true),
+    (3,'marius.admin@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Marius','Von Mayenburg',true),
+    (4,'olivier.member@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Olivier','Boudon',true),
     (5,'annemarie.loop@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Anne Marie','Loop',true),
     (6,'pietro.varasso@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Pietro','Varasso',true),
     (7,'laurent.caron@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Laurent','Caron',true),

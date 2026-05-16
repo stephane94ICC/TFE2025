@@ -1,6 +1,5 @@
 package be.loisirs.tfe2025.plateforme_loisirs.config;
 
-import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.service.JwtService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

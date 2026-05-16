@@ -1,5 +1,8 @@
+INSERT INTO user_role (user_id, role_id)
+SELECT id, 1
+FROM users
+WHERE id NOT IN (2, 3);
+
 INSERT INTO user_role (user_id, role_id) VALUES
-(1, 2),
-(2, 1),
-(3, 1),
-(4, 1);
+(2, 2),
+(3, 3);

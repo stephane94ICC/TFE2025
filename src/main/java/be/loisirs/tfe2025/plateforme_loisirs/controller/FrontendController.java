@@ -8,7 +8,6 @@ public class FrontendController {
 
     @GetMapping(value = {
             "/",
-            "/users",
             "/activities",
             "/activities/{id}",
             "/shop",
@@ -17,13 +16,18 @@ public class FrontendController {
             "/login",
             "/register",
             "/partner",
+            "/profile",
+
             "/admin",
+            "/admin/users",
             "/admin/products",
             "/admin/products/new",
-            "/admin/products/edit/{id}",
-            "/profile"
+            "/admin/products/edit/{id}"
+
+
     })
     public String forward() {
+
         return "forward:/index.html";
     }
 }

@@ -17,5 +17,7 @@ public class RegisterRequestDTO {
 
     private String email;
 
+    private Boolean consentRgpd;
+
     private String password;
 }

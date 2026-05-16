@@ -22,6 +22,14 @@ public class UserMapper {
         dto.setLastName(user.getLastName());
         dto.setConsentRgpd(user.getConsentRgpd());
 
+        String role = user.getRoles() == null ? null :
+                user.getRoles()
+                .stream()
+                .findFirst()
+                .map(roleEntity -> roleEntity.getName())
+                .orElse(null);
+
+        dto.setRole(role);
         // Le mot de passe n'est jamais renvoyé au frontend
         return dto;
     }

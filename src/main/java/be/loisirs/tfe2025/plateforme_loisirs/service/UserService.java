@@ -1,52 +1,60 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
+import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       BCryptPasswordEncoder passwordEncoder,
+                       RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
-    // GET ALL USERS
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // GET USER BY ID
     public User getUser(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    // ADD USER
-    public User addUser(User user) {
+    public User addUser(User user, String roleName) {
         if (user.getPassword() != null && !user.getPassword().isBlank()) {
             user.setPassword(encodePassword(user.getPassword()));
         }
 
-        /*
-         * Si l'utilisateur est créé par l'admin, il n'a pas accepté lui-même le RGPD.
-         * On met donc false par défaut pour éviter une valeur null en base.
-         */
         if (user.getConsentRgpd() == null) {
             user.setConsentRgpd(false);
         }
 
+        String finalRoleName = (roleName == null || roleName.isBlank()) ? "MEMBER" : roleName;
+
+        Role role = roleRepository.findByName(finalRoleName)
+                .orElseThrow(() -> new RuntimeException("Le rôle " + finalRoleName + " est introuvable."));
+
+        user.setRoles(new HashSet<>());
+        user.getRoles().add(role);
+
         return userRepository.save(user);
     }
 
-    // UPDATE USER
-    public User updateUser(User user) {
+    public User updateUser(User user, String roleName) {
         User existing = userRepository.findById(user.getId()).orElse(null);
 
         if (existing == null) {
@@ -65,24 +73,25 @@ public class UserService {
             existing.setLastName(user.getLastName());
         }
 
-        /*
-         * Le consentement RGPD n'est pas modifié par l'admin.
-         * Il reste celui donné par l'utilisateur lors de l'inscription.
-         */
-
         if (user.getPassword() != null && !user.getPassword().isBlank()) {
             existing.setPassword(encodePassword(user.getPassword()));
+        }
+
+        if (roleName != null && !roleName.isBlank()) {
+            Role role = roleRepository.findByName(roleName)
+                    .orElseThrow(() -> new RuntimeException("Le rôle " + roleName + " est introuvable."));
+
+            existing.getRoles().clear();
+            existing.getRoles().add(role);
         }
 
         return userRepository.save(existing);
     }
 
-    // DELETE USER
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
-    // HASH DU MOT DE PASSE
     public String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }

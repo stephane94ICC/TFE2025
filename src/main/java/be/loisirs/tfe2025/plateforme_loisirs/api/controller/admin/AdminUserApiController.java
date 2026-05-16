@@ -60,7 +60,7 @@ public class AdminUserApiController {
         }
 
         User user = userMapper.toEntity(dto);
-        User savedUser = userService.addUser(user);
+        User savedUser = userService.addUser(user, dto.getRole());
 
         return ResponseEntity.ok(userMapper.toResponseDTO(savedUser));
     }
@@ -72,10 +72,12 @@ public class AdminUserApiController {
             @PathVariable Long id,
             @RequestBody AdminUserUpdateDTO dto
     ) {
+        // a mettre dans one note ici transformes le DTO en objet User.
         User userToUpdate = userMapper.toEntity(dto);
         userToUpdate.setId(id);
-
-        User updatedUser = userService.updateUser(userToUpdate);
+        // a mettre dans one note
+        // envoies cet objet au service, puis récupères le résultat modifié depuis la DB (via userservice)
+        User updatedUser = userService.updateUser(userToUpdate, dto.getRole());
 
         if (updatedUser == null) {
             return ResponseEntity.notFound().build();

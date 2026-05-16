@@ -93,3 +93,19 @@
 .login-link a:hover {
   text-decoration: underline;
 }
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  color: #333;
+}
+
+.checkbox-group input {
+  margin-top: 3px;
+}
+
+.checkbox-group label {
+  line-height: 1.4;
+}

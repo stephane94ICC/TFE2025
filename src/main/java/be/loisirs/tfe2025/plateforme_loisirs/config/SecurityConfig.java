@@ -35,6 +35,8 @@ public class SecurityConfig {
                         //routes frontend controllé via Routeur
                         .requestMatchers(
                                 "/",
+                                "/index.html",
+                                "/error",
                                 "/login",
                                 "/register",
                                 "/activities/**",
@@ -66,8 +68,8 @@ public class SecurityConfig {
                             .requestMatchers( "/api/member/**" ).hasAnyRole("MEMBER","ADMIN","PARTNER")
 
 
-                            // Le reste
-                            .anyRequest().permitAll()
+                            // Le reste doit etre connecté
+                            .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())

@@ -11,12 +11,10 @@
       </button>
     </div>
 
-    <!-- Message d'erreur -->
     <div v-if="errorMessage" class="alert alert-error">
       {{ errorMessage }}
     </div>
 
-    <!-- Message de succès -->
     <div v-if="successMessage" class="alert alert-success">
       {{ successMessage }}
     </div>
@@ -44,6 +42,15 @@
         <div class="form-group">
           <label>Mot de passe</label>
           <input v-model="newUser.password" type="password" placeholder="Mot de passe">
+        </div>
+
+        <div class="form-group">
+          <label>Rôle</label>
+          <select v-model="newUser.role">
+            <option value="MEMBER">Membre</option>
+            <option value="PARTNER">Partenaire</option>
+            <option value="ADMIN">Administrateur</option>
+          </select>
         </div>
       </div>
 
@@ -86,6 +93,15 @@
           <label>Nouveau mot de passe</label>
           <input v-model="editForm.password" type="password" placeholder="Laisser vide si inchangé">
         </div>
+
+        <div class="form-group">
+          <label>Rôle</label>
+          <select v-model="editForm.role">
+            <option value="MEMBER">Membre</option>
+            <option value="PARTNER">Partenaire</option>
+            <option value="ADMIN">Administrateur</option>
+          </select>
+        </div>
       </div>
 
       <div class="actions">
@@ -112,6 +128,7 @@
           <th>Email</th>
           <th>Prénom</th>
           <th>Nom</th>
+          <th>Rôle</th>
           <th>RGPD</th>
           <th>Actions</th>
         </tr>
@@ -123,11 +140,19 @@
           <td>{{ user.email }}</td>
           <td>{{ user.firstName }}</td>
           <td>{{ user.lastName }}</td>
+
+          <td>
+            <span class="badge badge-role">
+              {{ formatRole(user.role) }}
+            </span>
+          </td>
+
           <td>
             <span :class="user.consentRgpd ? 'badge badge-success' : 'badge badge-danger'">
               {{ user.consentRgpd ? 'Oui' : 'Non' }}
             </span>
           </td>
+
           <td class="table-actions">
             <button class="btn btn-small btn-secondary" @click="startEdit(user)">
               Modifier
@@ -170,14 +195,16 @@ export default {
         email: '',
         firstName: '',
         lastName: '',
-        password: ''
+        password: '',
+        role: 'MEMBER'
       },
 
       editForm: {
         email: '',
         firstName: '',
         lastName: '',
-        password: ''
+        password: '',
+        role: 'MEMBER'
       }
     };
   },
@@ -235,7 +262,8 @@ export default {
         email: '',
         firstName: '',
         lastName: '',
-        password: ''
+        password: '',
+        role: 'MEMBER'
       };
 
       this.showCreateForm = false;
@@ -250,7 +278,8 @@ export default {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        password: ''
+        password: '',
+        role: user.role || 'MEMBER'
       };
     },
 
@@ -265,7 +294,8 @@ export default {
       const payload = {
         email: this.editForm.email,
         firstName: this.editForm.firstName,
-        lastName: this.editForm.lastName
+        lastName: this.editForm.lastName,
+        role: this.editForm.role
       };
 
       if (this.editForm.password && this.editForm.password.trim() !== '') {
@@ -291,7 +321,8 @@ export default {
         email: '',
         firstName: '',
         lastName: '',
-        password: ''
+        password: '',
+        role: 'MEMBER'
       };
     },
 
@@ -309,6 +340,12 @@ export default {
               this.errorMessage = "Erreur lors de la suppression de l’utilisateur.";
             });
       }
+    },
+
+    formatRole(role) {
+      if (role === 'ADMIN') return 'Administrateur';
+      if (role === 'PARTNER') return 'Partenaire';
+      return 'Membre';
     },
 
     clearMessages() {

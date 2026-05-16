@@ -10,6 +10,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,9 @@ public class AuthService {
         if (userRepository.existsByEmail(registerRequestDTO.getEmail())) {
             throw new RuntimeException("Un compte existe déjà avec cette adresse e-mail.");
         }
+        if (!Boolean.TRUE.equals(registerRequestDTO.getConsentRgpd())) {
+            throw new RuntimeException("Le consentement RGPD est obligatoire.");
+        }
 
         Role memberRole = roleRepository.findByName("MEMBER")
                 .orElseThrow(() -> new RuntimeException("Le rôle MEMBER est introuvable."));
@@ -48,8 +52,10 @@ public class AuthService {
         String hashedPassword = passwordEncoder.encode(registerRequestDTO.getPassword());
         user.setPassword(hashedPassword);
 
-        user.setConsentRgpd(false);
-        user.setRoles(Set.of(memberRole));
+        user.setConsentRgpd(true);
+
+        user.setRoles(new HashSet<>());
+        user.getRoles().add(memberRole);
 
         User savedUser = userRepository.save(user);
 
