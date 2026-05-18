@@ -16,7 +16,13 @@
     <div v-else-if="activities.length" class="activity-grid">
       <div v-for="activity in activities" :key="activity.id" class="activity-card">
         <div class="activity-image">
-          <span>{{ activity.title.charAt(0) }}</span>
+          <img
+              v-if="getActivityImage(activity)"
+              :src="getActivityImage(activity)"
+              :alt="activity.title"
+          />
+
+          <span v-else>{{ activity.title.charAt(0) }}</span>
         </div>
 
         <div class="activity-content">
@@ -76,6 +82,14 @@ export default {
           .finally(() => {
             this.loading = false;
           });
+    },
+
+    getActivityImage(activity) {
+      if (activity.imageUrls && activity.imageUrls.length > 0) {
+        return activity.imageUrls[0];
+      }
+
+      return null;
     }
   }
 };

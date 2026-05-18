@@ -6,6 +6,7 @@ CREATE TABLE users (
                        last_name VARCHAR(100),
                        birth_date DATE,
                        phone VARCHAR(20),
+                       profile_image_url VARCHAR(255) NOT NULL DEFAULT '/uploads/members/default-profile.png',
                        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                        consent_rgpd BOOLEAN NOT NULL
 ) ENGINE = InnoDB

@@ -4,6 +4,8 @@ import be.loisirs.tfe2025.plateforme_loisirs.dto.ActivityDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Activity;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class ActivityMapper {
 
@@ -20,6 +22,14 @@ public class ActivityMapper {
         dto.setDurationMinutes(activity.getDurationMinutes());
         dto.setPartnerId(activity.getPartnerId());
 
+        if (activity.getImages() != null) {
+            dto.setImageUrls(
+                    activity.getImages()
+                            .stream()
+                            .map(image -> image.getUrl())
+                            .collect( Collectors.toList())
+            );
+        }
         return dto;
     }
 

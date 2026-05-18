@@ -19,6 +19,8 @@ import AdminPage from "../pages/admin/AdminPage.vue";
 import AdminUsersPage from "../pages/admin/AdminUsersPage.vue";
 import AdminProductsPage from "../pages/admin/AdminProductsPage.vue";
 import AdminProductFormPage from "../pages/admin/AdminProductFormPage.vue";
+import AdminActivitiesPage from "../pages/admin/AdminActivitiesPage.vue";
+import AdminActivityFormPage from "../pages/admin/AdminActivityFormPage.vue";
 
 const routes = [
     {
@@ -119,8 +121,33 @@ const routes = [
             roles: ["ADMIN"]
         }
     },
-
-
+    {
+        path: "/admin/activities",
+        name: "AdminActivities",
+        component: AdminActivitiesPage,
+        meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
+        path: "/admin/activities/new",
+        name: "AdminActivityNew",
+        component: AdminActivityFormPage,
+        meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
+        path: "/admin/activities/edit/:id",
+        name: "AdminActivityEdit",
+        component: AdminActivityFormPage,
+        meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
     {
         path: "/profile",
         name: "Profile",

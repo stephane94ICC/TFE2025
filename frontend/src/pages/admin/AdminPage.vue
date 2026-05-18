@@ -17,13 +17,13 @@
         <span>Accéder</span>
       </router-link>
 
-      <div class="admin-block admin-block-disabled">
+      <router-link to="/admin/activities" class="admin-block admin-block-active">
         <h2>Activités</h2>
         <p>
           Gérer les activités proposées par les partenaires.
         </p>
-        <span>Bientôt disponible</span>
-      </div>
+        <span>Accéder</span>
+      </router-link>
 
       <router-link to="/admin/products" class="admin-block admin-block-active">
         <h2>Produits</h2>

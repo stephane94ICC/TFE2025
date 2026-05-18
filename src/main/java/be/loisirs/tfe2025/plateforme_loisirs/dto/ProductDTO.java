@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +21,13 @@ public class ProductDTO {
     private String description;
     private BigDecimal price;
     private Integer stockQuantity;
-    private String imageUrl;
+
     private Boolean active;
     private LocalDateTime createdAt;
+
+    //a supprimer
+    private String imageUrl;
+    //nouveau
+    private List<String> imageUrls = new ArrayList<>();
+
 }

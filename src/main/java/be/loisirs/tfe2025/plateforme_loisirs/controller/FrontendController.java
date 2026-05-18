@@ -20,10 +20,13 @@ public class FrontendController {
 
             "/admin",
             "/admin/users",
+            "/admin/activities",
             "/admin/products",
             "/admin/products/new",
-            "/admin/products/edit/{id}"
-
+            "/admin/products/edit/{id}",
+            "/admin/activities",
+            "/admin/activities/new",
+            "/admin/activities/edit/{id}"
 
     })
     public String forward() {

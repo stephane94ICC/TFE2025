@@ -22,20 +22,16 @@ public class ActivityApiController {
         this.activityMapper = activityMapper;
     }
 
-    // ========================
-    // GET ALL ACTIVITIES
-    // ========================
+    // lister toutes les activités
     @GetMapping
     public List<ActivityDTO> getAllActivities() {
         return activityService.getAllActivities()
                 .stream()
                 .map(activityMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    // ========================
-    // GET ACTIVITY BY ID
-    // ========================
+    // details d'une ACTIVITÉ via ID
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDTO> getActivityById(@PathVariable Long id) {
         Activity activity = activityService.getActivity(id);
@@ -47,58 +43,4 @@ public class ActivityApiController {
         return ResponseEntity.ok(activityMapper.toDTO(activity));
     }
 
-    // ========================
-    // CREATE ACTIVITY
-    // ========================
-    @PostMapping
-    public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO dto) {
-
-        if (dto.getTitle() == null || dto.getTitle().isBlank()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (dto.getPartnerId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Activity activity = activityMapper.toEntity(dto);
-        Activity savedActivity = activityService.addActivity(activity);
-
-        return ResponseEntity.ok(activityMapper.toDTO(savedActivity));
-    }
-
-    // ========================
-    // UPDATE ACTIVITY
-    // ========================
-    @PutMapping("/{id}")
-    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable Long id, @RequestBody ActivityDTO dto) {
-
-        Activity existing = activityService.getActivity(id);
-
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        activityMapper.updateEntity(dto, existing);
-        Activity updatedActivity = activityService.updateActivity(existing);
-
-        return ResponseEntity.ok(activityMapper.toDTO(updatedActivity));
-    }
-
-    // ========================
-    // DELETE ACTIVITY
-    // ========================
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteActivity(@PathVariable Long id) {
-
-        Activity existing = activityService.getActivity(id);
-
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        activityService.deleteActivity(id);
-
-        return ResponseEntity.noContent().build();
-    }
 }

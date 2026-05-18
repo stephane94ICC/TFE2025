@@ -1,23 +1,45 @@
 import axios from 'axios';
+import AuthService from "./AuthService";
 
-const API_URL = '/api/activities';
+const PUBLIC_API_URL = '/api/activities';
+const ADMIN_API_URL = '/api/admin/activities';
 
+function getAuthConfig() {
+    const token = AuthService.getToken();
+
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+}
+
+// PUBLIC
 export function getActivities() {
-    return axios.get(API_URL);
+    return axios.get(PUBLIC_API_URL);
 }
 
 export function getActivityById(id) {
-    return axios.get(`${API_URL}/${id}`);
+    return axios.get(`${PUBLIC_API_URL}/${id}`);
+}
+
+// ADMIN
+export function getAdminActivities() {
+    return axios.get(ADMIN_API_URL, getAuthConfig());
+}
+
+export function getAdminActivityById(id) {
+    return axios.get(`${ADMIN_API_URL}/${id}`, getAuthConfig());
 }
 
 export function createActivity(activity) {
-    return axios.post(API_URL, activity);
+    return axios.post(ADMIN_API_URL, activity, getAuthConfig());
 }
 
 export function updateActivity(id, activity) {
-    return axios.put(`${API_URL}/${id}`, activity);
+    return axios.put(`${ADMIN_API_URL}/${id}`, activity, getAuthConfig());
 }
 
 export function deleteActivity(id) {
-    return axios.delete(`${API_URL}/${id}`);
+    return axios.delete(`${ADMIN_API_URL}/${id}`, getAuthConfig());
 }
