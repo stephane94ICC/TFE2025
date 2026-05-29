@@ -17,8 +17,8 @@
       <div v-for="product in products" :key="product.id" class="product-card">
         <div class="product-image">
           <img
-              v-if="product.imageUrl"
-              :src="product.imageUrl"
+              v-if="getProductImage(product)"
+              :src="getProductImage(product)"
               :alt="product.name"
           >
           <span v-else>{{ product.name.charAt(0) }}</span>
@@ -81,6 +81,14 @@ export default {
           .finally(() => {
             this.loading = false;
           });
+    },
+
+    getProductImage(product) {
+      if (product.imageUrls && product.imageUrls.length > 0) {
+        return product.imageUrls[0];
+      }
+
+      return product.imageUrl || null;
     }
   }
 };

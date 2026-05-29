@@ -12,7 +12,13 @@
 
     <div v-else-if="activity" class="detail-card">
       <div class="detail-image">
-        <span>{{ activity.title.charAt(0) }}</span>
+        <img
+            v-if="getActivityImage(activity)"
+            :src="getActivityImage(activity)"
+            :alt="activity.title"
+        />
+
+        <span v-else>{{ activity.title.charAt(0) }}</span>
       </div>
 
       <div class="detail-content">
@@ -83,6 +89,14 @@ export default {
           .finally(() => {
             this.loading = false;
           });
+    },
+
+    getActivityImage(activity) {
+      if (activity.imageUrls && activity.imageUrls.length > 0) {
+        return activity.imageUrls[0];
+      }
+
+      return null;
     }
   }
 };
