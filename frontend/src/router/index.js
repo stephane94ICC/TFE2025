@@ -19,8 +19,10 @@ import AdminPage from "../pages/admin/AdminPage.vue";
 import AdminUsersPage from "../pages/admin/AdminUsersPage.vue";
 import AdminProductsPage from "../pages/admin/AdminProductsPage.vue";
 import AdminProductFormPage from "../pages/admin/AdminProductFormPage.vue";
+import AdminProductImagesPage from "../pages/admin/AdminProductImagesPage.vue";
 import AdminActivitiesPage from "../pages/admin/AdminActivitiesPage.vue";
 import AdminActivityFormPage from "../pages/admin/AdminActivityFormPage.vue";
+
 
 const routes = [
     {
@@ -117,6 +119,15 @@ const routes = [
         name: "AdminProductEdit",
         component: AdminProductFormPage,
         meta:{
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
+        path: "/admin/products/:id/images",
+        name: "AdminProductImages",
+        component: AdminProductImagesPage,
+        meta: {
             requiresAuth: true,
             roles: ["ADMIN"]
         }

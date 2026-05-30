@@ -58,6 +58,7 @@
                   {{ product.active ? "Oui" : "Non" }}
                 </span>
               </td>
+
               <td>
                 <div class="admin-product-actions">
                   <router-link
@@ -67,10 +68,17 @@
                     Modifier
                   </router-link>
 
+                  <router-link
+                    :to="`/admin/products/${product.id}/images`"
+                    class="admin-action-button"
+                  >
+                    Gérer les images
+                  </router-link>
+
                   <button
                     class="admin-action-button admin-action-danger"
-                    @click="deleteSelectedProduct(product)"
                     :disabled="deletingId === product.id"
+                    @click="deleteSelectedProduct(product)"
                   >
                     {{ deletingId === product.id ? "Suppression..." : "Supprimer" }}
                   </button>
@@ -89,7 +97,7 @@
 </template>
 
 <script>
-import { getAllProducts, deleteProduct } from "../../services/ProductService";
+import { deleteProduct, getAllProducts } from "../../services/ProductService";
 import "./AdminProductsPage.css";
 
 export default {

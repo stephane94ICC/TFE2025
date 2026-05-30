@@ -48,3 +48,27 @@ export function updateProduct(id, product) {
 export function deleteProduct(id) {
     return axios.delete(`${ADMIN_API_URL}/${id}`, getAuthConfig());
 }
+// Liste des images d’un produit
+export function getProductImages(productId) {
+    return axios.get(`${ADMIN_API_URL}/${productId}/images`, getAuthConfig());
+}
+
+// Ajout d’une image à un produit
+export function uploadProductImage(productId, file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return axios.post(
+        `${ADMIN_API_URL}/${productId}/images`,
+        formData,
+        getAuthConfig()
+    );
+}
+
+// Suppression d’une image d’un produit
+export function deleteProductImage(productId, imageId) {
+    return axios.delete(
+        `${ADMIN_API_URL}/${productId}/images/${imageId}`,
+        getAuthConfig()
+    );
+}
