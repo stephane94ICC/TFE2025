@@ -4,11 +4,12 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,9 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "ma-cle-secrete-tres-longue-pour-jwt-plateforme-loisirs-2026";
+    private final String secretKey;
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
+    public JwtService(@Value("${app.jwt.secret}") String secretKey) {
+        this.secretKey = secretKey;
+    }
     public String generateToken(User user) {
         Set<String> roles = user.getRoles()
                 .stream()
@@ -59,6 +63,6 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 }

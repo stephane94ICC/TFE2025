@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Uploads ###
+uploads/**
+!uploads/
+!uploads/activities/
+!uploads/activities/default-activity.png
+!uploads/members/
+!uploads/members/default-profile.png
+!uploads/partners/
+!uploads/partners/default-logo.png
+!uploads/products/
+!uploads/products/default-product.png
+

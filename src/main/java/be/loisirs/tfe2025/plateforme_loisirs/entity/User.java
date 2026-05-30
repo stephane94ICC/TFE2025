@@ -43,6 +43,9 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name="profile_image_url")
+    private String profileImageUrl;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
