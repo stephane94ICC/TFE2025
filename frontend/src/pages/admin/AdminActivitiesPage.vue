@@ -47,6 +47,13 @@
                 Modifier
               </router-link>
 
+              <router-link
+                :to="`/admin/activities/${activity.id}/images`"
+                class="btn-images"
+              >
+                Gérer les images
+              </router-link>
+
               <button
                 type="button"
                 class="btn-delete"

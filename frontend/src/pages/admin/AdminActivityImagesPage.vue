@@ -1,12 +1,12 @@
 <template>
-  <div class="admin-product-images-page">
-    <h1>Images du produit</h1>
+  <div class="admin-activity-images-page">
+    <h1>Images de l’activité</h1>
 
     <p v-if="loading">Chargement...</p>
 
     <template v-else>
-      <p v-if="product">
-        Produit : <strong>{{ product.name }}</strong>
+      <p v-if="activity">
+        Activité : <strong>{{ activity.title }}</strong>
       </p>
 
       <div v-if="errorMessage" class="form-error">
@@ -35,7 +35,7 @@
 
       <div class="images-grid">
         <div v-for="image in images" :key="image.id" class="image-card">
-          <img :src="image.url" alt="Image du produit" />
+          <img :src="image.url" alt="Image de l’activité" />
 
           <span v-if="isDefaultImage(image.url)">
             Image par défaut
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <router-link to="/admin/products">
+      <router-link to="/admin/activities">
         Retour à la liste
       </router-link>
     </template>
@@ -61,18 +61,18 @@
 
 <script>
 import {
-  deleteProductImage,
-  getAdminProductById,
-  getProductImages,
-  uploadProductImage
-} from "../../services/ProductService";
+  deleteActivityImage,
+  getAdminActivityById,
+  getActivityImages,
+  uploadActivityImage
+} from "../../services/ActivityService";
 
 export default {
-  name: "AdminProductImagesPage",
+  name: "AdminActivityImagesPage",
 
   data() {
     return {
-      product: null,
+      activity: null,
       images: [],
       selectedFile: null,
       loading: false,
@@ -84,7 +84,7 @@ export default {
   },
 
   computed: {
-    productId() {
+    activityId() {
       return this.$route.params.id;
     }
   },
@@ -98,11 +98,11 @@ export default {
       this.loading = true;
 
       Promise.all([
-        getAdminProductById(this.productId),
-        getProductImages(this.productId)
+        getAdminActivityById(this.activityId),
+        getActivityImages(this.activityId)
       ])
-          .then(([productResponse, imagesResponse]) => {
-            this.product = productResponse.data;
+          .then(([activityResponse, imagesResponse]) => {
+            this.activity = activityResponse.data;
             this.images = imagesResponse.data;
           })
           .catch(error => {
@@ -127,7 +127,7 @@ export default {
       this.errorMessage = "";
       this.successMessage = "";
 
-      uploadProductImage(this.productId, this.selectedFile)
+      uploadActivityImage(this.activityId, this.selectedFile)
           .then(() => {
             this.successMessage = "Image ajoutée avec succès.";
             this.selectedFile = null;
@@ -148,7 +148,7 @@ export default {
       this.errorMessage = "";
       this.successMessage = "";
 
-      deleteProductImage(this.productId, image.id)
+      deleteActivityImage(this.activityId, image.id)
           .then(() => {
             this.images = this.images.filter(item => item.id !== image.id);
             this.successMessage = "Image supprimée avec succès.";
@@ -164,9 +164,10 @@ export default {
     },
 
     isDefaultImage(url) {
-      return url.includes("default-product.png");
+      return url.includes("default-activity.png");
     }
   }
 };
 </script>
-<style scoped src="./AdminProductImagesPage.css"></style>
+
+<style scoped src="./AdminActivityImagesPage.css"></style>

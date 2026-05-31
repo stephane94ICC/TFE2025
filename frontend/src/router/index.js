@@ -22,7 +22,7 @@ import AdminProductFormPage from "../pages/admin/AdminProductFormPage.vue";
 import AdminProductImagesPage from "../pages/admin/AdminProductImagesPage.vue";
 import AdminActivitiesPage from "../pages/admin/AdminActivitiesPage.vue";
 import AdminActivityFormPage from "../pages/admin/AdminActivityFormPage.vue";
-
+import AdminActivityImagesPage from "../pages/admin/AdminActivityImagesPage.vue";
 
 const routes = [
     {
@@ -157,6 +157,15 @@ const routes = [
         meta:{
             requiresAuth: true,
             roles: ["ADMIN"]
+        }
+    },
+    {
+      path: "/admin/activities/:id/images",
+      name: "AdminActivityImages",
+      component: AdminActivityImagesPage,
+      meta: {
+          requiresAuth: true,
+          roles: ["ADMIN"]
         }
     },
     {

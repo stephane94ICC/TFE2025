@@ -59,6 +59,7 @@
 <script>
 import { getProductById } from '../../services/ProductService';
 import CartService from '../../services/CartService';
+import AuthService from '../../services/AuthService';
 
 export default {
   name: 'ProductDetailPage',
@@ -104,6 +105,11 @@ export default {
     },
 
     addProductToCart() {
+      if (!AuthService.isLoggedIn()) {
+        this.$router.push("/login");
+        return;
+      }
+
       CartService.addToCart(this.product);
       alert("Produit ajouté au panier !");
     }

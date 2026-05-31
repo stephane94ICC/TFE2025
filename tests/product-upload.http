@@ -1,3 +1,12 @@
-DELETE http://localhost:8080/api/admin/products/1/images/9999
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpdXMuYWRtaW5AZXhhbXBsZS5jb20iLCJpZCI6MywiZmlyc3ROYW1lIjoiTWFyaXVzIiwibGFzdE5hbWUiOiJWb24gTWF5ZW5idXJnIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzgwMTcxMDA5LCJleHAiOjE3ODAyNTc0MDl9.tUYyA4aAlv1eHuqY8moIgE67nMBodutKDXLiaJH1bmJVJe39Up8zsWYj0n9YmUSK9iKDNekX4oCmhliJw3cRcw
+### Connexion admin
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "marius.admin@example.com",
+  "password": "1234"
+}
+
+
 

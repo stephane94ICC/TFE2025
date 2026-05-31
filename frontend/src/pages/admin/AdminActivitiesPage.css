@@ -22,6 +22,7 @@
 
 .btn-add,
 .btn-edit,
+.btn-images,
 .btn-delete {
   border: none;
   border-radius: 8px;
@@ -37,9 +38,15 @@
 }
 
 .btn-edit {
+  margin-right: 8px;
   background-color: #2563eb;
   color: white;
+}
+
+.btn-images {
   margin-right: 8px;
+  background-color: #e5e7eb;
+  color: #374151;
 }
 
 .btn-delete {
@@ -48,10 +55,10 @@
 }
 
 .table-card {
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 table {
@@ -66,8 +73,8 @@ thead {
 th,
 td {
   padding: 14px 16px;
-  text-align: left;
   border-bottom: 1px solid #e5e7eb;
+  text-align: left;
 }
 
 th {
@@ -80,7 +87,7 @@ td {
 }
 
 .actions-col {
-  width: 220px;
+  width: 360px;
 }
 
 .actions {
@@ -96,7 +103,7 @@ td {
 
 .error-message {
   margin-bottom: 15px;
+  border-radius: 8px;
   background-color: #fee2e2;
   color: #991b1b;
-  border-radius: 8px;
 }
