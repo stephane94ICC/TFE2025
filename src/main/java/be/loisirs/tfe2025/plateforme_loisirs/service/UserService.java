@@ -24,11 +24,12 @@ public class UserService {
 
     public UserService(UserRepository userRepository,
                        BCryptPasswordEncoder passwordEncoder,
-                       RoleRepository roleRepository) {
+                       RoleRepository roleRepository,
+                       ImageStorageService imageStorageService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
-        this.imageStorageService = new ImageStorageService();
+        this.imageStorageService = imageStorageService;
     }
 
     public List<User> getAllUsers() {

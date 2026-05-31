@@ -13,6 +13,7 @@ public class UserResponseDTO {
         private String lastName;
         private String role;
         private Boolean consentRgpd;
+        private String profileImageUrl;
 
 
 }

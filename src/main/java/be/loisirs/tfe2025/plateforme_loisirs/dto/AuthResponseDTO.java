@@ -22,6 +22,8 @@ public class AuthResponseDTO {
 
     private Set<String> roles;
 
+    private String profileImageUrl;
+
     private String token;
 
     private String message;

@@ -86,6 +86,7 @@ public class AuthService {
                 user.getLastName(),
                 user.getEmail(),
                 roles,
+                user.getProfileImageUrl(),
                 token,
                 message
         );

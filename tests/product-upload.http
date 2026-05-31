@@ -1,10 +1,4 @@
-PUT http://localhost:8080/api/member/profile/image
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGl2aWVyLm1lbWJlckBleGFtcGxlLmNvbSIsImlkIjo0LCJmaXJzdE5hbWUiOiJPbGl2aWVyIiwibGFzdE5hbWUiOiJCb3Vkb24iLCJyb2xlcyI6WyJNRU1CRVIiXSwiaWF0IjoxNzgwMjU2ODk4LCJleHAiOjE3ODAzNDMyOTh9.-qyTBWOH-VOlC9tOKIG3apqrviKzCzipQuohDH5NowbS0DFMMBYgeEvEm4iQHPFyLQ62YLjTXbMYQTHqfbeARw
-Content-Type: multipart/form-data; boundary=WebAppBoundary
 
---WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="default-profile.png"
-Content-Type: image/png
-
-< ./default-profile.png
---WebAppBoundary--
+GET http://localhost:8080/api/admin/users
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpdXMuYWRtaW5AZXhhbXBsZS5jb20iLCJpZCI6MywiZmlyc3ROYW1lIjoiTWFyaXVzIiwibGFzdE5hbWUiOiJWb24gTWF5ZW5idXJnIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzgwMjYwMDU2LCJleHAiOjE3ODAzNDY0NTZ9.unQmwbPsgoVNVKx4SlUu2VHwyVmkLhhShPmK4nctuTyavEyVuatnetli7-lEXdOqGNpdcJlFJ6LMX_K3tvHz1g

@@ -20,7 +20,9 @@ public class UserMapper {
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
+        dto.setProfileImageUrl( user.getProfileImageUrl() );
         dto.setConsentRgpd(user.getConsentRgpd());
+
 
         String role = user.getRoles() == null ? null :
                 user.getRoles()
