@@ -2,15 +2,17 @@ package be.loisirs.tfe2025.plateforme_loisirs.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "users")
@@ -59,6 +61,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
+    @PrePersist
+    public void setDefaultProfileImage() {
+        if (profileImageUrl == null || profileImageUrl.isBlank()) {
+            profileImageUrl = "/uploads/members/default-profile.png";
+        }
+    }
 
 }

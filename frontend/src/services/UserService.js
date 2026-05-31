@@ -12,7 +12,18 @@ function getAuthHeaders() {
         }
     };
 }
+const MEMBER_PROFILE_API_URL = "/api/member/profile";
 
+export function uploadProfileImage(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return axios.put(
+        `${MEMBER_PROFILE_API_URL}/image`,
+        formData,
+        getAuthHeaders()
+    );
+}
 export function getUsers() {
     return axios.get(API_URL, getAuthHeaders());
 }

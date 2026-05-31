@@ -1,12 +1,10 @@
-### Connexion admin
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-Accept: application/json
+PUT http://localhost:8080/api/member/profile/image
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGl2aWVyLm1lbWJlckBleGFtcGxlLmNvbSIsImlkIjo0LCJmaXJzdE5hbWUiOiJPbGl2aWVyIiwibGFzdE5hbWUiOiJCb3Vkb24iLCJyb2xlcyI6WyJNRU1CRVIiXSwiaWF0IjoxNzgwMjU2ODk4LCJleHAiOjE3ODAzNDMyOTh9.-qyTBWOH-VOlC9tOKIG3apqrviKzCzipQuohDH5NowbS0DFMMBYgeEvEm4iQHPFyLQ62YLjTXbMYQTHqfbeARw
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-{
-  "email": "marius.admin@example.com",
-  "password": "1234"
-}
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="default-profile.png"
+Content-Type: image/png
 
-
-
+< ./default-profile.png
+--WebAppBoundary--

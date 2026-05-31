@@ -4,8 +4,11 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -17,6 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final ImageStorageService imageStorageService;
 
     public UserService(UserRepository userRepository,
                        BCryptPasswordEncoder passwordEncoder,
@@ -24,6 +28,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.imageStorageService = new ImageStorageService();
     }
 
     public List<User> getAllUsers() {
@@ -95,4 +100,19 @@ public class UserService {
     public String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }
+
+    public User updateProfileImage(String email, MultipartFile file) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur introuvable."));
+
+        String oldImageUrl = user.getProfileImageUrl();
+        String newImageUrl = imageStorageService.storeImage(file, "members", user.getId());
+
+        user.setProfileImageUrl(newImageUrl);
+        User savedUser = userRepository.saveAndFlush(user);
+        imageStorageService.deleteImage(oldImageUrl);
+
+        return savedUser;
+    }
+
 }

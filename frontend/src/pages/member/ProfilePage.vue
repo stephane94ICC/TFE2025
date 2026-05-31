@@ -7,6 +7,40 @@
       </div>
 
       <div v-if="user" class="profile-content">
+        <div class="profile-image-section">
+          <img
+              :src="profileImageUrl"
+              alt="Photo de profil"
+              class="profile-image"
+          />
+
+          <div class="profile-image-actions">
+            <input
+                ref="fileInput"
+                type="file"
+                accept=".jpg,.jpeg,.png,.webp"
+                @change="selectFile"
+            />
+
+            <button
+                type="button"
+                class="profile-image-button"
+                :disabled="!selectedFile || uploading"
+                @click="uploadImage"
+            >
+              {{ uploading ? "Envoi..." : "Modifier ma photo" }}
+            </button>
+          </div>
+        </div>
+
+        <div v-if="successMessage" class="profile-success">
+          {{ successMessage }}
+        </div>
+
+        <div v-if="errorMessage" class="profile-error">
+          {{ errorMessage }}
+        </div>
+
         <div class="profile-row">
           <span class="profile-label">Prénom</span>
           <span class="profile-value">{{ user.firstName }}</span>
@@ -24,6 +58,7 @@
 
         <div class="profile-row">
           <span class="profile-label">Rôle(s)</span>
+
           <div class="profile-roles">
             <span
                 v-for="role in user.roles"
@@ -45,6 +80,7 @@
 
 <script>
 import AuthService from "../../services/AuthService";
+import { uploadProfileImage } from "../../services/UserService";
 import "./ProfilePage.css";
 
 export default {
@@ -52,8 +88,19 @@ export default {
 
   data() {
     return {
-      user: null
+      user: null,
+      selectedFile: null,
+      uploading: false,
+      successMessage: "",
+      errorMessage: ""
     };
+  },
+
+  computed: {
+    profileImageUrl() {
+      return this.user?.profileImageUrl
+          || "/uploads/members/default-profile.png";
+    }
   },
 
   mounted() {
@@ -61,6 +108,37 @@ export default {
   },
 
   methods: {
+    selectFile(event) {
+      this.selectedFile = event.target.files[0] || null;
+    },
+
+    async uploadImage() {
+      if (!this.selectedFile) {
+        return;
+      }
+
+      try {
+        this.uploading = true;
+        this.successMessage = "";
+        this.errorMessage = "";
+
+        const response = await uploadProfileImage(this.selectedFile);
+
+        this.user.profileImageUrl = response.data.profileImageUrl;
+        AuthService.saveConnectedUser(this.user);
+
+        this.selectedFile = null;
+        this.$refs.fileInput.value = "";
+        this.successMessage = "Photo de profil modifiée avec succès.";
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = error.response?.data?.error
+            || "Impossible de modifier la photo de profil.";
+      } finally {
+        this.uploading = false;
+      }
+    },
+
     formatRole(role) {
       if (role === "ADMIN") {
         return "Administrateur";
