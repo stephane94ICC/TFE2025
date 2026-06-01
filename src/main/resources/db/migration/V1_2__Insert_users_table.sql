@@ -1,7 +1,7 @@
 INSERT INTO users (id, email, password, first_name, last_name, profile_image_url, consent_rgpd)
 VALUES
     (1,'hash.test@email.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','hash','test','/uploads/members/default-profile.png',true),
-    (2,'philippe.partner@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Philippe','Laurent','/uploads/partners/default-logo.png',true),
+    (2,'philippe.partner@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Philippe','Laurent','/uploads/members/default-profile.png',true),
     (3,'marius.admin@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Marius','Von Mayenburg','/uploads/members/default-profile.png',true),
     (4,'olivier.member@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Olivier','Boudon','/uploads/members/default-profile.png',true),
     (5,'annemarie.loop@example.com','$2a$10$Wwz0XduZAMxzqlyFjeawneZM/ein81KWR1s24rE2RqwZAhH/EAyc2','Anne Marie','Loop','/uploads/members/default-profile.png',true),

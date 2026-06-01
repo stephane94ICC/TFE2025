@@ -35,9 +35,6 @@ public class Product {
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @Column(nullable = false)
     private Boolean active = true;
 

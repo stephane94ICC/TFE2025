@@ -4,9 +4,6 @@ import be.loisirs.tfe2025.plateforme_loisirs.dto.ProductDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Product;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class ProductMapper {
 
@@ -21,21 +18,16 @@ public class ProductMapper {
         dto.setDescription(product.getDescription());
         dto.setPrice(product.getPrice());
         dto.setStockQuantity(product.getStockQuantity());
-        dto.setImageUrl(product.getImageUrl());
         dto.setActive(product.getActive());
         dto.setCreatedAt(product.getCreatedAt());
 
         if (product.getImages() != null) {
-            List<String> imageUrls = product.getImages()
-                    .stream()
-                    .map(image -> image.getUrl())
-                    .collect(Collectors.toList());
-
-            dto.setImageUrls(imageUrls);
-
-            if ((dto.getImageUrl() == null || dto.getImageUrl().isBlank()) && !imageUrls.isEmpty()) {
-                dto.setImageUrl(imageUrls.get(0));
-            }
+            dto.setImageUrls(
+                    product.getImages()
+                            .stream()
+                            .map(image -> image.getUrl())
+                            .toList()
+            );
         }
 
         return dto;
@@ -52,7 +44,6 @@ public class ProductMapper {
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
         product.setStockQuantity(dto.getStockQuantity());
-        product.setImageUrl(dto.getImageUrl());
         product.setActive(dto.getActive());
         product.setCreatedAt(dto.getCreatedAt());
 
@@ -74,10 +65,6 @@ public class ProductMapper {
 
         if (dto.getStockQuantity() != null) {
             existing.setStockQuantity(dto.getStockQuantity());
-        }
-
-        if (dto.getImageUrl() != null) {
-            existing.setImageUrl(dto.getImageUrl());
         }
 
         if (dto.getActive() != null) {

@@ -4,8 +4,6 @@ import be.loisirs.tfe2025.plateforme_loisirs.dto.ActivityDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Activity;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 public class ActivityMapper {
 
@@ -20,6 +18,10 @@ public class ActivityMapper {
         dto.setDescription(activity.getDescription());
         dto.setPrice(activity.getPrice());
         dto.setDurationMinutes(activity.getDurationMinutes());
+        dto.setMinimumAge(activity.getMinimumAge());
+        dto.setEquipmentInformation(activity.getEquipmentInformation());
+        dto.setActive(activity.getActive());
+        dto.setCreatedAt(activity.getCreatedAt());
         dto.setPartnerId(activity.getPartnerId());
 
         if (activity.getImages() != null) {
@@ -27,9 +29,10 @@ public class ActivityMapper {
                     activity.getImages()
                             .stream()
                             .map(image -> image.getUrl())
-                            .collect( Collectors.toList())
+                            .toList()
             );
         }
+
         return dto;
     }
 
@@ -44,6 +47,10 @@ public class ActivityMapper {
         activity.setDescription(dto.getDescription());
         activity.setPrice(dto.getPrice());
         activity.setDurationMinutes(dto.getDurationMinutes());
+        activity.setMinimumAge(dto.getMinimumAge());
+        activity.setEquipmentInformation(dto.getEquipmentInformation());
+        activity.setActive(dto.getActive());
+        activity.setCreatedAt(dto.getCreatedAt());
         activity.setPartnerId(dto.getPartnerId());
 
         return activity;
@@ -64,6 +71,18 @@ public class ActivityMapper {
 
         if (dto.getDurationMinutes() != null) {
             existing.setDurationMinutes(dto.getDurationMinutes());
+        }
+
+        if (dto.getMinimumAge() != null) {
+            existing.setMinimumAge(dto.getMinimumAge());
+        }
+
+        if (dto.getEquipmentInformation() != null) {
+            existing.setEquipmentInformation(dto.getEquipmentInformation());
+        }
+
+        if (dto.getActive() != null) {
+            existing.setActive(dto.getActive());
         }
 
         if (dto.getPartnerId() != null) {

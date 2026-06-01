@@ -21,13 +21,8 @@ public class ProductDTO {
     private String description;
     private BigDecimal price;
     private Integer stockQuantity;
-
     private Boolean active;
     private LocalDateTime createdAt;
-
-    //a supprimer
-    private String imageUrl;
-    //nouveau
     private List<String> imageUrls = new ArrayList<>();
 
 }
