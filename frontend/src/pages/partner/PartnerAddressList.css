@@ -1,0 +1,62 @@
+.partner-addresses {
+  margin-top: 36px;
+}
+
+.partner-addresses-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.partner-addresses-header h2,
+.partner-addresses-header p {
+  margin: 0;
+}
+
+.partner-addresses-header p {
+  margin-top: 6px;
+}
+
+.partner-address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 14px;
+}
+
+.partner-address-card {
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.partner-address-card p {
+  margin: 6px 0 0;
+}
+
+.partner-address-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.partner-addresses-header button,
+.partner-address-actions button {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.partner-delete-button {
+  color: #b42318;
+}
+
+@media (max-width: 600px) {
+  .partner-addresses-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

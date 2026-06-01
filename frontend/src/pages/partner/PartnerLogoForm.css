@@ -1,0 +1,20 @@
+.partner-logo-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.partner-logo {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    padding: 8px;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+}
+
+.partner-logo-actions {
+    display: grid;
+    gap: 12px;
+}

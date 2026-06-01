@@ -1,28 +1,55 @@
 .partner-page {
-    min-height: 80vh;
-    padding: 40px 20px;
-    background-color: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+  max-width: 1050px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-.partner-card {
-    width: 100%;
-    max-width: 800px;
-    background-color: white;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+.partner-page-header {
+  margin-bottom: 24px;
 }
 
-.partner-card h1 {
-    margin-bottom: 16px;
-    color: #111827;
+.partner-page-header h1,
+.partner-page-header p {
+  margin: 0;
 }
 
-.partner-card p {
-    color: #4b5563;
-    line-height: 1.6;
-    margin-bottom: 12px;
+.partner-page-header p {
+  margin-top: 8px;
+}
+
+.partner-section-card {
+  margin-bottom: 20px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.partner-section-card h2 {
+  margin-top: 0;
+}
+
+.partner-section-card .partner-addresses {
+  margin-top: 0;
+}
+
+.partner-page button {
+  width: fit-content;
+  padding: 9px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.partner-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.partner-success {
+  color: #167a36;
+}
+
+.partner-error {
+  color: #b42318;
 }
