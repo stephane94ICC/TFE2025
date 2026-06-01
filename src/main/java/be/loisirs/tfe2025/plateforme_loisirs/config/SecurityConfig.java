@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/products/**",
                                 "/cart",
                                 "/partner",
+                                "/partner/**",
                                 "/admin",
                                 "/admin/**",
                                 "/profile",

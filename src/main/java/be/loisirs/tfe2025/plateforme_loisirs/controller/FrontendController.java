@@ -16,6 +16,7 @@ public class FrontendController {
             "/login",
             "/register",
             "/partner",
+            "/partner/activities",
             "/profile",
 
             "/admin",

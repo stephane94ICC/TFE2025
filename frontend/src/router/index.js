@@ -9,13 +9,12 @@ import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
 import RegisterPage from "../pages/auth/RegisterPage.vue";
 import LoginPage from "../pages/auth/LoginPage.vue";
 import AuthService from "../services/AuthService";
-import CartPage from '../pages/member/CartPage.vue';
 
+import CartPage from '../pages/member/CartPage.vue';
 import ProfilePage from "../pages/member/ProfilePage.vue";
 
 import PartnerPage from "../pages/partner/PartnerPage.vue";
-
-
+import PartnerActivitiesPage from "../pages/partner/PartnerActivitiesPage.vue";
 
 import AdminPage from "../pages/admin/AdminPage.vue";
 import AdminUsersPage from "../pages/admin/AdminUsersPage.vue";
@@ -78,6 +77,15 @@ const routes = [
         meta:{
             requiresAuth: true,
             roles : ["PARTNER"]
+        }
+    },
+    {
+        path: "/partner/activities",
+        name: "PartnerActivities",
+        component: PartnerActivitiesPage,
+        meta: {
+            requiresAuth: true,
+            roles: ["PARTNER"]
         }
     },
     {

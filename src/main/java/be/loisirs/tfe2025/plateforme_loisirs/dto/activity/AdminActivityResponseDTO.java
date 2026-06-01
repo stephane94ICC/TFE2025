@@ -1,5 +1,6 @@
-package be.loisirs.tfe2025.plateforme_loisirs.dto;
+package be.loisirs.tfe2025.plateforme_loisirs.dto.activity;
 
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivityDTO {
+public class AdminActivityResponseDTO {
 
     private Long id;
     private String title;
@@ -23,8 +24,15 @@ public class ActivityDTO {
     private Integer durationMinutes;
     private Integer minimumAge;
     private String equipmentInformation;
-    private Boolean active;
+    private ActivityStatus status;
     private LocalDateTime createdAt;
+    private LocalDateTime submittedAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime reviewedAt;
+    private String reviewComment;
+    private Long reviewedByUserId;
+    private String reviewedByUserEmail;
     private Long partnerId;
+    private String partnerName;
     private List<String> imageUrls = new ArrayList<>();
 }

@@ -3,7 +3,7 @@
     <div class="admin-header">
       <div>
         <h1>Gestion des activités</h1>
-        <p>Liste des activités disponibles sur la plateforme.</p>
+        <p>Consultez les activités et validez les propositions des partenaires.</p>
       </div>
 
       <router-link to="/admin/activities/new" class="btn-add">
@@ -13,6 +13,10 @@
 
     <div v-if="errorMessage" class="error-message">
       {{ errorMessage }}
+    </div>
+
+    <div v-if="successMessage" class="success-message">
+      {{ successMessage }}
     </div>
 
     <div v-if="loading" class="loading">
@@ -27,7 +31,7 @@
             <th>Titre</th>
             <th>Prix</th>
             <th>Partenaire</th>
-            <th>Ville</th>
+            <th>Statut</th>
             <th class="actions-col">Actions</th>
           </tr>
         </thead>
@@ -37,8 +41,14 @@
             <td>{{ activity.id }}</td>
             <td>{{ activity.title }}</td>
             <td>{{ formatPrice(activity.price) }}</td>
-            <td>{{ activity.partnerId || '-' }}</td>
-            <td>{{ activity.city || '-' }}</td>
+            <td>{{ activity.partnerName || `Partenaire #${activity.partnerId}` }}</td>
+
+            <td>
+              <span :class="['activity-status', statusClass(activity.status)]">
+                {{ statusLabel(activity.status) }}
+              </span>
+            </td>
+
             <td class="actions">
               <router-link
                 :to="`/admin/activities/edit/${activity.id}`"
@@ -51,15 +61,34 @@
                 :to="`/admin/activities/${activity.id}/images`"
                 class="btn-images"
               >
-                Gérer les images
+                Images
               </router-link>
 
               <button
+                v-if="activity.status !== 'APPROVED'"
                 type="button"
-                class="btn-delete"
-                @click="deleteSelectedActivity(activity.id)"
+                class="btn-approve"
+                @click="reviewSelectedActivity(activity.id, 'APPROVED')"
               >
-                Supprimer
+                Approuver
+              </button>
+
+              <button
+                v-if="activity.status !== 'REJECTED'"
+                type="button"
+                class="btn-reject"
+                @click="openRejectModal(activity.id)"
+              >
+                Refuser
+              </button>
+
+              <button
+                v-if="activity.status !== 'DISABLED'"
+                type="button"
+                class="btn-disable"
+                @click="reviewSelectedActivity(activity.id, 'DISABLED')"
+              >
+                Désactiver
               </button>
             </td>
           </tr>
@@ -72,23 +101,38 @@
         </tbody>
       </table>
     </div>
+
+    <AdminActivityReviewModal
+      :visible="showRejectModal"
+      @confirm="confirmRejection"
+      @close="closeRejectModal"
+    />
   </div>
 </template>
 
 <script>
 import {
   getAdminActivities,
-  deleteActivity
+  reviewActivity
 } from "@/services/ActivityService";
+
+import AdminActivityReviewModal from "./AdminActivityReviewModal.vue";
 
 export default {
   name: "AdminActivitiesPage",
+
+  components: {
+    AdminActivityReviewModal
+  },
 
   data() {
     return {
       activities: [],
       loading: true,
-      errorMessage: ""
+      errorMessage: "",
+      successMessage: "",
+      showRejectModal: false,
+      selectedActivityId: null
     };
   },
 
@@ -112,19 +156,59 @@ export default {
       }
     },
 
-    async deleteSelectedActivity(id) {
-      const confirmed = confirm("Voulez-vous vraiment supprimer cette activité ?");
+    async reviewSelectedActivity(id, status) {
+      const labels = {
+        APPROVED: "approuver",
+        DISABLED: "désactiver"
+      };
+
+      const confirmed = confirm(
+        `Voulez-vous vraiment ${labels[status]} cette activité ?`
+      );
 
       if (!confirmed) {
         return;
       }
 
+      await this.updateActivityStatus(id, status);
+    },
+
+    openRejectModal(id) {
+      this.selectedActivityId = id;
+      this.showRejectModal = true;
+    },
+
+    closeRejectModal() {
+      this.showRejectModal = false;
+      this.selectedActivityId = null;
+    },
+
+    async confirmRejection(reviewComment) {
+      if (!this.selectedActivityId) {
+        return;
+      }
+
+      await this.updateActivityStatus(
+        this.selectedActivityId,
+        "REJECTED",
+        reviewComment
+      );
+
+      this.closeRejectModal();
+    },
+
+    async updateActivityStatus(id, status, reviewComment = "") {
       try {
-        await deleteActivity(id);
-        this.activities = this.activities.filter(activity => activity.id !== id);
+        this.errorMessage = "";
+        this.successMessage = "";
+
+        await reviewActivity(id, status, reviewComment);
+        await this.loadActivities();
+
+        this.successMessage = "Le statut de l’activité a été mis à jour.";
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de supprimer cette activité.";
+        this.errorMessage = "Impossible de modifier le statut de l’activité.";
       }
     },
 
@@ -134,6 +218,21 @@ export default {
       }
 
       return `${price} €`;
+    },
+
+    statusLabel(status) {
+      const labels = {
+        PENDING_REVIEW: "En attente",
+        APPROVED: "Approuvée",
+        REJECTED: "Refusée",
+        DISABLED: "Désactivée"
+      };
+
+      return labels[status] || status;
+    },
+
+    statusClass(status) {
+      return `activity-status-${String(status).toLowerCase()}`;
     }
   }
 };

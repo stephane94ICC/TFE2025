@@ -27,6 +27,14 @@
         Espace partenaire
       </router-link>
 
+      <router-link  v-if="isPartner"  to="/partner/activities"  class="nav-link">
+        Mes activités
+      </router-link>
+
+      <router-link v-if="isAdmin" to="/admin/activities" class="nav-link">
+        activités
+      </router-link>
+
       <router-link v-if="!isLoggedIn" to="/login" class="nav-link login-link">
         Connexion
       </router-link>

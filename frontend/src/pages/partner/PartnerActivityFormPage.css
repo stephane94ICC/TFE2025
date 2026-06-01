@@ -1,0 +1,64 @@
+.partner-activity-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.partner-activity-modal {
+  width: min(680px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.partner-activity-modal-header,
+.partner-activity-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.partner-activity-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.partner-activity-modal form {
+  display: grid;
+  gap: 14px;
+}
+
+.partner-activity-modal label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.partner-activity-modal input,
+.partner-activity-modal textarea {
+  padding: 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+}
+
+.partner-activity-form-note {
+  margin-bottom: 18px;
+}
+
+.partner-activity-form-error {
+  color: #b00020;
+}
+
+.partner-activity-form-cancel {
+  background: #e8e8e8;
+}

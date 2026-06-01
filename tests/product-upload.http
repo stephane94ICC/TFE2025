@@ -1,3 +1,9 @@
+GET http://localhost:8080/api/activities
 
-GET http://localhost:8080/api/partner/profile
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbGl6YWJldGguZGF2aXNAZXhhbXBsZS5jb20iLCJpZCI6NDQsImZpcnN0TmFtZSI6IkVsaXphYmV0aCIsImxhc3ROYW1lIjoiRGF2aXMiLCJyb2xlcyI6WyJQQVJUTkVSIl0sImlhdCI6MTc4MDMzMTA1MiwiZXhwIjoxNzgwNDE3NDUyfQ.XvH78DLjz5joLqywO2wVnM14ZFnG3XRBuPhEiY1yI7uq06-cCtZj2PwmiXB4uWr81peKjTo3nQm83gLpOhwCNg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpdXMuYWRtaW5AZXhhbXBsZS5jb20iLCJpZCI6MywiZmlyc3ROYW1lIjoiTWFyaXVzIiwibGFzdE5hbWUiOiJWb24gTWF5ZW5idXJnIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzgwMzQzMTUwLCJleHAiOjE3ODA0Mjk1NTB9.Uu9YKo9PyasCRB2CJv6p5x4bN2oCsI-Zf2rBrWhpSjD1ygRCN95yl8apMBirK5rGZ4G1zjKOqUlwpyNYNL5Tug
+Content-Type: application/json
+
+{
+  "status": "APPROVED",
+  "reviewComment": "Activité validée."
+}

@@ -43,10 +43,17 @@ export function updateActivity(id, activity) {
 export function deleteActivity(id) {
     return axios.delete(`${ADMIN_API_URL}/${id}`, getAuthConfig());
 }
+
 export function getActivityImages(activityId) {
     return axios.get(`${ADMIN_API_URL}/${activityId}/images`, getAuthConfig());
 }
-
+export function reviewActivity(id, status, reviewComment = "") {
+    return axios.patch(
+        `${ADMIN_API_URL}/${id}/review`,
+        { status, reviewComment },
+        getAuthConfig()
+    );
+}
 export function uploadActivityImage(activityId, file) {
     const formData = new FormData();
     formData.append("file", file);

@@ -29,10 +29,10 @@ public class Activity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal price;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price = BigDecimal.ZERO;
 
-    @Column(name = "duration_minutes")
+    @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
     @Column(name = "minimum_age", nullable = false)
@@ -41,35 +41,55 @@ public class Activity {
     @Column(name = "equipment_information", columnDefinition = "TEXT")
     private String equipmentInformation;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean active = true;
+    private ActivityStatus status = ActivityStatus.PENDING_REVIEW;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "partner_id", nullable = false)
-    private Long partnerId;
+    @Column(name = "submitted_at", nullable = false)
+    private LocalDateTime submittedAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @Column(name = "reviewed_at")
+    private LocalDateTime reviewedAt;
+
+    @Column(name = "review_comment", columnDefinition = "TEXT")
+    private String reviewComment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewed_by_user_id")
+    private User reviewedByUser;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "partner_id", nullable = false)
+    private Partner partner;
 
     @OneToMany(
             mappedBy = "activity",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     private List<ActivityImage> images = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
-        if (minimumAge == null) {
-            minimumAge = 0;
-        }
+        LocalDateTime now = LocalDateTime.now();
 
-        if (active == null) {
-            active = true;
-        }
+        if (price == null) price = BigDecimal.ZERO;
+        if (minimumAge == null) minimumAge = 0;
+        if (status == null) status = ActivityStatus.PENDING_REVIEW;
+        if (createdAt == null) createdAt = now;
+        if (submittedAt == null) submittedAt = now;
+        if (updatedAt == null) updatedAt = now;
+    }
 
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }

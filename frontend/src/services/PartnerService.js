@@ -3,6 +3,7 @@ import AuthService from "./AuthService";
 
 const PROFILE_API_URL = "/api/partner/profile";
 const ADDRESSES_API_URL = "/api/partner/addresses";
+const ACTIVITIES_API_URL = "/api/partner/activities";
 
 function getAuthHeaders() {
   const token = AuthService.getToken();
@@ -47,4 +48,20 @@ export function updatePartnerAddress(id, address) {
 
 export function deletePartnerAddress(id) {
   return axios.delete(`${ADDRESSES_API_URL}/${id}`, getAuthHeaders());
+}
+
+export function getPartnerActivities() {
+  return axios.get(ACTIVITIES_API_URL, getAuthHeaders());
+}
+
+export function getPartnerActivity(id) {
+  return axios.get(`${ACTIVITIES_API_URL}/${id}`, getAuthHeaders());
+}
+
+export function addPartnerActivity(activity) {
+  return axios.post(ACTIVITIES_API_URL, activity, getAuthHeaders());
+}
+
+export function updatePartnerActivity(id, activity) {
+  return axios.put(`${ACTIVITIES_API_URL}/${id}`, activity, getAuthHeaders());
 }
