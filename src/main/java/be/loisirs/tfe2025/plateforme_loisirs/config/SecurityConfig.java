@@ -53,6 +53,8 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
+                                "/payment/success",
+                                "/payment/cancel",
                                 "/favicon.ico"
                         ).permitAll()
 

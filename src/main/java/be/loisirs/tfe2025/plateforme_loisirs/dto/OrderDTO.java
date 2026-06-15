@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.dto;
 
+import be.loisirs.tfe2025.plateforme_loisirs.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,10 @@ public class OrderDTO {
     private Long id;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
+    private OrderStatus status;
+    private String stripeSessionId;
+    private String stripePaymentIntentId;
+    private LocalDateTime paidAt;
     private Long userId;
     private String userEmail;
     private List<OrderItemDTO> items;

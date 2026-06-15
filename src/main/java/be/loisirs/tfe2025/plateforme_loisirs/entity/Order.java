@@ -29,10 +29,34 @@ public class Order {
     @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderStatus status = OrderStatus.PENDING;
+
+    @Column(name = "stripe_session_id", unique = true)
+    private String stripeSessionId;
+
+    @Column(name = "stripe_payment_intent_id")
+    private String stripePaymentIntentId;
+
+    @Column(name = "paid_at")
+    private LocalDateTime paidAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (this.orderDate == null) {
+            this.orderDate = LocalDateTime.now();
+        }
+
+        if (this.status == null) {
+            this.status = OrderStatus.PENDING;
+        }
+    }
 }

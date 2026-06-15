@@ -12,6 +12,8 @@ import AuthService from "../services/AuthService";
 
 import CartPage from '../pages/member/CartPage.vue';
 import ProfilePage from "../pages/member/ProfilePage.vue";
+import PaymentSuccessPage from "../pages/payment/PaymentSuccessPage.vue";
+import PaymentCancelPage from "../pages/payment/PaymentCancelPage.vue";
 
 import PartnerPage from "../pages/partner/PartnerPage.vue";
 import PartnerActivitiesPage from "../pages/partner/PartnerActivitiesPage.vue";
@@ -59,6 +61,16 @@ const routes = [
             requiresAuth: true,
             roles: ["MEMBER", "ADMIN", "PARTNER"]
         }
+    },
+        {
+        path: "/payment/success",
+        name: "PaymentSuccess",
+        component: PaymentSuccessPage
+    },
+    {
+        path: "/payment/cancel",
+        name: "PaymentCancel",
+        component: PaymentCancelPage
     },
     {
       path: "/register",

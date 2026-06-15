@@ -2,6 +2,10 @@
   <div class="cart-page">
     <h1>Mon panier</h1>
 
+    <div v-if="errorMessage" class="cart-alert cart-alert-error">
+      {{ errorMessage }}
+    </div>
+
     <div v-if="cart.length === 0" class="empty-cart">
       Votre panier est vide.
     </div>
@@ -53,8 +57,12 @@
           Vider le panier
         </button>
 
-        <button class="btn btn-primary">
-          Valider la commande
+        <button
+          class="btn btn-primary"
+          :disabled="paymentLoading"
+          @click="payWithStripe"
+        >
+          {{ paymentLoading ? "Redirection vers Stripe..." : "Payer avec Stripe" }}
         </button>
       </div>
     </div>
@@ -63,13 +71,16 @@
 
 <script>
 import CartService from "../../services/CartService";
+import PaymentService from "../../services/PaymentService";
 
 export default {
   name: "CartPage",
 
   data() {
     return {
-      cart: []
+      cart: [],
+      paymentLoading: false,
+      errorMessage: ""
     };
   },
 
@@ -100,6 +111,35 @@ export default {
     clearCart() {
       CartService.clearCart();
       this.cart = [];
+    },
+
+    payWithStripe() {
+      this.errorMessage = "";
+
+      if (this.cart.length === 0) {
+        this.errorMessage = "Votre panier est vide.";
+        return;
+      }
+
+      this.paymentLoading = true;
+
+      PaymentService.createCheckoutSession(this.cart)
+        .then(response => {
+          const checkoutUrl = response.data.checkoutUrl;
+
+          if (!checkoutUrl) {
+            throw new Error("URL Stripe absente.");
+          }
+
+          window.location.href = checkoutUrl;
+        })
+        .catch(error => {
+          console.error(error);
+          this.errorMessage = "Impossible de démarrer le paiement Stripe.";
+        })
+        .finally(() => {
+          this.paymentLoading = false;
+        });
     }
   }
 };

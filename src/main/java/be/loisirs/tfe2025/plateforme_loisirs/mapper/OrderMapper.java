@@ -24,6 +24,10 @@ public class OrderMapper {
                 order.getId(),
                 order.getOrderDate(),
                 order.getTotalAmount(),
+                order.getStatus(),
+                order.getStripeSessionId(),
+                order.getStripePaymentIntentId(),
+                order.getPaidAt(),
                 order.getUser().getId(),
                 order.getUser().getEmail(),
                 items
@@ -38,10 +42,16 @@ public class OrderMapper {
         BigDecimal subtotal = item.getUnitPrice()
                 .multiply(BigDecimal.valueOf(item.getQuantity()));
 
+        String productName = item.getProductName();
+
+        if ((productName == null || productName.isBlank()) && item.getProduct() != null) {
+            productName = item.getProduct().getName();
+        }
+
         return new OrderItemDTO(
                 item.getId(),
                 item.getProduct().getId(),
-                item.getProduct().getName(),
+                productName,
                 item.getQuantity(),
                 item.getUnitPrice(),
                 subtotal

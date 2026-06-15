@@ -18,7 +18,8 @@ public class FrontendController {
             "/partner",
             "/partner/activities",
             "/profile",
-
+            "/payment/success",
+            "/payment/cancel",
             "/admin",
             "/admin/users",
             "/admin/products",

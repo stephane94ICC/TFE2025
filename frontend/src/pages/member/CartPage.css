@@ -6,6 +6,19 @@
     margin-bottom: 30px;
 }
 
+.cart-alert {
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.cart-alert-error {
+    color: #991b1b;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+}
+
 .empty-cart {
     padding: 25px;
     border-radius: 12px;
@@ -70,4 +83,9 @@
 
 .cart-summary .btn {
     margin-right: 10px;
+}
+
+.cart-summary .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
