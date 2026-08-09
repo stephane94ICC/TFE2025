@@ -1,5 +1,7 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.EmailAlreadyUsedException;
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.RegisterRequestDTO;
@@ -35,10 +37,10 @@ public class AuthService {
 
     public AuthResponseDTO register(RegisterRequestDTO registerRequestDTO) {
         if (userRepository.existsByEmail(registerRequestDTO.getEmail())) {
-            throw new RuntimeException("Un compte existe déjà avec cette adresse e-mail.");
+            throw new EmailAlreadyUsedException("Un compte existe déjà avec cette adresse e-mail.");
         }
         if (!Boolean.TRUE.equals(registerRequestDTO.getConsentRgpd())) {
-            throw new RuntimeException("Le consentement RGPD est obligatoire.");
+            throw new IllegalArgumentException("Le consentement RGPD est obligatoire.");
         }
 
         Role memberRole = roleRepository.findByName("MEMBER")
@@ -64,10 +66,10 @@ public class AuthService {
 
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
         User user = userRepository.findByEmail(loginRequestDTO.getEmail())
-                .orElseThrow(() -> new RuntimeException("Adresse e-mail ou mot de passe incorrect."));
+                .orElseThrow(() -> new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect."));
 
         if (!passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Adresse e-mail ou mot de passe incorrect.");
+            throw new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect.");
         }
 
         return buildAuthResponse(user, "Connexion réussie.");

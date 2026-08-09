@@ -4,6 +4,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.RegisterRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class AuthApiController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         AuthResponseDTO response = authService.register(registerRequestDTO);
         return ResponseEntity.ok(response);
     }
