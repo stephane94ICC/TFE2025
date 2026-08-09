@@ -25,11 +25,51 @@ public class ActivityImageService {
         this.imageStorageService = imageStorageService;
     }
 
+    // l'Admin : à accès à n'importe quelle activité
+
     public ActivityImage addImage(Long activityId, MultipartFile file) {
         Activity activity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
 
-        String imageUrl = imageStorageService.storeImage(file, "activities", activityId);
+        return saveImage(activity, file);
+    }
+
+    public List<ActivityImage> getImages(Long activityId) {
+        return activityImageRepository.findByActivityId(activityId);
+    }
+
+    public void deleteImage(Long activityId, Long imageId) {
+        deleteImageInternal(activityId, imageId);
+    }
+
+    // Le Partenaire : est limité à ses propres activités
+
+    public ActivityImage addImage(Long activityId, String partnerEmail, MultipartFile file) {
+        Activity activity = activityRepository
+                .findByIdAndPartner_User_Email(activityId, partnerEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
+
+        return saveImage(activity, file);
+    }
+
+    public List<ActivityImage> getImages(Long activityId, String partnerEmail) {
+        activityRepository.findByIdAndPartner_User_Email(activityId, partnerEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
+
+        return activityImageRepository.findByActivityId(activityId);
+    }
+
+    public void deleteImage(Long activityId, Long imageId, String partnerEmail) {
+        activityRepository.findByIdAndPartner_User_Email(activityId, partnerEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
+
+        deleteImageInternal(activityId, imageId);
+    }
+
+    // logique commune
+
+    private ActivityImage saveImage(Activity activity, MultipartFile file) {
+        String imageUrl = imageStorageService.storeImage(file, "activities", activity.getId());
 
         ActivityImage activityImage = new ActivityImage();
         activityImage.setUrl(imageUrl);
@@ -38,11 +78,7 @@ public class ActivityImageService {
         return activityImageRepository.save(activityImage);
     }
 
-    public List<ActivityImage> getImages(Long activityId) {
-        return activityImageRepository.findByActivityId(activityId);
-    }
-
-    public void deleteImage(Long activityId, Long imageId) {
+    private void deleteImageInternal(Long activityId, Long imageId) {
         ActivityImage activityImage = activityImageRepository
                 .findByIdAndActivityId(imageId, activityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Image introuvable."));
