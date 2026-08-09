@@ -6,6 +6,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityImage;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivityImageRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivityRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -38,8 +39,12 @@ public class ActivityImageService {
         return activityImageRepository.findByActivityId(activityId);
     }
 
+    @Transactional
     public void deleteImage(Long activityId, Long imageId) {
-        deleteImageInternal(activityId, imageId);
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
+
+        removeImageFromActivity(activity, imageId);
     }
 
     // Le Partenaire : est limité à ses propres activités
@@ -59,11 +64,13 @@ public class ActivityImageService {
         return activityImageRepository.findByActivityId(activityId);
     }
 
+    @Transactional
     public void deleteImage(Long activityId, Long imageId, String partnerEmail) {
-        activityRepository.findByIdAndPartner_User_Email(activityId, partnerEmail)
+        Activity activity = activityRepository
+                .findByIdAndPartner_User_Email(activityId, partnerEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
 
-        deleteImageInternal(activityId, imageId);
+        removeImageFromActivity(activity, imageId);
     }
 
     // logique commune
@@ -78,9 +85,11 @@ public class ActivityImageService {
         return activityImageRepository.save(activityImage);
     }
 
-    private void deleteImageInternal(Long activityId, Long imageId) {
-        ActivityImage activityImage = activityImageRepository
-                .findByIdAndActivityId(imageId, activityId)
+    private void removeImageFromActivity(Activity activity, Long imageId) {
+        ActivityImage activityImage = activity.getImages()
+                .stream()
+                .filter(image -> image.getId().equals(imageId))
+                .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Image introuvable."));
 
         if ("/uploads/activities/default-activity.png".equals(activityImage.getUrl())) {
@@ -88,6 +97,7 @@ public class ActivityImageService {
         }
 
         imageStorageService.deleteImage(activityImage.getUrl());
-        activityImageRepository.delete(activityImage);
+        activity.getImages().remove(activityImage);
+        activityRepository.save(activity);
     }
 }

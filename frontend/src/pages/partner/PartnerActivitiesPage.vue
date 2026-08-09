@@ -62,6 +62,14 @@
               </button>
 
               <button
+                type="button"
+                class="partner-activity-images-link"
+                @click="openImagesModal(activity)"
+              >
+                Gérer les images
+              </button>
+
+              <button
                 v-if="activity.status === 'REJECTED'"
                 type="button"
                 class="partner-activity-rejection-link"
@@ -93,6 +101,12 @@
       :review-comment="selectedReviewComment"
       @close="closeRejectionModal"
     />
+
+    <PartnerActivityImagesModal
+      :visible="showImagesModal"
+      :activity="selectedActivityForImages"
+      @close="closeImagesModal"
+    />
   </div>
 </template>
 
@@ -100,6 +114,7 @@
 import { getPartnerActivities } from "../../services/PartnerService";
 import PartnerActivityFormPage from "./PartnerActivityFormPage.vue";
 import PartnerActivityRejectionModal from "./PartnerActivityRejectionModal.vue";
+import PartnerActivityImagesModal from "./PartnerActivityImagesModal.vue";
 import "./PartnerActivitiesPage.css";
 
 export default {
@@ -107,7 +122,8 @@ export default {
 
   components: {
     PartnerActivityFormPage,
-    PartnerActivityRejectionModal
+    PartnerActivityRejectionModal,
+    PartnerActivityImagesModal
   },
 
   data() {
@@ -118,7 +134,9 @@ export default {
       showActivityForm: false,
       selectedActivity: null,
       showRejectionModal: false,
-      selectedReviewComment: ""
+      selectedReviewComment: "",
+      showImagesModal: false,
+      selectedActivityForImages: null
     };
   },
 
@@ -170,6 +188,16 @@ export default {
     closeRejectionModal() {
       this.showRejectionModal = false;
       this.selectedReviewComment = "";
+    },
+
+    openImagesModal(activity) {
+      this.selectedActivityForImages = activity;
+      this.showImagesModal = true;
+    },
+
+    closeImagesModal() {
+      this.showImagesModal = false;
+      this.selectedActivityForImages = null;
     },
 
     formatPrice(price) {

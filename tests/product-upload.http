@@ -1,11 +1,4 @@
 
-POST http://localhost:8080/api/partner/activities/2/images
+### 1. Supprimer
+GET http://localhost:8080/api/partner/activities/81/images
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbGl6YWJldGguZGF2aXNAZXhhbXBsZS5jb20iLCJpZCI6NDQsImZpcnN0TmFtZSI6IkVsaXphYmV0aCIsImxhc3ROYW1lIjoiRGF2aXMiLCJyb2xlcyI6WyJQQVJUTkVSIl0sImlhdCI6MTc4NjI4NjAwNSwiZXhwIjoxNzg2MzcyNDA1fQ.bHjCCXnLYZ_PkyHHV6737AijPUIMGQzNsYKOcho2Z5q0G98_8LfyKp04yoEo832Kc8NJYGihMODdXbBA7RrBvg
-Content-Type: multipart/form-data; boundary=WebAppBoundary
-
---WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="default-profile.png"
-Content-Type: image/png
-
-< ./default-profile.png
---WebAppBoundary--

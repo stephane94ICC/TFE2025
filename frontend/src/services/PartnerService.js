@@ -65,3 +65,25 @@ export function addPartnerActivity(activity) {
 export function updatePartnerActivity(id, activity) {
   return axios.put(`${ACTIVITIES_API_URL}/${id}`, activity, getAuthHeaders());
 }
+
+export function getPartnerActivityImages(activityId) {
+  return axios.get(`${ACTIVITIES_API_URL}/${activityId}/images`, getAuthHeaders());
+}
+
+export function uploadPartnerActivityImage(activityId, file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return axios.post(
+    `${ACTIVITIES_API_URL}/${activityId}/images`,
+    formData,
+    getAuthHeaders()
+  );
+}
+
+export function deletePartnerActivityImage(activityId, imageId) {
+  return axios.delete(
+    `${ACTIVITIES_API_URL}/${activityId}/images/${imageId}`,
+    getAuthHeaders()
+  );
+}
