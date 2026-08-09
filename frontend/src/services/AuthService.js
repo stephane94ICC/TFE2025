@@ -10,9 +10,11 @@ class AuthService {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(registerData)
-    }).then(response => {
+    }).then(async response => {
       if (!response.ok) {
-        throw new Error("Erreur lors de l'inscription.");
+        const data = await response.json().catch(() => null);
+        const message = data && data.error ? data.error : "Erreur lors de l'inscription.";
+        throw new Error(message);
       }
 
       return response.json();
@@ -26,9 +28,11 @@ class AuthService {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(loginData)
-    }).then(response => {
+    }).then(async response => {
       if (!response.ok) {
-        throw new Error("Erreur lors de la connexion.");
+        const data = await response.json().catch(() => null);
+        const message = data && data.error ? data.error : "Erreur lors de la connexion.";
+        throw new Error(message);
       }
 
       return response.json();

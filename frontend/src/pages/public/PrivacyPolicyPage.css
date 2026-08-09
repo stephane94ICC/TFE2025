@@ -1,0 +1,54 @@
+.privacy-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.privacy-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-card h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+    color: #111827;
+}
+
+.subtitle {
+    color: #4b5563;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+section {
+    margin-bottom: 28px;
+}
+
+section h2 {
+    font-size: 20px;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+section p,
+section li {
+    color: #374151;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+section ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.last-update {
+    color: #9ca3af;
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 30px;
+}

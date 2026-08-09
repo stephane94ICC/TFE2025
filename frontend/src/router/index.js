@@ -5,6 +5,7 @@ import ActivityListPage from '../pages/public/ActivityListPage.vue';
 import ActivityDetailPage from '../pages/public/ActivityDetailPage.vue';
 import ShopPage from '../pages/public/ShopPage.vue';
 import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
+import PrivacyPolicyPage from "../pages/public/PrivacyPolicyPage.vue";
 
 import RegisterPage from "../pages/auth/RegisterPage.vue";
 import LoginPage from "../pages/auth/LoginPage.vue";
@@ -52,6 +53,11 @@ const routes = [
         path: '/products/:id',
         name: 'product-detail',
         component: ProductDetailPage
+    },
+    {
+        path: '/politique-confidentialite',
+        name: 'privacy-detail',
+        component: PrivacyPolicyPage
     },
     {
         path: '/cart',

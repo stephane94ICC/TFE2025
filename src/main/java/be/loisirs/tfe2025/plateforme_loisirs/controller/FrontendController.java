@@ -15,6 +15,7 @@ public class FrontendController {
             "/cart",
             "/login",
             "/register",
+            "/politique-confidentialite",
             "/partner",
             "/partner/activities",
             "/profile",

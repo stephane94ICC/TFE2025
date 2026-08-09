@@ -61,7 +61,8 @@
           />
 
           <label for="consentRgpd">
-            J’accepte le traitement de mes données personnelles.
+            J’accepte le
+            <router-link to="/politique-confidentialite" target="_blank" rel="noopener">traitement de mes données personnelles</router-link>.
           </label>
         </div>
 
@@ -131,7 +132,7 @@ export default {
           })
           .catch(error => {
             console.error(error);
-            this.errorMessage = "Impossible de créer le compte.";
+            this.errorMessage = error.message || "Impossible de créer le compte.";
           });
     }
   }

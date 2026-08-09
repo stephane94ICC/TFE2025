@@ -82,7 +82,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = "Adresse e-mail ou mot de passe incorrect.";
+          this.errorMessage = error.message || "Adresse e-mail ou mot de passe incorrect.";
         });
     }
   }

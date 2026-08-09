@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/error",
                                 "/login",
                                 "/register",
+                                "/politique-confidentialite",
                                 "/activities/**",
                                 "/shop",
                                 "/products/**",
