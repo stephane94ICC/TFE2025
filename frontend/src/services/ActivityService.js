@@ -22,6 +22,7 @@ export function getActivities() {
 export function getActivityById(id) {
     return axios.get(`${PUBLIC_API_URL}/${id}`);
 }
+
 export function getActivitySessions(activityId) {
     return axios.get(`${PUBLIC_API_URL}/${activityId}/sessions`);
 }
@@ -50,6 +51,7 @@ export function deleteActivity(id) {
 export function getActivityImages(activityId) {
     return axios.get(`${ADMIN_API_URL}/${activityId}/images`, getAuthConfig());
 }
+
 export function reviewActivity(id, status, reviewComment = "") {
     return axios.patch(
         `${ADMIN_API_URL}/${id}/review`,
@@ -57,6 +59,7 @@ export function reviewActivity(id, status, reviewComment = "") {
         getAuthConfig()
     );
 }
+
 export function uploadActivityImage(activityId, file) {
     const formData = new FormData();
     formData.append("file", file);

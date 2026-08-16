@@ -50,6 +50,10 @@
     <section v-if="activity" class="sessions-section">
       <h2>Créneaux disponibles</h2>
 
+      <p v-if="bookingError" class="alert alert-error">
+        {{ bookingError }}
+      </p>
+
       <p v-if="loadingSessions">Chargement des créneaux...</p>
 
       <p v-else-if="sessions.length === 0" class="sessions-empty">
@@ -83,7 +87,35 @@
             </p>
 
             <template v-if="isBookable(session)">
-              <button class="btn btn-primary" @click="bookSession(session)">
+              <div v-if="selectedSessionId === session.id" class="session-booking">
+                <label>
+                  Quantité
+                  <input
+                      v-model="quantity"
+                      type="number"
+                      min="1"
+                      :max="session.remainingSeats"
+                  />
+                </label>
+
+                <button
+                    class="btn btn-primary"
+                    :disabled="booking"
+                    @click="confirmBooking(session)"
+                >
+                  {{ booking ? "Redirection..." : "Payer" }}
+                </button>
+
+                <button class="btn btn-secondary" @click="cancelBooking">
+                  Annuler
+                </button>
+              </div>
+
+              <button
+                  v-else
+                  class="btn btn-primary"
+                  @click="bookSession(session)"
+              >
                 Réserver
               </button>
 
@@ -104,6 +136,8 @@
 
 <script>
 import { getActivityById, getActivitySessions } from '../../services/ActivityService';
+import AuthService from '../../services/AuthService';
+import ReservationService from '../../services/ReservationService';
 
 export default {
   name: 'ActivityDetailPage',
@@ -114,7 +148,11 @@ export default {
       sessions: [],
       loading: false,
       loadingSessions: false,
-      errorMessage: ''
+      errorMessage: '',
+      selectedSessionId: null,
+      quantity: 1,
+      booking: false,
+      bookingError: ''
     };
   },
 
@@ -178,7 +216,45 @@ export default {
     },
 
     bookSession(session) {
-      console.log("Réservation du créneau", session.id);
+      if (!AuthService.getToken()) {
+        this.$router.push("/login");
+        return;
+      }
+
+      this.selectedSessionId = session.id;
+      this.quantity = 1;
+      this.bookingError = '';
+    },
+
+    cancelBooking() {
+      this.selectedSessionId = null;
+      this.quantity = 1;
+    },
+
+    async confirmBooking(session) {
+      const quantity = Number(this.quantity);
+
+      if (!quantity || quantity < 1 || quantity > session.remainingSeats) {
+        this.bookingError = "Quantité invalide.";
+        return;
+      }
+
+      try {
+        this.booking = true;
+        this.bookingError = '';
+
+        const response = await ReservationService.createCheckoutSession(
+            session.id,
+            quantity
+        );
+
+        window.location.href = response.data.checkoutUrl;
+      } catch (error) {
+        console.error(error);
+        this.bookingError =
+            error.response?.data?.message || "Impossible de créer la réservation.";
+        this.booking = false;
+      }
     },
 
     formatDate(value) {

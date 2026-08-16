@@ -3,8 +3,14 @@
     <section class="payment-result-card">
       <h1>Paiement annulé</h1>
 
-      <p>
-        Le paiement Stripe a été annulé. Votre panier est conservé pour permettre un nouvel essai.
+      <p v-if="isReservation">
+        Le paiement Stripe a été annulé. Votre réservation n’a pas été confirmée
+        et les places ont été libérées.
+      </p>
+
+      <p v-else>
+        Le paiement Stripe a été annulé. Votre panier est conservé pour permettre
+        un nouvel essai.
       </p>
 
       <p v-if="cancelMessage" class="payment-result-info">
@@ -12,12 +18,15 @@
       </p>
 
       <div class="payment-result-actions">
-        <router-link to="/cart" class="btn btn-primary">
-          Retour au panier
+        <router-link
+            :to="isReservation ? '/activities' : '/cart'"
+            class="btn btn-primary"
+        >
+          {{ isReservation ? "Retour aux activités" : "Retour au panier" }}
         </router-link>
 
-        <router-link to="/shop" class="btn btn-secondary">
-          Retour à la boutique
+        <router-link to="/" class="btn btn-secondary">
+          Retour à l’accueil
         </router-link>
       </div>
     </section>
@@ -26,6 +35,7 @@
 
 <script>
 import PaymentService from "../../services/PaymentService";
+import ReservationService from "../../services/ReservationService";
 
 export default {
   name: "PaymentCancelPage",
@@ -39,6 +49,10 @@ export default {
   computed: {
     sessionId() {
       return this.$route.query.session_id || "";
+    },
+
+    isReservation() {
+      return this.$route.query.type === "reservation";
     }
   },
 
@@ -47,12 +61,26 @@ export default {
       return;
     }
 
+    if (this.isReservation) {
+      try {
+        await ReservationService.cancelCheckoutSession(this.sessionId);
+        this.cancelMessage = "La réservation liée à ce paiement a été annulée.";
+      } catch (error) {
+        console.error("Impossible d'annuler la réservation Stripe :", error);
+        this.cancelMessage =
+            "Le paiement est annulé, mais la réservation n'a pas pu être mise à jour automatiquement.";
+      }
+
+      return;
+    }
+
     try {
       await PaymentService.cancelCheckoutSession(this.sessionId);
       this.cancelMessage = "La commande liée à ce paiement a été annulée.";
     } catch (error) {
       console.error("Impossible d'annuler la commande Stripe :", error);
-      this.cancelMessage = "Le paiement est annulé, mais la commande n'a pas pu être mise à jour automatiquement.";
+      this.cancelMessage =
+          "Le paiement est annulé, mais la commande n'a pas pu être mise à jour automatiquement.";
     }
   }
 };

@@ -3,8 +3,14 @@
     <section class="payment-result-card">
       <h1>Paiement réussi</h1>
 
-      <p>
-        Le paiement test Stripe a été accepté. Votre commande a été créée dans la plateforme.
+      <p v-if="isReservation">
+        Le paiement test Stripe a été accepté. Votre réservation a été
+        enregistrée dans la plateforme.
+      </p>
+
+      <p v-else>
+        Le paiement test Stripe a été accepté. Votre commande a été créée dans la
+        plateforme.
       </p>
 
       <p v-if="sessionId" class="payment-session">
@@ -12,8 +18,11 @@
       </p>
 
       <div class="payment-result-actions">
-        <router-link to="/shop" class="btn btn-primary">
-          Retour à la boutique
+        <router-link
+            :to="isReservation ? '/activities' : '/shop'"
+            class="btn btn-primary"
+        >
+          {{ isReservation ? "Retour aux activités" : "Retour à la boutique" }}
         </router-link>
 
         <router-link to="/" class="btn btn-secondary">
@@ -33,11 +42,17 @@ export default {
   computed: {
     sessionId() {
       return this.$route.query.session_id || "";
+    },
+
+    isReservation() {
+      return this.$route.query.type === "reservation";
     }
   },
 
   mounted() {
-    CartService.clearCart();
+    if (!this.isReservation) {
+      CartService.clearCart();
+    }
   }
 };
 </script>
