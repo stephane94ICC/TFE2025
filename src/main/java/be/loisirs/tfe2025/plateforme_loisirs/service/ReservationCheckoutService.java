@@ -114,8 +114,8 @@ public class ReservationCheckoutService {
 
         SessionCreateParams sessionParams = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl(frontendUrl + "/payment/success?session_id={CHECKOUT_SESSION_ID}")
-                .setCancelUrl(frontendUrl + "/payment/cancel?session_id={CHECKOUT_SESSION_ID}")
+                .setSuccessUrl(frontendUrl + "/payment/success?type=reservation&session_id={CHECKOUT_SESSION_ID}")
+                .setCancelUrl(frontendUrl + "/payment/cancel?type=reservation&session_id={CHECKOUT_SESSION_ID}")
                 .putMetadata("userEmail", userEmail)
                 .putMetadata("reservationId", savedReservation.getId().toString())
                 .addLineItem(

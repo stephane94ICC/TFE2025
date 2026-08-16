@@ -22,6 +22,9 @@ export function getActivities() {
 export function getActivityById(id) {
     return axios.get(`${PUBLIC_API_URL}/${id}`);
 }
+export function getActivitySessions(activityId) {
+    return axios.get(`${PUBLIC_API_URL}/${activityId}/sessions`);
+}
 
 // ADMIN
 export function getAdminActivities() {

@@ -5,6 +5,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,10 @@ public interface ActivitySessionRepository extends JpaRepository<ActivitySession
     List<ActivitySession> findAllByActivity_IdAndStatus(Long activityId, ActivitySessionStatus status);
 
     Optional<ActivitySession> findByIdAndStatus(Long id, ActivitySessionStatus status);
+
+    List<ActivitySession> findAllByActivity_IdAndStatusAndStartAtAfterOrderByStartAtAsc(
+            Long activityId,
+            ActivitySessionStatus status,
+            LocalDateTime startAt
+    );
 }

@@ -5,6 +5,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivitySessionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,6 +19,10 @@ public class PublicActivitySessionService {
 
     public List<ActivitySession> getAvailableSessions(Long activityId) {
         return activitySessionRepository
-                .findAllByActivity_IdAndStatus(activityId, ActivitySessionStatus.SCHEDULED);
+                .findAllByActivity_IdAndStatusAndStartAtAfterOrderByStartAtAsc(
+                        activityId,
+                        ActivitySessionStatus.SCHEDULED,
+                        LocalDateTime.now()
+                );
     }
 }
