@@ -8,6 +8,9 @@ CREATE TABLE reservation (
     status ENUM('PENDING', 'CONFIRMED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
     booked_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     cancelled_at DATETIME NULL,
+    confirmed_at DATETIME NULL,
+    stripe_session_id VARCHAR(255) NULL UNIQUE,
+    stripe_payment_intent_id VARCHAR(255) NULL,
 
     CONSTRAINT fk_reservation_user
         FOREIGN KEY (user_id) REFERENCES users(id)

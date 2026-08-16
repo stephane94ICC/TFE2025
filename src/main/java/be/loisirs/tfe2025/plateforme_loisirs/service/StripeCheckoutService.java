@@ -77,6 +77,8 @@ public class StripeCheckoutService {
             Product product = getValidProduct(itemRequest);
             int quantity = itemRequest.getQuantity();
 
+            decrementStock(product, quantity);
+
             BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
             totalAmount = totalAmount.add(subtotal);
 
@@ -148,6 +150,7 @@ public class StripeCheckoutService {
         if (OrderStatus.PENDING.equals(order.getStatus())) {
             order.setStatus(OrderStatus.CANCELLED);
             orderRepository.save(order);
+            restoreStock(order);
         }
     }
 
@@ -172,6 +175,28 @@ public class StripeCheckoutService {
         }
 
         return product;
+    }
+
+    private void decrementStock(Product product, int quantity) {
+        if (product.getStockQuantity() == null) {
+            return;
+        }
+
+        product.setStockQuantity(product.getStockQuantity() - quantity);
+        productRepository.save(product);
+    }
+
+    public void restoreStock(Order order) {
+        for (OrderItem orderItem : order.getOrderItems()) {
+            Product product = orderItem.getProduct();
+
+            if (product == null || product.getStockQuantity() == null) {
+                continue;
+            }
+
+            product.setStockQuantity(product.getStockQuantity() + orderItem.getQuantity());
+            productRepository.save(product);
+        }
     }
 
     private Long toStripeAmount(BigDecimal amount) {

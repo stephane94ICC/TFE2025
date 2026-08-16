@@ -72,6 +72,9 @@ public class SecurityConfig {
                             .requestMatchers( "/api/member/**" ).hasAnyRole("MEMBER","ADMIN","PARTNER")
                             .requestMatchers("/api/orders/**").hasRole("ADMIN")
 
+                            //Webhook
+                            .requestMatchers("/api/stripe/webhook").permitAll()
+
                             // Le reste doit etre connecté
                             .anyRequest().authenticated()
                 )
