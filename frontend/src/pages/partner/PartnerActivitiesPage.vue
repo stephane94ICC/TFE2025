@@ -70,6 +70,14 @@
               </button>
 
               <button
+                type="button"
+                class="partner-activity-sessions-link"
+                @click="openSessionsModal(activity)"
+              >
+                Gérer les créneaux
+              </button>
+
+              <button
                 v-if="activity.status === 'REJECTED'"
                 type="button"
                 class="partner-activity-rejection-link"
@@ -107,6 +115,12 @@
       :activity="selectedActivityForImages"
       @close="closeImagesModal"
     />
+
+    <PartnerActivitySessionsModal
+      :visible="showSessionsModal"
+      :activity="selectedActivityForSessions"
+      @close="closeSessionsModal"
+    />
   </div>
 </template>
 
@@ -115,6 +129,7 @@ import { getPartnerActivities } from "../../services/PartnerService";
 import PartnerActivityFormPage from "./PartnerActivityFormPage.vue";
 import PartnerActivityRejectionModal from "./PartnerActivityRejectionModal.vue";
 import PartnerActivityImagesModal from "./PartnerActivityImagesModal.vue";
+import PartnerActivitySessionsModal from "./PartnerActivitySessionsModal.vue";
 import "./PartnerActivitiesPage.css";
 
 export default {
@@ -123,7 +138,8 @@ export default {
   components: {
     PartnerActivityFormPage,
     PartnerActivityRejectionModal,
-    PartnerActivityImagesModal
+    PartnerActivityImagesModal,
+    PartnerActivitySessionsModal
   },
 
   data() {
@@ -136,7 +152,9 @@ export default {
       showRejectionModal: false,
       selectedReviewComment: "",
       showImagesModal: false,
-      selectedActivityForImages: null
+      selectedActivityForImages: null,
+      showSessionsModal: false,
+      selectedActivityForSessions: null
     };
   },
 
@@ -198,6 +216,16 @@ export default {
     closeImagesModal() {
       this.showImagesModal = false;
       this.selectedActivityForImages = null;
+    },
+
+    openSessionsModal(activity) {
+      this.selectedActivityForSessions = activity;
+      this.showSessionsModal = true;
+    },
+
+    closeSessionsModal() {
+      this.showSessionsModal = false;
+      this.selectedActivityForSessions = null;
     },
 
     formatPrice(price) {

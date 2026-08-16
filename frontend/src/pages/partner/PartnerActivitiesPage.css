@@ -24,6 +24,7 @@
 .partner-activity-add-link,
 .partner-activity-edit-link,
 .partner-activity-images-link,
+.partner-activity-sessions-link,
 .partner-activity-rejection-link {
     display: inline-block;
     padding: 9px 14px;
@@ -56,6 +57,11 @@
 
 .partner-activity-images-link {
     background: #7c3aed;
+    color: #ffffff;
+}
+
+.partner-activity-sessions-link {
+    background: #0d9488;
     color: #ffffff;
 }
 

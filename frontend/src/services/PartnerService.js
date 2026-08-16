@@ -81,6 +81,7 @@ export function uploadPartnerActivityImage(activityId, file) {
     getAuthHeaders()
   );
 }
+
 export function deletePartnerActivityImage(activityId, imageId) {
   return axios.delete(
     `${ACTIVITIES_API_URL}/${activityId}/images/${imageId}`,
@@ -98,4 +99,19 @@ export function addPartnerLocation(location) {
 
 export function updatePartnerLocation(id, location) {
   return axios.put(`${LOCATIONS_API_URL}/${id}`, location, getAuthHeaders());
+}
+
+export function getPartnerActivitySessions(activityId) {
+  return axios.get(
+    `${ACTIVITIES_API_URL}/${activityId}/sessions`,
+    getAuthHeaders()
+  );
+}
+
+export function addPartnerActivitySession(activityId, session) {
+  return axios.post(
+    `${ACTIVITIES_API_URL}/${activityId}/sessions`,
+    session,
+    getAuthHeaders()
+  );
 }
