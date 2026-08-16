@@ -1,0 +1,92 @@
+.my-reservations-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.my-reservations-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.my-reservations-header h1,
+.my-reservations-header p {
+    margin: 0;
+}
+
+.my-reservations-header p {
+    margin-top: 8px;
+}
+
+.my-reservations-card {
+    overflow-x: auto;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.my-reservations-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.my-reservations-card th,
+.my-reservations-card td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    font-size: 14px;
+}
+
+.my-reservations-card thead {
+    background: #f3f4f6;
+}
+
+.reservation-reference {
+    font-weight: 700;
+    font-family: monospace;
+}
+
+.reservation-status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.reservation-status-confirmed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.reservation-status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.reservation-status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.my-reservations-error,
+.my-reservations-empty {
+    padding: 18px;
+    text-align: center;
+}
+
+.my-reservations-error {
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+@media (max-width: 600px) {
+    .my-reservations-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

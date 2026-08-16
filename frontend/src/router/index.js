@@ -6,6 +6,8 @@ import ActivityDetailPage from '../pages/public/ActivityDetailPage.vue';
 import ShopPage from '../pages/public/ShopPage.vue';
 import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
 import PrivacyPolicyPage from "../pages/public/PrivacyPolicyPage.vue";
+import PaymentSuccessPage from "../pages/payment/PaymentSuccessPage.vue";
+import PaymentCancelPage from "../pages/payment/PaymentCancelPage.vue";
 
 import RegisterPage from "../pages/auth/RegisterPage.vue";
 import LoginPage from "../pages/auth/LoginPage.vue";
@@ -13,8 +15,7 @@ import AuthService from "../services/AuthService";
 
 import CartPage from '../pages/member/CartPage.vue';
 import ProfilePage from "../pages/member/ProfilePage.vue";
-import PaymentSuccessPage from "../pages/payment/PaymentSuccessPage.vue";
-import PaymentCancelPage from "../pages/payment/PaymentCancelPage.vue";
+import MyReservationsPage from "../pages/member/MyReservationsPage.vue";
 
 import PartnerPage from "../pages/partner/PartnerPage.vue";
 import PartnerActivitiesPage from "../pages/partner/PartnerActivitiesPage.vue";
@@ -114,6 +115,14 @@ const routes = [
         meta: {
             requiresAuth: true,
             roles: ["PARTNER"]
+        }
+    },
+    {
+        path: "/reservations",
+        name: "MyReservations",
+        component: MyReservationsPage,
+        meta: {
+            requiresAuth: true
         }
     },
     {

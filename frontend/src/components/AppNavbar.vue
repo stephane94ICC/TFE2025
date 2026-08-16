@@ -22,7 +22,9 @@
       <router-link v-if="isLoggedIn" to="/cart" class="nav-link">
         Panier
       </router-link>
-
+      <router-link v-if="isLoggedIn" to="/reservations" class="nav-link">
+        Mes réservations
+      </router-link>
       <router-link v-if="isPartner" to="/partner" class="nav-link">
         Espace partenaire
       </router-link>
