@@ -18,6 +18,7 @@ public class FrontendController {
             "/politique-confidentialite",
             "/partner",
             "/partner/activities",
+            "/partner/locations",
             "/profile",
             "/payment/success",
             "/payment/cancel",

@@ -7,7 +7,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.mapper.ActivityLocationMapper;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivityLocationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
 import java.util.List;
 
 @Service
@@ -38,6 +38,16 @@ public class PartnerActivityLocationService {
         ActivityLocation location = new ActivityLocation();
         activityLocationMapper.updateEntity(dto, location);
         location.setPartner(partner);
+
+        return activityLocationRepository.save(location);
+    }
+    @Transactional
+    public ActivityLocation updateLocation(String email, Long id, ActivityLocationRequestDTO dto) {
+        ActivityLocation location = activityLocationRepository
+                .findByIdAndPartner_User_Email(id, email)
+                .orElseThrow(() -> new ResourceNotFoundException("Lieu introuvable."));
+
+        activityLocationMapper.updateEntity(dto, location);
 
         return activityLocationRepository.save(location);
     }

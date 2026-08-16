@@ -30,7 +30,9 @@
       <router-link  v-if="isPartner"  to="/partner/activities"  class="nav-link">
         Mes activités
       </router-link>
-
+      <router-link v-if="isPartner" to="/partner/locations" class="nav-link">
+        Mes lieux
+      </router-link>
       <router-link v-if="isAdmin" to="/admin/activities" class="nav-link">
         activités
       </router-link>

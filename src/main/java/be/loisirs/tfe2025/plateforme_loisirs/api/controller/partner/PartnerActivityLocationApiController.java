@@ -47,4 +47,18 @@ public class PartnerActivityLocationApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(activityLocationMapper.toDTO(saved));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<ActivityLocationResponseDTO> updateLocation(
+            @PathVariable Long id,
+            @RequestBody ActivityLocationRequestDTO dto,
+            Principal principal
+    ) {
+        ActivityLocation updated = partnerActivityLocationService.updateLocation(
+                principal.getName(),
+                id,
+                dto
+        );
+
+        return ResponseEntity.ok(activityLocationMapper.toDTO(updated));
+    }
 }

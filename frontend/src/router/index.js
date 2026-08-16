@@ -18,6 +18,7 @@ import PaymentCancelPage from "../pages/payment/PaymentCancelPage.vue";
 
 import PartnerPage from "../pages/partner/PartnerPage.vue";
 import PartnerActivitiesPage from "../pages/partner/PartnerActivitiesPage.vue";
+import PartnerLocationsPage from "../pages/partner/PartnerLocationsPage.vue";
 
 import AdminPage from "../pages/admin/AdminPage.vue";
 import AdminUsersPage from "../pages/admin/AdminUsersPage.vue";
@@ -101,6 +102,15 @@ const routes = [
         path: "/partner/activities",
         name: "PartnerActivities",
         component: PartnerActivitiesPage,
+        meta: {
+            requiresAuth: true,
+            roles: ["PARTNER"]
+        }
+    },
+        {
+        path: "/partner/locations",
+        name: "PartnerLocations",
+        component: PartnerLocationsPage,
         meta: {
             requiresAuth: true,
             roles: ["PARTNER"]

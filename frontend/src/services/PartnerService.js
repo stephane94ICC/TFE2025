@@ -4,6 +4,7 @@ import AuthService from "./AuthService";
 const PROFILE_API_URL = "/api/partner/profile";
 const ADDRESSES_API_URL = "/api/partner/addresses";
 const ACTIVITIES_API_URL = "/api/partner/activities";
+const LOCATIONS_API_URL = "/api/partner/locations";
 
 function getAuthHeaders() {
   const token = AuthService.getToken();
@@ -80,10 +81,21 @@ export function uploadPartnerActivityImage(activityId, file) {
     getAuthHeaders()
   );
 }
-
 export function deletePartnerActivityImage(activityId, imageId) {
   return axios.delete(
     `${ACTIVITIES_API_URL}/${activityId}/images/${imageId}`,
     getAuthHeaders()
   );
+}
+
+export function getPartnerLocations() {
+  return axios.get(LOCATIONS_API_URL, getAuthHeaders());
+}
+
+export function addPartnerLocation(location) {
+  return axios.post(LOCATIONS_API_URL, location, getAuthHeaders());
+}
+
+export function updatePartnerLocation(id, location) {
+  return axios.put(`${LOCATIONS_API_URL}/${id}`, location, getAuthHeaders());
 }
