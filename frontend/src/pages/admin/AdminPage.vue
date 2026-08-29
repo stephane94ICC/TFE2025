@@ -33,6 +33,15 @@
         <span>Accéder</span>
       </router-link>
 
+      <router-link to="/admin/activity-logs" class="admin-block admin-block-active">
+        <h2>Journal d'activité</h2>
+        <p>
+          Consulter l’historique des connexions et des actions réalisées
+          sur la plateforme.
+        </p>
+        <span>Accéder</span>
+      </router-link>
+
       <div class="admin-block admin-block-disabled">
         <h2>Partenaires</h2>
         <p>

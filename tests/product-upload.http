@@ -1,7 +1,2 @@
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "test.journal@example.com",
-  "password": "MotDePasseTest123!"
-}
+GET http://localhost:8080/api/admin/activity-logs/event-types
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpdXMuYWRtaW5AZXhhbXBsZS5jb20iLCJpZCI6MywiZmlyc3ROYW1lIjoiTWFyaXVzIiwibGFzdE5hbWUiOiJWb24gTWF5ZW5idXJnIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzg4MDM4MDU4LCJleHAiOjE3ODgxMjQ0NTh9.7zv-ebmzvXVi6LK7L4vJZmFYdY3KWjy0ECRLv7O9xhwGW0SHlJAVqRtjwDKDqRJmaNn57aOEfuPDGxzlcdVFmQ

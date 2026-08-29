@@ -5,6 +5,10 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityLog;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivityLogRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.ActivityLogDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.mapper.ActivityLogMapper;
+
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +19,18 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
 
 @Service
 public class ActivityLogService {
 
     private static final int DETAILS_MAX_LENGTH = 500;
+    private static final int MAX_PAGE_SIZE = 200;
     private static final Logger log = LoggerFactory.getLogger(ActivityLogService.class);
     private final ActivityLogRepository activityLogRepository;
     private final UserRepository userRepository;
@@ -66,7 +76,30 @@ public class ActivityLogService {
 
         write(eventType, userId, email, null, null, details);
     }
+    /**
+     * Consultation du journal, réservée à l'administration.
+     * Le tri est imposé côté serveur : les entrées les plus récentes
+     * d'abord, quel que soit le paramètre reçu.
+     */
+    @Transactional(readOnly = true)
+    public Page<ActivityLogDTO> search(ActivityEventType eventType,
+                                       String email,
+                                       LocalDateTime from,
+                                       LocalDateTime to,
+                                       int page,
+                                       int size) {
 
+        Pageable pageable = PageRequest.of(
+                Math.max(page, 0),
+                Math.min(Math.max(size, 1), MAX_PAGE_SIZE),
+                Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        String normalizedEmail = (email == null || email.isBlank()) ? null : email.trim();
+
+        return activityLogRepository
+                .search(eventType, normalizedEmail, from, to, pageable)
+                .map(ActivityLogMapper::toDTO);
+    }
     /**
      * Construction et enregistrement de l'entrée.
      * Aucune exception ne remonte : un journal défaillant ne doit
@@ -91,7 +124,8 @@ public class ActivityLogService {
             activityLogRepository.save(entry);
 
         } catch (Exception e) {
-            log.error("Échec d'écriture dans le journal d'activité", e);        }
+            log.error("Échec d'écriture dans le journal d'activité", e);
+        }
     }
 
     /**
