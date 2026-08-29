@@ -1,29 +1,7 @@
-### 1. Login sur le compte de test
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "test.softdelete@example.com",
-  "password": "MotDePasseTest123!"
-}
-
-> {%
-    client.global.set("jwt_token", response.body.token);
-%}
-
-### 2. Appel protégé AVANT suppression
-GET http://localhost:8080/api/member/reservations
-Authorization: Bearer {{jwt_token}}
-
-### 3. Rejouer le MÊME appel APRÈS le DELETE
-GET http://localhost:8080/api/member/reservations
-Authorization: Bearer {{jwt_token}}
-
-### 4. Nouveau login avec le compte supprimé
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "test.softdelete@example.com",
+  "email": "test.journal@example.com",
   "password": "MotDePasseTest123!"
 }

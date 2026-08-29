@@ -7,6 +7,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.RegisterRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,16 +24,19 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final ActivityLogService activityLogService;
 
     public AuthService(
             UserRepository userRepository,
             RoleRepository roleRepository,
             BCryptPasswordEncoder passwordEncoder,
-            JwtService jwtService) {
+            JwtService jwtService,
+            ActivityLogService activityLogService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.activityLogService = activityLogService;
     }
 
     public AuthResponseDTO register(RegisterRequestDTO registerRequestDTO) {
@@ -61,16 +65,32 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
 
+        activityLogService.logForEmail(
+                ActivityEventType.REGISTER, savedUser.getId(), savedUser.getEmail(), null);
+
         return buildAuthResponse(savedUser, "Inscription réussie.");
     }
 
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
-        User user = userRepository.findByEmail(loginRequestDTO.getEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect."));
+        String email = loginRequestDTO.getEmail();
 
-        if (!passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
+        User user = userRepository.findByEmail(email).orElse(null);
+
+
+        if (user == null) {
+            activityLogService.logForEmail(
+                    ActivityEventType.LOGIN_FAILURE, null, email, "Adresse e-mail inconnue");
             throw new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect.");
         }
+
+        if (!passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
+            activityLogService.logForEmail(
+                    ActivityEventType.LOGIN_FAILURE, user.getId(), email, "Mot de passe incorrect");
+            throw new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect.");
+        }
+
+        activityLogService.logForEmail(
+                ActivityEventType.LOGIN_SUCCESS, user.getId(), email, null);
 
         return buildAuthResponse(user, "Connexion réussie.");
     }
