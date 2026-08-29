@@ -1,4 +1,29 @@
+### 1. Login sur le compte de test
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
 
-### 1. Supprimer
-GET http://localhost:8080/api/partner/activities/81/images
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbGl6YWJldGguZGF2aXNAZXhhbXBsZS5jb20iLCJpZCI6NDQsImZpcnN0TmFtZSI6IkVsaXphYmV0aCIsImxhc3ROYW1lIjoiRGF2aXMiLCJyb2xlcyI6WyJQQVJUTkVSIl0sImlhdCI6MTc4NjI4NjAwNSwiZXhwIjoxNzg2MzcyNDA1fQ.bHjCCXnLYZ_PkyHHV6737AijPUIMGQzNsYKOcho2Z5q0G98_8LfyKp04yoEo832Kc8NJYGihMODdXbBA7RrBvg
+{
+  "email": "test.softdelete@example.com",
+  "password": "MotDePasseTest123!"
+}
+
+> {%
+    client.global.set("jwt_token", response.body.token);
+%}
+
+### 2. Appel protégé AVANT suppression
+GET http://localhost:8080/api/member/reservations
+Authorization: Bearer {{jwt_token}}
+
+### 3. Rejouer le MÊME appel APRÈS le DELETE
+GET http://localhost:8080/api/member/reservations
+Authorization: Bearer {{jwt_token}}
+
+### 4. Nouveau login avec le compte supprimé
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test.softdelete@example.com",
+  "password": "MotDePasseTest123!"
+}
