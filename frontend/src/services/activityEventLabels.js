@@ -7,6 +7,7 @@ export const ACTIVITY_EVENT_LABELS = {
     ACCOUNT_DELETION_REQUESTED: "Désinscription demandée",
     ACCOUNT_ANONYMIZED: "Compte anonymisé",
     RESERVATION_CREATED: "Réservation créée",
+    RESERVATION_CONFIRMED: "Réservation confirmée",
     RESERVATION_CANCELLED: "Réservation annulée",
     ORDER_PAID: "Commande payée",
     ACTIVITY_APPROVED: "Activité approuvée",

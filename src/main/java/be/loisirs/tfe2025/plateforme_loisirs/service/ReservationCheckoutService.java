@@ -3,6 +3,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.service;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.reservation.ReservationCheckoutRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.reservation.ReservationCheckoutResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Activity;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySession;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityStatus;
@@ -32,6 +33,7 @@ public class ReservationCheckoutService {
     private final UserRepository userRepository;
     private final ActivitySessionRepository activitySessionRepository;
     private final ReservationRepository reservationRepository;
+    private final ActivityLogService activityLogService;
     private final String stripeSecretKey;
     private final String frontendUrl;
 
@@ -39,12 +41,14 @@ public class ReservationCheckoutService {
             UserRepository userRepository,
             ActivitySessionRepository activitySessionRepository,
             ReservationRepository reservationRepository,
+            ActivityLogService activityLogService,
             @Value("${stripe.secret-key}") String stripeSecretKey,
             @Value("${app.frontend-url}") String frontendUrl
     ) {
         this.userRepository = userRepository;
         this.activitySessionRepository = activitySessionRepository;
         this.reservationRepository = reservationRepository;
+        this.activityLogService = activityLogService;
         this.stripeSecretKey = stripeSecretKey;
         this.frontendUrl = frontendUrl;
     }
@@ -143,6 +147,27 @@ public class ReservationCheckoutService {
             savedReservation.setStripeSessionId(stripeSession.getId());
             savedReservation.setStripePaymentIntentId(stripeSession.getPaymentIntent());
             reservationRepository.save(savedReservation);
+
+            /*
+             * Journalisation volontairement placée après la création réussie
+             * de la session Stripe, et non juste après saveAndFlush.
+             *
+             * Le journal écrit dans sa propre transaction (REQUIRES_NEW) :
+             * son entrée survit à l'annulation de la transaction appelante.
+             * Journaliser plus haut produirait donc une entrée orpheline,
+             * pointant vers une réservation effacée par le rollback si
+             * Session.create venait à échouer.
+             */
+            activityLogService.log(
+                    ActivityEventType.RESERVATION_CREATED,
+                    "Reservation",
+                    savedReservation.getId(),
+                    savedReservation.getReference()
+                            + " - " + activity.getTitle()
+                            + " - " + request.getQuantity() + " place(s)"
+                            + " - " + totalPrice + " EUR"
+                            + " - en attente de paiement"
+            );
 
             return new ReservationCheckoutResponseDTO(
                     savedReservation.getId(),

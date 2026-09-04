@@ -15,6 +15,7 @@ public enum ActivityEventType {
 
     // --- Métier ---
     RESERVATION_CREATED,
+    RESERVATION_CONFIRMED,
     RESERVATION_CANCELLED,
     ORDER_PAID,
 
