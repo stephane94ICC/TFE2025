@@ -21,4 +21,5 @@ public class ReservationResponseDTO {
     private BigDecimal totalPrice;
     private ReservationStatus status;
     private LocalDateTime bookedAt;
+    private LocalDateTime bookingDeadline;
 }

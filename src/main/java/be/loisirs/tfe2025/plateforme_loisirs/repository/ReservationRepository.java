@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     Optional<Reservation> findByStripeSessionId(String stripeSessionId);
+    Optional<Reservation> findByIdAndUser_Email(Long id, String email);
 
     List<Reservation> findAllByUser_Email(String email);
 

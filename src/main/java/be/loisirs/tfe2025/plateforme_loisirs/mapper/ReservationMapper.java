@@ -19,6 +19,7 @@ public class ReservationMapper {
         dto.setSessionId(session.getId());
         dto.setActivityTitle(session.getActivity().getTitle());
         dto.setSessionStartAt(session.getStartAt());
+        dto.setBookingDeadline(session.getBookingDeadline());
         dto.setQuantity(reservation.getQuantity());
         dto.setTotalPrice(reservation.getTotalPrice());
         dto.setStatus(reservation.getStatus());

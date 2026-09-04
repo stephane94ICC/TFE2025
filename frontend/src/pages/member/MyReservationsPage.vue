@@ -11,6 +11,10 @@
       {{ errorMessage }}
     </p>
 
+    <p v-if="successMessage" class="my-reservations-success">
+      {{ successMessage }}
+    </p>
+
     <p v-if="loading">
       Chargement des réservations...
     </p>
@@ -26,6 +30,7 @@
             <th>Total</th>
             <th>Statut</th>
             <th>Réservé le</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -52,10 +57,31 @@
             </td>
 
             <td>{{ formatDateTime(reservation.bookedAt) }}</td>
+
+            <td>
+              <button
+                v-if="isCancellable(reservation)"
+                type="button"
+                class="reservation-cancel-button"
+                :disabled="cancellingId === reservation.id"
+                @click="confirmCancel(reservation)"
+              >
+                {{ cancellingId === reservation.id ? "Annulation..." : "Annuler" }}
+              </button>
+
+              <span
+                v-else-if="reservation.status === 'CONFIRMED'"
+                class="reservation-cancel-closed"
+              >
+                Annulation clôturée
+              </span>
+
+              <span v-else>—</span>
+            </td>
           </tr>
 
           <tr v-if="reservations.length === 0">
-            <td colspan="7" class="my-reservations-empty">
+            <td colspan="8" class="my-reservations-empty">
               Vous n’avez encore aucune réservation.
             </td>
           </tr>
@@ -77,7 +103,9 @@ export default {
     return {
       reservations: [],
       loading: true,
-      errorMessage: ""
+      errorMessage: "",
+      successMessage: "",
+      cancellingId: null
     };
   },
 
@@ -98,6 +126,58 @@ export default {
         this.errorMessage = "Impossible de charger vos réservations.";
       } finally {
         this.loading = false;
+      }
+    },
+
+    /*
+     * Contrôle de confort uniquement : le serveur applique les mêmes
+     * règles et reste seul juge. Masquer le bouton évite au membre un
+     * clic voué à l'échec, mais ne constitue pas une sécurité.
+     */
+    isCancellable(reservation) {
+      if (reservation.status !== "CONFIRMED") {
+        return false;
+      }
+
+      if (!reservation.bookingDeadline) {
+        return false;
+      }
+
+      return new Date(reservation.bookingDeadline) > new Date();
+    },
+
+    async confirmCancel(reservation) {
+      const message =
+        `Annuler la réservation ${reservation.reference} ?\n\n` +
+        `Les réservations annulées avant la clôture des réservations ` +
+        `sont intégralement remboursées. La place sera remise à disposition.`;
+
+      if (!window.confirm(message)) {
+        return;
+      }
+
+      await this.cancelReservation(reservation);
+    },
+
+    async cancelReservation(reservation) {
+      try {
+        this.cancellingId = reservation.id;
+        this.errorMessage = "";
+        this.successMessage = "";
+
+        await ReservationService.cancelReservation(reservation.id);
+
+        this.successMessage = `La réservation ${reservation.reference} a été annulée.`;
+
+        await this.loadReservations();
+      } catch (error) {
+        console.error(error);
+
+        this.errorMessage =
+          error.response?.data?.error ||
+          "Impossible d’annuler cette réservation.";
+      } finally {
+        this.cancellingId = null;
       }
     },
 

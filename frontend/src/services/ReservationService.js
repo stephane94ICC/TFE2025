@@ -32,9 +32,16 @@ function cancelCheckoutSession(stripeSessionId) {
 function getMyReservations() {
   return axios.get(RESERVATION_API_URL, getAuthConfig());
 }
-
+function cancelReservation(reservationId) {
+  return axios.patch(
+    `${RESERVATION_API_URL}/${reservationId}/cancel`,
+    {},
+    getAuthConfig()
+  );
+}
 export default {
   createCheckoutSession,
   cancelCheckoutSession,
+  cancelReservation,
   getMyReservations
 };
