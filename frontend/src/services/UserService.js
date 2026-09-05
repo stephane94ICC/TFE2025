@@ -31,6 +31,13 @@ export function getMemberProfile() {
 export function updateMemberProfile(profile) {
     return axios.put(MEMBER_PROFILE_API_URL, profile, getAuthHeaders());
 }
+export function deleteMemberAccount(password) {
+    return axios.post(
+        `${MEMBER_PROFILE_API_URL}/deletion`,
+        { password },
+        getAuthHeaders()
+    );
+}
 export function getUsers() {
     return axios.get(API_URL, getAuthHeaders());
 }

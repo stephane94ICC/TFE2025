@@ -134,6 +134,7 @@
     background-color: #f9fafb;
     color: #4b5563;
 }
+
 .profile-input {
     flex: 1;
     max-width: 320px;
@@ -195,6 +196,102 @@
     cursor: not-allowed;
     opacity: 0.65;
 }
+
+.profile-danger-zone {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    background-color: #fef2f2;
+}
+
+.profile-danger-title {
+    margin: 0 0 10px;
+    color: #991b1b;
+    font-size: 18px;
+}
+
+.profile-danger-text {
+    margin: 0 0 16px;
+    color: #7f1d1d;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.profile-delete-button {
+    padding: 9px 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #dc2626;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-delete-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.profile-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(17, 24, 39, 0.55);
+}
+
+.profile-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 440px;
+    padding: 26px;
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.profile-modal-title {
+    margin: 0;
+    color: #991b1b;
+    font-size: 20px;
+}
+
+.profile-modal-text {
+    margin: 0;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.profile-modal-input {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    color: #111827;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.profile-modal-input:focus {
+    border-color: #dc2626;
+    outline: none;
+}
+
+.profile-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
 @media (max-width: 768px) {
     .profile-card {
         padding: 22px;
@@ -214,12 +311,19 @@
     .profile-value {
         text-align: left;
     }
+
     .profile-input {
         max-width: 100%;
         width: 100%;
         text-align: left;
     }
+
     .profile-roles {
         justify-content: flex-start;
+    }
+
+    .profile-actions,
+    .profile-modal-actions {
+        flex-direction: column;
     }
 }

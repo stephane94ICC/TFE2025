@@ -89,6 +89,13 @@ public class AuthService {
             throw new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect.");
         }
 
+        if (!Boolean.TRUE.equals(user.getActive())) {
+            activityLogService.logForEmail(
+                    ActivityEventType.ACCESS_DENIED_INACTIVE_ACCOUNT, user.getId(), email,
+                    "Tentative de connexion sur un compte désactivé");
+            throw new InvalidCredentialsException("Ce compte n'est plus actif.");
+        }
+
         activityLogService.logForEmail(
                 ActivityEventType.LOGIN_SUCCESS, user.getId(), email, null);
 

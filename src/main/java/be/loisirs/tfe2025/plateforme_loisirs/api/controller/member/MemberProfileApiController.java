@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.api.controller.member;
 
+import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AccountDeletionRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.MemberProfileResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.MemberProfileUpdateDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.ProfileImageResponseDTO;
@@ -41,6 +42,16 @@ public class MemberProfileApiController {
         return ResponseEntity.ok(
                 memberProfileService.updateProfile(principal.getName(), request)
         );
+    }
+
+    @PostMapping("/deletion")
+    public ResponseEntity<Void> deleteAccount(
+            @Valid @RequestBody AccountDeletionRequestDTO request,
+            Principal principal
+    ) {
+        memberProfileService.deleteAccount(principal.getName(), request);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/image")

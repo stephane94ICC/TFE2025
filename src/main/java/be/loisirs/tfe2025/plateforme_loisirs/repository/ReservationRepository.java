@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,5 +24,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     int sumQuantityBySessionIdAndStatusIn(
             @Param("sessionId") Long sessionId,
             @Param("statuses") List<ReservationStatus> statuses
+    );
+        @Query("SELECT COUNT(r) FROM Reservation r " +
+            "WHERE r.user.email = :email " +
+            "AND r.status = :status " +
+            "AND r.session.startAt > :now")
+    long countUpcomingByUserEmailAndStatus(
+            @Param("email") String email,
+            @Param("status") ReservationStatus status,
+            @Param("now") LocalDateTime now
     );
 }

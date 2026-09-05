@@ -120,12 +120,77 @@
             Annuler
           </button>
         </div>
+
+        <div v-if="canDeleteAccount" class="profile-danger-zone">
+          <h2 class="profile-danger-title">Supprimer mon compte</h2>
+
+          <p class="profile-danger-text">
+            Cette action est définitive. Vos nom, prénom, adresse e-mail et
+            téléphone seront effacés et votre compte sera fermé.
+            Vos justificatifs de commande et de réservation restent conservés
+            sans lien avec votre identité, conformément aux obligations
+            comptables légales.
+          </p>
+
+          <button
+              type="button"
+              class="profile-delete-button"
+              @click="openDeleteDialog"
+          >
+            Supprimer mon compte
+          </button>
+        </div>
       </div>
 
       <div v-else class="profile-empty">
         <p>Aucun utilisateur connecté.</p>
       </div>
     </section>
+
+    <div v-if="showDeleteDialog" class="profile-modal-overlay">
+      <div class="profile-modal">
+        <h2 class="profile-modal-title">Confirmer la suppression</h2>
+
+        <p class="profile-modal-text">
+          Saisissez votre mot de passe pour confirmer. Cette action ne peut pas
+          être annulée.
+        </p>
+
+        <div v-if="deleteErrorMessage" class="profile-error">
+          {{ deleteErrorMessage }}
+        </div>
+
+        <input
+            v-model="deletePassword"
+            type="password"
+            class="profile-modal-input"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            :disabled="deleting"
+            @keyup.enter="confirmDelete"
+        />
+
+        <div class="profile-modal-actions">
+          <button
+              type="button"
+              class="profile-delete-button"
+              :disabled="deleting || !deletePassword"
+              @click="confirmDelete"
+          >
+            {{ deleting ? "Suppression..." : "Supprimer définitivement" }}
+          </button>
+
+          <button
+              type="button"
+              class="profile-reset-button"
+              :disabled="deleting"
+              @click="closeDeleteDialog"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -134,7 +199,8 @@ import AuthService from "../../services/AuthService";
 import {
   uploadProfileImage,
   getMemberProfile,
-  updateMemberProfile
+  updateMemberProfile,
+  deleteMemberAccount
 } from "../../services/UserService";
 import "./ProfilePage.css";
 
@@ -153,7 +219,11 @@ export default {
       uploading: false,
       saving: false,
       successMessage: "",
-      errorMessage: ""
+      errorMessage: "",
+      showDeleteDialog: false,
+      deletePassword: "",
+      deleting: false,
+      deleteErrorMessage: ""
     };
   },
 
@@ -171,6 +241,12 @@ export default {
       return this.form.firstName !== (this.user.firstName || "")
           || this.form.lastName !== (this.user.lastName || "")
           || this.form.phone !== (this.user.phone || "");
+    },
+
+    canDeleteAccount() {
+      const roles = this.user?.roles || [];
+
+      return roles.length === 1 && roles[0] === "MEMBER";
     }
   },
 
@@ -229,6 +305,40 @@ export default {
             || "Impossible de modifier votre profil.";
       } finally {
         this.saving = false;
+      }
+    },
+
+    openDeleteDialog() {
+      this.deletePassword = "";
+      this.deleteErrorMessage = "";
+      this.showDeleteDialog = true;
+    },
+
+    closeDeleteDialog() {
+      this.showDeleteDialog = false;
+      this.deletePassword = "";
+      this.deleteErrorMessage = "";
+    },
+
+    async confirmDelete() {
+      if (!this.deletePassword || this.deleting) {
+        return;
+      }
+
+      try {
+        this.deleting = true;
+        this.deleteErrorMessage = "";
+
+        await deleteMemberAccount(this.deletePassword);
+
+        AuthService.logout();
+        this.$router.push("/");
+      } catch (error) {
+        console.error(error);
+        this.deleteErrorMessage = error.response?.data?.error
+            || "Impossible de supprimer votre compte.";
+      } finally {
+        this.deleting = false;
       }
     },
 

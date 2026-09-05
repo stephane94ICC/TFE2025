@@ -54,6 +54,9 @@ public class User {
     @Column(name = "consent_rgpd", nullable = false)
     private Boolean consentRgpd;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name ="user_role",
@@ -65,6 +68,9 @@ public class User {
     public void setDefaultProfileImage() {
         if (profileImageUrl == null || profileImageUrl.isBlank()) {
             profileImageUrl = "/uploads/members/default-profile.png";
+        }
+        if (active == null) {
+            active = true;
         }
     }
 
