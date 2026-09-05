@@ -57,6 +57,15 @@ public class Reservation {
     @Column(name = "stripe_payment_intent_id")
     private String stripePaymentIntentId;
 
+    @Column(name = "billing_first_name", nullable = false)
+    private String billingFirstName;
+
+    @Column(name = "billing_last_name", nullable = false)
+    private String billingLastName;
+
+    @Column(name = "billing_email", nullable = false)
+    private String billingEmail;
+
     @PrePersist
     public void prePersist() {
         if (this.bookedAt == null) {

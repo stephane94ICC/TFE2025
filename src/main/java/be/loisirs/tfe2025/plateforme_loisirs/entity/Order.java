@@ -42,6 +42,15 @@ public class Order {
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
 
+    @Column(name = "billing_first_name", nullable = false)
+    private String billingFirstName;
+
+    @Column(name = "billing_last_name", nullable = false)
+    private String billingLastName;
+
+    @Column(name = "billing_email", nullable = false)
+    private String billingEmail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

@@ -3,7 +3,7 @@
     <section class="profile-card">
       <div class="profile-header">
         <h1>Mon profil</h1>
-        <p>Voici les informations liées à votre compte utilisateur.</p>
+        <p>Consultez et modifiez les informations liées à votre compte.</p>
       </div>
 
       <div v-if="user" class="profile-content">
@@ -42,19 +42,50 @@
         </div>
 
         <div class="profile-row">
-          <span class="profile-label">Prénom</span>
-          <span class="profile-value">{{ user.firstName }}</span>
+          <label class="profile-label" for="firstName">Prénom</label>
+          <input
+              id="firstName"
+              v-model="form.firstName"
+              type="text"
+              maxlength="100"
+              class="profile-input"
+              :disabled="saving"
+          />
         </div>
 
         <div class="profile-row">
-          <span class="profile-label">Nom</span>
-          <span class="profile-value">{{ user.lastName }}</span>
+          <label class="profile-label" for="lastName">Nom</label>
+          <input
+              id="lastName"
+              v-model="form.lastName"
+              type="text"
+              maxlength="100"
+              class="profile-input"
+              :disabled="saving"
+          />
+        </div>
+
+        <div class="profile-row">
+          <label class="profile-label" for="phone">Téléphone</label>
+          <input
+              id="phone"
+              v-model="form.phone"
+              type="tel"
+              maxlength="20"
+              placeholder="Optionnel"
+              class="profile-input"
+              :disabled="saving"
+          />
         </div>
 
         <div class="profile-row">
           <span class="profile-label">Email</span>
           <span class="profile-value">{{ user.email }}</span>
         </div>
+
+        <p class="profile-hint">
+          L'adresse e-mail identifie votre compte et ne peut pas être modifiée.
+        </p>
 
         <div class="profile-row">
           <span class="profile-label">Rôle(s)</span>
@@ -69,6 +100,26 @@
             </span>
           </div>
         </div>
+
+        <div class="profile-actions">
+          <button
+              type="button"
+              class="profile-save-button"
+              :disabled="saving || !hasChanges"
+              @click="saveProfile"
+          >
+            {{ saving ? "Enregistrement..." : "Enregistrer" }}
+          </button>
+
+          <button
+              type="button"
+              class="profile-reset-button"
+              :disabled="saving || !hasChanges"
+              @click="resetForm"
+          >
+            Annuler
+          </button>
+        </div>
       </div>
 
       <div v-else class="profile-empty">
@@ -80,7 +131,11 @@
 
 <script>
 import AuthService from "../../services/AuthService";
-import { uploadProfileImage } from "../../services/UserService";
+import {
+  uploadProfileImage,
+  getMemberProfile,
+  updateMemberProfile
+} from "../../services/UserService";
 import "./ProfilePage.css";
 
 export default {
@@ -89,8 +144,14 @@ export default {
   data() {
     return {
       user: null,
+      form: {
+        firstName: "",
+        lastName: "",
+        phone: ""
+      },
       selectedFile: null,
       uploading: false,
+      saving: false,
       successMessage: "",
       errorMessage: ""
     };
@@ -100,14 +161,77 @@ export default {
     profileImageUrl() {
       return this.user?.profileImageUrl
           || "/uploads/members/default-profile.png";
+    },
+
+    hasChanges() {
+      if (!this.user) {
+        return false;
+      }
+
+      return this.form.firstName !== (this.user.firstName || "")
+          || this.form.lastName !== (this.user.lastName || "")
+          || this.form.phone !== (this.user.phone || "");
     }
   },
 
-  mounted() {
+  async mounted() {
     this.user = AuthService.getConnectedUser();
+
+    if (!this.user) {
+      return;
+    }
+
+    await this.loadProfile();
   },
 
   methods: {
+    async loadProfile() {
+      try {
+        const response = await getMemberProfile();
+
+        this.applyProfile(response.data);
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = error.response?.data?.error
+            || "Impossible de charger votre profil.";
+      }
+    },
+
+    applyProfile(profile) {
+      this.user = { ...this.user, ...profile };
+      AuthService.saveConnectedUser(this.user);
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.form.firstName = this.user.firstName || "";
+      this.form.lastName = this.user.lastName || "";
+      this.form.phone = this.user.phone || "";
+    },
+
+    async saveProfile() {
+      try {
+        this.saving = true;
+        this.successMessage = "";
+        this.errorMessage = "";
+
+        const response = await updateMemberProfile({
+          firstName: this.form.firstName.trim(),
+          lastName: this.form.lastName.trim(),
+          phone: this.form.phone.trim()
+        });
+
+        this.applyProfile(response.data);
+        this.successMessage = "Profil modifié avec succès.";
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = error.response?.data?.error
+            || "Impossible de modifier votre profil.";
+      } finally {
+        this.saving = false;
+      }
+    },
+
     selectFile(event) {
       this.selectedFile = event.target.files[0] || null;
     },

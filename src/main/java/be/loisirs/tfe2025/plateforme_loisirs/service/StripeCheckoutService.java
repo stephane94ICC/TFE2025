@@ -64,6 +64,9 @@ public class StripeCheckoutService {
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
         order.setTotalAmount(BigDecimal.ZERO);
+        order.setBillingFirstName(user.getFirstName());
+        order.setBillingLastName(user.getLastName());
+        order.setBillingEmail(user.getEmail());
 
         SessionCreateParams.Builder sessionBuilder = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)

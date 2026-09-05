@@ -109,6 +109,9 @@ public class ReservationCheckoutService {
         reservation.setTotalPrice(totalPrice);
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setReference("TEMP-" + UUID.randomUUID());
+        reservation.setBillingFirstName(user.getFirstName());
+        reservation.setBillingLastName(user.getLastName());
+        reservation.setBillingEmail(user.getEmail());
 
         Reservation savedReservation = reservationRepository.saveAndFlush(reservation);
 

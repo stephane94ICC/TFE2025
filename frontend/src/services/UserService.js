@@ -24,6 +24,13 @@ export function uploadProfileImage(file) {
         getAuthHeaders()
     );
 }
+export function getMemberProfile() {
+    return axios.get(MEMBER_PROFILE_API_URL, getAuthHeaders());
+}
+
+export function updateMemberProfile(profile) {
+    return axios.put(MEMBER_PROFILE_API_URL, profile, getAuthHeaders());
+}
 export function getUsers() {
     return axios.get(API_URL, getAuthHeaders());
 }
