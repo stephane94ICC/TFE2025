@@ -180,9 +180,7 @@ export default {
       } catch (error) {
         console.error(error);
 
-        this.errorMessage =
-          error.response?.data?.error ||
-          this.$t("member.reservations.cancelError");
+        this.errorMessage = this.$t("member.reservations.cancelError");
       } finally {
         this.cancellingId = null;
       }

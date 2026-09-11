@@ -4,7 +4,7 @@ export default {
     subtitle: "Meld u aan bij uw account.",
 
     email: "E-mailadres",
-   emailPlaceholder: "voorbeeld{'@'}email.com",
+    emailPlaceholder: "voorbeeld{'@'}email.com",
 
     password: "Wachtwoord",
     passwordPlaceholder: "Voer uw wachtwoord in",
@@ -14,7 +14,7 @@ export default {
     noAccount: "Hebt u nog geen account?",
     register: "Registreren",
 
-    error: "E-mailadres of wachtwoord is onjuist."
+    error: "Aanmelden mislukt. Controleer uw e-mailadres en wachtwoord. Neem contact met ons op als het probleem aanhoudt."
   },
 
   register: {
@@ -42,6 +42,8 @@ export default {
     alreadyAccount: "Hebt u al een account?",
     login: "Aanmelden",
 
+    emailAlreadyUsed: "Er bestaat al een account met dit e-mailadres.",
+    invalidData: "Controleer de ingevulde gegevens. Het wachtwoord moet minstens 12 tekens bevatten, met een hoofdletter, een kleine letter, een cijfer en een speciaal teken.",
     error: "Het account kon niet worden aangemaakt."
   }
 };

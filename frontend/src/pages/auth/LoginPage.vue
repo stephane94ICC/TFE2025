@@ -82,7 +82,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = error.message || this.$t("auth.login.error");
+          this.errorMessage = this.$t("auth.login.error");
         });
     }
   }

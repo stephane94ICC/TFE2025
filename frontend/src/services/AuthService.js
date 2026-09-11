@@ -13,8 +13,9 @@ class AuthService {
     }).then(async response => {
       if (!response.ok) {
         const data = await response.json().catch(() => null);
-        const message = data && data.error ? data.error : "Erreur lors de l'inscription.";
-        throw new Error(message);
+        const err = new Error(data && data.error ? data.error : "REGISTER_FAILED");
+        err.status = response.status;
+        throw err;
       }
 
       return response.json();
@@ -31,8 +32,9 @@ class AuthService {
     }).then(async response => {
       if (!response.ok) {
         const data = await response.json().catch(() => null);
-        const message = data && data.error ? data.error : "Erreur lors de la connexion.";
-        throw new Error(message);
+        const err = new Error(data && data.error ? data.error : "LOGIN_FAILED");
+        err.status = response.status;
+        throw err;
       }
 
       return response.json();

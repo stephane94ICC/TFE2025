@@ -14,7 +14,7 @@ export default {
     noAccount: "Don't have an account yet?",
     register: "Sign up",
 
-    error: "Incorrect email address or password."
+    error: "Sign-in failed. Check your email address and password. Contact us if the problem persists."
   },
 
   register: {
@@ -42,6 +42,8 @@ export default {
     alreadyAccount: "Already have an account?",
     login: "Log in",
 
+    emailAlreadyUsed: "An account already exists with this email address.",
+    invalidData: "Check the information you entered. The password must be at least 12 characters long and include an uppercase letter, a lowercase letter, a digit and a special character.",
     error: "Unable to create the account."
   }
 };

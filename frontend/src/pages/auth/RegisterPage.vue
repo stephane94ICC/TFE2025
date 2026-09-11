@@ -134,8 +134,10 @@ export default {
           })
           .catch(error => {
             console.error(error);
-            this.errorMessage = error.message || this.$t("auth.register.error");
-          });
+            this.errorMessage =
+                error.status === 409 ? this.$t("auth.register.emailAlreadyUsed")
+              : error.status === 400 ? this.$t("auth.register.invalidData")
+              : this.$t("auth.register.error");          });
     }
   }
 };

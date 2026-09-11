@@ -14,7 +14,7 @@ export default {
     noAccount: "Vous n’avez pas encore de compte ?",
     register: "S'inscrire",
 
-    error: "Adresse e-mail ou mot de passe incorrect."
+    error: "Connexion impossible. Vérifiez votre adresse e-mail et votre mot de passe. Si le problème persiste, contactez-nous."
   },
 
   register: {
@@ -42,6 +42,8 @@ export default {
     alreadyAccount: "Vous avez déjà un compte ?",
     login: "Se connecter",
 
+    emailAlreadyUsed: "Un compte existe déjà avec cette adresse e-mail.",
+    invalidData: "Vérifiez les informations saisies. Le mot de passe doit contenir au moins 12 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.",
     error: "Impossible de créer le compte."
   }
 };
