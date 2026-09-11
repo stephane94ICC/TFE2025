@@ -2,15 +2,15 @@
   <div class="profile-page">
     <section class="profile-card">
       <div class="profile-header">
-        <h1>Mon profil</h1>
-        <p>Consultez et modifiez les informations liées à votre compte.</p>
+        <h1>{{ $t("member.profile.title") }}</h1>
+        <p>{{ $t("member.profile.subtitle") }}</p>
       </div>
 
       <div v-if="user" class="profile-content">
         <div class="profile-image-section">
           <img
               :src="profileImageUrl"
-              alt="Photo de profil"
+              :alt="$t('member.profile.profileImageAlt')"
               class="profile-image"
           />
 
@@ -28,7 +28,7 @@
                 :disabled="!selectedFile || uploading"
                 @click="uploadImage"
             >
-              {{ uploading ? "Envoi..." : "Modifier ma photo" }}
+              {{ uploading ? $t("member.profile.uploading") : $t("member.profile.editPhoto") }}
             </button>
           </div>
         </div>
@@ -42,7 +42,9 @@
         </div>
 
         <div class="profile-row">
-          <label class="profile-label" for="firstName">Prénom</label>
+          <label class="profile-label" for="firstName">
+            {{ $t("member.profile.firstName") }}
+          </label>
           <input
               id="firstName"
               v-model="form.firstName"
@@ -54,7 +56,9 @@
         </div>
 
         <div class="profile-row">
-          <label class="profile-label" for="lastName">Nom</label>
+          <label class="profile-label" for="lastName">
+            {{ $t("member.profile.lastName") }}
+          </label>
           <input
               id="lastName"
               v-model="form.lastName"
@@ -66,29 +70,31 @@
         </div>
 
         <div class="profile-row">
-          <label class="profile-label" for="phone">Téléphone</label>
+          <label class="profile-label" for="phone">
+            {{ $t("member.profile.phone") }}
+          </label>
           <input
               id="phone"
               v-model="form.phone"
               type="tel"
               maxlength="20"
-              placeholder="Optionnel"
+              :placeholder="$t('member.profile.optional')"
               class="profile-input"
               :disabled="saving"
           />
         </div>
 
         <div class="profile-row">
-          <span class="profile-label">Email</span>
+          <span class="profile-label">{{ $t("member.profile.email") }}</span>
           <span class="profile-value">{{ user.email }}</span>
         </div>
 
         <p class="profile-hint">
-          L'adresse e-mail identifie votre compte et ne peut pas être modifiée.
+          {{ $t("member.profile.emailHint") }}
         </p>
 
         <div class="profile-row">
-          <span class="profile-label">Rôle(s)</span>
+          <span class="profile-label">{{ $t("member.profile.roles") }}</span>
 
           <div class="profile-roles">
             <span
@@ -108,7 +114,7 @@
               :disabled="saving || !hasChanges"
               @click="saveProfile"
           >
-            {{ saving ? "Enregistrement..." : "Enregistrer" }}
+            {{ saving ? $t("member.profile.saving") : $t("member.profile.save") }}
           </button>
 
           <button
@@ -117,19 +123,17 @@
               :disabled="saving || !hasChanges"
               @click="resetForm"
           >
-            Annuler
+            {{ $t("member.profile.cancel") }}
           </button>
         </div>
 
         <div v-if="canDeleteAccount" class="profile-danger-zone">
-          <h2 class="profile-danger-title">Supprimer mon compte</h2>
+          <h2 class="profile-danger-title">
+            {{ $t("member.profile.deleteAccountTitle") }}
+          </h2>
 
           <p class="profile-danger-text">
-            Cette action est définitive. Vos nom, prénom, adresse e-mail et
-            téléphone seront effacés et votre compte sera fermé.
-            Vos justificatifs de commande et de réservation restent conservés
-            sans lien avec votre identité, conformément aux obligations
-            comptables légales.
+            {{ $t("member.profile.deleteAccountText") }}
           </p>
 
           <button
@@ -137,23 +141,24 @@
               class="profile-delete-button"
               @click="openDeleteDialog"
           >
-            Supprimer mon compte
+            {{ $t("member.profile.deleteAccount") }}
           </button>
         </div>
       </div>
 
       <div v-else class="profile-empty">
-        <p>Aucun utilisateur connecté.</p>
+        <p>{{ $t("member.profile.noUser") }}</p>
       </div>
     </section>
 
     <div v-if="showDeleteDialog" class="profile-modal-overlay">
       <div class="profile-modal">
-        <h2 class="profile-modal-title">Confirmer la suppression</h2>
+        <h2 class="profile-modal-title">
+          {{ $t("member.profile.confirmDeleteTitle") }}
+        </h2>
 
         <p class="profile-modal-text">
-          Saisissez votre mot de passe pour confirmer. Cette action ne peut pas
-          être annulée.
+          {{ $t("member.profile.confirmDeleteText") }}
         </p>
 
         <div v-if="deleteErrorMessage" class="profile-error">
@@ -164,7 +169,7 @@
             v-model="deletePassword"
             type="password"
             class="profile-modal-input"
-            placeholder="Mot de passe"
+            :placeholder="$t('member.profile.password')"
             autocomplete="current-password"
             :disabled="deleting"
             @keyup.enter="confirmDelete"
@@ -177,7 +182,7 @@
               :disabled="deleting || !deletePassword"
               @click="confirmDelete"
           >
-            {{ deleting ? "Suppression..." : "Supprimer définitivement" }}
+            {{ deleting ? $t("member.profile.deleting") : $t("member.profile.deletePermanently") }}
           </button>
 
           <button
@@ -186,7 +191,7 @@
               :disabled="deleting"
               @click="closeDeleteDialog"
           >
-            Annuler
+            {{ $t("member.profile.cancel") }}
           </button>
         </div>
       </div>
@@ -269,7 +274,7 @@ export default {
       } catch (error) {
         console.error(error);
         this.errorMessage = error.response?.data?.error
-            || "Impossible de charger votre profil.";
+            || this.$t("member.profile.loadError");
       }
     },
 
@@ -298,11 +303,11 @@ export default {
         });
 
         this.applyProfile(response.data);
-        this.successMessage = "Profil modifié avec succès.";
+        this.successMessage = this.$t("member.profile.updateSuccess");
       } catch (error) {
         console.error(error);
         this.errorMessage = error.response?.data?.error
-            || "Impossible de modifier votre profil.";
+            || this.$t("member.profile.updateError");
       } finally {
         this.saving = false;
       }
@@ -336,7 +341,7 @@ export default {
       } catch (error) {
         console.error(error);
         this.deleteErrorMessage = error.response?.data?.error
-            || "Impossible de supprimer votre compte.";
+            || this.$t("member.profile.deleteError");
       } finally {
         this.deleting = false;
       }
@@ -363,11 +368,11 @@ export default {
 
         this.selectedFile = null;
         this.$refs.fileInput.value = "";
-        this.successMessage = "Photo de profil modifiée avec succès.";
+        this.successMessage = this.$t("member.profile.photoSuccess");
       } catch (error) {
         console.error(error);
         this.errorMessage = error.response?.data?.error
-            || "Impossible de modifier la photo de profil.";
+            || this.$t("member.profile.photoError");
       } finally {
         this.uploading = false;
       }
@@ -375,15 +380,15 @@ export default {
 
     formatRole(role) {
       if (role === "ADMIN") {
-        return "Administrateur";
+        return this.$t("member.profile.rolesLabels.ADMIN");
       }
 
       if (role === "PARTNER") {
-        return "Partenaire";
+        return this.$t("member.profile.rolesLabels.PARTNER");
       }
 
       if (role === "MEMBER") {
-        return "Membre";
+        return this.$t("member.profile.rolesLabels.MEMBER");
       }
 
       return role;

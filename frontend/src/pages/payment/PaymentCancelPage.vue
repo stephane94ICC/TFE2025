@@ -1,16 +1,14 @@
 <template>
   <main class="payment-result-page">
     <section class="payment-result-card">
-      <h1>Paiement annulé</h1>
+      <h1>{{ $t("payment.cancel.title") }}</h1>
 
       <p v-if="isReservation">
-        Le paiement Stripe a été annulé. Votre réservation n’a pas été confirmée
-        et les places ont été libérées.
+        {{ $t("payment.cancel.reservationMessage") }}
       </p>
 
       <p v-else>
-        Le paiement Stripe a été annulé. Votre panier est conservé pour permettre
-        un nouvel essai.
+        {{ $t("payment.cancel.orderMessage") }}
       </p>
 
       <p v-if="cancelMessage" class="payment-result-info">
@@ -22,11 +20,15 @@
             :to="isReservation ? '/activities' : '/cart'"
             class="btn btn-primary"
         >
-          {{ isReservation ? "Retour aux activités" : "Retour au panier" }}
+          {{
+            isReservation
+              ? $t("payment.cancel.backActivities")
+              : $t("payment.cancel.backCart")
+          }}
         </router-link>
 
         <router-link to="/" class="btn btn-secondary">
-          Retour à l’accueil
+          {{ $t("payment.cancel.backHome") }}
         </router-link>
       </div>
     </section>
@@ -64,11 +66,14 @@ export default {
     if (this.isReservation) {
       try {
         await ReservationService.cancelCheckoutSession(this.sessionId);
-        this.cancelMessage = "La réservation liée à ce paiement a été annulée.";
+        this.cancelMessage = this.$t(
+          "payment.cancel.reservationCancelSuccess"
+        );
       } catch (error) {
         console.error("Impossible d'annuler la réservation Stripe :", error);
-        this.cancelMessage =
-            "Le paiement est annulé, mais la réservation n'a pas pu être mise à jour automatiquement.";
+        this.cancelMessage = this.$t(
+          "payment.cancel.reservationCancelError"
+        );
       }
 
       return;
@@ -76,11 +81,14 @@ export default {
 
     try {
       await PaymentService.cancelCheckoutSession(this.sessionId);
-      this.cancelMessage = "La commande liée à ce paiement a été annulée.";
+      this.cancelMessage = this.$t(
+        "payment.cancel.orderCancelSuccess"
+      );
     } catch (error) {
       console.error("Impossible d'annuler la commande Stripe :", error);
-      this.cancelMessage =
-          "Le paiement est annulé, mais la commande n'a pas pu être mise à jour automatiquement.";
+      this.cancelMessage = this.$t(
+        "payment.cancel.orderCancelError"
+      );
     }
   }
 };

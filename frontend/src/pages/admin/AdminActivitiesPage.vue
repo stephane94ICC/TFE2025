@@ -2,12 +2,12 @@
   <div class="admin-activities-page">
     <div class="admin-header">
       <div>
-        <h1>Gestion des activités</h1>
-        <p>Consultez les activités et validez les propositions des partenaires.</p>
+        <h1>{{ $t("admin.activities.title") }}</h1>
+        <p>{{ $t("admin.activities.subtitle") }}</p>
       </div>
 
       <router-link to="/admin/activities/new" class="btn-add">
-        Ajouter une activité
+        {{ $t("admin.activities.add") }}
       </router-link>
     </div>
 
@@ -20,19 +20,19 @@
     </div>
 
     <div v-if="loading" class="loading">
-      Chargement des activités...
+      {{ $t("admin.activities.loading") }}
     </div>
 
     <div v-else class="table-card">
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Titre</th>
-            <th>Prix</th>
-            <th>Partenaire</th>
-            <th>Statut</th>
-            <th class="actions-col">Actions</th>
+            <th>{{ $t("admin.activities.id") }}</th>
+            <th>{{ $t("admin.activities.activityTitle") }}</th>
+            <th>{{ $t("admin.activities.price") }}</th>
+            <th>{{ $t("admin.activities.partner") }}</th>
+            <th>{{ $t("admin.activities.status") }}</th>
+            <th class="actions-col">{{ $t("admin.activities.actions") }}</th>
           </tr>
         </thead>
 
@@ -41,7 +41,7 @@
             <td>{{ activity.id }}</td>
             <td>{{ activity.title }}</td>
             <td>{{ formatPrice(activity.price) }}</td>
-            <td>{{ activity.partnerName || `Partenaire #${activity.partnerId}` }}</td>
+            <td>{{ activity.partnerName || $t("admin.activities.partnerFallback", { id: activity.partnerId }) }}</td>
 
             <td>
               <span :class="['activity-status', statusClass(activity.status)]">
@@ -54,14 +54,14 @@
                 :to="`/admin/activities/edit/${activity.id}`"
                 class="btn-edit"
               >
-                Modifier
+                {{ $t("admin.activities.edit") }}
               </router-link>
 
               <router-link
                 :to="`/admin/activities/${activity.id}/images`"
                 class="btn-images"
               >
-                Images
+                {{ $t("admin.activities.images") }}
               </router-link>
 
               <button
@@ -70,7 +70,7 @@
                 class="btn-approve"
                 @click="reviewSelectedActivity(activity.id, 'APPROVED')"
               >
-                Approuver
+                {{ $t("admin.activities.approve") }}
               </button>
 
               <button
@@ -79,7 +79,7 @@
                 class="btn-reject"
                 @click="openRejectModal(activity.id)"
               >
-                Refuser
+                {{ $t("admin.activities.reject") }}
               </button>
 
               <button
@@ -88,14 +88,14 @@
                 class="btn-disable"
                 @click="reviewSelectedActivity(activity.id, 'DISABLED')"
               >
-                Désactiver
+                {{ $t("admin.activities.disable") }}
               </button>
             </td>
           </tr>
 
           <tr v-if="activities.length === 0">
             <td colspan="6" class="empty">
-              Aucune activité trouvée.
+              {{ $t("admin.activities.empty") }}
             </td>
           </tr>
         </tbody>
@@ -150,7 +150,7 @@ export default {
         this.activities = response.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger les activités.";
+        this.errorMessage = this.$t("admin.activities.loadError");
       } finally {
         this.loading = false;
       }
@@ -158,12 +158,12 @@ export default {
 
     async reviewSelectedActivity(id, status) {
       const labels = {
-        APPROVED: "approuver",
-        DISABLED: "désactiver"
+        APPROVED: this.$t("admin.activities.approveAction"),
+        DISABLED: this.$t("admin.activities.disableAction")
       };
 
       const confirmed = confirm(
-        `Voulez-vous vraiment ${labels[status]} cette activité ?`
+        this.$t("admin.activities.confirmReview", { action: labels[status] })
       );
 
       if (!confirmed) {
@@ -205,10 +205,10 @@ export default {
         await reviewActivity(id, status, reviewComment);
         await this.loadActivities();
 
-        this.successMessage = "Le statut de l’activité a été mis à jour.";
+        this.successMessage = this.$t("admin.activities.updateSuccess");
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de modifier le statut de l’activité.";
+        this.errorMessage = this.$t("admin.activities.updateError");
       }
     },
 
@@ -222,10 +222,10 @@ export default {
 
     statusLabel(status) {
       const labels = {
-        PENDING_REVIEW: "En attente",
-        APPROVED: "Approuvée",
-        REJECTED: "Refusée",
-        DISABLED: "Désactivée"
+        PENDING_REVIEW: this.$t("admin.activities.statuses.PENDING_REVIEW"),
+        APPROVED: this.$t("admin.activities.statuses.APPROVED"),
+        REJECTED: this.$t("admin.activities.statuses.REJECTED"),
+        DISABLED: this.$t("admin.activities.statuses.DISABLED")
       };
 
       return labels[status] || status;

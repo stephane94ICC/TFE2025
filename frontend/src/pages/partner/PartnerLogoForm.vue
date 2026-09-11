@@ -1,6 +1,10 @@
 <template>
   <div class="partner-logo-section">
-    <img :src="logoUrl" alt="Logo de l’entreprise" class="partner-logo" />
+    <img
+      :src="logoUrl"
+      :alt="$t('partner.logoForm.logoAlt')"
+      class="partner-logo"
+    />
 
     <div class="partner-logo-actions">
       <input
@@ -15,7 +19,11 @@
         :disabled="!selectedLogo || uploading"
         @click="submitLogo"
       >
-        {{ uploading ? "Envoi..." : "Modifier le logo" }}
+        {{
+          uploading
+            ? $t("partner.logoForm.uploading")
+            : $t("partner.logoForm.editLogo")
+        }}
       </button>
     </div>
   </div>
@@ -23,6 +31,7 @@
 
 <script>
 import "./PartnerLogoForm.css";
+
 export default {
   name: "PartnerLogoForm",
 

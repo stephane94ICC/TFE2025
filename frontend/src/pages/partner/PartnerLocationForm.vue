@@ -2,7 +2,13 @@
   <div v-if="visible" class="partner-modal-overlay" @click.self="cancelEdit">
     <section class="partner-modal">
       <header class="partner-modal-header">
-        <h3>{{ isEditing ? "Modifier le lieu" : "Ajouter un lieu" }}</h3>
+        <h3>
+          {{
+            isEditing
+              ? $t("partner.locationForm.editTitle")
+              : $t("partner.locationForm.addTitle")
+          }}
+        </h3>
 
         <button type="button" class="partner-modal-close" @click="cancelEdit">
           ×
@@ -11,67 +17,70 @@
 
       <form class="partner-location-form" @submit.prevent="submitForm">
         <label>
-          Nom du lieu
+          {{ $t("partner.locationForm.name") }}
           <input v-model="form.name" type="text" required />
         </label>
 
         <label>
-          Rue
+          {{ $t("partner.locationForm.street") }}
           <input v-model="form.street" type="text" required />
         </label>
 
         <label>
-          Numéro
+          {{ $t("partner.locationForm.houseNumber") }}
           <input v-model="form.houseNumber" type="text" required />
         </label>
 
         <label>
-          Boîte
+          {{ $t("partner.locationForm.box") }}
           <input v-model="form.box" type="text" />
         </label>
 
         <label>
-          Code postal
+          {{ $t("partner.locationForm.postalCode") }}
           <input v-model="form.postalCode" type="text" required />
         </label>
 
         <label>
-          Ville
+          {{ $t("partner.locationForm.city") }}
           <input v-model="form.city" type="text" required />
         </label>
 
         <label>
-          Pays
+          {{ $t("partner.locationForm.country") }}
           <input v-model="form.country" type="text" required />
         </label>
 
         <p class="partner-location-form-hint">
-          Coordonnées GPS (facultatif) — dans Google Maps, clic droit sur le
-          lieu : les coordonnées se copient automatiquement.
+          {{ $t("partner.locationForm.gpsHint") }}
         </p>
 
         <label>
-          Latitude
+          {{ $t("partner.locationForm.latitude") }}
           <input v-model="form.latitude" type="text" />
         </label>
 
         <label>
-          Longitude
+          {{ $t("partner.locationForm.longitude") }}
           <input v-model="form.longitude" type="text" />
         </label>
 
         <label>
-          Informations d’accès
+          {{ $t("partner.locationForm.accessInformation") }}
           <textarea v-model="form.accessInformation" rows="3"></textarea>
         </label>
 
         <div class="partner-location-form-actions">
           <button type="submit" :disabled="saving">
-            {{ saving ? "Enregistrement..." : "Enregistrer" }}
+            {{
+              saving
+                ? $t("partner.locationForm.saving")
+                : $t("partner.locationForm.save")
+            }}
           </button>
 
           <button type="button" @click="cancelEdit">
-            Annuler
+            {{ $t("partner.locationForm.cancel") }}
           </button>
         </div>
       </form>

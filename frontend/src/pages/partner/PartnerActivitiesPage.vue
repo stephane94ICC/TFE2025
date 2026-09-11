@@ -2,8 +2,8 @@
   <div class="partner-activities-page">
     <header class="partner-activities-header">
       <div>
-        <h1>Mes activités</h1>
-        <p>Consultez vos activités et leur état de validation.</p>
+        <h1>{{ $t("partner.activities.title") }}</h1>
+        <p>{{ $t("partner.activities.subtitle") }}</p>
       </div>
 
       <button
@@ -11,7 +11,7 @@
         class="partner-activity-add-link"
         @click="openCreateForm"
       >
-        Ajouter une activité
+        {{ $t("partner.activities.add") }}
       </button>
     </header>
 
@@ -20,18 +20,18 @@
     </p>
 
     <p v-if="loading">
-      Chargement des activités...
+      {{ $t("partner.activities.loading") }}
     </p>
 
     <section v-else class="partner-activities-card">
       <table>
         <thead>
           <tr>
-            <th>Titre</th>
-            <th>Prix</th>
-            <th>Durée</th>
-            <th>Statut</th>
-            <th>Actions</th>
+            <th>{{ $t("partner.activities.activityTitle") }}</th>
+            <th>{{ $t("partner.activities.price") }}</th>
+            <th>{{ $t("partner.activities.duration") }}</th>
+            <th>{{ $t("partner.activities.status") }}</th>
+            <th>{{ $t("partner.activities.actions") }}</th>
           </tr>
         </thead>
 
@@ -58,7 +58,7 @@
                 class="partner-activity-edit-link"
                 @click="openEditForm(activity)"
               >
-                Modifier
+                {{ $t("partner.activities.edit") }}
               </button>
 
               <button
@@ -66,7 +66,7 @@
                 class="partner-activity-images-link"
                 @click="openImagesModal(activity)"
               >
-                Gérer les images
+                {{ $t("partner.activities.manageImages") }}
               </button>
 
               <button
@@ -74,7 +74,7 @@
                 class="partner-activity-sessions-link"
                 @click="openSessionsModal(activity)"
               >
-                Gérer les créneaux
+                {{ $t("partner.activities.manageSessions") }}
               </button>
 
               <button
@@ -83,14 +83,14 @@
                 class="partner-activity-rejection-link"
                 @click="openRejectionModal(activity)"
               >
-                Raison du refus
+                {{ $t("partner.activities.rejectionReason") }}
               </button>
             </td>
           </tr>
 
           <tr v-if="activities.length === 0">
             <td colspan="5" class="partner-activities-empty">
-              Aucune activité trouvée.
+              {{ $t("partner.activities.empty") }}
             </td>
           </tr>
         </tbody>
@@ -172,7 +172,7 @@ export default {
         this.activities = response.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger les activités.";
+        this.errorMessage = this.$t("partner.activities.loadError");
       } finally {
         this.loading = false;
       }
@@ -238,10 +238,10 @@ export default {
 
     statusLabel(status) {
       const labels = {
-        PENDING_REVIEW: "En attente de validation",
-        APPROVED: "Approuvée",
-        REJECTED: "Refusée",
-        DISABLED: "Désactivée"
+        PENDING_REVIEW: this.$t("partner.activities.statuses.PENDING_REVIEW"),
+        APPROVED: this.$t("partner.activities.statuses.APPROVED"),
+        REJECTED: this.$t("partner.activities.statuses.REJECTED"),
+        DISABLED: this.$t("partner.activities.statuses.DISABLED")
       };
 
       return labels[status] || status;

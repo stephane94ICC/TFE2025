@@ -6,7 +6,9 @@
   >
     <section class="partner-sessions-modal">
       <header class="partner-sessions-modal-header">
-        <h3>Créneaux — {{ activity ? activity.title : "" }}</h3>
+        <h3>
+          {{ $t("partner.activitySessions.title") }} — {{ activity ? activity.title : "" }}
+        </h3>
 
         <button
           type="button"
@@ -17,7 +19,7 @@
         </button>
       </header>
 
-      <p v-if="loading">Chargement...</p>
+      <p v-if="loading">{{ $t("partner.activitySessions.loading") }}</p>
 
       <template v-else>
         <p v-if="errorMessage" class="form-error">
@@ -29,18 +31,20 @@
         </p>
 
         <form class="partner-session-form" @submit.prevent="submitSession">
-          <h4>Ajouter un créneau</h4>
+          <h4>{{ $t("partner.activitySessions.addTitle") }}</h4>
 
           <p v-if="locations.length === 0" class="partner-session-no-location">
-            Vous devez d’abord enregistrer un lieu dans « Mes lieux ».
+            {{ $t("partner.activitySessions.noLocation") }}
           </p>
 
           <template v-else>
             <div class="partner-session-form-grid">
               <label>
-                Lieu
+                {{ $t("partner.activitySessions.location") }}
                 <select v-model="form.locationId" required>
-                  <option value="">-- Choisir un lieu --</option>
+                  <option value="">
+                    {{ $t("partner.activitySessions.chooseLocation") }}
+                  </option>
                   <option
                     v-for="location in locations"
                     :key="location.id"
@@ -52,34 +56,46 @@
               </label>
 
               <label>
-                Capacité
+                {{ $t("partner.activitySessions.capacity") }}
                 <input v-model="form.capacity" type="number" min="1" required />
               </label>
 
               <label>
-                Début
+                {{ $t("partner.activitySessions.start") }}
                 <input v-model="form.startAt" type="datetime-local" required />
               </label>
 
               <label>
-                Fin
+                {{ $t("partner.activitySessions.end") }}
                 <input v-model="form.endAt" type="datetime-local" required />
               </label>
 
               <label>
-                Clôture des réservations
+                {{ $t("partner.activitySessions.bookingDeadline") }}
                 <select v-model="form.deadlineOffsetHours" required>
-                  <option value="2">2 heures avant le début</option>
-                  <option value="24">24 heures avant le début</option>
-                  <option value="48">48 heures avant le début</option>
-                  <option value="168">1 semaine avant le début</option>
+                  <option value="2">
+                    {{ $t("partner.activitySessions.deadline2Hours") }}
+                  </option>
+                  <option value="24">
+                    {{ $t("partner.activitySessions.deadline24Hours") }}
+                  </option>
+                  <option value="48">
+                    {{ $t("partner.activitySessions.deadline48Hours") }}
+                  </option>
+                  <option value="168">
+                    {{ $t("partner.activitySessions.deadline1Week") }}
+                  </option>
                 </select>
               </label>
             </div>
 
             <div class="partner-session-form-actions">
               <button type="submit" :disabled="saving">
-                {{ saving ? "Enregistrement..." : "Ajouter le créneau" }}
+                {{
+                  saving
+                    ? $t("partner.activitySessions.saving")
+                    : $t("partner.activitySessions.add")
+                }}
               </button>
             </div>
           </template>
@@ -88,12 +104,12 @@
         <table class="partner-sessions-table">
           <thead>
             <tr>
-              <th>Début</th>
-              <th>Fin</th>
-              <th>Lieu</th>
-              <th>Places</th>
-              <th>Clôture</th>
-              <th>Statut</th>
+              <th>{{ $t("partner.activitySessions.start") }}</th>
+              <th>{{ $t("partner.activitySessions.end") }}</th>
+              <th>{{ $t("partner.activitySessions.location") }}</th>
+              <th>{{ $t("partner.activitySessions.seats") }}</th>
+              <th>{{ $t("partner.activitySessions.deadline") }}</th>
+              <th>{{ $t("partner.activitySessions.status") }}</th>
             </tr>
           </thead>
 
@@ -125,7 +141,7 @@
 
             <tr v-if="sessions.length === 0">
               <td colspan="6" class="partner-sessions-empty">
-                Aucun créneau pour cette activité.
+                {{ $t("partner.activitySessions.empty") }}
               </td>
             </tr>
           </tbody>
@@ -209,7 +225,7 @@ export default {
         this.locations = locationsResponse.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger les créneaux.";
+        this.errorMessage = this.$t("partner.activitySessions.loadError");
       } finally {
         this.loading = false;
       }
@@ -220,7 +236,7 @@ export default {
       const end = new Date(this.form.endAt);
 
       if (end <= start) {
-        this.errorMessage = "La date de fin doit être après la date de début.";
+        this.errorMessage = this.$t("partner.activitySessions.endBeforeStart");
         this.successMessage = "";
         return;
       }
@@ -242,13 +258,14 @@ export default {
           bookingDeadline: this.toLocalIsoString(deadline)
         });
 
-        this.successMessage = "Créneau ajouté avec succès.";
+        this.successMessage = this.$t("partner.activitySessions.addSuccess");
         this.form = createEmptyForm();
         await this.loadData();
       } catch (error) {
         console.error(error);
         this.errorMessage =
-          error.response?.data?.message || "Impossible d’ajouter le créneau.";
+          error.response?.data?.message ||
+          this.$t("partner.activitySessions.addError");
       } finally {
         this.saving = false;
       }
@@ -297,9 +314,9 @@ export default {
 
     statusLabel(status) {
       const labels = {
-        SCHEDULED: "Programmé",
-        CANCELLED: "Annulé",
-        COMPLETED: "Terminé"
+        SCHEDULED: this.$t("partner.activitySessions.statuses.SCHEDULED"),
+        CANCELLED: this.$t("partner.activitySessions.statuses.CANCELLED"),
+        COMPLETED: this.$t("partner.activitySessions.statuses.COMPLETED")
       };
 
       return labels[status] || status;

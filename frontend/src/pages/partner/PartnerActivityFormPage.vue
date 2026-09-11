@@ -6,7 +6,13 @@
   >
     <section class="partner-activity-modal">
       <header class="partner-activity-modal-header">
-        <h3>{{ isEditMode ? "Modifier une activité" : "Ajouter une activité" }}</h3>
+        <h3>
+          {{
+            isEditMode
+              ? $t("partner.activityForm.editTitle")
+              : $t("partner.activityForm.addTitle")
+          }}
+        </h3>
 
         <button type="button" class="partner-activity-modal-close" @click="closeForm">
           ×
@@ -14,8 +20,7 @@
       </header>
 
       <p class="partner-activity-form-note">
-        Après l’enregistrement, l’activité devra être validée par l’administrateur
-        avant d’être visible publiquement.
+        {{ $t("partner.activityForm.note") }}
       </p>
 
       <p v-if="errorMessage" class="partner-activity-form-error">
@@ -24,42 +29,46 @@
 
       <form @submit.prevent="saveActivity">
         <label>
-          Titre
+          {{ $t("partner.activityForm.title") }}
           <input v-model="form.title" type="text" required />
         </label>
 
         <label>
-          Description
+          {{ $t("partner.activityForm.description") }}
           <textarea v-model="form.description" rows="5"></textarea>
         </label>
 
         <label>
-          Prix (€)
+          {{ $t("partner.activityForm.price") }}
           <input v-model.number="form.price" type="number" min="0" step="0.01" required />
         </label>
 
         <label>
-          Durée (minutes)
+          {{ $t("partner.activityForm.duration") }}
           <input v-model.number="form.durationMinutes" type="number" min="1" required />
         </label>
 
         <label>
-          Âge minimum
+          {{ $t("partner.activityForm.minimumAge") }}
           <input v-model.number="form.minimumAge" type="number" min="0" required />
         </label>
 
         <label>
-          Informations sur l’équipement
+          {{ $t("partner.activityForm.equipmentInformation") }}
           <textarea v-model="form.equipmentInformation" rows="3"></textarea>
         </label>
 
         <div class="partner-activity-form-actions">
           <button type="submit" :disabled="saving">
-            {{ saving ? "Enregistrement..." : "Enregistrer" }}
+            {{
+              saving
+                ? $t("partner.activityForm.saving")
+                : $t("partner.activityForm.save")
+            }}
           </button>
 
           <button type="button" class="partner-activity-form-cancel" @click="closeForm">
-            Annuler
+            {{ $t("partner.activityForm.cancel") }}
           </button>
         </div>
       </form>
@@ -150,7 +159,7 @@ export default {
         this.$emit("saved");
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible d’enregistrer l’activité.";
+        this.errorMessage = this.$t("partner.activityForm.saveError");
       } finally {
         this.saving = false;
       }

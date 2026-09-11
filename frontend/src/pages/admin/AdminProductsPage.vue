@@ -1,9 +1,9 @@
 <template>
   <div class="admin-products-page">
     <section class="admin-products-header">
-      <h1>Gestion des produits</h1>
+      <h1>{{ $t("admin.products.title") }}</h1>
       <p>
-        Cette page permet à l’administrateur de consulter les produits de la boutique.
+        {{ $t("admin.products.description") }}
       </p>
     </section>
 
@@ -16,18 +16,18 @@
     </div>
 
     <p v-if="loading" class="admin-products-loading">
-      Chargement des produits...
+      {{ $t("admin.products.loading") }}
     </p>
 
     <section v-else class="admin-products-card">
       <div class="admin-products-card-header">
         <div>
-          <h2>Liste des produits</h2>
-          <span>{{ products.length }} produit(s)</span>
+          <h2>{{ $t("admin.products.listTitle") }}</h2>
+          <span>{{ $t("admin.products.productCount", { count: products.length }) }}</span>
         </div>
 
         <router-link to="/admin/products/new" class="admin-add-button">
-          Ajouter un produit
+          {{ $t("admin.products.add") }}
         </router-link>
       </div>
 
@@ -35,12 +35,12 @@
         <table class="admin-products-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nom</th>
-              <th>Prix</th>
-              <th>Stock</th>
-              <th>Actif</th>
-              <th>Actions</th>
+              <th>{{ $t("admin.products.id") }}</th>
+              <th>{{ $t("admin.products.name") }}</th>
+              <th>{{ $t("admin.products.price") }}</th>
+              <th>{{ $t("admin.products.stock") }}</th>
+              <th>{{ $t("admin.products.active") }}</th>
+              <th>{{ $t("admin.products.actions") }}</th>
             </tr>
           </thead>
 
@@ -55,7 +55,7 @@
                   class="status-badge"
                   :class="product.active ? 'status-active' : 'status-inactive'"
                 >
-                  {{ product.active ? "Oui" : "Non" }}
+                  {{ product.active ? $t("admin.products.yes") : $t("admin.products.no") }}
                 </span>
               </td>
 
@@ -65,14 +65,14 @@
                     :to="`/admin/products/edit/${product.id}`"
                     class="admin-action-button"
                   >
-                    Modifier
+                    {{ $t("admin.products.edit") }}
                   </router-link>
 
                   <router-link
                     :to="`/admin/products/${product.id}/images`"
                     class="admin-action-button"
                   >
-                    Gérer les images
+                    {{ $t("admin.products.manageImages") }}
                   </router-link>
 
                   <button
@@ -80,7 +80,7 @@
                     :disabled="deletingId === product.id"
                     @click="deleteSelectedProduct(product)"
                   >
-                    {{ deletingId === product.id ? "Suppression..." : "Supprimer" }}
+                    {{ deletingId === product.id ? $t("admin.products.deleting") : $t("admin.products.delete") }}
                   </button>
                 </div>
               </td>
@@ -90,7 +90,7 @@
       </div>
 
       <p v-else class="admin-products-empty">
-        Aucun produit trouvé.
+        {{ $t("admin.products.empty") }}
       </p>
     </section>
   </div>
@@ -129,7 +129,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = "Impossible de charger les produits.";
+          this.errorMessage = this.$t("admin.products.loadError");
         })
         .finally(() => {
           this.loading = false;
@@ -138,7 +138,7 @@ export default {
 
     deleteSelectedProduct(product) {
       const confirmed = confirm(
-        `Voulez-vous vraiment supprimer le produit "${product.name}" ?`
+        this.$t("admin.products.confirmDelete", { name: product.name })
       );
 
       if (!confirmed) {
@@ -151,12 +151,12 @@ export default {
 
       deleteProduct(product.id)
         .then(() => {
-          this.successMessage = "Produit supprimé avec succès.";
+          this.successMessage = this.$t("admin.products.deleteSuccess");
           this.products = this.products.filter(item => item.id !== product.id);
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = "Impossible de supprimer le produit.";
+          this.errorMessage = this.$t("admin.products.deleteError");
         })
         .finally(() => {
           this.deletingId = null;

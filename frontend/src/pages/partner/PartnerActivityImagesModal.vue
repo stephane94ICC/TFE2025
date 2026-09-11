@@ -6,14 +6,18 @@
   >
     <section class="partner-images-modal">
       <header class="partner-images-modal-header">
-        <h3>Images — {{ activity ? activity.title : "" }}</h3>
+        <h3>
+          {{ $t("partner.activityImages.title") }} — {{ activity ? activity.title : "" }}
+        </h3>
 
         <button type="button" class="partner-images-modal-close" @click="closeModal">
           ×
         </button>
       </header>
 
-      <p v-if="loading">Chargement...</p>
+      <p v-if="loading">
+        {{ $t("partner.activityImages.loading") }}
+      </p>
 
       <template v-else>
         <p v-if="errorMessage" class="form-error">
@@ -36,16 +40,20 @@
             :disabled="!selectedFile || uploading"
             @click="uploadImage"
           >
-            {{ uploading ? "Envoi..." : "Ajouter une image" }}
+            {{
+              uploading
+                ? $t("partner.activityImages.uploading")
+                : $t("partner.activityImages.addImage")
+            }}
           </button>
         </div>
 
         <div class="images-grid">
           <div v-for="image in images" :key="image.id" class="image-card">
-            <img :src="image.url" alt="Image de l’activité" />
+            <img :src="image.url" :alt="$t('partner.activityImages.imageAlt')" />
 
             <span v-if="isDefaultImage(image.url)">
-              Image par défaut
+              {{ $t("partner.activityImages.defaultImage") }}
             </span>
 
             <button
@@ -54,12 +62,16 @@
               :disabled="deletingId === image.id"
               @click="removeImage(image)"
             >
-              {{ deletingId === image.id ? "Suppression..." : "Supprimer" }}
+              {{
+                deletingId === image.id
+                  ? $t("partner.activityImages.deleting")
+                  : $t("partner.activityImages.delete")
+              }}
             </button>
           </div>
 
           <p v-if="images.length === 0" class="partner-images-empty">
-            Aucune image pour cette activité.
+            {{ $t("partner.activityImages.empty") }}
           </p>
         </div>
       </template>
@@ -118,7 +130,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = "Impossible de charger les images.";
+          this.errorMessage = this.$t("partner.activityImages.loadError");
         })
         .finally(() => {
           this.loading = false;
@@ -140,14 +152,14 @@ export default {
 
       uploadPartnerActivityImage(this.activity.id, this.selectedFile)
         .then(() => {
-          this.successMessage = "Image ajoutée avec succès.";
+          this.successMessage = this.$t("partner.activityImages.addSuccess");
           this.selectedFile = null;
           this.loadImages();
         })
         .catch(error => {
           console.error(error);
           this.errorMessage = error.response?.data?.error
-            || "Impossible d’ajouter l’image.";
+            || this.$t("partner.activityImages.addError");
         })
         .finally(() => {
           this.uploading = false;
@@ -162,12 +174,12 @@ export default {
       deletePartnerActivityImage(this.activity.id, image.id)
         .then(() => {
           this.images = this.images.filter(item => item.id !== image.id);
-          this.successMessage = "Image supprimée avec succès.";
+          this.successMessage = this.$t("partner.activityImages.deleteSuccess");
         })
         .catch(error => {
           console.error(error);
           this.errorMessage = error.response?.data?.error
-            || "Impossible de supprimer l’image.";
+            || this.$t("partner.activityImages.deleteError");
         })
         .finally(() => {
           this.deletingId = null;

@@ -1,53 +1,53 @@
 <template>
   <div class="register-page">
     <div class="register-card">
-      <h1>Inscription</h1>
+      <h1>{{ $t("auth.register.title") }}</h1>
 
       <p class="subtitle">
-        Créez votre compte pour accéder à la plateforme.
+        {{ $t("auth.register.subtitle") }}
       </p>
 
       <form @submit.prevent="handleRegister">
         <div class="form-group">
-          <label for="firstName">Prénom</label>
+          <label for="firstName">{{ $t("auth.register.firstName") }}</label>
           <input
               id="firstName"
               v-model="form.firstName"
               type="text"
-              placeholder="Entrez votre prénom"
+              :placeholder="$t('auth.register.firstNamePlaceholder')"
               required
           />
         </div>
 
         <div class="form-group">
-          <label for="lastName">Nom</label>
+          <label for="lastName">{{ $t("auth.register.lastName") }}</label>
           <input
               id="lastName"
               v-model="form.lastName"
               type="text"
-              placeholder="Entrez votre nom"
+              :placeholder="$t('auth.register.lastNamePlaceholder')"
               required
           />
         </div>
 
         <div class="form-group">
-          <label for="email">Adresse e-mail</label>
+          <label for="email">{{ $t("auth.register.email") }}</label>
           <input
               id="email"
               v-model="form.email"
               type="email"
-              placeholder="exemple@email.com"
+              :placeholder="$t('auth.register.emailPlaceholder')"
               required
           />
         </div>
 
         <div class="form-group">
-          <label for="password">Mot de passe</label>
+          <label for="password">{{ $t("auth.register.password") }}</label>
           <input
               id="password"
               v-model="form.password"
               type="password"
-              placeholder="Entrez un mot de passe"
+              :placeholder="$t('auth.register.passwordPlaceholder')"
               required
           />
         </div>
@@ -61,13 +61,15 @@
           />
 
           <label for="consentRgpd">
-            J’accepte le
-            <router-link to="/politique-confidentialite" target="_blank" rel="noopener">traitement de mes données personnelles</router-link>.
+            {{ $t("auth.register.consentPrefix") }}
+            <router-link to="/politique-confidentialite" target="_blank" rel="noopener">
+              {{ $t("auth.register.consentLink") }}
+            </router-link>.
           </label>
         </div>
 
         <button type="submit" class="register-button">
-          S'inscrire
+          {{ $t("auth.register.submit") }}
         </button>
       </form>
 
@@ -80,8 +82,8 @@
       </p>
 
       <p class="login-link">
-        Vous avez déjà un compte ?
-        <RouterLink to="/login">Se connecter</RouterLink>
+        {{ $t("auth.register.alreadyAccount") }}
+        <RouterLink to="/login">{{ $t("auth.register.login") }}</RouterLink>
       </p>
     </div>
   </div>
@@ -114,7 +116,7 @@ export default {
       this.successMessage = "";
 
       if (!this.form.consentRgpd) {
-        this.errorMessage = "Vous devez accepter le traitement de vos données personnelles.";
+        this.errorMessage = this.$t("auth.register.consentRequired");
         return;
       }
 
@@ -132,7 +134,7 @@ export default {
           })
           .catch(error => {
             console.error(error);
-            this.errorMessage = error.message || "Impossible de créer le compte.";
+            this.errorMessage = error.message || this.$t("auth.register.error");
           });
     }
   }

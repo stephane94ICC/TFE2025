@@ -2,8 +2,8 @@
   <div class="shop-page">
     <div class="page-header">
       <div>
-        <h1>Boutique</h1>
-        <p>Découvrez les produits disponibles pour vos activités de loisirs.</p>
+        <h1>{{ $t("public.shop.title") }}</h1>
+        <p>{{ $t("public.shop.subtitle") }}</p>
       </div>
     </div>
 
@@ -11,7 +11,9 @@
       {{ errorMessage }}
     </div>
 
-    <p v-if="loading">Chargement des produits...</p>
+    <p v-if="loading">
+      {{ $t("public.shop.loading") }}
+    </p>
 
     <div v-else-if="products.length" class="product-grid">
       <div v-for="product in products" :key="product.id" class="product-card">
@@ -33,17 +35,21 @@
 
           <div class="product-info">
             <span>{{ product.price }} €</span>
-            <span>Stock : {{ product.stockQuantity }}</span>
+            <span>
+              {{ $t("public.shop.stock") }} : {{ product.stockQuantity }}
+            </span>
           </div>
 
           <router-link :to="`/products/${product.id}`" class="btn btn-primary">
-            Voir le détail
+            {{ $t("public.shop.details") }}
           </router-link>
         </div>
       </div>
     </div>
 
-    <p v-else>Aucun produit disponible.</p>
+    <p v-else>
+      {{ $t("public.shop.empty") }}
+    </p>
   </div>
 </template>
 
@@ -76,7 +82,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Impossible de charger les produits.";
+            this.errorMessage = this.$t("public.shop.loadError");
           })
           .finally(() => {
             this.loading = false;

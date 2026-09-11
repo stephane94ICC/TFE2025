@@ -2,56 +2,56 @@
   <section class="partner-company">
     <header class="partner-company-header">
       <div>
-        <h2>Informations générales</h2>
-        <p>Coordonnées professionnelles et informations officielles.</p>
+        <h2>{{ $t("partner.companyForm.title") }}</h2>
+        <p>{{ $t("partner.companyForm.subtitle") }}</p>
       </div>
 
       <button type="button" @click="openModal">
-        Modifier
+        {{ $t("partner.companyForm.edit") }}
       </button>
     </header>
 
     <div class="partner-company-grid">
       <div>
-        <strong>Nom</strong>
+        <strong>{{ $t("partner.companyForm.name") }}</strong>
         <p>{{ partner.name }}</p>
       </div>
 
       <div>
-        <strong>Téléphone</strong>
-        <p>{{ partner.phone || "Non renseigné" }}</p>
+        <strong>{{ $t("partner.companyForm.phone") }}</strong>
+        <p>{{ partner.phone || $t("partner.companyForm.notProvided") }}</p>
       </div>
 
       <div>
-        <strong>Email professionnel</strong>
-        <p>{{ partner.email || "Non renseigné" }}</p>
+        <strong>{{ $t("partner.companyForm.email") }}</strong>
+        <p>{{ partner.email || $t("partner.companyForm.notProvided") }}</p>
       </div>
 
       <div>
-        <strong>Site web</strong>
-        <p>{{ partner.website || "Non renseigné" }}</p>
+        <strong>{{ $t("partner.companyForm.website") }}</strong>
+        <p>{{ partner.website || $t("partner.companyForm.notProvided") }}</p>
       </div>
 
       <div>
-        <strong>Numéro d’entreprise</strong>
+        <strong>{{ $t("partner.companyForm.enterpriseNumber") }}</strong>
         <p>{{ partner.enterpriseNumber }}</p>
       </div>
 
       <div>
-        <strong>Numéro de TVA</strong>
+        <strong>{{ $t("partner.companyForm.vatNumber") }}</strong>
         <p>{{ partner.vatNumber }}</p>
       </div>
     </div>
 
     <div v-if="partner.description" class="partner-company-description">
-      <strong>Description</strong>
+      <strong>{{ $t("partner.companyForm.description") }}</strong>
       <p>{{ partner.description }}</p>
     </div>
 
     <div v-if="showModal" class="partner-modal-overlay" @click.self="closeModal">
       <section class="partner-modal">
         <header class="partner-modal-header">
-          <h3>Modifier les informations</h3>
+          <h3>{{ $t("partner.companyForm.editTitle") }}</h3>
 
           <button type="button" class="partner-modal-close" @click="closeModal">
             ×
@@ -60,41 +60,45 @@
 
         <form class="partner-form" @submit.prevent="submitForm">
           <label>
-            Nom de l’entreprise
+            {{ $t("partner.companyForm.companyName") }}
             <input v-model="form.name" type="text" required />
           </label>
 
           <label>
-            Description
+            {{ $t("partner.companyForm.description") }}
             <textarea v-model="form.description" rows="4"></textarea>
           </label>
 
           <label>
-            Téléphone
+            {{ $t("partner.companyForm.phone") }}
             <input v-model="form.phone" type="text" />
           </label>
 
           <label>
-            Email professionnel
+            {{ $t("partner.companyForm.email") }}
             <input v-model="form.email" type="email" />
           </label>
 
           <label>
-            Site web
+            {{ $t("partner.companyForm.website") }}
             <input v-model="form.website" type="text" />
           </label>
 
           <p class="partner-readonly-help">
-            Le numéro d’entreprise et le numéro de TVA ne peuvent pas être modifiés ici.
+            {{ $t("partner.companyForm.readonlyHelp") }}
           </p>
 
           <div class="partner-form-actions">
             <button type="submit" :disabled="saving">
-              {{ saving ? "Enregistrement..." : "Enregistrer" }}
+              {{
+                saving
+                  ? $t("partner.companyForm.saving")
+                  : $t("partner.companyForm.save")
+              }}
             </button>
 
             <button type="button" @click="closeModal">
-              Annuler
+              {{ $t("partner.companyForm.cancel") }}
             </button>
           </div>
         </form>

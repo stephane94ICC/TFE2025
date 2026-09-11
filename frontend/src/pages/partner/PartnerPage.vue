@@ -1,18 +1,18 @@
 <template>
   <div class="partner-page">
     <header class="partner-page-header">
-      <h1>Mon entreprise</h1>
-      <p>Gérez les informations professionnelles de votre entreprise.</p>
+      <h1>{{ $t("partner.page.title") }}</h1>
+      <p>{{ $t("partner.page.subtitle") }}</p>
     </header>
 
     <p v-if="successMessage" class="partner-success">{{ successMessage }}</p>
     <p v-if="errorMessage" class="partner-error">{{ errorMessage }}</p>
 
-    <p v-if="loading">Chargement...</p>
+    <p v-if="loading">{{ $t("partner.page.loading") }}</p>
 
     <template v-else-if="partner">
       <section class="partner-section-card">
-        <h2>Logo de l’entreprise</h2>
+        <h2>{{ $t("partner.page.logoTitle") }}</h2>
 
         <PartnerLogoForm
           :logo-url="logoUrl"
@@ -50,7 +50,7 @@
     </template>
 
     <p v-else class="partner-error">
-      Impossible de charger les informations de l’entreprise.
+      {{ $t("partner.page.companyLoadError") }}
     </p>
   </div>
 </template>
@@ -118,7 +118,7 @@ export default {
         this.partner = response.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger les informations.";
+        this.errorMessage = this.$t("partner.page.loadError");
       } finally {
         this.loading = false;
       }
@@ -131,7 +131,7 @@ export default {
         this.addresses = response.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger les adresses.";
+        this.errorMessage = this.$t("partner.page.addressesLoadError");
       } finally {
         this.loadingAddresses = false;
       }
@@ -144,10 +144,10 @@ export default {
 
         const response = await updatePartnerProfile(form);
         this.partner = response.data;
-        this.successMessage = "Informations modifiées avec succès.";
+        this.successMessage = this.$t("partner.page.profileUpdateSuccess");
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de modifier les informations.";
+        this.errorMessage = this.$t("partner.page.profileUpdateError");
       } finally {
         this.savingProfile = false;
       }
@@ -160,10 +160,10 @@ export default {
 
         const response = await uploadPartnerLogo(file);
         this.partner = response.data;
-        this.successMessage = "Logo modifié avec succès.";
+        this.successMessage = this.$t("partner.page.logoUpdateSuccess");
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de modifier le logo.";
+        this.errorMessage = this.$t("partner.page.logoUpdateError");
       } finally {
         this.uploading = false;
       }
@@ -191,35 +191,35 @@ export default {
 
         if (this.addressToEdit) {
           await updatePartnerAddress(this.addressToEdit.id, form);
-          this.successMessage = "Adresse modifiée avec succès.";
+          this.successMessage = this.$t("partner.page.addressUpdateSuccess");
         } else {
           await addPartnerAddress(form);
-          this.successMessage = "Adresse ajoutée avec succès.";
+          this.successMessage = this.$t("partner.page.addressAddSuccess");
         }
 
         this.closeAddressModal();
         await this.loadAddresses();
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible d’enregistrer l’adresse.";
+        this.errorMessage = this.$t("partner.page.addressSaveError");
       } finally {
         this.savingAddress = false;
       }
     },
 
     async removeAddress(addressId) {
-      if (!window.confirm("Supprimer cette adresse ?")) return;
+      if (!window.confirm(this.$t("partner.page.confirmAddressDelete"))) return;
 
       try {
         this.deletingAddressId = addressId;
         this.errorMessage = "";
 
         await deletePartnerAddress(addressId);
-        this.successMessage = "Adresse supprimée avec succès.";
+        this.successMessage = this.$t("partner.page.addressDeleteSuccess");
         await this.loadAddresses();
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de supprimer l’adresse.";
+        this.errorMessage = this.$t("partner.page.addressDeleteError");
       } finally {
         this.deletingAddressId = null;
       }

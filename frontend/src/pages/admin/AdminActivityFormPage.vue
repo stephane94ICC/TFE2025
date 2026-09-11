@@ -1,7 +1,7 @@
 <template>
   <div class="admin-activity-form-page">
     <div class="form-card">
-      <h1>{{ isEditMode ? "Modifier une activité" : "Ajouter une activité" }}</h1>
+      <h1>{{ isEditMode ? $t("admin.activityForm.editTitle") : $t("admin.activityForm.addTitle") }}</h1>
 
       <div v-if="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -9,7 +9,7 @@
 
       <form @submit.prevent="saveActivity">
         <div class="form-group">
-          <label for="title">Titre</label>
+          <label for="title">{{ $t("admin.activityForm.title") }}</label>
           <input
             id="title"
             v-model="form.title"
@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-group">
-          <label for="description">Description</label>
+          <label for="description">{{ $t("admin.activityForm.description") }}</label>
           <textarea
             id="description"
             v-model="form.description"
@@ -28,7 +28,7 @@
         </div>
 
         <div class="form-group">
-          <label for="price">Prix</label>
+          <label for="price">{{ $t("admin.activityForm.price") }}</label>
           <input
             id="price"
             v-model.number="form.price"
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-          <label for="city">Ville</label>
+          <label for="city">{{ $t("admin.activityForm.city") }}</label>
           <input
             id="city"
             v-model="form.city"
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-          <label for="partnerId">ID partenaire</label>
+          <label for="partnerId">{{ $t("admin.activityForm.partnerId") }}</label>
           <input
             id="partnerId"
             v-model.number="form.partnerId"
@@ -60,11 +60,11 @@
 
         <div class="form-actions">
           <router-link to="/admin/activities" class="btn-cancel">
-            Annuler
+            {{ $t("admin.activityForm.cancel") }}
           </router-link>
 
           <button type="submit" class="btn-save">
-            Enregistrer
+            {{ $t("admin.activityForm.save") }}
           </button>
         </div>
       </form>
@@ -120,7 +120,7 @@ export default {
         };
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger l’activité.";
+        this.errorMessage = this.$t("admin.activityForm.loadError");
       }
     },
 
@@ -137,7 +137,7 @@ export default {
         this.$router.push("/admin/activities");
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible d’enregistrer l’activité.";
+        this.errorMessage = this.$t("admin.activityForm.saveError");
       }
     }
   }

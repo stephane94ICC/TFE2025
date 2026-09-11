@@ -2,60 +2,188 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <router-link to="/" class="brand-link">
-        Plateforme Loisirs
+        {{ $t("navbar.brand") }}
       </router-link>
     </div>
 
-    <div class="navbar-links">
-      <router-link to="/" class="nav-link">Accueil</router-link>
-      <router-link to="/activities" class="nav-link">Activités</router-link>
-      <router-link to="/shop" class="nav-link">Boutique</router-link>
+    <div class="navbar-right">
+      <div class="navbar-links">
+        <router-link to="/" class="nav-link">
+          {{ $t("navbar.home") }}
+        </router-link>
 
-      <router-link v-if="isAdmin" to="/admin" class="nav-link">
-        Admin
-      </router-link>
+        <router-link to="/activities" class="nav-link">
+          {{ $t("navbar.activities") }}
+        </router-link>
 
-      <router-link v-if="isLoggedIn" to="/profile" class="nav-link">
-        Profil
-      </router-link>
+        <router-link to="/shop" class="nav-link">
+          {{ $t("navbar.shop") }}
+        </router-link>
 
-      <router-link v-if="isLoggedIn" to="/cart" class="nav-link">
-        Panier
-      </router-link>
-      <router-link v-if="isLoggedIn" to="/reservations" class="nav-link">
-        Mes réservations
-      </router-link>
-      <router-link v-if="isPartner" to="/partner" class="nav-link">
-        Espace partenaire
-      </router-link>
+        <router-link
+            v-if="isLoggedIn"
+            to="/cart"
+            class="nav-link"
+        >
+          {{ $t("navbar.cart") }}
+        </router-link>
 
-      <router-link  v-if="isPartner"  to="/partner/activities"  class="nav-link">
-        Mes activités
-      </router-link>
-      <router-link v-if="isPartner" to="/partner/locations" class="nav-link">
-        Mes lieux
-      </router-link>
-      <router-link v-if="isAdmin" to="/admin/activities" class="nav-link">
-        activités
-      </router-link>
+        <router-link
+            v-if="isLoggedIn"
+            to="/reservations"
+            class="nav-link"
+        >
+          {{ $t("navbar.reservations") }}
+        </router-link>
 
-      <router-link v-if="!isLoggedIn" to="/login" class="nav-link login-link">
-        Connexion
-      </router-link>
+        <router-link
+            v-if="isPartner"
+            to="/partner"
+            class="nav-link"
+        >
+          {{ $t("navbar.partnerSpace") }}
+        </router-link>
 
-      <router-link v-if="!isLoggedIn" to="/register" class="nav-link register-link">
-        Inscription
-      </router-link>
+        <router-link
+            v-if="isPartner"
+            to="/partner/activities"
+            class="nav-link"
+        >
+          {{ $t("navbar.myActivities") }}
+        </router-link>
 
-      <button v-if="isLoggedIn" @click="logout" class="logout-button">
-        Déconnexion
-      </button>
+        <router-link
+            v-if="isPartner"
+            to="/partner/locations"
+            class="nav-link"
+        >
+          {{ $t("navbar.myLocations") }}
+        </router-link>
+
+        <router-link
+            v-if="isAdmin"
+            to="/admin"
+            class="nav-link"
+        >
+          {{ $t("navbar.admin") }}
+        </router-link>
+
+        <router-link
+            v-if="isAdmin"
+            to="/admin/activities"
+            class="nav-link"
+        >
+          {{ $t("navbar.adminActivities") }}
+        </router-link>
+      </div>
+
+      <div class="menu-wrapper" @click.stop>
+        <button
+            class="menu-button"
+            type="button"
+            aria-label="Menu"
+            aria-controls="account-menu"
+            :aria-expanded="isMenuOpen"
+            @click="toggleMenu"
+        >
+          ☰
+        </button>
+
+        <div
+            v-if="isMenuOpen"
+            id="account-menu"
+            class="account-menu"
+        >
+          <div class="account-menu-links">
+            <template v-if="!isLoggedIn">
+              <router-link
+                  to="/login"
+                  class="account-menu-link"
+              >
+                {{ $t("navbar.login") }}
+              </router-link>
+
+              <router-link
+                  to="/register"
+                  class="account-menu-link"
+              >
+                {{ $t("navbar.register") }}
+              </router-link>
+            </template>
+
+            <template v-else>
+              <router-link
+                  to="/profile"
+                  class="account-menu-link"
+              >
+                {{ $t("navbar.profile") }}
+              </router-link>
+
+              <button
+                  type="button"
+                  class="account-menu-link logout-menu-button"
+                  @click="logout"
+              >
+                {{ $t("navbar.logout") }}
+              </button>
+            </template>
+          </div>
+
+          <div class="menu-divider"></div>
+
+          <div class="language-section">
+            <span class="language-title">
+              {{ $t("navbar.language") }}
+            </span>
+
+            <div
+                class="language-switch"
+                :class="`language-${currentLocale}`"
+                role="group"
+                :aria-label="$t('navbar.language')"
+            >
+              <span class="language-switch-thumb"></span>
+
+              <button
+                  type="button"
+                  class="language-option"
+                  :class="{ active: currentLocale === 'fr' }"
+                  :aria-pressed="currentLocale === 'fr'"
+                  @click="setLanguage('fr')"
+              >
+                FR
+              </button>
+
+              <button
+                  type="button"
+                  class="language-option"
+                  :class="{ active: currentLocale === 'nl' }"
+                  :aria-pressed="currentLocale === 'nl'"
+                  @click="setLanguage('nl')"
+              >
+                NL
+              </button>
+
+              <button
+                  type="button"
+                  class="language-option"
+                  :class="{ active: currentLocale === 'en' }"
+                  :aria-pressed="currentLocale === 'en'"
+                  @click="setLanguage('en')"
+              >
+                EN
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
 import AuthService from "../services/AuthService";
+import i18n from "../i18n";
 
 export default {
   name: "AppNavbar",
@@ -65,17 +193,26 @@ export default {
       isLoggedIn: false,
       isAdmin: false,
       isPartner: false,
-      isMember: false
+      isMenuOpen: false,
+      currentLocale: "fr"
     };
   },
 
   mounted() {
     this.refreshAuthState();
+    this.loadLanguage();
+
+    document.addEventListener("click", this.closeMenu);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("click", this.closeMenu);
   },
 
   watch: {
     $route() {
       this.refreshAuthState();
+      this.closeMenu();
     }
   },
 
@@ -84,12 +221,44 @@ export default {
       this.isLoggedIn = AuthService.isLoggedIn();
       this.isAdmin = AuthService.hasRole("ADMIN");
       this.isPartner = AuthService.hasRole("PARTNER");
-      this.isMember = AuthService.hasRole("MEMBER");
+    },
+
+    loadLanguage() {
+      const savedLanguage = localStorage.getItem("language");
+
+      if (
+          savedLanguage === "fr" ||
+          savedLanguage === "nl" ||
+          savedLanguage === "en"
+      ) {
+        this.setLanguage(savedLanguage);
+        return;
+      }
+
+      this.setLanguage("fr");
+    },
+
+    setLanguage(language) {
+      this.currentLocale = language;
+      i18n.global.locale.value = language;
+
+      localStorage.setItem("language", language);
+
+      document.documentElement.lang = language;
+    },
+
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+
+    closeMenu() {
+      this.isMenuOpen = false;
     },
 
     logout() {
       AuthService.logout();
       this.refreshAuthState();
+      this.closeMenu();
       this.$router.push("/login");
     }
   }

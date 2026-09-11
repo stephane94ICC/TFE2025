@@ -2,8 +2,8 @@
   <div class="my-reservations-page">
     <header class="my-reservations-header">
       <div>
-        <h1>Mes réservations</h1>
-        <p>Retrouvez l’ensemble de vos réservations d’activités.</p>
+        <h1>{{ $t("member.reservations.title") }}</h1>
+        <p>{{ $t("member.reservations.subtitle") }}</p>
       </div>
     </header>
 
@@ -16,21 +16,21 @@
     </p>
 
     <p v-if="loading">
-      Chargement des réservations...
+      {{ $t("member.reservations.loading") }}
     </p>
 
     <section v-else class="my-reservations-card">
       <table>
         <thead>
           <tr>
-            <th>Référence</th>
-            <th>Activité</th>
-            <th>Créneau</th>
-            <th>Places</th>
-            <th>Total</th>
-            <th>Statut</th>
-            <th>Réservé le</th>
-            <th>Action</th>
+            <th>{{ $t("member.reservations.reference") }}</th>
+            <th>{{ $t("member.reservations.activity") }}</th>
+            <th>{{ $t("member.reservations.session") }}</th>
+            <th>{{ $t("member.reservations.places") }}</th>
+            <th>{{ $t("member.reservations.total") }}</th>
+            <th>{{ $t("member.reservations.status") }}</th>
+            <th>{{ $t("member.reservations.bookedAt") }}</th>
+            <th>{{ $t("member.reservations.action") }}</th>
           </tr>
         </thead>
 
@@ -66,14 +66,18 @@
                 :disabled="cancellingId === reservation.id"
                 @click="confirmCancel(reservation)"
               >
-                {{ cancellingId === reservation.id ? "Annulation..." : "Annuler" }}
+                {{
+                  cancellingId === reservation.id
+                    ? $t("member.reservations.cancelling")
+                    : $t("member.reservations.cancel")
+                }}
               </button>
 
               <span
                 v-else-if="reservation.status === 'CONFIRMED'"
                 class="reservation-cancel-closed"
               >
-                Annulation clôturée
+                {{ $t("member.reservations.cancellationClosed") }}
               </span>
 
               <span v-else>—</span>
@@ -82,7 +86,7 @@
 
           <tr v-if="reservations.length === 0">
             <td colspan="8" class="my-reservations-empty">
-              Vous n’avez encore aucune réservation.
+              {{ $t("member.reservations.empty") }}
             </td>
           </tr>
         </tbody>
@@ -123,7 +127,7 @@ export default {
         this.reservations = response.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger vos réservations.";
+        this.errorMessage = this.$t("member.reservations.loadError");
       } finally {
         this.loading = false;
       }
@@ -147,10 +151,10 @@ export default {
     },
 
     async confirmCancel(reservation) {
-      const message =
-        `Annuler la réservation ${reservation.reference} ?\n\n` +
-        `Les réservations annulées avant la clôture des réservations ` +
-        `sont intégralement remboursées. La place sera remise à disposition.`;
+      const message = this.$t(
+        "member.reservations.cancelConfirmation",
+        { reference: reservation.reference }
+      );
 
       if (!window.confirm(message)) {
         return;
@@ -167,7 +171,10 @@ export default {
 
         await ReservationService.cancelReservation(reservation.id);
 
-        this.successMessage = `La réservation ${reservation.reference} a été annulée.`;
+        this.successMessage = this.$t(
+          "member.reservations.cancelSuccess",
+          { reference: reservation.reference }
+        );
 
         await this.loadReservations();
       } catch (error) {
@@ -175,7 +182,7 @@ export default {
 
         this.errorMessage =
           error.response?.data?.error ||
-          "Impossible d’annuler cette réservation.";
+          this.$t("member.reservations.cancelError");
       } finally {
         this.cancellingId = null;
       }
@@ -205,9 +212,9 @@ export default {
 
     statusLabel(status) {
       const labels = {
-        PENDING: "En attente de paiement",
-        CONFIRMED: "Confirmée",
-        CANCELLED: "Annulée"
+        PENDING: this.$t("member.reservations.statuses.PENDING"),
+        CONFIRMED: this.$t("member.reservations.statuses.CONFIRMED"),
+        CANCELLED: this.$t("member.reservations.statuses.CANCELLED")
       };
 
       return labels[status] || status;

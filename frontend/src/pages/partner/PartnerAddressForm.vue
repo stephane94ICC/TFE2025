@@ -2,7 +2,13 @@
   <div v-if="visible" class="partner-modal-overlay" @click.self="cancelEdit">
     <section class="partner-modal">
       <header class="partner-modal-header">
-        <h3>{{ isEditing ? "Modifier l’adresse" : "Ajouter une adresse" }}</h3>
+        <h3>
+          {{
+            isEditing
+              ? $t("partner.addressForm.editTitle")
+              : $t("partner.addressForm.addTitle")
+          }}
+        </h3>
 
         <button type="button" class="partner-modal-close" @click="cancelEdit">
           ×
@@ -11,50 +17,58 @@
 
       <form class="partner-address-form" @submit.prevent="submitForm">
         <label>
-          Type d’adresse
+          {{ $t("partner.addressForm.addressType") }}
           <select v-model="form.addressType" required>
-            <option value="LEGAL">Adresse légale</option>
-            <option value="CONTACT">Adresse de contact</option>
+            <option value="LEGAL">
+              {{ $t("partner.addressForm.legalAddress") }}
+            </option>
+            <option value="CONTACT">
+              {{ $t("partner.addressForm.contactAddress") }}
+            </option>
           </select>
         </label>
 
         <label>
-          Rue
+          {{ $t("partner.addressForm.street") }}
           <input v-model="form.street" type="text" required />
         </label>
 
         <label>
-          Numéro
+          {{ $t("partner.addressForm.houseNumber") }}
           <input v-model="form.houseNumber" type="text" required />
         </label>
 
         <label>
-          Boîte
+          {{ $t("partner.addressForm.box") }}
           <input v-model="form.box" type="text" />
         </label>
 
         <label>
-          Code postal
+          {{ $t("partner.addressForm.postalCode") }}
           <input v-model="form.postalCode" type="text" required />
         </label>
 
         <label>
-          Ville
+          {{ $t("partner.addressForm.city") }}
           <input v-model="form.city" type="text" required />
         </label>
 
         <label>
-          Pays
+          {{ $t("partner.addressForm.country") }}
           <input v-model="form.country" type="text" required />
         </label>
 
         <div class="partner-address-form-actions">
           <button type="submit" :disabled="saving">
-            {{ saving ? "Enregistrement..." : "Enregistrer" }}
+            {{
+              saving
+                ? $t("partner.addressForm.saving")
+                : $t("partner.addressForm.save")
+            }}
           </button>
 
           <button type="button" @click="cancelEdit">
-            Annuler
+            {{ $t("partner.addressForm.cancel") }}
           </button>
         </div>
       </form>

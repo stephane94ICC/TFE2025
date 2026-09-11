@@ -1,14 +1,14 @@
 <template>
   <div v-if="visible" class="partner-rejection-overlay" @click.self="closeModal">
     <section class="partner-rejection-modal">
-      <h3>Raison du refus</h3>
+      <h3>{{ $t("partner.activityRejection.title") }}</h3>
 
       <p class="partner-rejection-text">
-        {{ reviewComment || "Aucun commentaire n’a été indiqué par l’administrateur." }}
+        {{ reviewComment || $t("partner.activityRejection.noComment") }}
       </p>
 
       <button type="button" class="partner-rejection-close" @click="closeModal">
-        Fermer
+        {{ $t("partner.activityRejection.close") }}
       </button>
     </section>
   </div>

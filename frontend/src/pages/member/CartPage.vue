@@ -1,13 +1,13 @@
 <template>
   <div class="cart-page">
-    <h1>Mon panier</h1>
+    <h1>{{ $t("member.cart.title") }}</h1>
 
     <div v-if="errorMessage" class="cart-alert cart-alert-error">
       {{ errorMessage }}
     </div>
 
     <div v-if="cart.length === 0" class="empty-cart">
-      Votre panier est vide.
+      {{ $t("member.cart.empty") }}
     </div>
 
     <div v-else class="cart-content">
@@ -31,7 +31,7 @@
           <p class="price">{{ item.price }} €</p>
 
           <label>
-            Quantité :
+            {{ $t("member.cart.quantity") }}
             <input
               type="number"
               min="1"
@@ -41,20 +41,20 @@
           </label>
 
           <p class="subtotal">
-            Sous-total : {{ (item.price * item.quantity).toFixed(2) }} €
+            {{ $t("member.cart.subtotal") }} {{ (item.price * item.quantity).toFixed(2) }} €
           </p>
 
           <button class="btn btn-danger" @click="removeItem(item.id)">
-            Supprimer
+            {{ $t("member.cart.delete") }}
           </button>
         </div>
       </div>
 
       <div class="cart-summary">
-        <h2>Total : {{ total.toFixed(2) }} €</h2>
+        <h2>{{ $t("member.cart.total") }} {{ total.toFixed(2) }} €</h2>
 
         <button class="btn btn-secondary" @click="clearCart">
-          Vider le panier
+          {{ $t("member.cart.clear") }}
         </button>
 
         <button
@@ -62,7 +62,11 @@
           :disabled="paymentLoading"
           @click="payWithStripe"
         >
-          {{ paymentLoading ? "Redirection vers Stripe..." : "Payer avec Stripe" }}
+          {{
+            paymentLoading
+              ? $t("member.cart.stripeRedirect")
+              : $t("member.cart.payWithStripe")
+          }}
         </button>
       </div>
     </div>
@@ -117,7 +121,7 @@ export default {
       this.errorMessage = "";
 
       if (this.cart.length === 0) {
-        this.errorMessage = "Votre panier est vide.";
+        this.errorMessage = this.$t("member.cart.empty");
         return;
       }
 
@@ -135,7 +139,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = "Impossible de démarrer le paiement Stripe.";
+          this.errorMessage = this.$t("member.cart.paymentError");
         })
         .finally(() => {
           this.paymentLoading = false;

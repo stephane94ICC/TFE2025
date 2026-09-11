@@ -2,8 +2,8 @@
   <div class="activities-page">
     <div class="page-header">
       <div>
-        <h1>Activités</h1>
-        <p>Découvrez les activités disponibles sur la plateforme.</p>
+        <h1>{{ $t("public.activityList.title") }}</h1>
+        <p>{{ $t("public.activityList.subtitle") }}</p>
       </div>
     </div>
 
@@ -11,7 +11,7 @@
       {{ errorMessage }}
     </div>
 
-    <p v-if="loading">Chargement des activités...</p>
+    <p v-if="loading">{{ $t("public.activityList.loading") }}</p>
 
     <div v-else-if="activities.length" class="activity-grid">
       <div v-for="activity in activities" :key="activity.id" class="activity-card">
@@ -38,13 +38,13 @@
           </div>
 
           <router-link :to="`/activities/${activity.id}`" class="btn btn-primary">
-            Voir le détail
+            {{ $t("public.activityList.details") }}
           </router-link>
         </div>
       </div>
     </div>
 
-    <p v-else>Aucune activité disponible.</p>
+    <p v-else>{{ $t("public.activityList.empty") }}</p>
   </div>
 </template>
 
@@ -77,7 +77,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Impossible de charger les activités.";
+            this.errorMessage = this.$t("public.activityList.loadError");
           })
           .finally(() => {
             this.loading = false;

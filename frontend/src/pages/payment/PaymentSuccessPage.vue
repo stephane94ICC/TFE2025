@@ -1,20 +1,18 @@
 <template>
   <main class="payment-result-page">
     <section class="payment-result-card">
-      <h1>Paiement réussi</h1>
+      <h1>{{ $t("payment.success.title") }}</h1>
 
       <p v-if="isReservation">
-        Le paiement test Stripe a été accepté. Votre réservation a été
-        enregistrée dans la plateforme.
+        {{ $t("payment.success.reservationMessage") }}
       </p>
 
       <p v-else>
-        Le paiement test Stripe a été accepté. Votre commande a été créée dans la
-        plateforme.
+        {{ $t("payment.success.orderMessage") }}
       </p>
 
       <p v-if="sessionId" class="payment-session">
-        Session Stripe : {{ sessionId }}
+        {{ $t("payment.success.stripeSession") }} : {{ sessionId }}
       </p>
 
       <div class="payment-result-actions">
@@ -22,11 +20,15 @@
             :to="isReservation ? '/activities' : '/shop'"
             class="btn btn-primary"
         >
-          {{ isReservation ? "Retour aux activités" : "Retour à la boutique" }}
+          {{
+            isReservation
+              ? $t("payment.success.backActivities")
+              : $t("payment.success.backShop")
+          }}
         </router-link>
 
         <router-link to="/" class="btn btn-secondary">
-          Retour à l’accueil
+          {{ $t("payment.success.backHome") }}
         </router-link>
       </div>
     </section>

@@ -1,16 +1,16 @@
 <template>
   <div v-if="visible" class="admin-review-overlay" @click.self="closeModal">
     <section class="admin-review-modal">
-      <h3>Refuser l’activité</h3>
+      <h3>{{ $t("admin.activityReview.title") }}</h3>
 
       <p>
-        Indiquez la raison du refus. Le partenaire pourra consulter ce commentaire.
+        {{ $t("admin.activityReview.instruction") }}
       </p>
 
       <textarea
         v-model="reviewComment"
         rows="5"
-        placeholder="Raison du refus..."
+        :placeholder="$t('admin.activityReview.placeholder')"
       ></textarea>
 
       <p v-if="errorMessage" class="admin-review-error">
@@ -19,11 +19,11 @@
 
       <div class="admin-review-actions">
         <button type="button" class="btn-reject" @click="confirmRejection">
-          Confirmer le refus
+          {{ $t("admin.activityReview.confirm") }}
         </button>
 
         <button type="button" class="btn-cancel" @click="closeModal">
-          Annuler
+          {{ $t("admin.activityReview.cancel") }}
         </button>
       </div>
     </section>
@@ -50,7 +50,7 @@ export default {
   methods: {
     confirmRejection() {
       if (!this.reviewComment.trim()) {
-        this.errorMessage = "La raison du refus est obligatoire.";
+        this.errorMessage = this.$t("admin.activityReview.requiredError");
         return;
       }
 

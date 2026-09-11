@@ -1,14 +1,14 @@
 <template>
   <div class="activity-detail-page">
     <router-link to="/activities" class="back-link">
-      ← Retour aux activités
+      ← {{ $t("public.activityDetail.back") }}
     </router-link>
 
     <div v-if="errorMessage" class="alert alert-error">
       {{ errorMessage }}
     </div>
 
-    <p v-if="loading">Chargement de l’activité...</p>
+    <p v-if="loading">{{ $t("public.activityDetail.loading") }}</p>
 
     <div v-else-if="activity" class="detail-card">
       <div class="detail-image">
@@ -30,34 +30,40 @@
 
         <div class="info-grid">
           <div class="info-box">
-            <strong>Prix</strong>
+            <strong>{{ $t("public.activityDetail.price") }}</strong>
             <span>{{ activity.price }} €</span>
           </div>
 
           <div class="info-box">
-            <strong>Durée</strong>
-            <span>{{ activity.durationMinutes }} minutes</span>
+            <strong>{{ $t("public.activityDetail.duration") }}</strong>
+            <span>
+              {{ activity.durationMinutes }} {{ $t("public.activityDetail.minutes") }}
+            </span>
           </div>
 
           <div class="info-box">
-            <strong>Partenaire</strong>
-            <span>ID partenaire : {{ activity.partnerId }}</span>
+            <strong>{{ $t("public.activityDetail.partner") }}</strong>
+            <span>
+              {{ $t("public.activityDetail.partnerId") }} : {{ activity.partnerId }}
+            </span>
           </div>
         </div>
       </div>
     </div>
 
     <section v-if="activity" class="sessions-section">
-      <h2>Créneaux disponibles</h2>
+      <h2>{{ $t("public.activityDetail.sessionsTitle") }}</h2>
 
       <p v-if="bookingError" class="alert alert-error">
         {{ bookingError }}
       </p>
 
-      <p v-if="loadingSessions">Chargement des créneaux...</p>
+      <p v-if="loadingSessions">
+        {{ $t("public.activityDetail.sessionsLoading") }}
+      </p>
 
       <p v-else-if="sessions.length === 0" class="sessions-empty">
-        Aucun créneau n’est proposé pour cette activité pour le moment.
+        {{ $t("public.activityDetail.sessionsEmpty") }}
       </p>
 
       <div v-else class="sessions-list">
@@ -83,13 +89,17 @@
           <div class="session-aside">
             <p v-if="session.remainingSeats > 0" class="session-seats">
               {{ session.remainingSeats }}
-              {{ session.remainingSeats > 1 ? "places restantes" : "place restante" }}
+              {{
+                session.remainingSeats > 1
+                  ? $t("public.activityDetail.remainingSeatsPlural")
+                  : $t("public.activityDetail.remainingSeatsSingular")
+              }}
             </p>
 
             <template v-if="isBookable(session)">
               <div v-if="selectedSessionId === session.id" class="session-booking">
                 <label>
-                  Quantité
+                  {{ $t("public.activityDetail.quantity") }}
                   <input
                       v-model="quantity"
                       type="number"
@@ -103,11 +113,15 @@
                     :disabled="booking"
                     @click="confirmBooking(session)"
                 >
-                  {{ booking ? "Redirection..." : "Payer" }}
+                  {{
+                    booking
+                      ? $t("public.activityDetail.redirecting")
+                      : $t("public.activityDetail.pay")
+                  }}
                 </button>
 
                 <button class="btn btn-secondary" @click="cancelBooking">
-                  Annuler
+                  {{ $t("public.activityDetail.cancel") }}
                 </button>
               </div>
 
@@ -116,11 +130,12 @@
                   class="btn btn-primary"
                   @click="bookSession(session)"
               >
-                Réserver
+                {{ $t("public.activityDetail.book") }}
               </button>
 
               <p class="session-deadline">
-                Réservation jusqu’au {{ formatDateTime(session.bookingDeadline) }}
+                {{ $t("public.activityDetail.bookingUntil") }}
+                {{ formatDateTime(session.bookingDeadline) }}
               </p>
             </template>
 
@@ -174,7 +189,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Impossible de charger le détail de l’activité.";
+            this.errorMessage = this.$t("public.activityDetail.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -209,10 +224,12 @@ export default {
 
     unavailableReason(session) {
       if (session.remainingSeats <= 0) {
-        return "Complet";
+        return this.$t("public.activityDetail.full");
       }
 
-      return `Réservations clôturées le ${this.formatDateTime(session.bookingDeadline)}`;
+      return this.$t("public.activityDetail.closedOn", {
+        date: this.formatDateTime(session.bookingDeadline)
+      });
     },
 
     bookSession(session) {
@@ -235,7 +252,7 @@ export default {
       const quantity = Number(this.quantity);
 
       if (!quantity || quantity < 1 || quantity > session.remainingSeats) {
-        this.bookingError = "Quantité invalide.";
+        this.bookingError = this.$t("public.activityDetail.invalidQuantity");
         return;
       }
 
@@ -252,7 +269,8 @@ export default {
       } catch (error) {
         console.error(error);
         this.bookingError =
-            error.response?.data?.message || "Impossible de créer la réservation.";
+            error.response?.data?.message ||
+            this.$t("public.activityDetail.bookingError");
         this.booking = false;
       }
     },

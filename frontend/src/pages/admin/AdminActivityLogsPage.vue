@@ -2,12 +2,12 @@
   <div class="page-container">
     <div class="header">
       <div>
-        <h1>Journal d'activité</h1>
-        <p>Historique des événements enregistrés sur la plateforme.</p>
+        <h1>{{ $t("admin.activityLogs.title") }}</h1>
+        <p>{{ $t("admin.activityLogs.subtitle") }}</p>
       </div>
 
       <button class="btn btn-secondary" @click="resetFilters">
-        Réinitialiser les filtres
+        {{ $t("admin.activityLogs.resetFilters") }}
       </button>
     </div>
 
@@ -17,13 +17,13 @@
 
     <!-- Filtres -->
     <div class="card">
-      <h2>Filtres</h2>
+      <h2>{{ $t("admin.activityLogs.filters") }}</h2>
 
       <div class="form-grid">
         <div class="form-group">
-          <label>Type d'événement</label>
+          <label>{{ $t("admin.activityLogs.eventType") }}</label>
           <select v-model="filters.eventType">
-            <option value="">Tous les types</option>
+            <option value="">{{ $t("admin.activityLogs.allTypes") }}</option>
             <option v-for="type in eventTypes" :key="type" :value="type">
               {{ formatEventType(type) }}
             </option>
@@ -31,24 +31,28 @@
         </div>
 
         <div class="form-group">
-          <label>Adresse e-mail</label>
-          <input v-model="filters.email" type="text" placeholder="Recherche partielle">
+          <label>{{ $t("admin.activityLogs.email") }}</label>
+          <input
+              v-model="filters.email"
+              type="text"
+              :placeholder="$t('admin.activityLogs.partialSearch')"
+          >
         </div>
 
         <div class="form-group">
-          <label>Du</label>
+          <label>{{ $t("admin.activityLogs.from") }}</label>
           <input v-model="filters.from" type="date">
         </div>
 
         <div class="form-group">
-          <label>Au</label>
+          <label>{{ $t("admin.activityLogs.to") }}</label>
           <input v-model="filters.to" type="date">
         </div>
       </div>
 
       <div class="actions">
         <button class="btn btn-primary" @click="applyFilters">
-          Rechercher
+          {{ $t("admin.activityLogs.search") }}
         </button>
       </div>
     </div>
@@ -56,22 +60,22 @@
     <!-- Résultats -->
     <div class="card">
       <div class="results-header">
-        <h2>Événements</h2>
+        <h2>{{ $t("admin.activityLogs.events") }}</h2>
         <span v-if="!loading" class="results-count">
-          {{ totalElements }} entrée(s)
+          {{ $t("admin.activityLogs.entryCount", { count: totalElements }) }}
         </span>
       </div>
 
-      <p v-if="loading">Chargement du journal...</p>
+      <p v-if="loading">{{ $t("admin.activityLogs.loading") }}</p>
 
       <table v-else-if="logs.length" class="log-table">
         <thead>
         <tr>
-          <th>Date</th>
-          <th>Événement</th>
-          <th>Utilisateur</th>
-          <th>Détails</th>
-          <th>Adresse IP</th>
+          <th>{{ $t("admin.activityLogs.date") }}</th>
+          <th>{{ $t("admin.activityLogs.event") }}</th>
+          <th>{{ $t("admin.activityLogs.user") }}</th>
+          <th>{{ $t("admin.activityLogs.details") }}</th>
+          <th>{{ $t("admin.activityLogs.ipAddress") }}</th>
         </tr>
         </thead>
 
@@ -92,7 +96,7 @@
         </tbody>
       </table>
 
-      <p v-else>Aucun événement ne correspond aux critères.</p>
+      <p v-else>{{ $t("admin.activityLogs.empty") }}</p>
 
       <!-- Pagination -->
       <div v-if="totalPages > 1" class="pagination">
@@ -100,18 +104,18 @@
             class="btn btn-small btn-secondary"
             :disabled="page === 0"
             @click="goToPage(page - 1)">
-          Précédent
+          {{ $t("admin.activityLogs.previous") }}
         </button>
 
         <span class="pagination-info">
-          Page {{ page + 1 }} sur {{ totalPages }}
+          {{ $t("admin.activityLogs.page", { current: page + 1, total: totalPages }) }}
         </span>
 
         <button
             class="btn btn-small btn-secondary"
             :disabled="page + 1 >= totalPages"
             @click="goToPage(page + 1)">
-          Suivant
+          {{ $t("admin.activityLogs.next") }}
         </button>
       </div>
     </div>
@@ -120,7 +124,6 @@
 
 <script>
 import { getActivityLogs, getEventTypes } from '../../services/ActivityLogService';
-import { formatEventType } from '../../services/activityEventLabels';
 
 export default {
   name: 'AdminActivityLogsPage',
@@ -152,7 +155,13 @@ export default {
   },
 
   methods: {
-    formatEventType,
+    formatEventType(eventType) {
+      const key = `admin.activityLogs.eventTypes.${eventType}`;
+
+      return this.$te(key)
+          ? this.$t(key)
+          : eventType;
+    },
 
     loadEventTypes() {
       getEventTypes()
@@ -180,7 +189,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Impossible de charger le journal d'activité.";
+            this.errorMessage = this.$t("admin.activityLogs.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -207,7 +216,6 @@ export default {
       this.page = newPage;
       this.loadLogs();
     },
-
 
     formatDate(value) {
       if (!value) return '—';

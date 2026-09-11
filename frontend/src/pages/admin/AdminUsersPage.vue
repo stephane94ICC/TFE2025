@@ -2,12 +2,12 @@
   <div class="page-container">
     <div class="header">
       <div>
-        <h1>Gestion des utilisateurs</h1>
-        <p>Liste des utilisateurs enregistrés sur la plateforme.</p>
+        <h1>{{ $t("admin.users.title") }}</h1>
+        <p>{{ $t("admin.users.subtitle") }}</p>
       </div>
 
       <button class="btn btn-primary" @click="toggleCreateForm">
-        {{ showCreateForm ? 'Annuler' : 'Ajouter un utilisateur' }}
+        {{ showCreateForm ? $t("admin.users.cancel") : $t("admin.users.addUser") }}
       </button>
     </div>
 
@@ -21,116 +21,136 @@
 
     <!-- Formulaire de création -->
     <div v-if="showCreateForm" class="card">
-      <h2>Créer un utilisateur</h2>
+      <h2>{{ $t("admin.users.createTitle") }}</h2>
 
       <div class="form-grid">
         <div class="form-group">
-          <label>Email</label>
-          <input v-model="newUser.email" type="email" placeholder="exemple@email.com">
+          <label>{{ $t("admin.users.email") }}</label>
+          <input
+              v-model="newUser.email"
+              type="email"
+              :placeholder="$t('admin.users.emailPlaceholder')"
+          >
         </div>
 
         <div class="form-group">
-          <label>Prénom</label>
-          <input v-model="newUser.firstName" type="text" placeholder="Prénom">
+          <label>{{ $t("admin.users.firstName") }}</label>
+          <input
+              v-model="newUser.firstName"
+              type="text"
+              :placeholder="$t('admin.users.firstNamePlaceholder')"
+          >
         </div>
 
         <div class="form-group">
-          <label>Nom</label>
-          <input v-model="newUser.lastName" type="text" placeholder="Nom">
+          <label>{{ $t("admin.users.lastName") }}</label>
+          <input
+              v-model="newUser.lastName"
+              type="text"
+              :placeholder="$t('admin.users.lastNamePlaceholder')"
+          >
         </div>
 
         <div class="form-group">
-          <label>Mot de passe</label>
-          <input v-model="newUser.password" type="password" placeholder="Mot de passe">
+          <label>{{ $t("admin.users.password") }}</label>
+          <input
+              v-model="newUser.password"
+              type="password"
+              :placeholder="$t('admin.users.passwordPlaceholder')"
+          >
         </div>
 
         <div class="form-group">
-          <label>Rôle</label>
+          <label>{{ $t("admin.users.role") }}</label>
           <select v-model="newUser.role">
-            <option value="MEMBER">Membre</option>
-            <option value="PARTNER">Partenaire</option>
-            <option value="ADMIN">Administrateur</option>
+            <option value="MEMBER">{{ $t("admin.users.roles.MEMBER") }}</option>
+            <option value="PARTNER">{{ $t("admin.users.roles.PARTNER") }}</option>
+            <option value="ADMIN">{{ $t("admin.users.roles.ADMIN") }}</option>
           </select>
         </div>
       </div>
 
       <p class="info-text">
-        Le consentement RGPD est donné par l’utilisateur lors de son inscription.
+        {{ $t("admin.users.rgpdInfo") }}
       </p>
 
       <div class="actions">
         <button class="btn btn-primary" @click="createUser">
-          Créer
+          {{ $t("admin.users.create") }}
         </button>
 
         <button class="btn btn-secondary" @click="cancelCreate">
-          Annuler
+          {{ $t("admin.users.cancel") }}
         </button>
       </div>
     </div>
 
     <!-- Formulaire de modification -->
     <div v-if="editingUser" class="card">
-      <h2>Modifier l’utilisateur</h2>
+      <h2>{{ $t("admin.users.editTitle") }}</h2>
 
       <div class="form-grid">
         <div class="form-group">
-          <label>Email</label>
+          <label>{{ $t("admin.users.email") }}</label>
           <input v-model="editForm.email" type="email">
         </div>
 
         <div class="form-group">
-          <label>Prénom</label>
+          <label>{{ $t("admin.users.firstName") }}</label>
           <input v-model="editForm.firstName" type="text">
         </div>
 
         <div class="form-group">
-          <label>Nom</label>
+          <label>{{ $t("admin.users.lastName") }}</label>
           <input v-model="editForm.lastName" type="text">
         </div>
 
         <div class="form-group">
-          <label>Nouveau mot de passe</label>
-          <input v-model="editForm.password" type="password" placeholder="Laisser vide si inchangé">
+          <label>{{ $t("admin.users.newPassword") }}</label>
+          <input
+              v-model="editForm.password"
+              type="password"
+              :placeholder="$t('admin.users.unchangedPasswordPlaceholder')"
+          >
         </div>
 
         <div class="form-group">
-          <label>Rôle</label>
+          <label>{{ $t("admin.users.role") }}</label>
           <select v-model="editForm.role">
-            <option value="MEMBER">Membre</option>
-            <option value="PARTNER">Partenaire</option>
-            <option value="ADMIN">Administrateur</option>
+            <option value="MEMBER">{{ $t("admin.users.roles.MEMBER") }}</option>
+            <option value="PARTNER">{{ $t("admin.users.roles.PARTNER") }}</option>
+            <option value="ADMIN">{{ $t("admin.users.roles.ADMIN") }}</option>
           </select>
         </div>
       </div>
 
       <div class="actions">
         <button class="btn btn-primary" @click="updateUser">
-          Enregistrer
+          {{ $t("admin.users.save") }}
         </button>
 
         <button class="btn btn-secondary" @click="cancelEdit">
-          Annuler
+          {{ $t("admin.users.cancel") }}
         </button>
       </div>
     </div>
 
     <!-- Liste des utilisateurs -->
     <div class="card">
-      <h2>Liste des utilisateurs</h2>
+      <h2>{{ $t("admin.users.listTitle") }}</h2>
 
-      <p v-if="loading">Chargement des utilisateurs...</p>
+      <p v-if="loading">{{ $t("admin.users.loading") }}</p>
 
       <table v-else-if="users.length" class="user-table">
         <thead>
         <tr>
-          <th>ID</th>
-          <th>Email</th>
-          <th>Prénom</th>
-          <th>Nom</th>
-          <th>Rôle</th>
-          <th>RGPD</th>
-          <th>Actions</th>
+          <th>{{ $t("admin.users.id") }}</th>
+          <th>{{ $t("admin.users.email") }}</th>
+          <th>{{ $t("admin.users.firstName") }}</th>
+          <th>{{ $t("admin.users.lastName") }}</th>
+          <th>{{ $t("admin.users.role") }}</th>
+          <th>{{ $t("admin.users.rgpd") }}</th>
+          <th>{{ $t("admin.users.actions") }}</th>
         </tr>
         </thead>
 
@@ -149,24 +169,24 @@
 
           <td>
             <span :class="user.consentRgpd ? 'badge badge-success' : 'badge badge-danger'">
-              {{ user.consentRgpd ? 'Oui' : 'Non' }}
+              {{ user.consentRgpd ? $t("admin.users.yes") : $t("admin.users.no") }}
             </span>
           </td>
 
           <td class="table-actions">
             <button class="btn btn-small btn-secondary" @click="startEdit(user)">
-              Modifier
+              {{ $t("admin.users.edit") }}
             </button>
 
             <button class="btn btn-small btn-danger" @click="deleteUser(user.id)">
-              Supprimer
+              {{ $t("admin.users.delete") }}
             </button>
           </td>
         </tr>
         </tbody>
       </table>
 
-      <p v-else>Aucun utilisateur trouvé.</p>
+      <p v-else>{{ $t("admin.users.empty") }}</p>
     </div>
   </div>
 </template>
@@ -224,7 +244,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Impossible de charger les utilisateurs.";
+            this.errorMessage = this.$t("admin.users.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -241,19 +261,19 @@ export default {
       this.clearMessages();
 
       if (!this.newUser.email || !this.newUser.firstName || !this.newUser.lastName || !this.newUser.password) {
-        this.errorMessage = "Veuillez remplir tous les champs.";
+        this.errorMessage = this.$t("admin.users.requiredCreate");
         return;
       }
 
       apiCreateUser(this.newUser)
           .then(() => {
-            this.successMessage = "Utilisateur créé avec succès.";
+            this.successMessage = this.$t("admin.users.createSuccess");
             this.cancelCreate();
             this.loadUsers();
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Erreur lors de la création de l’utilisateur.";
+            this.errorMessage = this.$t("admin.users.createError");
           });
     },
 
@@ -287,7 +307,7 @@ export default {
       this.clearMessages();
 
       if (!this.editForm.email || !this.editForm.firstName || !this.editForm.lastName) {
-        this.errorMessage = "Veuillez remplir l’email, le prénom et le nom.";
+        this.errorMessage = this.$t("admin.users.requiredEdit");
         return;
       }
 
@@ -304,13 +324,13 @@ export default {
 
       apiUpdateUser(this.editingUser.id, payload)
           .then(() => {
-            this.successMessage = "Utilisateur modifié avec succès.";
+            this.successMessage = this.$t("admin.users.updateSuccess");
             this.cancelEdit();
             this.loadUsers();
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Erreur lors de la modification de l’utilisateur.";
+            this.errorMessage = this.$t("admin.users.updateError");
           });
     },
 
@@ -329,23 +349,23 @@ export default {
     deleteUser(id) {
       this.clearMessages();
 
-      if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+      if (confirm(this.$t("admin.users.confirmDelete"))) {
         apiDeleteUser(id)
             .then(() => {
-              this.successMessage = "Utilisateur supprimé avec succès.";
+              this.successMessage = this.$t("admin.users.deleteSuccess");
               this.loadUsers();
             })
             .catch(err => {
               console.error(err);
-              this.errorMessage = "Erreur lors de la suppression de l’utilisateur.";
+              this.errorMessage = this.$t("admin.users.deleteError");
             });
       }
     },
 
     formatRole(role) {
-      if (role === 'ADMIN') return 'Administrateur';
-      if (role === 'PARTNER') return 'Partenaire';
-      return 'Membre';
+      if (role === 'ADMIN') return this.$t("admin.users.roles.ADMIN");
+      if (role === 'PARTNER') return this.$t("admin.users.roles.PARTNER");
+      return this.$t("admin.users.roles.MEMBER");
     },
 
     clearMessages() {

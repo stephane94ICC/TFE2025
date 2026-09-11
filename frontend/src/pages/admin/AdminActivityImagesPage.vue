@@ -1,12 +1,13 @@
 <template>
   <div class="admin-activity-images-page">
-    <h1>Images de l’activité</h1>
+    <h1>{{ $t("admin.activityImages.title") }}</h1>
 
-    <p v-if="loading">Chargement...</p>
+    <p v-if="loading">{{ $t("admin.activityImages.loading") }}</p>
 
     <template v-else>
       <p v-if="activity">
-        Activité : <strong>{{ activity.title }}</strong>
+        {{ $t("admin.activityImages.activityLabel") }}
+        <strong>{{ activity.title }}</strong>
       </p>
 
       <div v-if="errorMessage" class="form-error">
@@ -29,16 +30,16 @@
             :disabled="!selectedFile || uploading"
             @click="uploadImage"
         >
-          {{ uploading ? "Envoi..." : "Ajouter une image" }}
+          {{ uploading ? $t("admin.activityImages.uploading") : $t("admin.activityImages.addImage") }}
         </button>
       </div>
 
       <div class="images-grid">
         <div v-for="image in images" :key="image.id" class="image-card">
-          <img :src="image.url" alt="Image de l’activité" />
+          <img :src="image.url" :alt="$t('admin.activityImages.imageAlt')" />
 
           <span v-if="isDefaultImage(image.url)">
-            Image par défaut
+            {{ $t("admin.activityImages.defaultImage") }}
           </span>
 
           <button
@@ -47,13 +48,13 @@
               :disabled="deletingId === image.id"
               @click="removeImage(image)"
           >
-            {{ deletingId === image.id ? "Suppression..." : "Supprimer" }}
+            {{ deletingId === image.id ? $t("admin.activityImages.deleting") : $t("admin.activityImages.delete") }}
           </button>
         </div>
       </div>
 
       <router-link to="/admin/activities">
-        Retour à la liste
+        {{ $t("admin.activityImages.backToList") }}
       </router-link>
     </template>
   </div>
@@ -107,7 +108,7 @@ export default {
           })
           .catch(error => {
             console.error(error);
-            this.errorMessage = "Impossible de charger les images.";
+            this.errorMessage = this.$t("admin.activityImages.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -129,14 +130,14 @@ export default {
 
       uploadActivityImage(this.activityId, this.selectedFile)
           .then(() => {
-            this.successMessage = "Image ajoutée avec succès.";
+            this.successMessage = this.$t("admin.activityImages.addSuccess");
             this.selectedFile = null;
             this.loadData();
           })
           .catch(error => {
             console.error(error);
             this.errorMessage = error.response?.data?.error
-                || "Impossible d’ajouter l’image.";
+                || this.$t("admin.activityImages.addError");
           })
           .finally(() => {
             this.uploading = false;
@@ -151,12 +152,12 @@ export default {
       deleteActivityImage(this.activityId, image.id)
           .then(() => {
             this.images = this.images.filter(item => item.id !== image.id);
-            this.successMessage = "Image supprimée avec succès.";
+            this.successMessage = this.$t("admin.activityImages.deleteSuccess");
           })
           .catch(error => {
             console.error(error);
             this.errorMessage = error.response?.data?.error
-                || "Impossible de supprimer l’image.";
+                || this.$t("admin.activityImages.deleteError");
           })
           .finally(() => {
             this.deletingId = null;

@@ -1,37 +1,37 @@
 <template>
   <div class="login-page">
     <div class="login-card">
-      <h1>Connexion</h1>
+      <h1>{{ $t("auth.login.title") }}</h1>
 
       <p class="subtitle">
-        Connectez-vous à votre compte.
+        {{ $t("auth.login.subtitle") }}
       </p>
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">Adresse e-mail</label>
+          <label for="email">{{ $t("auth.login.email") }}</label>
           <input
               id="email"
               v-model="form.email"
               type="email"
-              placeholder="exemple@email.com"
+              :placeholder="$t('auth.login.emailPlaceholder')"
               required
           />
         </div>
 
         <div class="form-group">
-          <label for="password">Mot de passe</label>
+          <label for="password">{{ $t("auth.login.password") }}</label>
           <input
               id="password"
               v-model="form.password"
               type="password"
-              placeholder="Entrez votre mot de passe"
+              :placeholder="$t('auth.login.passwordPlaceholder')"
               required
           />
         </div>
 
         <button type="submit" class="login-button">
-          Se connecter
+          {{ $t("auth.login.submit") }}
         </button>
       </form>
 
@@ -44,8 +44,8 @@
       </p>
 
       <p class="register-link">
-        Vous n’avez pas encore de compte ?
-        <RouterLink to="/register">S'inscrire</RouterLink>
+        {{ $t("auth.login.noAccount") }}
+        <RouterLink to="/register">{{ $t("auth.login.register") }}</RouterLink>
       </p>
     </div>
   </div>
@@ -82,7 +82,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          this.errorMessage = error.message || "Adresse e-mail ou mot de passe incorrect.";
+          this.errorMessage = error.message || this.$t("auth.login.error");
         });
     }
   }

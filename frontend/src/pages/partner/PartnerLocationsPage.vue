@@ -2,10 +2,9 @@
   <div class="partner-locations-page">
     <header class="partner-locations-header">
       <div>
-        <h1>Mes lieux</h1>
+        <h1>{{ $t("partner.locations.title") }}</h1>
         <p>
-          Lieux où se déroulent vos activités.
-          Un lieu peut être réutilisé pour plusieurs créneaux.
+          {{ $t("partner.locations.subtitle") }}
         </p>
       </div>
 
@@ -14,7 +13,7 @@
         class="partner-location-add-link"
         @click="openCreateForm"
       >
-        Ajouter un lieu
+        {{ $t("partner.locations.add") }}
       </button>
     </header>
 
@@ -27,19 +26,19 @@
     </p>
 
     <p v-if="loading">
-      Chargement des lieux...
+      {{ $t("partner.locations.loading") }}
     </p>
 
     <section v-else class="partner-locations-card">
       <table>
         <thead>
           <tr>
-            <th>Nom</th>
-            <th>Adresse</th>
-            <th>Ville</th>
-            <th>Coordonnées</th>
-            <th>Accès</th>
-            <th>Actions</th>
+            <th>{{ $t("partner.locations.name") }}</th>
+            <th>{{ $t("partner.locations.address") }}</th>
+            <th>{{ $t("partner.locations.city") }}</th>
+            <th>{{ $t("partner.locations.coordinates") }}</th>
+            <th>{{ $t("partner.locations.access") }}</th>
+            <th>{{ $t("partner.locations.actions") }}</th>
           </tr>
         </thead>
 
@@ -54,7 +53,7 @@
                 {{ location.latitude }}, {{ location.longitude }}
               </span>
               <span v-else class="partner-location-gps-missing">
-                Non renseignées
+                {{ $t("partner.locations.notProvided") }}
               </span>
             </td>
 
@@ -66,14 +65,14 @@
                 class="partner-location-edit-link"
                 @click="openEditForm(location)"
               >
-                Modifier
+                {{ $t("partner.locations.edit") }}
               </button>
             </td>
           </tr>
 
           <tr v-if="locations.length === 0">
             <td colspan="6" class="partner-locations-empty">
-              Aucun lieu enregistré.
+              {{ $t("partner.locations.empty") }}
             </td>
           </tr>
         </tbody>
@@ -134,7 +133,7 @@ export default {
         this.locations = response.data;
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible de charger les lieux.";
+        this.errorMessage = this.$t("partner.locations.loadError");
       } finally {
         this.loading = false;
       }
@@ -163,24 +162,26 @@ export default {
 
         if (this.selectedLocation) {
           await updatePartnerLocation(this.selectedLocation.id, form);
-          this.successMessage = "Lieu modifié avec succès.";
+          this.successMessage = this.$t("partner.locations.updateSuccess");
         } else {
           await addPartnerLocation(form);
-          this.successMessage = "Lieu ajouté avec succès.";
+          this.successMessage = this.$t("partner.locations.addSuccess");
         }
 
         this.closeLocationForm();
         await this.loadLocations();
       } catch (error) {
         console.error(error);
-        this.errorMessage = "Impossible d’enregistrer le lieu.";
+        this.errorMessage = this.$t("partner.locations.saveError");
       } finally {
         this.savingLocation = false;
       }
     },
 
     formatStreet(location) {
-      const box = location.box ? ` bte ${location.box}` : "";
+      const box = location.box
+        ? ` ${this.$t("partner.locations.boxShort")} ${location.box}`
+        : "";
 
       return `${location.street} ${location.houseNumber}${box}`;
     },

@@ -1,46 +1,46 @@
 <template>
   <div class="admin-product-form-page">
     <section class="admin-product-form-header">
-      <h1>{{ isEditMode ? "Modifier un produit" : "Ajouter un produit" }}</h1>
+      <h1>{{ isEditMode ? $t("admin.productForm.editTitle") : $t("admin.productForm.addTitle") }}</h1>
       <p>
         {{
           isEditMode
-              ? "Ce formulaire permet à l’administrateur de modifier un produit existant."
-              : "Ce formulaire permet à l’administrateur d’ajouter un nouveau produit dans la boutique."
+              ? $t("admin.productForm.editDescription")
+              : $t("admin.productForm.addDescription")
         }}
       </p>
     </section>
 
     <p v-if="loading" class="form-loading">
-      Chargement du produit...
+      {{ $t("admin.productForm.loading") }}
     </p>
 
     <section v-else class="admin-product-form-card">
       <form @submit.prevent="submitForm">
         <div class="form-group">
-          <label for="name">Nom du produit</label>
+          <label for="name">{{ $t("admin.productForm.name") }}</label>
           <input
               id="name"
               v-model="product.name"
               type="text"
-              placeholder="Exemple : Tapis de yoga"
+              :placeholder="$t('admin.productForm.namePlaceholder')"
               required
           />
         </div>
 
         <div class="form-group">
-          <label for="description">Description</label>
+          <label for="description">{{ $t("admin.productForm.description") }}</label>
           <textarea
               id="description"
               v-model="product.description"
               rows="4"
-              placeholder="Description du produit"
+              :placeholder="$t('admin.productForm.descriptionPlaceholder')"
           ></textarea>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="price">Prix</label>
+            <label for="price">{{ $t("admin.productForm.price") }}</label>
             <input
                 id="price"
                 v-model.number="product.price"
@@ -52,7 +52,7 @@
           </div>
 
           <div class="form-group">
-            <label for="stockQuantity">Stock</label>
+            <label for="stockQuantity">{{ $t("admin.productForm.stock") }}</label>
             <input
                 id="stockQuantity"
                 v-model.number="product.stockQuantity"
@@ -69,7 +69,7 @@
               v-model="product.active"
               type="checkbox"
           />
-          <label for="active">Produit actif dans la boutique</label>
+          <label for="active">{{ $t("admin.productForm.activeLabel") }}</label>
         </div>
 
         <div v-if="errorMessage" class="form-error">
@@ -78,16 +78,16 @@
 
         <div class="form-actions">
           <router-link to="/admin/products" class="form-secondary-button">
-            Annuler
+            {{ $t("admin.productForm.cancel") }}
           </router-link>
 
           <button type="submit" class="form-primary-button" :disabled="saving">
             {{
               saving
-                  ? "Enregistrement..."
+                  ? $t("admin.productForm.saving")
                   : isEditMode
-                      ? "Modifier le produit"
-                      : "Ajouter le produit"
+                      ? $t("admin.productForm.editButton")
+                      : $t("admin.productForm.addButton")
             }}
           </button>
         </div>
@@ -149,7 +149,7 @@ export default {
           })
           .catch(error => {
             console.error(error);
-            this.errorMessage = "Impossible de charger le produit.";
+            this.errorMessage = this.$t("admin.productForm.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -171,8 +171,8 @@ export default {
           .catch(error => {
             console.error(error);
             this.errorMessage = this.isEditMode
-                ? "Impossible de modifier le produit."
-                : "Impossible d’ajouter le produit.";
+                ? this.$t("admin.productForm.editError")
+                : this.$t("admin.productForm.addError");
           })
           .finally(() => {
             this.saving = false;

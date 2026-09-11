@@ -1,14 +1,16 @@
 <template>
   <div class="product-detail-page">
     <router-link to="/shop" class="back-link">
-      ← Retour à la boutique
+      ← {{ $t("public.productDetail.back") }}
     </router-link>
 
     <div v-if="errorMessage" class="alert alert-error">
       {{ errorMessage }}
     </div>
 
-    <p v-if="loading">Chargement du produit...</p>
+    <p v-if="loading">
+      {{ $t("public.productDetail.loading") }}
+    </p>
 
     <div v-else-if="product" class="detail-card">
       <div class="detail-image">
@@ -29,18 +31,27 @@
 
         <div class="info-grid">
           <div class="info-box">
-            <strong>Prix</strong>
+            <strong>{{ $t("public.productDetail.price") }}</strong>
             <span>{{ product.price }} €</span>
           </div>
 
           <div class="info-box">
-            <strong>Stock</strong>
-            <span>{{ product.stockQuantity }} disponible(s)</span>
+            <strong>{{ $t("public.productDetail.stock") }}</strong>
+            <span>
+              {{ product.stockQuantity }}
+              {{ $t("public.productDetail.available") }}
+            </span>
           </div>
 
           <div class="info-box">
-            <strong>Statut</strong>
-            <span>{{ product.active ? 'Disponible' : 'Indisponible' }}</span>
+            <strong>{{ $t("public.productDetail.status") }}</strong>
+            <span>
+              {{
+                product.active
+                  ? $t("public.productDetail.availableStatus")
+                  : $t("public.productDetail.unavailableStatus")
+              }}
+            </span>
           </div>
         </div>
 
@@ -49,7 +60,7 @@
             :disabled="!product.active || product.stockQuantity <= 0"
             @click="addProductToCart"
         >
-          Ajouter au panier
+          {{ $t("public.productDetail.addToCart") }}
         </button>
       </div>
     </div>
@@ -89,7 +100,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
-            this.errorMessage = "Impossible de charger le détail du produit.";
+            this.errorMessage = this.$t("public.productDetail.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -111,7 +122,7 @@ export default {
       }
 
       CartService.addToCart(this.product);
-      alert("Produit ajouté au panier !");
+      alert(this.$t("public.productDetail.addedToCart"));
     }
   }
 };

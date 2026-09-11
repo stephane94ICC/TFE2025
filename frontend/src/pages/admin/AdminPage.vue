@@ -1,53 +1,51 @@
 <template>
   <div class="admin-page">
     <section class="admin-header">
-      <h1>Espace administrateur</h1>
+      <h1>{{ $t("admin.dashboard.title") }}</h1>
       <p>
-        Bienvenue dans le tableau de bord administrateur. Cette page permet
-        d’accéder aux principales zones de gestion de la plateforme.
+        {{ $t("admin.dashboard.introduction") }}
       </p>
     </section>
 
     <section class="admin-dashboard">
       <router-link to="/admin/users" class="admin-block admin-block-active">
-        <h2>Utilisateurs</h2>
+        <h2>{{ $t("admin.dashboard.usersTitle") }}</h2>
         <p>
-          Consulter et gérer les comptes utilisateurs inscrits sur la plateforme.
+          {{ $t("admin.dashboard.usersDescription") }}
         </p>
-        <span>Accéder</span>
+        <span>{{ $t("admin.dashboard.access") }}</span>
       </router-link>
 
       <router-link to="/admin/activities" class="admin-block admin-block-active">
-        <h2>Activités</h2>
+        <h2>{{ $t("admin.dashboard.activitiesTitle") }}</h2>
         <p>
-          Gérer les activités proposées par les partenaires.
+          {{ $t("admin.dashboard.activitiesDescription") }}
         </p>
-        <span>Accéder</span>
+        <span>{{ $t("admin.dashboard.access") }}</span>
       </router-link>
 
       <router-link to="/admin/products" class="admin-block admin-block-active">
-        <h2>Produits</h2>
+        <h2>{{ $t("admin.dashboard.productsTitle") }}</h2>
         <p>
-          Gérer les produits disponibles dans la boutique.
+          {{ $t("admin.dashboard.productsDescription") }}
         </p>
-        <span>Accéder</span>
+        <span>{{ $t("admin.dashboard.access") }}</span>
       </router-link>
 
       <router-link to="/admin/activity-logs" class="admin-block admin-block-active">
-        <h2>Journal d'activité</h2>
+        <h2>{{ $t("admin.dashboard.activityLogTitle") }}</h2>
         <p>
-          Consulter l’historique des connexions et des actions réalisées
-          sur la plateforme.
+          {{ $t("admin.dashboard.activityLogDescription") }}
         </p>
-        <span>Accéder</span>
+        <span>{{ $t("admin.dashboard.access") }}</span>
       </router-link>
 
       <div class="admin-block admin-block-disabled">
-        <h2>Partenaires</h2>
+        <h2>{{ $t("admin.dashboard.partnersTitle") }}</h2>
         <p>
-          Consulter et gérer les partenaires de la plateforme.
+          {{ $t("admin.dashboard.partnersDescription") }}
         </p>
-        <span>Bientôt disponible</span>
+        <span>{{ $t("admin.dashboard.comingSoon") }}</span>
       </div>
     </section>
   </div>

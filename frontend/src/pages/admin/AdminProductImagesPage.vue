@@ -1,12 +1,12 @@
 <template>
   <div class="admin-product-images-page">
-    <h1>Images du produit</h1>
+    <h1>{{ $t("admin.productImages.title") }}</h1>
 
-    <p v-if="loading">Chargement...</p>
+    <p v-if="loading">{{ $t("admin.productImages.loading") }}</p>
 
     <template v-else>
       <p v-if="product">
-        Produit : <strong>{{ product.name }}</strong>
+        {{ $t("admin.productImages.productLabel") }} <strong>{{ product.name }}</strong>
       </p>
 
       <div v-if="errorMessage" class="form-error">
@@ -29,16 +29,16 @@
             :disabled="!selectedFile || uploading"
             @click="uploadImage"
         >
-          {{ uploading ? "Envoi..." : "Ajouter une image" }}
+          {{ uploading ? $t("admin.productImages.uploading") : $t("admin.productImages.addImage") }}
         </button>
       </div>
 
       <div class="images-grid">
         <div v-for="image in images" :key="image.id" class="image-card">
-          <img :src="image.url" alt="Image du produit" />
+          <img :src="image.url" :alt="$t('admin.productImages.imageAlt')" />
 
           <span v-if="isDefaultImage(image.url)">
-            Image par défaut
+            {{ $t("admin.productImages.defaultImage") }}
           </span>
 
           <button
@@ -47,13 +47,13 @@
               :disabled="deletingId === image.id"
               @click="removeImage(image)"
           >
-            {{ deletingId === image.id ? "Suppression..." : "Supprimer" }}
+            {{ deletingId === image.id ? $t("admin.productImages.deleting") : $t("admin.productImages.delete") }}
           </button>
         </div>
       </div>
 
       <router-link to="/admin/products">
-        Retour à la liste
+        {{ $t("admin.productImages.backToList") }}
       </router-link>
     </template>
   </div>
@@ -107,7 +107,7 @@ export default {
           })
           .catch(error => {
             console.error(error);
-            this.errorMessage = "Impossible de charger les images.";
+            this.errorMessage = this.$t("admin.productImages.loadError");
           })
           .finally(() => {
             this.loading = false;
@@ -129,14 +129,14 @@ export default {
 
       uploadProductImage(this.productId, this.selectedFile)
           .then(() => {
-            this.successMessage = "Image ajoutée avec succès.";
+            this.successMessage = this.$t("admin.productImages.addSuccess");
             this.selectedFile = null;
             this.loadData();
           })
           .catch(error => {
             console.error(error);
             this.errorMessage = error.response?.data?.error
-                || "Impossible d’ajouter l’image.";
+                || this.$t("admin.productImages.addError");
           })
           .finally(() => {
             this.uploading = false;
@@ -151,12 +151,12 @@ export default {
       deleteProductImage(this.productId, image.id)
           .then(() => {
             this.images = this.images.filter(item => item.id !== image.id);
-            this.successMessage = "Image supprimée avec succès.";
+            this.successMessage = this.$t("admin.productImages.deleteSuccess");
           })
           .catch(error => {
             console.error(error);
             this.errorMessage = error.response?.data?.error
-                || "Impossible de supprimer l’image.";
+                || this.$t("admin.productImages.deleteError");
           })
           .finally(() => {
             this.deletingId = null;
@@ -169,4 +169,5 @@ export default {
   }
 };
 </script>
+
 <style scoped src="./AdminProductImagesPage.css"></style>
