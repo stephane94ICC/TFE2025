@@ -14,6 +14,9 @@ import java.util.List;
 @Service
 public class ActivityImageService {
 
+    private static final String DEFAULT_ACTIVITY_IMAGE =
+            "/uploads/activities/default-activity.png";
+
     private final ActivityRepository activityRepository;
     private final ActivityImageRepository activityImageRepository;
     private final ImageStorageService imageStorageService;
@@ -26,8 +29,9 @@ public class ActivityImageService {
         this.imageStorageService = imageStorageService;
     }
 
-    // l'Admin : à accès à n'importe quelle activité
+    // l'Admin : accès à n'importe quelle activité
 
+    @Transactional
     public ActivityImage addImage(Long activityId, MultipartFile file) {
         Activity activity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Activité introuvable."));
@@ -47,8 +51,9 @@ public class ActivityImageService {
         removeImageFromActivity(activity, imageId);
     }
 
-    // Le Partenaire : est limité à ses propres activités
+    // Le Partenaire : limité à ses propres activités
 
+    @Transactional
     public ActivityImage addImage(Long activityId, String partnerEmail, MultipartFile file) {
         Activity activity = activityRepository
                 .findByIdAndPartner_User_Email(activityId, partnerEmail)
@@ -78,10 +83,13 @@ public class ActivityImageService {
     private ActivityImage saveImage(Activity activity, MultipartFile file) {
         String imageUrl = imageStorageService.storeImage(file, "activities", activity.getId());
 
+        removeDefaultImage(activity);
+
         ActivityImage activityImage = new ActivityImage();
         activityImage.setUrl(imageUrl);
         activityImage.setActivity(activity);
 
+        activity.getImages().add(activityImage);
         return activityImageRepository.save(activityImage);
     }
 
@@ -92,12 +100,25 @@ public class ActivityImageService {
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Image introuvable."));
 
-        if ("/uploads/activities/default-activity.png".equals(activityImage.getUrl())) {
+        if (DEFAULT_ACTIVITY_IMAGE.equals(activityImage.getUrl())) {
             throw new IllegalArgumentException("L'image par défaut ne peut pas être supprimée.");
         }
 
         imageStorageService.deleteImage(activityImage.getUrl());
         activity.getImages().remove(activityImage);
-        activityRepository.save(activity);
+
+        if (activity.getImages().isEmpty()) {
+            ActivityImage defaultImage = new ActivityImage();
+            defaultImage.setUrl(DEFAULT_ACTIVITY_IMAGE);
+            defaultImage.setActivity(activity);
+            activity.getImages().add(defaultImage);
+            activityImageRepository.save(defaultImage);
+        }
+    }
+
+    private void removeDefaultImage(Activity activity) {
+        activity.getImages().removeIf(
+                image -> DEFAULT_ACTIVITY_IMAGE.equals(image.getUrl())
+        );
     }
 }
