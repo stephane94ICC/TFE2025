@@ -1,4 +1,5 @@
 export default {
+  documentTitle: "Bel'Loisirs — Book activities and experiences",
   brand: "Bel'Loisirs",
   home: "Home",
   activities: "Activities",

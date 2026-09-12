@@ -1,4 +1,10 @@
-GET http://localhost:8080/api/member/reservations/1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpdXMuYWRtaW5AZXhhbXBsZS5jb20iLCJpZCI6MywiZmlyc3ROYW1lIjoiTWFyaXVzIiwibGFzdE5hbWUiOiJWb24gTWF5ZW5idXJnIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNzg4MDM4MDU4LCJleHAiOjE3ODgxMjQ0NTh9.7zv-ebmzvXVi6LK7L4vJZmFYdY3KWjy0ECRLv7O9xhwGW0SHlJAVqRtjwDKDqRJmaNn57aOEfuPDGxzlcdVFmQ
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
 
-
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "",
+  "consentRgpd": true,
+  "password": "TestPassword1!"
+}

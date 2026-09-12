@@ -1,0 +1,188 @@
+.home-carousel {
+    min-height: 430px;
+}
+
+.carousel-window {
+    position: relative;
+    height: 100%;
+    min-height: 430px;
+    overflow: hidden;
+    border: 1px solid var(--bl-border);
+    border-radius: 24px;
+    background: #dfecea;
+}
+
+.carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s ease;
+}
+
+.carousel-slide-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    min-height: 430px;
+    object-fit: cover;
+}
+
+.carousel-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(30, 53, 58, 0.05) 15%,
+        rgba(26, 54, 55, 0.82) 100%
+    );
+}
+
+.carousel-content {
+    position: absolute;
+    z-index: 2;
+    left: 28px;
+    right: 28px;
+    bottom: 28px;
+    color: #fff;
+}
+
+.carousel-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+    color: var(--bl-primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.carousel-content h2 {
+    margin: 0 0 8px;
+    font-family: "Poppins", "Segoe UI", sans-serif;
+    font-size: 30px;
+    line-height: 1.15;
+}
+
+.carousel-content p {
+    max-width: 440px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+}
+
+.carousel-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.carousel-bottom strong {
+    font-size: 18px;
+}
+
+.carousel-action {
+    padding: 9px 17px;
+    border-radius: 999px;
+    background: var(--bl-primary);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.carousel-action:hover {
+    background: var(--bl-primary-dark);
+}
+
+.carousel-control {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--bl-primary-dark);
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.carousel-control-left {
+    left: 14px;
+}
+
+.carousel-control-right {
+    right: 14px;
+}
+
+.carousel-indicators {
+    position: absolute;
+    z-index: 5;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    gap: 7px;
+}
+
+.carousel-indicators button {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+}
+
+.carousel-indicators button.active {
+    width: 25px;
+    border-radius: 999px;
+    background: #fff;
+}
+
+@media (max-width: 980px) {
+    .home-carousel,
+    .carousel-window,
+    .carousel-image {
+        min-height: 360px;
+    }
+}
+
+@media (max-width: 640px) {
+    .home-carousel,
+    .carousel-window,
+    .carousel-image {
+        min-height: 330px;
+    }
+
+    .carousel-window {
+        border-radius: 18px;
+    }
+
+    .carousel-content {
+        left: 20px;
+        right: 20px;
+        bottom: 22px;
+    }
+
+    .carousel-content h2 {
+        font-size: 24px;
+    }
+
+    .carousel-control {
+        width: 36px;
+        height: 36px;
+    }
+}

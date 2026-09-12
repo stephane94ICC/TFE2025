@@ -1,4 +1,5 @@
 export default {
+  documentTitle: "Bel'Loisirs — Réservation d'activités de loisirs",
   brand: "Bel'Loisirs",
   home: "Accueil",
   activities: "Activités",

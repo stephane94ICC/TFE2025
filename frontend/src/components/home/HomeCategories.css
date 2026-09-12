@@ -1,0 +1,41 @@
+.home-categories {
+    width: min(1180px, 100%);
+    margin: 28px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category {
+    padding: 8px 15px;
+    border: 1px solid rgba(52, 68, 81, 0.08);
+    border-radius: 999px;
+    color: var(--bl-text);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.category-wellness {
+    background: var(--bl-wellness);
+    color: #17675f;
+}
+
+.category-sport {
+    background: var(--bl-sport);
+    color: #8c6820;
+}
+
+.category-bars {
+    background: var(--bl-bars);
+    color: #a15446;
+}
+
+.category-culture {
+    background: var(--bl-culture);
+    color: #4d6994;
+}
+
+.category-shop {
+    background: var(--bl-shop);
+    color: #80652f;
+}

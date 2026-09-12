@@ -6,6 +6,8 @@
       </router-link>
     </div>
 
+    <NavbarSearch />
+
     <div class="navbar-right">
       <div class="navbar-links">
         <router-link to="/" class="nav-link">
@@ -184,9 +186,14 @@
 <script>
 import AuthService from "../services/AuthService";
 import i18n from "../i18n";
+import NavbarSearch from "./NavbarSearch.vue";
 
 export default {
   name: "AppNavbar",
+
+  components: {
+    NavbarSearch
+  },
 
   data() {
     return {
@@ -194,13 +201,12 @@ export default {
       isAdmin: false,
       isPartner: false,
       isMenuOpen: false,
-      currentLocale: "fr"
+      currentLocale: i18n.global.locale.value
     };
   },
 
   mounted() {
     this.refreshAuthState();
-    this.loadLanguage();
 
     document.addEventListener("click", this.closeMenu);
   },
@@ -223,21 +229,6 @@ export default {
       this.isPartner = AuthService.hasRole("PARTNER");
     },
 
-    loadLanguage() {
-      const savedLanguage = localStorage.getItem("language");
-
-      if (
-          savedLanguage === "fr" ||
-          savedLanguage === "nl" ||
-          savedLanguage === "en"
-      ) {
-        this.setLanguage(savedLanguage);
-        return;
-      }
-
-      this.setLanguage("fr");
-    },
-
     setLanguage(language) {
       this.currentLocale = language;
       i18n.global.locale.value = language;
@@ -245,6 +236,7 @@ export default {
       localStorage.setItem("language", language);
 
       document.documentElement.lang = language;
+      document.title = i18n.global.t("navbar.documentTitle");
     },
 
     toggleMenu() {

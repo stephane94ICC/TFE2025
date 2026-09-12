@@ -2,6 +2,8 @@ package be.loisirs.tfe2025.plateforme_loisirs.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,8 @@ public class RegisterRequestDTO {
     @NotBlank(message = "Le nom est obligatoire.")
     private String lastName;
 
+    @NotBlank(message = "L'adresse e-mail est obligatoire.")
+    @Email(message = "L'adresse e-mail doit être valide.")
     private String email;
 
     private Boolean consentRgpd;
