@@ -17,6 +17,7 @@ public class ActivityResponseMapper {
         }
 
         PublicActivityResponseDTO dto = new PublicActivityResponseDTO();
+
         dto.setId(activity.getId());
         dto.setTitle(activity.getTitle());
         dto.setDescription(activity.getDescription());
@@ -24,12 +25,31 @@ public class ActivityResponseMapper {
         dto.setDurationMinutes(activity.getDurationMinutes());
         dto.setMinimumAge(activity.getMinimumAge());
         dto.setEquipmentInformation(activity.getEquipmentInformation());
+
         dto.setImageUrls(getImageUrls(activity));
+        dto.setCategories(getCategoryNames(activity));
 
         if (activity.getPartner() != null) {
             dto.setPartnerId(activity.getPartner().getId());
             dto.setPartnerName(activity.getPartner().getName());
         }
+
+        return dto;
+    }
+
+    public PublicActivityResponseDTO toPublicDTO(
+            Activity activity,
+            List<String> cities,
+            boolean available
+    ) {
+        PublicActivityResponseDTO dto = toPublicDTO(activity);
+
+        if (dto == null) {
+            return null;
+        }
+
+        dto.setCities(cities != null ? cities : List.of());
+        dto.setAvailable(available);
 
         return dto;
     }
@@ -40,6 +60,7 @@ public class ActivityResponseMapper {
         }
 
         AdminActivityResponseDTO dto = new AdminActivityResponseDTO();
+
         dto.setId(activity.getId());
         dto.setTitle(activity.getTitle());
         dto.setDescription(activity.getDescription());
@@ -53,6 +74,7 @@ public class ActivityResponseMapper {
         dto.setUpdatedAt(activity.getUpdatedAt());
         dto.setReviewedAt(activity.getReviewedAt());
         dto.setReviewComment(activity.getReviewComment());
+
         dto.setImageUrls(getImageUrls(activity));
 
         if (activity.getReviewedByUser() != null) {
@@ -74,6 +96,7 @@ public class ActivityResponseMapper {
         }
 
         PartnerActivityResponseDTO dto = new PartnerActivityResponseDTO();
+
         dto.setId(activity.getId());
         dto.setTitle(activity.getTitle());
         dto.setDescription(activity.getDescription());
@@ -87,6 +110,7 @@ public class ActivityResponseMapper {
         dto.setUpdatedAt(activity.getUpdatedAt());
         dto.setReviewedAt(activity.getReviewedAt());
         dto.setReviewComment(activity.getReviewComment());
+
         dto.setImageUrls(getImageUrls(activity));
 
         return dto;
@@ -100,6 +124,17 @@ public class ActivityResponseMapper {
         return activity.getImages()
                 .stream()
                 .map(image -> image.getUrl())
+                .toList();
+    }
+
+    private List<String> getCategoryNames(Activity activity) {
+        if (activity.getCategories() == null) {
+            return List.of();
+        }
+
+        return activity.getCategories()
+                .stream()
+                .map(category -> category.getName())
                 .toList();
     }
 }

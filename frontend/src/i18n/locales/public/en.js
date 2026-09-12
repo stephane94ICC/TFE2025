@@ -2,7 +2,8 @@ export default {
   home: {
     subtitle: "Belgian leisure platform",
     title: "Book and shop for leisure in just a few clicks",
-    description: "Discover activities, book your sessions and find leisure-related products from one platform.",
+    description:
+      "Discover activities, book your sessions and find leisure-related products from one platform.",
 
     searchPlaceholder: "Search for an activity or product",
     searchButton: "Search",
@@ -29,7 +30,8 @@ export default {
 
     loading: "Loading suggestions...",
     emptyTitle: "More suggestions coming soon",
-    emptyText: "Browse the activities and shop to discover the available offers.",
+    emptyText:
+      "Browse the activities and shop to discover the available offers.",
 
     categories: {
       wellness: "Wellness",
@@ -41,12 +43,33 @@ export default {
   },
 
   activityList: {
-    title: "Activities",
-    subtitle: "Discover the activities available on the platform.",
+    title: "Activities and experiences",
+    subtitle:
+      "Discover and compare the activities available on the platform.",
+
     loading: "Loading activities...",
-    details: "View details",
-    empty: "No activities available.",
-    loadError: "Unable to load activities."
+    details: "View",
+    empty: "No activities match your criteria.",
+    loadError: "Unable to load activities.",
+
+    results: "Activity results",
+    resultsCount: "{count} activity/activities available",
+
+    filters: {
+      title: "Filters",
+      reset: "Reset",
+      all: "All",
+
+      type: "Activity type",
+      location: "City / area",
+      partner: "Partner",
+      price: "Price",
+
+      minPrice: "Min.",
+      maxPrice: "Max.",
+
+      availableOnly: "Available only"
+    }
   },
 
   activityDetail: {
@@ -61,7 +84,8 @@ export default {
 
     sessionsTitle: "Available sessions",
     sessionsLoading: "Loading sessions...",
-    sessionsEmpty: "No sessions are currently available for this activity.",
+    sessionsEmpty:
+      "No sessions are currently available for this activity.",
 
     remainingSeatsPlural: "places remaining",
     remainingSeatsSingular: "place remaining",
@@ -83,45 +107,60 @@ export default {
 
   privacy: {
     title: "Privacy policy",
-    subtitle: "This page explains how Bel'Loisirs collects and processes your personal data in accordance with the General Data Protection Regulation (GDPR).",
+    subtitle:
+      "This page explains how Bel'Loisirs collects and processes your personal data in accordance with the General Data Protection Regulation (GDPR).",
 
     controllerTitle: "1. Data controller",
-    controllerText: "[TO BE COMPLETED: name of the responsible entity, address, contact email]",
+    controllerText:
+      "[TO BE COMPLETED: name of the responsible entity, address, contact email]",
 
     dataTitle: "2. Data collected",
-    dataIntro: "When an account is created and the platform is used, the following data is collected:",
+    dataIntro:
+      "When an account is created and the platform is used, the following data is collected:",
 
     dataIdentity: "Identity: last name, first name, date of birth",
     dataContact: "Contact details: email address, telephone number",
-    dataPassword: "Password (stored in encrypted form, never in plain text)",
+    dataPassword:
+      "Password (stored in encrypted form, never in plain text)",
     dataProfilePicture: "Profile picture (optional)",
-    dataHistory: "History of orders and reservations made on the platform",
-    dataPartners: "For partners: company name, professional address(es), logo",
+    dataHistory:
+      "History of orders and reservations made on the platform",
+    dataPartners:
+      "For partners: company name, professional address(es), logo",
 
-    paymentData: "Payment data (bank card number, etc.) is never stored by Bel'Loisirs: it is processed directly by our payment provider, Stripe.",
+    paymentData:
+      "Payment data (bank card number, etc.) is never stored by Bel'Loisirs: it is processed directly by our payment provider, Stripe.",
 
     purposesTitle: "3. Purposes of processing",
     purposeAccount: "User account management and authentication",
     purposeReservations: "Booking activities and purchasing products",
     purposePayments: "Payment processing (via Stripe)",
-    purposeCommunication: "Communication relating to orders and reservations",
+    purposeCommunication:
+      "Communication relating to orders and reservations",
 
     legalBasisTitle: "4. Legal basis",
-    legalBasisText: "Processing is based on the performance of the contract (account creation, purchases, reservations) and on your explicit consent, obtained during registration.",
+    legalBasisText:
+      "Processing is based on the performance of the contract (account creation, purchases, reservations) and on your explicit consent, obtained during registration.",
 
     retentionTitle: "5. Retention period",
-    retentionText: "[TO BE COMPLETED: data retention period after account deletion / last activity]",
+    retentionText:
+      "[TO BE COMPLETED: data retention period after account deletion / last activity]",
 
     recipientsTitle: "6. Data recipients",
-    recipientsText: "Your data is shared only with service providers required for the operation of the platform: Stripe (payment) and our hosting provider. [TO BE COMPLETED: name of the hosting provider once final deployment is confirmed]",
+    recipientsText:
+      "Your data is shared only with service providers required for the operation of the platform: Stripe (payment) and our hosting provider. [TO BE COMPLETED: name of the hosting provider once final deployment is confirmed]",
 
     rightsTitle: "7. Your rights",
-    rightsText: "In accordance with the GDPR, you have the right to access, rectify, erase, restrict and receive your data, as well as the right to withdraw your consent at any time.",
-    rightsContact: "To exercise these rights, contact us at the following address: [TO BE COMPLETED: contact email address].",
-    complaint: "You also have the right to lodge a complaint with the Belgian Data Protection Authority (DPA).",
+    rightsText:
+      "In accordance with the GDPR, you have the right to access, rectify, erase, restrict and receive your data, as well as the right to withdraw your consent at any time.",
+    rightsContact:
+      "To exercise these rights, contact us at the following address: [TO BE COMPLETED: contact email address].",
+    complaint:
+      "You also have the right to lodge a complaint with the Belgian Data Protection Authority (DPA).",
 
     securityTitle: "8. Security",
-    securityText: "Passwords are encrypted using BCrypt and authentication is based on JWT tokens with a limited validity period. No bank card data passes through our servers.",
+    securityText:
+      "Passwords are encrypted using BCrypt and authentication is based on JWT tokens with a limited validity period. No bank card data passes through our servers.",
 
     lastUpdate: "Last updated: [TO BE COMPLETED]"
   },
@@ -146,7 +185,8 @@ export default {
 
   shop: {
     title: "Shop",
-    subtitle: "Discover the products available for your leisure activities.",
+    subtitle:
+      "Discover the products available for your leisure activities.",
 
     loading: "Loading products...",
     stock: "Stock",

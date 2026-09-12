@@ -20,13 +20,12 @@ export default {
 </script>
 
 <style>
-body {
-  margin: 0;
-  background: #f3f4f6;
-  font-family: Arial, sans-serif;
+#app {
+  min-height: 100vh;
+  background: var(--bl-background);
 }
 
 .main-content {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 88px);
 }
 </style>

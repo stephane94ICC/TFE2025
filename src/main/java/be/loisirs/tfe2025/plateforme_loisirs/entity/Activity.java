@@ -68,6 +68,15 @@ public class Activity {
     @JoinColumn(name = "partner_id", nullable = false)
     private Partner partner;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "activity_category",
+            joinColumns = @JoinColumn(name = "activity_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories = new ArrayList<>();
+
+
     @OneToMany(
             mappedBy = "activity",
             cascade = CascadeType.ALL,

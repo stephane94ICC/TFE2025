@@ -35,4 +35,8 @@ public class AdminActivityResponseDTO {
     private Long partnerId;
     private String partnerName;
     private List<String> imageUrls = new ArrayList<>();
+    private List<String> categories = new ArrayList<>();
+    private List<String> cities = new ArrayList<>();
+    private boolean available;
+
 }

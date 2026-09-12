@@ -1,0 +1,54 @@
+:root {
+    --bl-primary: #1d8378;
+    --bl-primary-dark: #17675f;
+    --bl-primary-soft: #e3f1ee;
+
+    --bl-gold: #d8ad43;
+    --bl-coral: #e58a5b;
+
+    --bl-background: #f7f3ed;
+    --bl-surface: #ffffff;
+    --bl-border: #ded6cc;
+
+    --bl-text: #344451;
+    --bl-muted: #74818d;
+
+    --bl-danger: #b42318;
+    --bl-danger-soft: #fef3f2;
+
+    --bl-radius-sm: 10px;
+    --bl-radius-md: 16px;
+    --bl-radius-pill: 999px;
+
+    --bl-shadow-soft: 0 5px 18px rgba(52, 68, 81, 0.08);
+
+    --bl-font-title: "Poppins", "Segoe UI", Arial, sans-serif;
+    --bl-font-body: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+html {
+    background: var(--bl-background);
+}
+
+body {
+    margin: 0;
+    background: var(--bl-background);
+    color: var(--bl-text);
+    font-family: var(--bl-font-body);
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--bl-font-title);
+}
