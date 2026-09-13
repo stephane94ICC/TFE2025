@@ -2,6 +2,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <router-link to="/" class="brand-link">
+        <img :src="logo" class="brand-logo" alt="">
         {{ $t("navbar.brand") }}
       </router-link>
     </div>
@@ -187,6 +188,7 @@
 import AuthService from "../services/AuthService";
 import i18n from "../i18n";
 import NavbarSearch from "./NavbarSearch.vue";
+import logo from "../assets/logo.svg";
 
 export default {
   name: "AppNavbar",
@@ -201,7 +203,8 @@ export default {
       isAdmin: false,
       isPartner: false,
       isMenuOpen: false,
-      currentLocale: i18n.global.locale.value
+      currentLocale: i18n.global.locale.value,
+      logo
     };
   },
 

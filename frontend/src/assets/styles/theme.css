@@ -1,4 +1,5 @@
 :root {
+    /* Marque */
     --bl-primary: #1d8378;
     --bl-primary-dark: #17675f;
     --bl-primary-soft: #e3f1ee;
@@ -6,22 +7,34 @@
     --bl-gold: #d8ad43;
     --bl-coral: #e58a5b;
 
+    /* Surfaces */
     --bl-background: #f7f3ed;
     --bl-surface: #ffffff;
+    --bl-surface-alt: #fbf8f4;
     --bl-border: #ded6cc;
 
+    /* Texte */
     --bl-text: #344451;
-    --bl-muted: #74818d;
+    --bl-muted: #606c78;
+
+    /* États */
+    --bl-success: #1f7a4d;
+    --bl-success-soft: #e4f3ea;
+
+    --bl-warning: #8f6316;
+    --bl-warning-soft: #fbf2dd;
 
     --bl-danger: #b42318;
     --bl-danger-soft: #fef3f2;
 
+    /* Formes */
     --bl-radius-sm: 10px;
     --bl-radius-md: 16px;
     --bl-radius-pill: 999px;
 
     --bl-shadow-soft: 0 5px 18px rgba(52, 68, 81, 0.08);
 
+    /* Typographie */
     --bl-font-title: "Poppins", "Segoe UI", Arial, sans-serif;
     --bl-font-body: "Inter", "Segoe UI", Arial, sans-serif;
 }

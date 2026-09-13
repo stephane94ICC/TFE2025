@@ -19,7 +19,7 @@
 <script>
 import { getActivities } from "../../services/ActivityService";
 import { getProducts } from "../../services/ProductService";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.svg";
 import HomeHero from "../../components/home/HomeHero.vue";
 import HomeCarousel from "../../components/home/HomeCarousel.vue";
 import HomeCategories from "../../components/home/HomeCategories.vue";

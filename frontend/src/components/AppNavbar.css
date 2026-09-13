@@ -36,15 +36,10 @@
     text-decoration: none;
 }
 
-.brand-link::before {
-    content: "";
+.brand-logo {
     width: 30px;
     height: 30px;
     flex: 0 0 30px;
-    box-sizing: border-box;
-    border: 8px solid var(--bl-primary);
-    border-radius: 50% 50% 50% 18%;
-    transform: rotate(-45deg);
 }
 
 .navbar-right {

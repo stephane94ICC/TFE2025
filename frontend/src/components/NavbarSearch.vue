@@ -33,8 +33,8 @@
           <span>
             {{
               result.type === "activity"
-                ? $t("public.home.activity")
-                : $t("public.home.product")
+                  ? $t("public.home.activity")
+                  : $t("public.home.product")
             }}
           </span>
         </div>
@@ -50,7 +50,7 @@
 <script>
 import { getActivities } from "../services/ActivityService";
 import { getProducts } from "../services/ProductService";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 
 export default {
   name: "NavbarSearch",
