@@ -8,7 +8,6 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.ActivityLogDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.mapper.ActivityLogMapper;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -134,6 +133,15 @@ public class ActivityLogService {
     }
 
 
+    /**
+     * Adresse IP du client, telle que déterminée par le serveur.
+     *
+     * L'en-tête X-Forwarded-For n'est volontairement PAS lu ici : n'importe
+     * quel client peut l'envoyer avec une valeur inventée. C'est Tomcat
+     * (server.forward-headers-strategy=native) qui le prend en compte, et
+     * uniquement lorsqu'il provient d'un proxy de confiance (réseau interne
+     * de l'hébergeur). getRemoteAddr() renvoie alors la bonne adresse.
+     */
     private String currentIpAddress() {
         ServletRequestAttributes attributes =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -142,13 +150,7 @@ public class ActivityLogService {
             return null;
         }
 
-        HttpServletRequest request = attributes.getRequest();
-        String forwarded = request.getHeader("X-Forwarded-For");
-
-        if (forwarded != null && !forwarded.isBlank()) {
-            return forwarded.split(",")[0].trim();
-        }
-        return request.getRemoteAddr();
+        return attributes.getRequest().getRemoteAddr();
     }
 
     private String truncate(String details) {

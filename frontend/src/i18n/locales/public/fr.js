@@ -112,21 +112,23 @@ export default {
 
     controllerTitle: "1. Responsable du traitement",
     controllerText:
-      "[À COMPLÉTER : nom de l'entité responsable, adresse, email de contact]",
+      "Bel'Loisirs est une application réalisée dans le cadre d'un travail de fin d'études en informatique de gestion à l'Institut des Carrières Commerciales (ICC), Bruxelles. Contact : contact{'@'}belloisirs.example (adresse fictive — projet de fin d'études).",
 
     dataTitle: "2. Données collectées",
     dataIntro:
       "Lors de la création d'un compte et de l'utilisation de la plateforme, les données suivantes sont collectées :",
 
-    dataIdentity: "Identité : nom, prénom, date de naissance",
-    dataContact: "Coordonnées : adresse e-mail, numéro de téléphone",
+    dataIdentity: "Identité : nom, prénom",
+    dataContact: "Coordonnées : adresse e-mail, numéro de téléphone (facultatif, via le profil)",
     dataPassword:
-      "Mot de passe (stocké de façon chiffrée, jamais en clair)",
+      "Mot de passe, stocké sous forme hachée (BCrypt), jamais en clair ni de façon réversible",
     dataProfilePicture: "Photo de profil (facultative)",
     dataHistory:
-      "Historique des commandes et réservations effectuées sur la plateforme",
+      "Historique des commandes et réservations effectuées sur la plateforme, avec les données de facturation associées",
     dataPartners:
       "Pour les partenaires : nom de l'entreprise, adresse(s) professionnelle(s), logo",
+    dataSecurityLog:
+      "Journal de sécurité : adresse IP, adresse e-mail et type d'action (connexion, inscription, réservation, paiement)",
 
     paymentData:
       "Les données de paiement (numéro de carte bancaire, etc.) ne sont jamais stockées par Bel'Loisirs : elles sont traitées directement par notre prestataire de paiement, Stripe.",
@@ -135,34 +137,38 @@ export default {
     purposeAccount: "Gestion du compte utilisateur et authentification",
     purposeReservations: "Réservation d'activités et achat de produits",
     purposePayments: "Traitement des paiements (via Stripe)",
-    purposeCommunication:
-      "Communication liée aux commandes et réservations",
+    purposeSecurity:
+      "Sécurité de la plateforme et traçabilité des opérations sensibles (journal d'audit)",
 
     legalBasisTitle: "4. Base légale",
     legalBasisText:
-      "Le traitement repose sur l'exécution du contrat (création de compte, achats, réservations) et sur votre consentement explicite, recueilli lors de l'inscription.",
+      "Le traitement repose sur l'exécution du contrat pour la gestion du compte, des réservations et des achats ; sur une obligation légale pour la conservation des données de facturation ; et sur l'intérêt légitime de Bel'Loisirs pour le journal de sécurité (prévention des fraudes et des accès abusifs).",
 
     retentionTitle: "5. Durée de conservation",
     retentionText:
-      "[À COMPLÉTER : durée de conservation des données après suppression du compte / dernière activité]",
+      "Les données du compte sont conservées jusqu'à sa suppression ; elles sont alors pseudonymisées. Les données de facturation sont conservées 10 ans, conformément aux obligations comptables belges. Le journal de sécurité est conservé 12 mois.",
 
     recipientsTitle: "6. Destinataires des données",
     recipientsText:
-      "Vos données ne sont partagées qu'avec les prestataires nécessaires au fonctionnement de la plateforme : Stripe (paiement) et notre hébergeur. [À COMPLÉTER : nom de l'hébergeur une fois le déploiement final confirmé]",
+      "Vos données ne sont partagées qu'avec les prestataires nécessaires au fonctionnement de la plateforme : Stripe (paiement) et Railway (hébergement).",
 
     rightsTitle: "7. Vos droits",
     rightsText:
-      "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et de portabilité de vos données, ainsi que du droit de retirer votre consentement à tout moment.",
+      "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et de portabilité de vos données, ainsi que d'un droit d'opposition au traitement fondé sur l'intérêt légitime.",
     rightsContact:
-      "Pour exercer ces droits, contactez-nous à l'adresse suivante : [À COMPLÉTER : adresse email de contact].",
+      "Pour exercer ces droits, contactez-nous à l'adresse suivante : contact{'@'}belloisirs.example (adresse fictive — projet de fin d'études).",
     complaint:
       "Vous disposez également du droit d'introduire une réclamation auprès de l'Autorité de protection des données (APD) en Belgique.",
 
     securityTitle: "8. Sécurité",
     securityText:
-      "Les mots de passe sont chiffrés (BCrypt) et l'authentification repose sur des jetons JWT à durée limitée. Aucune donnée de carte bancaire ne transite par nos serveurs.",
+      "Les mots de passe sont hachés (BCrypt) et l'authentification repose sur des jetons JWT à durée limitée. Aucune donnée de carte bancaire ne transite par nos serveurs.",
 
-    lastUpdate: "Dernière mise à jour : [À COMPLÉTER]"
+    cookiesTitle: "9. Cookies et stockage local",
+    cookiesText:
+      "Bel'Loisirs n'utilise aucun cookie, aucun outil de mesure d'audience ni aucun traceur publicitaire, et les polices de caractères sont hébergées sur nos propres serveurs. Le navigateur conserve uniquement, dans son stockage local, les informations strictement nécessaires au service que vous demandez : la langue choisie, le contenu du panier et vos informations de connexion. Ce stockage étant indispensable au fonctionnement de la plateforme, il ne requiert pas de consentement. Les informations de connexion sont effacées lors de la déconnexion ; l'ensemble peut être supprimé à tout moment via les paramètres de votre navigateur.",
+
+    lastUpdate: "Dernière mise à jour : 19 septembre 2026"
   },
 
   productDetail: {

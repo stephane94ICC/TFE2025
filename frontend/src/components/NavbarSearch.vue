@@ -26,7 +26,12 @@
           class="navbar-search-result"
           @click="closeSearch"
       >
-        <img :src="result.image" :alt="result.title">
+        <img
+            v-if="result.image"
+            :src="result.image"
+            alt=""
+            @error="hideBrokenImage"
+        >
 
         <div>
           <strong>{{ result.title }}</strong>
@@ -50,7 +55,6 @@
 <script>
 import { getActivities } from "../services/ActivityService";
 import { getProducts } from "../services/ProductService";
-import logo from "../assets/logo.svg";
 
 export default {
   name: "NavbarSearch",
@@ -60,8 +64,7 @@ export default {
       activities: [],
       products: [],
       searchTerm: "",
-      searchOpen: false,
-      logo
+      searchOpen: false
     };
   },
 
@@ -139,24 +142,19 @@ export default {
       }
     },
 
+    // Le backend garantit au moins une image (image par défaut non supprimable).
     getActivityImage(activity) {
-      if (activity?.imageUrls?.length > 0) {
-        return activity.imageUrls[0];
-      }
-
-      return this.logo;
+      return activity?.imageUrls?.[0] || "";
     },
 
     getProductImage(product) {
-      if (product?.imageUrls?.length > 0) {
-        return product.imageUrls[0];
-      }
+      return product?.imageUrls?.[0] || "";
+    },
 
-      if (product?.imageUrl) {
-        return product.imageUrl;
-      }
-
-      return this.logo;
+    // Fichier absent du disque (404) : on masque l'image plutôt que
+    // d'afficher l'icône « image cassée ».
+    hideBrokenImage(event) {
+      event.target.style.display = "none";
     },
 
     normalizeText(value) {

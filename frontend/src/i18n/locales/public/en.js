@@ -112,21 +112,23 @@ export default {
 
     controllerTitle: "1. Data controller",
     controllerText:
-      "[TO BE COMPLETED: name of the responsible entity, address, contact email]",
+      "Bel'Loisirs is an application developed as a bachelor's final-year project in business information technology at the Institut des Carrières Commerciales (ICC), Brussels. Contact: contact{'@'}belloisirs.example (fictitious address — final-year project).",
 
     dataTitle: "2. Data collected",
     dataIntro:
       "When an account is created and the platform is used, the following data is collected:",
 
-    dataIdentity: "Identity: last name, first name, date of birth",
-    dataContact: "Contact details: email address, telephone number",
+    dataIdentity: "Identity: last name, first name",
+    dataContact: "Contact details: email address, phone number (optional, via the profile)",
     dataPassword:
-      "Password (stored in encrypted form, never in plain text)",
+      "Password, stored in hashed form (BCrypt), never in plain text nor in a reversible way",
     dataProfilePicture: "Profile picture (optional)",
     dataHistory:
-      "History of orders and reservations made on the platform",
+      "History of orders and reservations made on the platform, with the associated billing data",
     dataPartners:
       "For partners: company name, professional address(es), logo",
+    dataSecurityLog:
+      "Security log: IP address, email address and type of action (login, registration, reservation, payment)",
 
     paymentData:
       "Payment data (bank card number, etc.) is never stored by Bel'Loisirs: it is processed directly by our payment provider, Stripe.",
@@ -135,34 +137,38 @@ export default {
     purposeAccount: "User account management and authentication",
     purposeReservations: "Booking activities and purchasing products",
     purposePayments: "Payment processing (via Stripe)",
-    purposeCommunication:
-      "Communication relating to orders and reservations",
+    purposeSecurity:
+      "Platform security and traceability of sensitive operations (audit log)",
 
     legalBasisTitle: "4. Legal basis",
     legalBasisText:
-      "Processing is based on the performance of the contract (account creation, purchases, reservations) and on your explicit consent, obtained during registration.",
+      "Processing is based on the performance of the contract for the management of the account, reservations and purchases; on a legal obligation for the retention of billing data; and on the legitimate interest of Bel'Loisirs for the security log (prevention of fraud and abusive access).",
 
     retentionTitle: "5. Retention period",
     retentionText:
-      "[TO BE COMPLETED: data retention period after account deletion / last activity]",
+      "Account data is kept until the account is deleted; it is then pseudonymised. Billing data is kept for 10 years, in accordance with Belgian accounting obligations. The security log is kept for 12 months.",
 
     recipientsTitle: "6. Data recipients",
     recipientsText:
-      "Your data is shared only with service providers required for the operation of the platform: Stripe (payment) and our hosting provider. [TO BE COMPLETED: name of the hosting provider once final deployment is confirmed]",
+      "Your data is shared only with the service providers required for the operation of the platform: Stripe (payment) and Railway (hosting).",
 
     rightsTitle: "7. Your rights",
     rightsText:
-      "In accordance with the GDPR, you have the right to access, rectify, erase, restrict and receive your data, as well as the right to withdraw your consent at any time.",
+      "Under the GDPR, you have the right of access, rectification, erasure, restriction and portability of your data, as well as the right to object to processing based on legitimate interest.",
     rightsContact:
-      "To exercise these rights, contact us at the following address: [TO BE COMPLETED: contact email address].",
+      "To exercise these rights, contact us at the following address: contact{'@'}belloisirs.example (fictitious address — final-year project).",
     complaint:
       "You also have the right to lodge a complaint with the Belgian Data Protection Authority (DPA).",
 
     securityTitle: "8. Security",
     securityText:
-      "Passwords are encrypted using BCrypt and authentication is based on JWT tokens with a limited validity period. No bank card data passes through our servers.",
+      "Passwords are hashed (BCrypt) and authentication relies on time-limited JWT tokens. No bank card data passes through our servers.",
 
-    lastUpdate: "Last updated: [TO BE COMPLETED]"
+    cookiesTitle: "9. Cookies and local storage",
+    cookiesText:
+      "Bel'Loisirs uses no cookies, no audience measurement tools and no advertising trackers, and fonts are hosted on our own servers. The browser only keeps, in its local storage, the information strictly necessary for the service you request: the selected language, the contents of the cart and your login information. As this storage is essential to the operation of the platform, it does not require consent. Login information is erased when you log out; everything can be deleted at any time through your browser settings.",
+
+    lastUpdate: "Last updated: 19 September 2026"
   },
 
   productDetail: {

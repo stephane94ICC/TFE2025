@@ -24,6 +24,7 @@
           <li>{{ $t("public.privacy.dataProfilePicture") }}</li>
           <li>{{ $t("public.privacy.dataHistory") }}</li>
           <li>{{ $t("public.privacy.dataPartners") }}</li>
+          <li>{{ $t("public.privacy.dataSecurityLog") }}</li>
         </ul>
 
         <p>
@@ -38,7 +39,7 @@
           <li>{{ $t("public.privacy.purposeAccount") }}</li>
           <li>{{ $t("public.privacy.purposeReservations") }}</li>
           <li>{{ $t("public.privacy.purposePayments") }}</li>
-          <li>{{ $t("public.privacy.purposeCommunication") }}</li>
+          <li>{{ $t("public.privacy.purposeSecurity") }}</li>
         </ul>
       </section>
 
@@ -84,6 +85,14 @@
 
         <p>
           {{ $t("public.privacy.securityText") }}
+        </p>
+      </section>
+
+      <section>
+        <h2>{{ $t("public.privacy.cookiesTitle") }}</h2>
+
+        <p>
+          {{ $t("public.privacy.cookiesText") }}
         </p>
       </section>
 
