@@ -2,7 +2,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 24px;
-    color: #1f2937;
+    color: var(--bl-text);
 }
 
 .page-header {
@@ -15,12 +15,12 @@
 .page-header h1 {
     margin: 0;
     font-size: 36px;
-    color: #111827;
+    color: var(--bl-text);
 }
 
 .page-header p {
     margin-top: 8px;
-    color: #6b7280;
+    color: var(--bl-muted);
 }
 
 .alert {
@@ -31,8 +31,8 @@
 }
 
 .alert-error {
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .product-grid {
@@ -42,16 +42,16 @@
 }
 
 .product-card {
-    background: white;
+    background: var(--bl-surface);
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--bl-border);
+    box-shadow: var(--bl-shadow-soft);
 }
 
 .product-image {
     height: 180px;
-    background: linear-gradient(135deg, #111827, #2563eb);
+    background: linear-gradient(135deg, var(--bl-primary-dark), var(--bl-primary));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,8 +68,8 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: white;
-    color: #2563eb;
+    background: var(--bl-surface);
+    color: var(--bl-primary);
     font-size: 34px;
     font-weight: bold;
     display: flex;
@@ -83,11 +83,11 @@
 
 .product-content h2 {
     margin: 0 0 10px;
-    color: #111827;
+    color: var(--bl-text);
 }
 
 .description {
-    color: #6b7280;
+    color: var(--bl-muted);
     line-height: 1.5;
     min-height: 48px;
 }
@@ -100,8 +100,8 @@
 }
 
 .product-info span {
-    background: #f3f4f6;
-    color: #374151;
+    background: var(--bl-surface-alt);
+    color: var(--bl-text);
     padding: 7px 10px;
     border-radius: 999px;
     font-size: 14px;
@@ -117,12 +117,12 @@
 }
 
 .btn-primary {
-    background: #2563eb;
-    color: white;
+    background: var(--bl-primary);
+    color: var(--bl-on-primary);
 }
 
 .btn-primary:hover {
-    background: #1d4ed8;
+    background: var(--bl-primary-dark);
 }
 
 @media (max-width: 768px) {
