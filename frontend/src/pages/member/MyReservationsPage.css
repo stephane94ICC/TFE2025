@@ -24,8 +24,8 @@
 .my-reservations-card {
     overflow-x: auto;
     border-radius: 14px;
-    background: #ffffff;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    background: var(--bl-surface);
+    box-shadow: var(--bl-shadow-soft);
 }
 
 .my-reservations-card table {
@@ -36,13 +36,13 @@
 .my-reservations-card th,
 .my-reservations-card td {
     padding: 14px 16px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--bl-border);
     text-align: left;
     font-size: 14px;
 }
 
 .my-reservations-card thead {
-    background: #f3f4f6;
+    background: var(--bl-surface-alt);
 }
 
 .reservation-reference {
@@ -58,26 +58,26 @@
 }
 
 .reservation-status-confirmed {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--bl-success-soft);
+    color: var(--bl-success);
 }
 
 .reservation-status-pending {
-    background: #fef3c7;
-    color: #92400e;
+    background: var(--bl-warning-soft);
+    color: var(--bl-warning);
 }
 
 .reservation-status-cancelled {
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .reservation-cancel-button {
     padding: 7px 14px;
-    border: 1px solid #dc2626;
+    border: 1px solid var(--bl-danger);
     border-radius: 8px;
-    background: #ffffff;
-    color: #dc2626;
+    background: var(--bl-surface);
+    color: var(--bl-danger);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -85,18 +85,18 @@
 }
 
 .reservation-cancel-button:hover:not(:disabled) {
-    background: #dc2626;
-    color: #ffffff;
+    background: var(--bl-danger);
+    color: var(--bl-on-primary);
 }
 
 .reservation-cancel-button:disabled {
-    border-color: #d1d5db;
-    color: #9ca3af;
+    border-color: var(--bl-border);
+    color: var(--bl-muted);
     cursor: not-allowed;
 }
 
 .reservation-cancel-closed {
-    color: #6b7280;
+    color: var(--bl-muted);
     font-size: 13px;
     font-style: italic;
 }
@@ -110,14 +110,14 @@
 
 .my-reservations-error {
     border-radius: 8px;
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .my-reservations-success {
     border-radius: 8px;
-    background: #dcfce7;
-    color: #166534;
+    background: var(--bl-success-soft);
+    color: var(--bl-success);
 }
 
 

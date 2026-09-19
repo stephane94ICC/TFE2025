@@ -1,19 +1,4 @@
 .home-page {
-    --bl-primary: #1d8378;
-    --bl-primary-dark: #17675f;
-    --bl-text: #344451;
-    --bl-muted: #74818d;
-    --bl-background: #f7f3ed;
-    --bl-surface: #ffffff;
-    --bl-border: #ded6cc;
-    --bl-gold: #d8ad43;
-    --bl-coral: #e58a5b;
-    --bl-wellness: #e3f1ee;
-    --bl-sport: #f8e9c7;
-    --bl-bars: #f7dfda;
-    --bl-culture: #e5ebf5;
-    --bl-shop: #eee6d6;
-
     min-height: 100vh;
     padding: 32px 24px 70px;
     background: var(--bl-background);

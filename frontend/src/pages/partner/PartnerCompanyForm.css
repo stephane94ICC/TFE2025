@@ -45,7 +45,7 @@
 .partner-form input,
 .partner-form textarea {
   padding: 10px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--bl-border);
   border-radius: 8px;
   font: inherit;
 }

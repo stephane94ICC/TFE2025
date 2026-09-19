@@ -5,17 +5,17 @@
 .form-card {
   max-width: 700px;
   margin: 0 auto;
-  background: white;
+  background: var(--bl-surface);
   border-radius: 14px;
   padding: 28px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--bl-shadow-soft);
 }
 
 .form-card h1 {
   margin-top: 0;
   margin-bottom: 24px;
   font-size: 28px;
-  color: #222;
+  color: var(--bl-text);
 }
 
 .form-group {
@@ -27,12 +27,12 @@
 .form-group label {
   margin-bottom: 7px;
   font-weight: 600;
-  color: #374151;
+  color: var(--bl-text);
 }
 
 .form-group input,
 .form-group textarea {
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--bl-border);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 15px;
@@ -60,19 +60,19 @@
 }
 
 .btn-cancel {
-  background-color: #e5e7eb;
-  color: #111827;
+  background-color: var(--bl-border);
+  color: var(--bl-text);
 }
 
 .btn-save {
-  background-color: #1f7a4d;
-  color: white;
+  background-color: var(--bl-success);
+  color: var(--bl-on-primary);
 }
 
 .error-message {
   margin-bottom: 15px;
   padding: 12px;
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: var(--bl-danger-soft);
+  color: var(--bl-danger);
   border-radius: 8px;
 }

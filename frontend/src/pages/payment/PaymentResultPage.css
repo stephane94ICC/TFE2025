@@ -7,8 +7,8 @@
 .payment-result-card {
     padding: 32px;
     border-radius: 16px;
-    background-color: #f9fafb;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    background-color: var(--bl-surface-alt);
+    box-shadow: var(--bl-shadow-soft);
 }
 
 .payment-result-card h1 {
@@ -23,7 +23,7 @@
 .payment-session {
     padding: 12px;
     border-radius: 8px;
-    background-color: #e5e7eb;
+    background-color: var(--bl-border);
     font-size: 14px;
     word-break: break-all;
 }

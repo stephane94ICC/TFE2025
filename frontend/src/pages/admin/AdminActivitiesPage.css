@@ -12,12 +12,12 @@
 .admin-header h1 {
   margin: 0;
   font-size: 28px;
-  color: #222;
+  color: var(--bl-text);
 }
 
 .admin-header p {
   margin-top: 6px;
-  color: #666;
+  color: var(--bl-muted);
 }
 
 .btn-add,
@@ -33,32 +33,32 @@
 }
 
 .btn-add {
-  background-color: #1f7a4d;
-  color: white;
+  background-color: var(--bl-success);
+  color: var(--bl-on-primary);
 }
 
 .btn-edit {
   margin-right: 8px;
-  background-color: #2563eb;
-  color: white;
+  background-color: var(--bl-primary);
+  color: var(--bl-on-primary);
 }
 
 .btn-images {
   margin-right: 8px;
-  background-color: #e5e7eb;
-  color: #374151;
+  background-color: var(--bl-border);
+  color: var(--bl-text);
 }
 
 .btn-delete {
-  background-color: #dc2626;
-  color: white;
+  background-color: var(--bl-danger);
+  color: var(--bl-on-primary);
 }
 
 .table-card {
   overflow: hidden;
   border-radius: 14px;
-  background: white;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  background: var(--bl-surface);
+  box-shadow: var(--bl-shadow-soft);
 }
 
 table {
@@ -67,31 +67,34 @@ table {
 }
 
 thead {
-  background-color: #f3f4f6;
+  background-color: var(--bl-surface-alt);
 }
 
 th,
 td {
   padding: 14px 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--bl-border);
   text-align: left;
 }
 
 th {
-  color: #374151;
+  color: var(--bl-text);
   font-weight: 600;
 }
 
 td {
-  color: #333;
+  color: var(--bl-text);
 }
 
 .actions-col {
-  width: 360px;
+  width: 560px;
 }
 
 .actions {
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  white-space: normal;
 }
 
 .loading,
@@ -104,8 +107,8 @@ td {
 .error-message {
   margin-bottom: 15px;
   border-radius: 8px;
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: var(--bl-danger-soft);
+  color: var(--bl-danger);
 }
 .btn-approve,
 .btn-reject,
@@ -116,25 +119,16 @@ td {
   cursor: pointer;
 }
 
-.btn-approve { background: #16a34a; color: white; }
-.btn-reject { background: #dc2626; color: white; }
-.btn-disable { background: #6b7280; color: white; }
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  white-space: normal;
-}
-
-.actions-col { width: 560px; }
+.btn-approve { background: var(--bl-success); color: var(--bl-on-primary); }
+.btn-reject { background: var(--bl-danger); color: var(--bl-on-primary); }
+.btn-disable { background: var(--bl-muted); color: var(--bl-on-primary); }
 
 .success-message {
   margin-bottom: 15px;
   padding: 14px;
   border-radius: 8px;
-  background: #dcfce7;
-  color: #166534;
+  background: var(--bl-success-soft);
+  color: var(--bl-success);
 }
 
 .activity-status {
@@ -145,7 +139,7 @@ td {
   font-weight: 600;
 }
 
-.activity-status-pending_review { background: #fef3c7; color: #92400e; }
-.activity-status-approved { background: #dcfce7; color: #166534; }
-.activity-status-rejected { background: #fee2e2; color: #991b1b; }
-.activity-status-disabled { background: #e5e7eb; color: #374151; }
+.activity-status-pending_review { background: var(--bl-warning-soft); color: var(--bl-warning); }
+.activity-status-approved { background: var(--bl-success-soft); color: var(--bl-success); }
+.activity-status-rejected { background: var(--bl-danger-soft); color: var(--bl-danger); }
+.activity-status-disabled { background: var(--bl-border); color: var(--bl-text); }

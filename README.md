@@ -1,20 +1,20 @@
 # TFE2025-2026
-# Plateforme Loisirs
+# Plateforme Loisirs - Bel'Loisirs
 
 Projet de fin d’études — plateforme web de réservation et d’achat de services de loisirs.
 
 ## Description du projet
 
-Ce projet consiste à développer une plateforme web permettant aux utilisateurs de consulter des activités de loisirs, d’acheter des produits liés à ces activités et de gérer un panier.
+La plateforme permet de consulter et de réserver des activités de loisirs proposées par des partenaires, d’acheter des produits dans une boutique en ligne et de payer en ligne via Stripe.
 
-L’application comprend également des espaces différenciés selon les rôles :
+L’application comprend des espaces différenciés selon les rôles :
 
-- visiteur : consultation des activités et de la boutique ;
-- membre : accès au profil et au panier ;
-- administrateur : gestion des produits et des utilisateurs ;
-- partenaire : espace dédié prévu pour la gestion future des activités.
+- visiteur : consultation des activités et de la boutique, inscription, connexion ;
+- membre : profil, panier, réservations, paiement, suppression du compte ;
+- partenaire : gestion de ses activités, sessions, lieux et images ;
+- administrateur : gestion des utilisateurs, des produits et des activités, journal d’audit.
 
-Le projet utilise une architecture séparant le backend, le frontend et la base de données.
+L’architecture sépare une API REST (Spring Boot) et une application monopage (Vue.js). Le frontend compilé est servi par le backend.
 
 ## Technologies utilisées
 
@@ -24,83 +24,113 @@ Le projet utilise une architecture séparant le backend, le frontend et la base 
 - Spring Boot 3.4.1
 - Spring Security
 - JWT
+- Spring Data JPA
 - Maven
-- MySQL
-- Flyway
+- MySQL 8
+- Flyway (43 migrations)
 - Lombok
+- Stripe (Checkout et webhooks)
 
 ### Frontend
 
-- Vue.js
+- Vue.js 3
 - Vue Router
+- vue-i18n (français, néerlandais, anglais)
 - Axios
-- CSS
+- CSS (couleurs centralisées dans `theme.css`)
 
 ## Fonctionnalités principales
 
 ### Fonctionnalités publiques
 
-- affichage de la page d’accueil ;
-- consultation des activités ;
-- consultation de la boutique ;
-- consultation du détail d’un produit ;
-- inscription ;
-- connexion.
+- page d’accueil avec carrousel, catégories et suggestions ;
+- recherche ;
+- consultation des activités et de leurs sessions ;
+- consultation de la boutique et du détail d’un produit ;
+- politique de confidentialité ;
+- inscription et connexion ;
+- interface disponible en trois langues.
 
 ### Fonctionnalités membre
 
-- accès au profil ;
-- accès au panier ;
-- gestion locale du panier.
-
-### Fonctionnalités administrateur
-
-- accès à un tableau de bord administrateur ;
-- consultation des utilisateurs ;
-- consultation des produits ;
-- ajout d’un produit ;
-- modification d’un produit ;
-- suppression d’un produit ;
-- séparation entre les routes publiques et les routes d’administration.
+- modification du profil et de la photo ;
+- panier ;
+- réservation d’une session avec contrôle des places restantes ;
+- paiement Stripe ;
+- consultation et annulation de ses réservations ;
+- suppression du compte.
 
 ### Fonctionnalités partenaire
 
-- espace partenaire préparé ;
-- futures fonctionnalités prévues pour la gestion des activités.
+- création et modification d’activités, soumises à validation ;
+- gestion des sessions, des lieux, des adresses et des images.
 
-## Sécurité
+### Fonctionnalités administrateur
 
-L’authentification repose sur un système de connexion avec JWT.
+- gestion des utilisateurs ;
+- gestion des produits et de leurs images ;
+- validation ou refus des activités ;
+- consultation du journal d’audit avec filtres et pagination.
 
-Les mots de passe sont chiffrés avec BCrypt avant d’être enregistrés en base de données.
+## Sécurité et données personnelles
 
-Les routes d’administration sont protégées et réservées aux utilisateurs ayant le rôle `ADMIN`.
+- authentification par JWT ;
+- mots de passe hachés avec BCrypt ;
+- routes protégées selon le rôle, côté frontend et côté backend ;
+- vérification à chaque requête que le compte est toujours actif ;
+- accès limité à ses propres données (réponse 404 pour les ressources d’autrui) ;
+- suppression du compte par désactivation et pseudonymisation des données personnelles ;
+- journal d’audit des actions sensibles, purgé automatiquement après 12 mois.
 
+## Installation
 
+### Prérequis
 
-## État actuel du projet
-### Fonctionnalités déjà mises en place :
-- inscription ; 
-- connexion ; 
-- hashage des mots de passe avec BCrypt ; 
-- génération et utilisation d’un token JWT ; 
-- gestion des rôles ; 
-- protection des routes frontend avec Vue Router ; 
-- protection des routes backend avec Spring Security ; 
-- page profil ; 
-- page panier ; 
-- tableau de bord administrateur ; 
-- gestion complète des produits côté administrateur ; 
-- séparation des endpoints publics et administrateur. 
-### Améliorations prévues
-### Fonctionnalités prévues pour la suite :
-- upload d’image pour les produits ; 
-- amélioration esthétique des pages ; 
-- gestion des activités côté administrateur ; 
-- développement de l’espace partenaire ; 
-- validation complète du panier et création de commande ; 
-- système d’avis ou de commentaires ; 
-- amélioration de la gestion du profil utilisateur. 
+- Java 21
+- Node.js 20
+- MySQL 8
+
+### Variables d’environnement
+
+- `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD` : connexion à la base ;
+- `APP_JWT_SECRET` : clé de signature des jetons (obligatoire) ;
+- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` : clés Stripe en mode test ;
+- `APP_FRONTEND_URL` : URL de retour après paiement (par défaut `http://localhost:8080`).
+
+Aucun secret n’est versionné.
+
+### Lancement
+
+1. Créer une base vide `loisirs` : Flyway crée le schéma et les données de démonstration au démarrage.
+2. Construire le frontend :
+   ```
+   cd frontend
+   npm install
+   npm run build
+   ```
+3. Démarrer le backend depuis la racine du projet (sous Windows : `mvnw.cmd`) :
+   ```
+   ./mvnw spring-boot:run
+   ```
+4. Ouvrir `http://localhost:8080`.
+
+## Tests
+
+19 tests unitaires et d’intégration, exécutés sur une base dédiée `loisirs_test` (à créer vide) :
+
+```
+./mvnw test
+```
+
+## Améliorations prévues
+
+- meilleur référencement (rendu côté serveur ou pré-rendu) ;
+- jeton JWT dans un cookie `HttpOnly` ;
+- reversement automatique aux partenaires (Stripe Connect) ;
+- e-mails transactionnels ;
+- conditions générales de vente ;
+- mode sombre.
 
 ## Auteur
-### Projet réalisé dans le cadre d’un travail de fin d’études.
+
+Projet réalisé dans le cadre d’un travail de fin d’études.

@@ -4,13 +4,13 @@
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  background-color: #f5f7fa;
+  background-color: var(--bl-background);
 }
 
 .register-card {
   width: 100%;
   max-width: 420px;
-  background-color: white;
+  background-color: var(--bl-surface);
   padding: 30px;
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
@@ -19,12 +19,12 @@
 .register-card h1 {
   text-align: center;
   margin-bottom: 10px;
-  color: #222;
+  color: var(--bl-text);
 }
 
 .subtitle {
   text-align: center;
-  color: #666;
+  color: var(--bl-muted);
   margin-bottom: 25px;
 }
 
@@ -36,27 +36,27 @@
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
-  color: #333;
+  color: var(--bl-text);
 }
 
 .form-group input {
   width: 100%;
   padding: 11px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--bl-border);
   border-radius: 8px;
   font-size: 15px;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #2f80ed;
+  border-color: var(--bl-primary);
 }
 
 .register-button {
   width: 100%;
   padding: 12px;
-  background-color: #2f80ed;
-  color: white;
+  background-color: var(--bl-primary);
+  color: var(--bl-on-primary);
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -64,18 +64,18 @@
 }
 
 .register-button:hover {
-  background-color: #1c6ed8;
+  background-color: var(--bl-primary-dark);
 }
 
 .error-message {
   margin-top: 15px;
-  color: #c0392b;
+  color: var(--bl-danger);
   text-align: center;
 }
 
 .success-message {
   margin-top: 15px;
-  color: #2e7d32;
+  color: var(--bl-success);
   text-align: center;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .login-link a {
-  color: #2f80ed;
+  color: var(--bl-primary);
   font-weight: 600;
   text-decoration: none;
 }
@@ -99,7 +99,7 @@
   gap: 10px;
   margin-bottom: 18px;
   font-size: 14px;
-  color: #333;
+  color: var(--bl-text);
 }
 
 .checkbox-group input {

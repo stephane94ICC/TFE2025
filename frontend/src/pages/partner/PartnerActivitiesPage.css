@@ -41,35 +41,33 @@
 }
 
 .partner-activity-rejection-link {
-    background: #dc2626;
-    color: #ffffff;
+    background: var(--bl-danger);
+    color: var(--bl-on-primary);
 }
 
 .partner-activity-add-link {
-    background: #1f7a4d;
-    color: #ffffff;
+    background: var(--bl-success);
+    color: var(--bl-on-primary);
 }
 
 .partner-activity-edit-link {
-    background: #2563eb;
-    color: #ffffff;
+    background: var(--bl-primary);
+    color: var(--bl-on-primary);
 }
 
-.partner-activity-images-link {
-    background: #7c3aed;
-    color: #ffffff;
-}
-
+/* Actions secondaires : la couleur porte le sens, pas la décoration */
+.partner-activity-images-link,
 .partner-activity-sessions-link {
-    background: #0d9488;
-    color: #ffffff;
+    background: var(--bl-surface);
+    color: var(--bl-primary-dark);
+    border: 1px solid var(--bl-border);
 }
 
 .partner-activities-card {
     overflow-x: auto;
     border-radius: 14px;
-    background: #ffffff;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    background: var(--bl-surface);
+    box-shadow: var(--bl-shadow-soft);
 }
 
 .partner-activities-card table {
@@ -80,12 +78,12 @@
 .partner-activities-card th,
 .partner-activities-card td {
     padding: 14px 16px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--bl-border);
     text-align: left;
 }
 
 .partner-activities-card thead {
-    background: #f3f4f6;
+    background: var(--bl-surface-alt);
 }
 
 .partner-activity-status {
@@ -96,19 +94,19 @@
 }
 
 .partner-activity-status-approved {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--bl-success-soft);
+    color: var(--bl-success);
 }
 
 .partner-activity-status-pending_review {
-    background: #fef3c7;
-    color: #92400e;
+    background: var(--bl-warning-soft);
+    color: var(--bl-warning);
 }
 
 .partner-activity-status-rejected,
 .partner-activity-status-disabled {
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .partner-activities-error,
@@ -119,8 +117,8 @@
 
 .partner-activities-error {
     border-radius: 8px;
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 @media (max-width: 600px) {

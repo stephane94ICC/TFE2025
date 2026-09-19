@@ -80,8 +80,8 @@
     border-radius: var(--bl-radius-md);
     box-shadow: var(--bl-shadow-soft);
     transition:
-        transform 160ms ease,
-        box-shadow 160ms ease;
+            transform 160ms ease,
+            box-shadow 160ms ease;
 }
 
 .activity-card:hover {
@@ -190,7 +190,7 @@
 
 .btn-primary {
     background: var(--bl-primary);
-    color: #ffffff;
+    color: var(--bl-on-primary);
 }
 
 .btn-primary:hover {

@@ -59,7 +59,7 @@
 .suggestion-image-wrapper {
     display: block;
     height: 170px;
-    background: #e7f0ee;
+    background: var(--bl-primary-soft);
 }
 
 .suggestion-image {
@@ -109,24 +109,25 @@
     padding: 8px 13px;
     border-radius: 999px;
     background: var(--bl-primary);
-    color: #fff;
+    color: var(--bl-on-primary);
     font-size: 13px;
     font-weight: 700;
     text-decoration: none;
 }
 
+/* Corail foncé : texte blanc lisible (contraste 4,74 contre 2,59) */
 .suggestion-action-product {
-    background: var(--bl-coral);
+    background: var(--bl-coral-dark);
 }
 
 .suggestion-action-product:hover {
-    background: #cf7448;
+    filter: brightness(0.9);
 }
 
 .home-loading,
 .suggestions-empty {
     padding: 40px;
-    background: #fff;
+    background: var(--bl-surface);
     border: 1px solid var(--bl-border);
     border-radius: 18px;
     color: var(--bl-muted);

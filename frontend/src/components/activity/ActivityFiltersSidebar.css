@@ -64,7 +64,7 @@
     border: 1px solid var(--bl-border);
     border-radius: 10px;
     outline: none;
-    background: #fffdfa;
+    background: var(--bl-surface-alt);
     color: var(--bl-text);
     font-family: var(--bl-font-body);
     font-size: 0.9rem;

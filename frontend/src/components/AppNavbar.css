@@ -104,7 +104,7 @@
     border: 1px solid var(--bl-primary);
     border-radius: 50%;
     background: var(--bl-primary);
-    color: white;
+    color: var(--bl-on-primary);
 
     font-size: 20px;
     line-height: 1;
@@ -265,7 +265,7 @@
 }
 
 .language-option.active {
-    color: white;
+    color: var(--bl-on-primary);
 }
 
 .language-option:focus-visible,

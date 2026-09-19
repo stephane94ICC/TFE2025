@@ -20,9 +20,9 @@
 .partner-section-card {
   margin-bottom: 20px;
   padding: 24px;
-  background: #ffffff;
+  background: var(--bl-surface);
   border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--bl-shadow-soft);
 }
 
 .partner-section-card h2 {
@@ -47,9 +47,9 @@
 }
 
 .partner-success {
-  color: #167a36;
+  color: var(--bl-success);
 }
 
 .partner-error {
-  color: #b42318;
+  color: var(--bl-danger);
 }

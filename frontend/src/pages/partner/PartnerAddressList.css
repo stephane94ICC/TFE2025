@@ -27,9 +27,9 @@
 
 .partner-address-card {
   padding: 16px;
-  border: 1px solid #dddddd;
+  border: 1px solid var(--bl-border);
   border-radius: 10px;
-  background: #ffffff;
+  background: var(--bl-surface);
 }
 
 .partner-address-card p {
@@ -51,7 +51,7 @@
 }
 
 .partner-delete-button {
-  color: #b42318;
+  color: var(--bl-danger);
 }
 
 @media (max-width: 600px) {

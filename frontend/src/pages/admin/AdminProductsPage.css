@@ -11,21 +11,21 @@
 .admin-products-header h1 {
     font-size: 32px;
     margin-bottom: 10px;
-    color: #1f2937;
+    color: var(--bl-text);
 }
 
 .admin-products-header p {
     font-size: 16px;
-    color: #4b5563;
+    color: var(--bl-muted);
     line-height: 1.6;
 }
 
 .admin-products-card {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
+    background-color: var(--bl-surface);
+    border: 1px solid var(--bl-border);
     border-radius: 14px;
     padding: 28px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--bl-shadow-soft);
 }
 
 .admin-products-card-header {
@@ -39,15 +39,15 @@
 .admin-products-card-header h2 {
     font-size: 24px;
     margin-bottom: 8px;
-    color: #111827;
+    color: var(--bl-text);
 }
 
 .admin-products-card-header span {
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
-    color: #4b5563;
-    background-color: #f3f4f6;
+    color: var(--bl-muted);
+    background-color: var(--bl-surface-alt);
     padding: 6px 10px;
     border-radius: 999px;
 }
@@ -56,15 +56,15 @@
     display: inline-block;
     padding: 10px 16px;
     border-radius: 10px;
-    background-color: #2563eb;
-    color: #ffffff;
+    background-color: var(--bl-primary);
+    color: var(--bl-on-primary);
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
 }
 
 .admin-add-button:hover {
-    background-color: #1d4ed8;
+    background-color: var(--bl-primary-dark);
 }
 
 .admin-products-table-wrapper {
@@ -79,20 +79,20 @@
 .admin-products-table th,
 .admin-products-table td {
     padding: 14px 12px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--bl-border);
     text-align: left;
     font-size: 14px;
     vertical-align: middle;
 }
 
 .admin-products-table th {
-    background-color: #f9fafb;
-    color: #374151;
+    background-color: var(--bl-surface-alt);
+    color: var(--bl-text);
     font-weight: 700;
 }
 
 .admin-products-table td {
-    color: #111827;
+    color: var(--bl-text);
 }
 
 .status-badge {
@@ -104,13 +104,13 @@
 }
 
 .status-active {
-    background-color: #dcfce7;
-    color: #166534;
+    background-color: var(--bl-success-soft);
+    color: var(--bl-success);
 }
 
 .status-inactive {
-    background-color: #fee2e2;
-    color: #991b1b;
+    background-color: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .admin-product-actions {
@@ -124,8 +124,8 @@
     padding: 7px 10px;
     border: none;
     border-radius: 8px;
-    background-color: #e5e7eb;
-    color: #374151;
+    background-color: var(--bl-border);
+    color: var(--bl-text);
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
@@ -133,7 +133,7 @@
 }
 
 .admin-action-button:hover {
-    background-color: #d1d5db;
+    background-color: var(--bl-border);
 }
 
 .admin-action-button:disabled {
@@ -142,17 +142,18 @@
 }
 
 .admin-action-danger {
-    background-color: #fee2e2;
-    color: #991b1b;
+    background-color: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .admin-action-danger:hover {
-    background-color: #fecaca;
+    background-color: var(--bl-danger);
+    color: var(--bl-on-primary);
 }
 
 .admin-products-loading,
 .admin-products-empty {
-    color: #4b5563;
+    color: var(--bl-muted);
     font-size: 15px;
 }
 
@@ -160,8 +161,8 @@
     margin-bottom: 20px;
     padding: 14px;
     border-radius: 10px;
-    background-color: #fee2e2;
-    color: #991b1b;
+    background-color: var(--bl-danger-soft);
+    color: var(--bl-danger);
     font-weight: 600;
 }
 
@@ -169,8 +170,8 @@
     margin-bottom: 20px;
     padding: 14px;
     border-radius: 10px;
-    background-color: #dcfce7;
-    color: #166534;
+    background-color: var(--bl-success-soft);
+    color: var(--bl-success);
     font-weight: 600;
 }
 

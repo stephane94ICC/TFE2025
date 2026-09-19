@@ -13,7 +13,7 @@
 .partner-location-form input,
 .partner-location-form textarea {
     padding: 10px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--bl-border);
     border-radius: 8px;
     font: inherit;
     resize: vertical;
@@ -23,9 +23,9 @@
     margin: 4px 0 0;
     padding: 10px 12px;
     border-radius: 8px;
-    background: #f3f4f6;
+    background: var(--bl-surface-alt);
     font-size: 13px;
-    color: #4b5563;
+    color: var(--bl-muted);
 }
 
 .partner-location-form-actions {

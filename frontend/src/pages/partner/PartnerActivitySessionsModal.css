@@ -15,7 +15,7 @@
   overflow-y: auto;
   padding: 24px;
   border-radius: 14px;
-  background: #ffffff;
+  background: var(--bl-surface);
 }
 
 .partner-sessions-modal-header {
@@ -36,9 +36,9 @@
 .partner-session-form {
   margin-bottom: 24px;
   padding: 18px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--bl-border);
   border-radius: 12px;
-  background-color: #f9fafb;
+  background-color: var(--bl-surface-alt);
 }
 
 .partner-session-form h4 {
@@ -62,7 +62,7 @@
 .partner-session-form input,
 .partner-session-form select {
   padding: 9px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--bl-border);
   border-radius: 8px;
   font: inherit;
 }
@@ -75,8 +75,8 @@
   padding: 9px 14px;
   border: none;
   border-radius: 8px;
-  background-color: #0d9488;
-  color: #ffffff;
+  background-color: var(--bl-primary);
+  color: var(--bl-on-primary);
   font-weight: 700;
   cursor: pointer;
 }
@@ -90,8 +90,8 @@
   margin: 0;
   padding: 12px 14px;
   border-radius: 8px;
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--bl-warning-soft);
+  color: var(--bl-warning);
 }
 
 .partner-sessions-table {
@@ -102,23 +102,23 @@
 .partner-sessions-table th,
 .partner-sessions-table td {
   padding: 12px 14px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--bl-border);
   text-align: left;
   font-size: 14px;
 }
 
 .partner-sessions-table thead {
-  background: #f3f4f6;
+  background: var(--bl-surface-alt);
 }
 
 .partner-session-seats-ok {
   font-weight: 700;
-  color: #166534;
+  color: var(--bl-success);
 }
 
 .partner-session-seats-full {
   font-weight: 700;
-  color: #991b1b;
+  color: var(--bl-danger);
 }
 
 .partner-session-status {
@@ -129,24 +129,24 @@
 }
 
 .partner-session-status-scheduled {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--bl-success-soft);
+  color: var(--bl-success);
 }
 
 .partner-session-status-cancelled {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--bl-danger-soft);
+  color: var(--bl-danger);
 }
 
 .partner-session-status-completed {
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--bl-border);
+  color: var(--bl-text);
 }
 
 .partner-sessions-empty {
   padding: 18px;
   text-align: center;
-  color: #6b7280;
+  color: var(--bl-muted);
   font-style: italic;
 }
 

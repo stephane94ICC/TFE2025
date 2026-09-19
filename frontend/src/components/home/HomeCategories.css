@@ -17,25 +17,25 @@
 
 .category-wellness {
     background: var(--bl-wellness);
-    color: #17675f;
+    color: var(--bl-primary-dark);
 }
 
 .category-sport {
     background: var(--bl-sport);
-    color: #8c6820;
+    color: var(--bl-sport-text);
 }
 
 .category-bars {
     background: var(--bl-bars);
-    color: #a15446;
+    color: var(--bl-bars-text);
 }
 
 .category-culture {
     background: var(--bl-culture);
-    color: #4d6994;
+    color: var(--bl-culture-text);
 }
 
 .category-shop {
     background: var(--bl-shop);
-    color: #80652f;
+    color: var(--bl-shop-text);
 }

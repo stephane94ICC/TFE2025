@@ -57,7 +57,7 @@
 
 .home-btn-primary {
     background: var(--bl-primary);
-    color: #fff;
+    color: var(--bl-on-primary);
 }
 
 .home-btn-primary:hover {
@@ -65,7 +65,7 @@
 }
 
 .home-btn-secondary {
-    background: #fff;
+    background: var(--bl-surface);
     color: var(--bl-primary-dark);
     border: 1px solid var(--bl-primary);
 }

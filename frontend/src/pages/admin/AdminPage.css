@@ -11,12 +11,12 @@
 .admin-header h1 {
     font-size: 32px;
     margin-bottom: 10px;
-    color: #1f2937;
+    color: var(--bl-text);
 }
 
 .admin-header p {
     font-size: 16px;
-    color: #4b5563;
+    color: var(--bl-muted);
     line-height: 1.6;
 }
 
@@ -30,9 +30,9 @@
     display: block;
     padding: 24px;
     border-radius: 14px;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background-color: var(--bl-surface);
+    border: 1px solid var(--bl-border);
+    box-shadow: var(--bl-shadow-soft);
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -40,12 +40,12 @@
 .admin-block h2 {
     font-size: 22px;
     margin-bottom: 10px;
-    color: #111827;
+    color: var(--bl-text);
 }
 
 .admin-block p {
     font-size: 15px;
-    color: #4b5563;
+    color: var(--bl-muted);
     line-height: 1.5;
     margin-bottom: 18px;
 }
@@ -60,12 +60,12 @@
 }
 
 .admin-block-active span {
-    color: #2563eb;
+    color: var(--bl-primary);
 }
 
 .admin-block-active:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--bl-shadow-soft);
 }
 
 .admin-block-disabled {
@@ -74,7 +74,7 @@
 }
 
 .admin-block-disabled span {
-    color: #6b7280;
+    color: var(--bl-muted);
 }
 
 @media (max-width: 768px) {

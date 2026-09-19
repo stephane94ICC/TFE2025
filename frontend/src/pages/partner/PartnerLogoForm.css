@@ -10,7 +10,7 @@
     height: 130px;
     object-fit: contain;
     padding: 8px;
-    border: 1px solid #dddddd;
+    border: 1px solid var(--bl-border);
     border-radius: 12px;
 }
 

@@ -2,7 +2,7 @@
     max-width: 1200px;
     margin: 40px auto;
     padding: 24px;
-    color: #111827;
+    color: var(--bl-text);
 }
 
 .header {
@@ -19,16 +19,16 @@
 
 .header p {
     margin-top: 8px;
-    color: #6b7280;
+    color: var(--bl-muted);
 }
 
 .card {
-    background: white;
+    background: var(--bl-surface);
     border-radius: 16px;
     padding: 26px;
     margin-bottom: 26px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e5e7eb;
+    box-shadow: var(--bl-shadow-soft);
+    border: 1px solid var(--bl-border);
 }
 
 .form-grid {
@@ -45,23 +45,23 @@
 .form-group label {
     margin-bottom: 6px;
     font-weight: 700;
-    color: #374151;
+    color: var(--bl-text);
 }
 
 .form-group input,
 .form-group select {
     padding: 11px 13px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--bl-border);
     border-radius: 10px;
     font-size: 14px;
-    background: #f9fafb;
+    background: var(--bl-surface-alt);
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #2563eb;
-    background: white;
+    border-color: var(--bl-primary);
+    background: var(--bl-surface);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
@@ -80,18 +80,18 @@
 }
 
 .btn-primary {
-    background: #2563eb;
-    color: white;
+    background: var(--bl-primary);
+    color: var(--bl-on-primary);
 }
 
 .btn-secondary {
-    background: #e5e7eb;
-    color: #111827;
+    background: var(--bl-border);
+    color: var(--bl-text);
 }
 
 .btn-danger {
-    background: #dc2626;
-    color: white;
+    background: var(--bl-danger);
+    color: var(--bl-on-primary);
 }
 
 .btn-small {
@@ -107,13 +107,13 @@
 }
 
 .alert-error {
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .alert-success {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--bl-success-soft);
+    color: var(--bl-success);
 }
 
 .user-table {
@@ -123,20 +123,20 @@
 }
 
 .user-table th {
-    background: #f3f4f6;
-    color: #374151;
+    background: var(--bl-surface-alt);
+    color: var(--bl-text);
     font-size: 14px;
 }
 
 .user-table th,
 .user-table td {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--bl-border);
     padding: 13px;
     text-align: left;
 }
 
 .user-table tbody tr:hover {
-    background: #f9fafb;
+    background: var(--bl-surface-alt);
 }
 
 .table-actions {
@@ -152,23 +152,23 @@
 }
 
 .badge-success {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--bl-success-soft);
+    color: var(--bl-success);
 }
 
 .badge-danger {
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
 }
 
 .badge-role {
-    background: #e0e7ff;
-    color: #3730a3;
+    background: var(--bl-primary-soft);
+    color: var(--bl-primary-dark);
 }
 
 .info-text {
     margin-top: 16px;
-    color: #6b7280;
+    color: var(--bl-muted);
     font-size: 14px;
     font-style: italic;
 }
