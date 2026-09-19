@@ -24,7 +24,6 @@
 .section-heading h2 {
     margin: 0;
     color: var(--bl-text);
-    font-family: "Poppins", "Segoe UI", sans-serif;
     font-size: 32px;
 }
 
@@ -83,7 +82,6 @@
 .suggestion-content h3 {
     margin: 7px 0;
     color: var(--bl-text);
-    font-family: "Poppins", "Segoe UI", sans-serif;
     font-size: 17px;
 }
 
