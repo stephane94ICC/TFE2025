@@ -19,6 +19,20 @@
     position: sticky;
     top: 12px;
     z-index: 1000;
+
+    transition: transform 0.25s ease;
+}
+
+/* Masquée en descendant : remontée de sa hauteur + marge d'ombre */
+.navbar-hidden {
+    transform: translateY(calc(-100% - 24px));
+}
+
+/* Réglage système « réduire les animations » respecté */
+@media (prefers-reduced-motion: reduce) {
+    .navbar {
+        transition: none;
+    }
 }
 
 .navbar-brand {

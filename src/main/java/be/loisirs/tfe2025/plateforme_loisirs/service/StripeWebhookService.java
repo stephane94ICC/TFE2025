@@ -121,7 +121,7 @@ public class StripeWebhookService {
         order.setStripePaymentIntentId(session.getPaymentIntent());
         orderRepository.save(order);
 
-        logConfirmation(
+        logSystemEvent(
                 ActivityEventType.ORDER_PAID,
                 order.getUser(),
                 "Order",
@@ -141,7 +141,7 @@ public class StripeWebhookService {
         reservation.setConfirmedAt(LocalDateTime.now());
         reservationRepository.save(reservation);
 
-        logConfirmation(
+        logSystemEvent(
                 ActivityEventType.RESERVATION_CONFIRMED,
                 reservation.getUser(),
                 "Reservation",
@@ -162,6 +162,17 @@ public class StripeWebhookService {
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
         stripeCheckoutService.restoreStock(order);
+
+        // Journalisé en dernier : logSystem écrit dans sa propre transaction (REQUIRES_NEW)
+        logSystemEvent(
+                ActivityEventType.ORDER_CANCELLED,
+                order.getUser(),
+                "Order",
+                order.getId(),
+                "Commande n°" + order.getId()
+                        + " - " + order.getTotalAmount() + " EUR"
+                        + " - session de paiement expirée"
+        );
     }
 
     private void expireReservation(Reservation reservation) {
@@ -172,14 +183,25 @@ public class StripeWebhookService {
         reservation.setStatus(ReservationStatus.CANCELLED);
         reservation.setCancelledAt(LocalDateTime.now());
         reservationRepository.save(reservation);
+
+        logSystemEvent(
+                ActivityEventType.RESERVATION_CANCELLED,
+                reservation.getUser(),
+                "Reservation",
+                reservation.getId(),
+                reservation.getReference()
+                        + " - " + reservation.getSession().getActivity().getTitle()
+                        + " - " + reservation.getQuantity() + " place(s)"
+                        + " - session de paiement expirée"
+        );
     }
 
 
-    private void logConfirmation(ActivityEventType eventType,
-                                 User user,
-                                 String targetType,
-                                 Long targetId,
-                                 String details) {
+    private void logSystemEvent(ActivityEventType eventType,
+                                User user,
+                                String targetType,
+                                Long targetId,
+                                String details) {
 
         Long userId = (user == null) ? null : user.getId();
         String email = (user == null) ? null : user.getEmail();

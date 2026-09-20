@@ -63,6 +63,13 @@ const i18n = createI18n({
       public: publicEn,
       payment: paymentEn
     }
+  },
+
+  // Format monétaire utilisé par $price() (main.js), toujours en convention fr : 12,50 €
+  numberFormats: {
+    fr: { currency: { style: "currency", currency: "EUR" } },
+    nl: { currency: { style: "currency", currency: "EUR" } },
+    en: { currency: { style: "currency", currency: "EUR" } }
   }
 });
 

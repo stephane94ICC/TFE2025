@@ -233,7 +233,7 @@ export default {
         return "-";
       }
 
-      return `${price} €`;
+      return this.$price(price);
     },
 
     statusLabel(status) {

@@ -7,13 +7,15 @@
 .back-link {
     display: inline-block;
     margin-bottom: 22px;
-    color: var(--bl-primary);
+    /* primary-dark : --bl-primary n'atteint que 4,16 sur le fond crème */
+    color: var(--bl-primary-dark);
     text-decoration: none;
     font-weight: bold;
 }
 
 .back-link:hover {
-    color: var(--bl-primary-dark);
+    color: var(--bl-text);
+    text-decoration: underline;
 }
 
 .alert {
@@ -29,7 +31,7 @@
 }
 
 .detail-card {
-    background: var(--bl-surface);
+    background: var(--bl-primary-soft);
     border-radius: 18px;
     overflow: hidden;
     border: 1px solid var(--bl-border);
@@ -88,7 +90,7 @@
 }
 
 .info-box {
-    background: var(--bl-surface-alt);
+    background: var(--bl-surface);
     border-radius: 12px;
     padding: 18px;
     border: 1px solid var(--bl-border);

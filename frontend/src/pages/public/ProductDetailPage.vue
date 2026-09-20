@@ -32,14 +32,13 @@
         <div class="info-grid">
           <div class="info-box">
             <strong>{{ $t("public.productDetail.price") }}</strong>
-            <span>{{ product.price }} €</span>
+            <span>{{ $price(product.price) }}</span>
           </div>
 
           <div class="info-box">
             <strong>{{ $t("public.productDetail.stock") }}</strong>
             <span>
-              {{ product.stockQuantity }}
-              {{ $t("public.productDetail.available") }}
+              {{ $t("public.productDetail.available", product.stockQuantity) }}
             </span>
           </div>
 

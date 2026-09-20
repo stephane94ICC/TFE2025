@@ -48,7 +48,7 @@
             <tr v-for="product in products" :key="product.id">
               <td>{{ product.id }}</td>
               <td>{{ product.name }}</td>
-              <td>{{ product.price }} €</td>
+              <td>{{ $price(product.price) }}</td>
               <td>{{ product.stockQuantity }}</td>
               <td>
                 <span

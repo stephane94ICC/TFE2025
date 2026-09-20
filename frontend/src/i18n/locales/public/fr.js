@@ -53,7 +53,7 @@ export default {
     loadError: "Impossible de charger les activités.",
 
     results: "Résultats des activités",
-    resultsCount: "{count} activité(s) disponible(s)",
+    resultsCount: "Aucune activité disponible | 1 activité disponible | {count} activités disponibles",
 
     filters: {
       title: "Filtres",
@@ -80,7 +80,12 @@ export default {
     duration: "Durée",
     minutes: "minutes",
     partner: "Partenaire",
-    partnerId: "ID partenaire",
+    minimumAge: "Âge minimum",
+    ageValue: "{age} ans",
+    allAges: "Tous âges",
+    equipment: "Équipement",
+    categories: "Catégories",
+    cities: "Villes",
 
     sessionsTitle: "Créneaux disponibles",
     sessionsLoading: "Chargement des créneaux...",
@@ -177,7 +182,7 @@ export default {
 
     price: "Prix",
     stock: "Stock",
-    available: "disponible(s)",
+    available: "Épuisé | 1 disponible | {count} disponibles",
     status: "Statut",
 
     availableStatus: "Disponible",

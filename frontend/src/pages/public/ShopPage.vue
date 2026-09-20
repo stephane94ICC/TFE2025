@@ -34,7 +34,7 @@
           </p>
 
           <div class="product-info">
-            <span>{{ product.price }} €</span>
+            <span>{{ $price(product.price) }}</span>
             <span>
               {{ $t("public.shop.stock") }} : {{ product.stockQuantity }}
             </span>

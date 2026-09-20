@@ -45,7 +45,7 @@
 
 .suggestion-card {
     overflow: hidden;
-    background: var(--bl-surface);
+    background: var(--bl-primary-soft);
     border: 1px solid var(--bl-border);
     border-radius: 18px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -73,7 +73,8 @@
 }
 
 .suggestion-type {
-    color: var(--bl-primary);
+    /* primary-dark : --bl-primary n'atteint que 3,96 sur fond vert pâle */
+    color: var(--bl-primary-dark);
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;

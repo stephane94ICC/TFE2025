@@ -47,15 +47,10 @@
 }
 
 .results-header {
-    min-height: 48px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 18px;
-    padding: 0 16px;
-    background: var(--bl-surface);
-    border: 1px solid var(--bl-border);
-    border-radius: var(--bl-radius-md);
+    margin-bottom: 14px;
 }
 
 .results-header p {
@@ -75,7 +70,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--bl-surface);
+    background: var(--bl-primary-soft);
     border: 1px solid var(--bl-border);
     border-radius: var(--bl-radius-md);
     box-shadow: var(--bl-shadow-soft);

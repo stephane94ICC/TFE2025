@@ -1,7 +1,7 @@
 .activity-filters {
     align-self: start;
     padding: 22px 18px;
-    background: var(--bl-surface);
+    background: var(--bl-primary-soft);
     border: 1px solid var(--bl-border);
     border-radius: var(--bl-radius-md);
     box-shadow: var(--bl-shadow-soft);
@@ -26,7 +26,8 @@
     padding: 0;
     border: 0;
     background: transparent;
-    color: var(--bl-primary);
+    /* primary-dark : --bl-primary n'atteint que 3,96 sur fond vert pâle */
+    color: var(--bl-primary-dark);
     font-family: var(--bl-font-body);
     font-size: 0.82rem;
     font-weight: 600;
@@ -34,7 +35,7 @@
 }
 
 .activity-filters__reset:hover {
-    color: var(--bl-primary-dark);
+    color: var(--bl-text);
     text-decoration: underline;
 }
 
@@ -64,7 +65,7 @@
     border: 1px solid var(--bl-border);
     border-radius: 10px;
     outline: none;
-    background: var(--bl-surface-alt);
+    background: var(--bl-surface);
     color: var(--bl-text);
     font-family: var(--bl-font-body);
     font-size: 0.9rem;

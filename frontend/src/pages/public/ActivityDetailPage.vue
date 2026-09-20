@@ -31,7 +31,7 @@
         <div class="info-grid">
           <div class="info-box">
             <strong>{{ $t("public.activityDetail.price") }}</strong>
-            <span>{{ activity.price }} €</span>
+            <span>{{ $price(activity.price) }}</span>
           </div>
 
           <div class="info-box">
@@ -42,11 +42,43 @@
           </div>
 
           <div class="info-box">
-            <strong>{{ $t("public.activityDetail.partner") }}</strong>
+            <strong>{{ $t("public.activityDetail.minimumAge") }}</strong>
             <span>
-              {{ $t("public.activityDetail.partnerId") }} : {{ activity.partnerId }}
+              {{
+                activity.minimumAge > 0
+                  ? $t("public.activityDetail.ageValue", { age: activity.minimumAge })
+                  : $t("public.activityDetail.allAges")
+              }}
             </span>
           </div>
+
+          <div class="info-box">
+            <strong>{{ $t("public.activityDetail.partner") }}</strong>
+            <span>{{ activity.partnerName }}</span>
+          </div>
+        </div>
+
+        <div v-if="activity.equipmentInformation" class="detail-extra">
+          <strong>{{ $t("public.activityDetail.equipment") }}</strong>
+          <p>{{ activity.equipmentInformation }}</p>
+        </div>
+
+        <div v-if="activity.categories && activity.categories.length" class="detail-extra">
+          <strong>{{ $t("public.activityDetail.categories") }}</strong>
+          <ul class="detail-tags">
+            <li v-for="category in activity.categories" :key="category">
+              {{ category }}
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="activity.cities && activity.cities.length" class="detail-extra">
+          <strong>{{ $t("public.activityDetail.cities") }}</strong>
+          <ul class="detail-tags">
+            <li v-for="city in activity.cities" :key="city">
+              {{ city }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>

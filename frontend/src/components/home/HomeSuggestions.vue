@@ -47,7 +47,7 @@
           </p>
 
           <div class="suggestion-footer">
-            <strong>{{ activity.price }} €</strong>
+            <strong>{{ $price(activity.price) }}</strong>
 
             <router-link
                 :to="`/activities/${activity.id}`"
@@ -86,7 +86,7 @@
           </p>
 
           <div class="suggestion-footer">
-            <strong>{{ featuredProduct.price }} €</strong>
+            <strong>{{ $price(featuredProduct.price) }}</strong>
 
             <router-link
                 :to="`/products/${featuredProduct.id}`"

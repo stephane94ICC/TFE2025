@@ -53,7 +53,7 @@ export default {
     loadError: "Unable to load activities.",
 
     results: "Activity results",
-    resultsCount: "{count} activity/activities available",
+    resultsCount: "No activities available | 1 activity available | {count} activities available",
 
     filters: {
       title: "Filters",
@@ -80,7 +80,12 @@ export default {
     duration: "Duration",
     minutes: "minutes",
     partner: "Partner",
-    partnerId: "Partner ID",
+    minimumAge: "Minimum age",
+    ageValue: "{age} years",
+    allAges: "All ages",
+    equipment: "Equipment",
+    categories: "Categories",
+    cities: "Cities",
 
     sessionsTitle: "Available sessions",
     sessionsLoading: "Loading sessions...",
@@ -177,7 +182,7 @@ export default {
 
     price: "Price",
     stock: "Stock",
-    available: "available",
+    available: "Out of stock | 1 available | {count} available",
     status: "Status",
 
     availableStatus: "Available",

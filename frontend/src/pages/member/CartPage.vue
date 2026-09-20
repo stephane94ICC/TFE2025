@@ -28,7 +28,7 @@
         <div class="cart-item-info">
           <h2>{{ item.name }}</h2>
           <p>{{ item.description }}</p>
-          <p class="price">{{ item.price }} €</p>
+          <p class="price">{{ $price(item.price) }}</p>
 
           <label>
             {{ $t("member.cart.quantity") }}
@@ -41,7 +41,7 @@
           </label>
 
           <p class="subtotal">
-            {{ $t("member.cart.subtotal") }} {{ (item.price * item.quantity).toFixed(2) }} €
+            {{ $t("member.cart.subtotal") }} {{ $price(item.price * item.quantity) }}
           </p>
 
           <button class="btn btn-danger" @click="removeItem(item.id)">
@@ -51,7 +51,7 @@
       </div>
 
       <div class="cart-summary">
-        <h2>{{ $t("member.cart.total") }} {{ total.toFixed(2) }} €</h2>
+        <h2>{{ $t("member.cart.total") }} {{ $price(total) }}</h2>
 
         <button class="btn btn-secondary" @click="clearCart">
           {{ $t("member.cart.clear") }}

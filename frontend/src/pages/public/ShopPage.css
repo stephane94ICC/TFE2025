@@ -42,7 +42,7 @@
 }
 
 .product-card {
-    background: var(--bl-surface);
+    background: var(--bl-primary-soft);
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--bl-border);
@@ -100,7 +100,7 @@
 }
 
 .product-info span {
-    background: var(--bl-surface-alt);
+    background: var(--bl-surface);
     color: var(--bl-text);
     padding: 7px 10px;
     border-radius: 999px;

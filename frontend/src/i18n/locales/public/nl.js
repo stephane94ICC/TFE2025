@@ -53,7 +53,7 @@ export default {
     loadError: "De activiteiten konden niet worden geladen.",
 
     results: "Activiteitenresultaten",
-    resultsCount: "{count} activiteit(en) beschikbaar",
+    resultsCount: "Geen activiteiten beschikbaar | 1 activiteit beschikbaar | {count} activiteiten beschikbaar",
 
     filters: {
       title: "Filters",
@@ -80,7 +80,12 @@ export default {
     duration: "Duur",
     minutes: "minuten",
     partner: "Partner",
-    partnerId: "Partner-ID",
+    minimumAge: "Minimumleeftijd",
+    ageValue: "{age} jaar",
+    allAges: "Alle leeftijden",
+    equipment: "Uitrusting",
+    categories: "Categorieën",
+    cities: "Steden",
 
     sessionsTitle: "Beschikbare tijdsloten",
     sessionsLoading: "Tijdsloten laden...",
@@ -179,7 +184,7 @@ export default {
 
     price: "Prijs",
     stock: "Voorraad",
-    available: "beschikbaar",
+    available: "Uitverkocht | 1 beschikbaar | {count} beschikbaar",
     status: "Status",
 
     availableStatus: "Beschikbaar",

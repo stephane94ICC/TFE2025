@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,7 @@ public class ReservationCheckoutService {
     private final ActivityLogService activityLogService;
     private final String stripeSecretKey;
     private final String frontendUrl;
+    private final long checkoutExpirationMinutes;
 
     public ReservationCheckoutService(
             UserRepository userRepository,
@@ -43,7 +45,8 @@ public class ReservationCheckoutService {
             ReservationRepository reservationRepository,
             ActivityLogService activityLogService,
             @Value("${stripe.secret-key}") String stripeSecretKey,
-            @Value("${app.frontend-url}") String frontendUrl
+            @Value("${app.frontend-url}") String frontendUrl,
+            @Value("${stripe.checkout-expiration-minutes}") long checkoutExpirationMinutes
     ) {
         this.userRepository = userRepository;
         this.activitySessionRepository = activitySessionRepository;
@@ -51,6 +54,7 @@ public class ReservationCheckoutService {
         this.activityLogService = activityLogService;
         this.stripeSecretKey = stripeSecretKey;
         this.frontendUrl = frontendUrl;
+        this.checkoutExpirationMinutes = checkoutExpirationMinutes;
     }
 
     @Transactional
@@ -123,6 +127,7 @@ public class ReservationCheckoutService {
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl(frontendUrl + "/payment/success?type=reservation&session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl(frontendUrl + "/payment/cancel?type=reservation&session_id={CHECKOUT_SESSION_ID}")
+                .setExpiresAt(Instant.now().plusSeconds(checkoutExpirationMinutes * 60L).getEpochSecond())
                 .putMetadata("userEmail", userEmail)
                 .putMetadata("reservationId", savedReservation.getId().toString())
                 .addLineItem(

@@ -13,7 +13,14 @@ if (savedLanguage && i18n.global.availableLocales.includes(savedLanguage)) {
 document.documentElement.lang = i18n.global.locale.value;
 document.title = i18n.global.t("navbar.documentTitle");
 
-createApp(App)
+const app = createApp(App);
+
+// Prix : format belge unique (12,50 €) quelle que soit la langue de l'interface.
+// Choix centralisé ici : le changer ne demande de modifier qu'une ligne.
+app.config.globalProperties.$price = (amount) =>
+    i18n.global.n(Number(amount), "currency", "fr");
+
+app
     .use(router)
     .use(i18n)
     .mount('#app');

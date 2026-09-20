@@ -30,7 +30,7 @@
             {{
               $t(
                 "public.activityList.resultsCount",
-                { count: filteredActivities.length }
+                filteredActivities.length
               )
             }}
           </p>
@@ -82,7 +82,7 @@
                   </span>
 
                   <strong>
-                    {{ formatPrice(activity.price) }}
+                    {{ $price(activity.price) }}
                   </strong>
                 </div>
 
@@ -323,18 +323,6 @@ export default {
       }
 
       return null;
-    },
-
-    formatPrice(price) {
-      const numericPrice = Number(price);
-
-      if (Number.isNaN(numericPrice)) {
-        return `${price} €`;
-      }
-
-      return `${numericPrice
-        .toFixed(2)
-        .replace(".00", "")} €`;
     }
   }
 };

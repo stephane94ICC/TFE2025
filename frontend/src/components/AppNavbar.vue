@@ -1,5 +1,9 @@
 <template>
-  <nav class="navbar">
+  <nav
+      class="navbar"
+      :class="{ 'navbar-hidden': isHidden }"
+      @focusin="isHidden = false"
+  >
     <div class="navbar-brand">
       <router-link to="/" class="brand-link">
         <img :src="logo" class="brand-logo" alt="">
@@ -203,6 +207,9 @@ export default {
       isAdmin: false,
       isPartner: false,
       isMenuOpen: false,
+      isHidden: false,
+      lastScrollY: 0,
+      scrollTicking: false,
       currentLocale: i18n.global.locale.value,
       logo
     };
@@ -212,16 +219,21 @@ export default {
     this.refreshAuthState();
 
     document.addEventListener("click", this.closeMenu);
+
+    this.lastScrollY = window.scrollY;
+    window.addEventListener("scroll", this.onScroll, { passive: true });
   },
 
   beforeUnmount() {
     document.removeEventListener("click", this.closeMenu);
+    window.removeEventListener("scroll", this.onScroll);
   },
 
   watch: {
     $route() {
       this.refreshAuthState();
       this.closeMenu();
+      this.isHidden = false;
     }
   },
 
@@ -240,6 +252,50 @@ export default {
 
       document.documentElement.lang = language;
       document.title = i18n.global.t("navbar.documentTitle");
+    },
+
+    // Un seul calcul par image affichée, même si le navigateur
+    // émet beaucoup d'événements "scroll".
+    onScroll() {
+      if (this.scrollTicking) {
+        return;
+      }
+
+      this.scrollTicking = true;
+
+      window.requestAnimationFrame(() => {
+        this.updateVisibility();
+        this.scrollTicking = false;
+      });
+    },
+
+    // Masque la barre en descendant, la réaffiche en remontant.
+    updateVisibility() {
+      const TOP_ZONE = 80;   // toujours visible près du haut de page
+      const THRESHOLD = 8;   // ignore les micro-défilements (pavé tactile)
+
+      const currentScrollY = Math.max(window.scrollY, 0);
+
+      if (currentScrollY < TOP_ZONE) {
+        this.isHidden = false;
+        this.lastScrollY = currentScrollY;
+        return;
+      }
+
+      const delta = currentScrollY - this.lastScrollY;
+
+      if (Math.abs(delta) < THRESHOLD) {
+        return;
+      }
+
+      // Jamais masquée si le menu est ouvert ou si l'utilisateur se sert de la barre
+      // au clavier ou dans la recherche. :focus-visible ignore le focus laissé
+      // par un simple clic de souris sur un lien (sinon la barre ne se masquerait
+      // plus jamais après une navigation).
+      const focusInside = this.$el.querySelector(":focus-visible") !== null;
+
+      this.isHidden = delta > 0 && !this.isMenuOpen && !focusInside;
+      this.lastScrollY = currentScrollY;
     },
 
     toggleMenu() {

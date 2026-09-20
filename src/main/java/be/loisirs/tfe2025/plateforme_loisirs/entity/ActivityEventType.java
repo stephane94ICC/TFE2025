@@ -18,6 +18,7 @@ public enum ActivityEventType {
     RESERVATION_CONFIRMED,
     RESERVATION_CANCELLED,
     ORDER_PAID,
+    ORDER_CANCELLED,
 
     // --- Administration ---
     ACTIVITY_APPROVED,

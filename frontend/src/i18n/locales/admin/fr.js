@@ -154,6 +154,7 @@ export default {
       RESERVATION_CONFIRMED: "Réservation confirmée",
       RESERVATION_CANCELLED: "Réservation annulée",
       ORDER_PAID: "Commande payée",
+      ORDER_CANCELLED: "Commande annulée",
       ACTIVITY_APPROVED: "Activité approuvée",
       ACTIVITY_REJECTED: "Activité refusée",
       USER_MODIFIED_BY_ADMIN: "Utilisateur modifié par un administrateur"

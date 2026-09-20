@@ -30,7 +30,7 @@
 
           <div class="carousel-bottom">
             <strong v-if="slide.price !== null && slide.price !== undefined">
-              {{ $t("public.home.from") }} {{ slide.price }} €
+              {{ $t("public.home.from") }} {{ $price(slide.price) }}
             </strong>
 
             <router-link
