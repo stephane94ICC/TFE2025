@@ -46,8 +46,25 @@ export default {
   },
 
   reservations: {
-    title: "Mijn reservaties",
-    subtitle: "Bekijk uw reservaties en hun status.",
+    title: "Mijn aankopen",
+    subtitle: "Bekijk uw gereserveerde activiteiten en uw productbestellingen.",
+
+    reservationsTitle: "Gereserveerde activiteiten",
+    ordersTitle: "Bestelde producten",
+    ordersLoading: "Bestellingen laden...",
+    orderNumber: "Bestelling",
+    orderDate: "Datum",
+    items: "Artikelen",
+    paidAt: "Betaald op",
+    ordersEmpty: "Geen bestelling gevonden.",
+    ordersLoadError: "Uw bestellingen konden niet worden geladen.",
+
+    orderStatuses: {
+      PENDING: "In afwachting",
+      PAID: "Betaald",
+      CANCELLED: "Geannuleerd",
+      SHIPPED: "Verzonden"
+    },
 
     loading: "reservaties laden...",
 

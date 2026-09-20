@@ -15,7 +15,8 @@ import java.util.Optional;
 @Repository
 public interface ActivitySessionRepository extends JpaRepository<ActivitySession, Long> {
 
-    List<ActivitySession> findAllByActivity_IdAndActivity_Partner_User_Email(
+    // Planning du partenaire : ordre chronologique, prochain créneau en haut
+    List<ActivitySession> findAllByActivity_IdAndActivity_Partner_User_EmailOrderByStartAtAsc(
             Long activityId,
             String email
     );

@@ -7,7 +7,7 @@ export default {
   admin: "Admin",
   profile: "Profile",
   cart: "Cart",
-  reservations: "My reservations",
+  reservations: "My purchases",
   partnerSpace: "Partner area",
   myActivities: "My activities",
   myLocations: "My locations",

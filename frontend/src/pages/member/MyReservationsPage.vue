@@ -15,6 +15,10 @@
       {{ successMessage }}
     </p>
 
+    <h2 class="my-reservations-section-title">
+      {{ $t("member.reservations.reservationsTitle") }}
+    </h2>
+
     <p v-if="loading">
       {{ $t("member.reservations.loading") }}
     </p>
@@ -92,11 +96,75 @@
         </tbody>
       </table>
     </section>
+
+    <h2 class="my-reservations-section-title">
+      {{ $t("member.reservations.ordersTitle") }}
+    </h2>
+
+    <p v-if="ordersError" class="my-reservations-error">
+      {{ ordersError }}
+    </p>
+
+    <p v-if="ordersLoading">
+      {{ $t("member.reservations.ordersLoading") }}
+    </p>
+
+    <section v-else class="my-reservations-card">
+      <table>
+        <thead>
+          <tr>
+            <th>{{ $t("member.reservations.orderNumber") }}</th>
+            <th>{{ $t("member.reservations.orderDate") }}</th>
+            <th>{{ $t("member.reservations.items") }}</th>
+            <th>{{ $t("member.reservations.total") }}</th>
+            <th>{{ $t("member.reservations.status") }}</th>
+            <th>{{ $t("member.reservations.paidAt") }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="order in orders" :key="order.id">
+            <td class="reservation-reference">{{ order.id }}</td>
+            <td>{{ formatDateTime(order.orderDate) }}</td>
+
+            <td>
+              <ul class="order-items">
+                <li v-for="item in order.items" :key="item.id">
+                  {{ item.quantity }} × {{ item.productName }}
+                </li>
+              </ul>
+            </td>
+
+            <td>{{ formatPrice(order.totalAmount) }}</td>
+
+            <td>
+              <span
+                :class="[
+                  'reservation-status',
+                  statusClass(order.status)
+                ]"
+              >
+                {{ orderStatusLabel(order.status) }}
+              </span>
+            </td>
+
+            <td>{{ formatDateTime(order.paidAt) }}</td>
+          </tr>
+
+          <tr v-if="orders.length === 0">
+            <td colspan="6" class="my-reservations-empty">
+              {{ $t("member.reservations.ordersEmpty") }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </div>
 </template>
 
 <script>
 import ReservationService from "../../services/ReservationService";
+import MemberOrderService from "../../services/MemberOrderService";
 
 import "./MyReservationsPage.css";
 
@@ -109,12 +177,19 @@ export default {
       loading: true,
       errorMessage: "",
       successMessage: "",
-      cancellingId: null
+      cancellingId: null,
+
+      // Commandes chargées séparément : une erreur ici n'empêche pas
+      // l'affichage des réservations, et inversement
+      orders: [],
+      ordersLoading: true,
+      ordersError: ""
     };
   },
 
   mounted() {
     this.loadReservations();
+    this.loadOrders();
   },
 
   methods: {
@@ -130,6 +205,21 @@ export default {
         this.errorMessage = this.$t("member.reservations.loadError");
       } finally {
         this.loading = false;
+      }
+    },
+
+    async loadOrders() {
+      try {
+        this.ordersLoading = true;
+        this.ordersError = "";
+
+        const response = await MemberOrderService.getMyOrders();
+        this.orders = response.data;
+      } catch (error) {
+        console.error(error);
+        this.ordersError = this.$t("member.reservations.ordersLoadError");
+      } finally {
+        this.ordersLoading = false;
       }
     },
 
@@ -216,6 +306,12 @@ export default {
       };
 
       return labels[status] || status;
+    },
+
+    orderStatusLabel(status) {
+      const key = `member.reservations.orderStatuses.${status}`;
+
+      return this.$te(key) ? this.$t(key) : status;
     },
 
     statusClass(status) {

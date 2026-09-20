@@ -24,7 +24,7 @@ public class MemberReservationService {
     }
 
     public List<Reservation> getReservations(String email) {
-        return reservationRepository.findAllByUser_Email(email);
+        return reservationRepository.findAllByUser_EmailOrderByBookedAtDesc(email);
     }
 
 

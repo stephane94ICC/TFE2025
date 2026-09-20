@@ -16,8 +16,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Reservation> findByStripeSessionId(String stripeSessionId);
     Optional<Reservation> findByIdAndUser_Email(Long id, String email);
-
-    List<Reservation> findAllByUser_Email(String email);
+    List<Reservation> findAllByUser_EmailOrderByBookedAtDesc(String email);
 
     @Query("SELECT COALESCE(SUM(r.quantity), 0) FROM Reservation r " +
             "WHERE r.session.id = :sessionId AND r.status IN :statuses")

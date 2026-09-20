@@ -1,10 +1,12 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.dto.MemberOrderResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.OrderDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Order;
 import be.loisirs.tfe2025.plateforme_loisirs.mapper.OrderMapper;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +31,15 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("Commande introuvable avec l'id : " + id));
 
         return OrderMapper.toDTO(order);
+    }
+
+    // Lecture seule : les articles (chargement différé) sont lus dans la transaction
+    @Transactional(readOnly = true)
+    public List<MemberOrderResponseDTO> getOrdersForMember(String email) {
+        return orderRepository.findByUserEmailOrderByOrderDateDesc(email)
+                .stream()
+                .map(OrderMapper::toMemberDTO)
+                .toList();
     }
 
     public List<OrderDTO> getOrdersByUserId(Long userId) {

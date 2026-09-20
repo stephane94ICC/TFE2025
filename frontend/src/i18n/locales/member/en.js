@@ -46,8 +46,25 @@ export default {
   },
 
   reservations: {
-    title: "My reservations",
-    subtitle: "View your reservations and their status.",
+    title: "My purchases",
+    subtitle: "View your activity bookings and product orders.",
+
+    reservationsTitle: "Booked activities",
+    ordersTitle: "Ordered products",
+    ordersLoading: "Loading orders...",
+    orderNumber: "Order",
+    orderDate: "Date",
+    items: "Items",
+    paidAt: "Paid on",
+    ordersEmpty: "No orders found.",
+    ordersLoadError: "Unable to load your orders.",
+
+    orderStatuses: {
+      PENDING: "Pending",
+      PAID: "Paid",
+      CANCELLED: "Cancelled",
+      SHIPPED: "Shipped"
+    },
 
     loading: "Loading reservations...",
 

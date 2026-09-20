@@ -32,7 +32,7 @@ public class PartnerActivitySessionService {
 
     public List<ActivitySession> getSessions(Long activityId, String email) {
         return activitySessionRepository
-                .findAllByActivity_IdAndActivity_Partner_User_Email(activityId, email);
+                .findAllByActivity_IdAndActivity_Partner_User_EmailOrderByStartAtAsc(activityId, email);
     }
 
     @Transactional

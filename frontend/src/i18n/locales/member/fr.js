@@ -46,8 +46,25 @@ export default {
   },
 
   reservations: {
-    title: "Mes réservations",
-    subtitle: "Consultez vos réservations et leur statut.",
+    title: "Mes achats",
+    subtitle: "Consultez vos réservations d’activités et vos commandes de produits.",
+
+    reservationsTitle: "Activités réservées",
+    ordersTitle: "Produits commandés",
+    ordersLoading: "Chargement des commandes...",
+    orderNumber: "Commande",
+    orderDate: "Date",
+    items: "Articles",
+    paidAt: "Payée le",
+    ordersEmpty: "Aucune commande trouvée.",
+    ordersLoadError: "Impossible de charger vos commandes.",
+
+    orderStatuses: {
+      PENDING: "En attente",
+      PAID: "Payée",
+      CANCELLED: "Annulée",
+      SHIPPED: "Expédiée"
+    },
 
     loading: "Chargement des réservations...",
 

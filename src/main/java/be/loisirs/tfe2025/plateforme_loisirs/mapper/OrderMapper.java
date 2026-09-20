@@ -1,6 +1,7 @@
 package be.loisirs.tfe2025.plateforme_loisirs.mapper;
 
 import be.loisirs.tfe2025.plateforme_loisirs.dto.OrderDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.MemberOrderResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.OrderItemDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Order;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.OrderItem;
@@ -30,6 +31,26 @@ public class OrderMapper {
                 order.getPaidAt(),
                 order.getUser().getId(),
                 order.getUser().getEmail(),
+                items
+        );
+    }
+
+    public static MemberOrderResponseDTO toMemberDTO(Order order) {
+        if (order == null) {
+            return null;
+        }
+
+        List<OrderItemDTO> items = order.getOrderItems()
+                .stream()
+                .map(OrderMapper::toItemDTO)
+                .toList();
+
+        return new MemberOrderResponseDTO(
+                order.getId(),
+                order.getOrderDate(),
+                order.getTotalAmount(),
+                order.getStatus(),
+                order.getPaidAt(),
                 items
         );
     }

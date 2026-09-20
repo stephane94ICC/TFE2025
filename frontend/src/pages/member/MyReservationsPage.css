@@ -21,6 +21,17 @@
     margin-top: 8px;
 }
 
+.my-reservations-section-title {
+    margin: 32px 0 12px;
+    font-size: 20px;
+}
+
+.order-items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 .my-reservations-card {
     overflow-x: auto;
     border-radius: 14px;
@@ -57,7 +68,9 @@
     font-size: 13px;
 }
 
-.reservation-status-confirmed {
+.reservation-status-confirmed,
+.reservation-status-paid,
+.reservation-status-shipped {
     background: var(--bl-success-soft);
     color: var(--bl-success);
 }

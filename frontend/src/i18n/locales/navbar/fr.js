@@ -7,7 +7,7 @@ export default {
   admin: "Admin",
   profile: "Profil",
   cart: "Panier",
-  reservations: "Mes réservations",
+  reservations: "Mes achats",
   partnerSpace: "Espace partenaire",
   myActivities: "Mes activités",
   myLocations: "Mes lieux",

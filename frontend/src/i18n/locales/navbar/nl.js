@@ -7,7 +7,7 @@ export default {
   admin: "Admin",
   profile: "Profiel",
   cart: "Winkelmandje",
-  reservations: "Mijn reserveringen",
+  reservations: "Mijn aankopen",
   partnerSpace: "Partneromgeving",
   myActivities: "Mijn activiteiten",
   myLocations: "Mijn locaties",
