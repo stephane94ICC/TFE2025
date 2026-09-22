@@ -32,6 +32,9 @@ public class Product {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(name = "vat_rate", nullable = false, precision = 4, scale = 2)
+    private BigDecimal vatRate;
+
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 

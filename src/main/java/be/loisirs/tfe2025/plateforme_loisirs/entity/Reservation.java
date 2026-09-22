@@ -38,6 +38,9 @@ public class Reservation {
     @Column(nullable = false, unique = true)
     private String reference;
 
+    @Column(name = "vat_rate", precision = 4, scale = 2)
+    private BigDecimal vatRate;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status = ReservationStatus.PENDING;

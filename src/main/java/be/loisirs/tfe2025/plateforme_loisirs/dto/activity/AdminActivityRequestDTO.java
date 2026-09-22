@@ -1,10 +1,12 @@
 package be.loisirs.tfe2025.plateforme_loisirs.dto.activity;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import be.loisirs.tfe2025.plateforme_loisirs.util.VatRates;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +38,14 @@ public class AdminActivityRequestDTO {
     private Integer minimumAge;
 
     private String equipmentInformation;
+
+    @NotNull(message = "Le taux de TVA est obligatoire.")
+    private BigDecimal vatRate;
+
+    @AssertTrue(message = "Le taux de TVA doit être 0, 6, 12 ou 21 %.")
+    public boolean isVatRateValid() {
+        return vatRate == null || VatRates.isAllowed(vatRate);
+    }
 
     @NotNull(message = "L'entreprise partenaire est obligatoire.")
     private Long partnerId;

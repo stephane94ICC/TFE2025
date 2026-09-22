@@ -39,12 +39,46 @@
         </div>
 
         <div class="form-group">
-          <label for="city">{{ $t("admin.activityForm.city") }}</label>
+          <label for="vatRate">{{ $t("admin.activityForm.vatRate") }}</label>
+          <select id="vatRate" v-model.number="form.vatRate" required>
+            <option :value="null" disabled>
+              {{ $t("admin.activityForm.vatRatePlaceholder") }}
+            </option>
+            <option v-for="rate in vatRates" :key="rate" :value="rate">
+              {{ rate }} %
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="durationMinutes">{{ $t("admin.activityForm.duration") }}</label>
           <input
-            id="city"
-            v-model="form.city"
-            type="text"
+            id="durationMinutes"
+            v-model.number="form.durationMinutes"
+            type="number"
+            min="1"
+            required
           />
+        </div>
+
+        <div class="form-group">
+          <label for="minimumAge">{{ $t("admin.activityForm.minimumAge") }}</label>
+          <input
+            id="minimumAge"
+            v-model.number="form.minimumAge"
+            type="number"
+            min="0"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="equipmentInformation">{{ $t("admin.activityForm.equipmentInformation") }}</label>
+          <textarea
+            id="equipmentInformation"
+            v-model="form.equipmentInformation"
+            rows="3"
+          ></textarea>
         </div>
 
         <div class="form-group">
@@ -88,9 +122,13 @@ export default {
         title: "",
         description: "",
         price: null,
-        city: "",
+        vatRate: null,
+        durationMinutes: null,
+        minimumAge: 0,
+        equipmentInformation: "",
         partnerId: null
       },
+      vatRates: [0, 6, 12, 21],
       errorMessage: ""
     };
   },
@@ -115,7 +153,10 @@ export default {
           title: response.data.title || "",
           description: response.data.description || "",
           price: response.data.price ?? null,
-          city: response.data.city || "",
+          vatRate: response.data.vatRate ?? null,
+          durationMinutes: response.data.durationMinutes ?? null,
+          minimumAge: response.data.minimumAge ?? 0,
+          equipmentInformation: response.data.equipmentInformation || "",
           partnerId: response.data.partnerId ?? null
         };
       } catch (error) {

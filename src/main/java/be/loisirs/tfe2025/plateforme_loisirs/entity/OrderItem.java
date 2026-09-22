@@ -36,4 +36,7 @@ public class OrderItem {
 
     @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
+
+    @Column(name = "vat_rate", precision = 4, scale = 2)
+    private BigDecimal vatRate;
 }

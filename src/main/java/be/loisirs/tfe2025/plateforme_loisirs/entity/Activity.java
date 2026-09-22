@@ -33,6 +33,9 @@ public class Activity {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price = BigDecimal.ZERO;
 
+    @Column(name = "vat_rate", nullable = false, precision = 4, scale = 2)
+    private BigDecimal vatRate;
+
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 

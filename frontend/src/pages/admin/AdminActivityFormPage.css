@@ -31,11 +31,15 @@
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
   border: 1px solid var(--bl-border);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 15px;
+  background-color: var(--bl-surface);
+  color: var(--bl-text);
+  font-family: inherit;
 }
 
 .form-group textarea {

@@ -96,6 +96,7 @@ public class StripeCheckoutService {
             orderItem.setProductName(product.getName());
             orderItem.setQuantity(quantity);
             orderItem.setUnitPrice(product.getPrice());
+            orderItem.setVatRate(product.getVatRate());
             order.getOrderItems().add(orderItem);
 
             sessionBuilder.addLineItem(

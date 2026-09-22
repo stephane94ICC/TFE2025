@@ -45,10 +45,15 @@
 }
 
 .partner-activity-modal input,
+.partner-activity-modal select,
 .partner-activity-modal textarea {
   padding: 10px;
   border: 1px solid var(--bl-border);
   border-radius: 8px;
+  background-color: var(--bl-surface);
+  color: var(--bl-text);
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .partner-activity-form-note {

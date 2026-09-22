@@ -36,6 +36,8 @@ export default {
     title: "Title",
     description: "Description",
     price: "Price (€)",
+    vatRate: "VAT rate",
+    vatRatePlaceholder: "Choose a rate",
     duration: "Duration (minutes)",
     minimumAge: "Minimum age",
     equipmentInformation: "Equipment information",

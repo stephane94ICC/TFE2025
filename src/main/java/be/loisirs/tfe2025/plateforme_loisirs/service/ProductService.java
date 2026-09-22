@@ -4,6 +4,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.Product;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ProductImage;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ProductImageRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ProductRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.util.VatRates;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,8 @@ public class ProductService {
 
     @Transactional
     public Product addProduct(Product product) {
+        requireValidVatRate(product);
+
         Product savedProduct = productRepository.save(product);
 
         ProductImage defaultImage = new ProductImage();
@@ -46,7 +49,16 @@ public class ProductService {
     }
 
     public Product updateProduct(Product product) {
+        requireValidVatRate(product);
+
         return productRepository.save(product);
+    }
+
+    private void requireValidVatRate(Product product) {
+        if (!VatRates.isAllowed(product.getVatRate())) {
+            throw new IllegalArgumentException(
+                    "Le taux de TVA doit être 0, 6, 12 ou 21 %.");
+        }
     }
 
     public void deleteProduct(Long id) {

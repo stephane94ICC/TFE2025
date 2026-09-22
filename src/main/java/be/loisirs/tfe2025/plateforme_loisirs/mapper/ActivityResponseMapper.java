@@ -22,6 +22,7 @@ public class ActivityResponseMapper {
         dto.setTitle(activity.getTitle());
         dto.setDescription(activity.getDescription());
         dto.setPrice(activity.getPrice());
+        dto.setVatRate(activity.getVatRate());
         dto.setDurationMinutes(activity.getDurationMinutes());
         dto.setMinimumAge(activity.getMinimumAge());
         dto.setEquipmentInformation(activity.getEquipmentInformation());
@@ -65,6 +66,7 @@ public class ActivityResponseMapper {
         dto.setTitle(activity.getTitle());
         dto.setDescription(activity.getDescription());
         dto.setPrice(activity.getPrice());
+        dto.setVatRate(activity.getVatRate());
         dto.setDurationMinutes(activity.getDurationMinutes());
         dto.setMinimumAge(activity.getMinimumAge());
         dto.setEquipmentInformation(activity.getEquipmentInformation());
@@ -101,6 +103,7 @@ public class ActivityResponseMapper {
         dto.setTitle(activity.getTitle());
         dto.setDescription(activity.getDescription());
         dto.setPrice(activity.getPrice());
+        dto.setVatRate(activity.getVatRate());
         dto.setDurationMinutes(activity.getDurationMinutes());
         dto.setMinimumAge(activity.getMinimumAge());
         dto.setEquipmentInformation(activity.getEquipmentInformation());

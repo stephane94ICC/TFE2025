@@ -21,6 +21,7 @@ public class PartnerActivityResponseDTO {
     private String title;
     private String description;
     private BigDecimal price;
+    private BigDecimal vatRate;
     private Integer durationMinutes;
     private Integer minimumAge;
     private String equipmentInformation;

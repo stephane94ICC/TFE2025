@@ -31,6 +31,7 @@ export default {
     id: "ID",
     activityTitle: "Title",
     price: "Price",
+    vatRate: "VAT",
     partner: "Partner",
     status: "Status",
     actions: "Actions",
@@ -69,6 +70,11 @@ export default {
     description: "Description",
     price: "Price",
     city: "City",
+    duration: "Duration (minutes)",
+    minimumAge: "Minimum age",
+    equipmentInformation: "Equipment information",
+    vatRate: "VAT rate",
+    vatRatePlaceholder: "Choose a rate",
     partnerId: "Partner ID",
 
     cancel: "Cancel",
@@ -210,6 +216,8 @@ export default {
 
     price: "Price",
     stock: "Stock",
+    vatRate: "VAT rate",
+    vatRatePlaceholder: "Choose a rate",
 
     activeLabel: "Product active in the shop",
 

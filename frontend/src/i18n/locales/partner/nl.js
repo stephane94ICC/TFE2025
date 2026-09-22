@@ -36,6 +36,8 @@ export default {
     title: "Titel",
     description: "Beschrijving",
     price: "Prijs (€)",
+    vatRate: "Btw-tarief",
+    vatRatePlaceholder: "Kies een tarief",
     duration: "Duur (minuten)",
     minimumAge: "Minimumleeftijd",
     equipmentInformation: "Informatie over de uitrusting",

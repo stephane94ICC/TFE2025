@@ -18,6 +18,7 @@ public class ProductMapper {
         dto.setDescription(product.getDescription());
         dto.setPrice(product.getPrice());
         dto.setStockQuantity(product.getStockQuantity());
+        dto.setVatRate(product.getVatRate());
         dto.setActive(product.getActive());
         dto.setCreatedAt(product.getCreatedAt());
 
@@ -44,6 +45,7 @@ public class ProductMapper {
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
         product.setStockQuantity(dto.getStockQuantity());
+        product.setVatRate(dto.getVatRate());
         product.setActive(dto.getActive());
         product.setCreatedAt(dto.getCreatedAt());
 
@@ -65,6 +67,10 @@ public class ProductMapper {
 
         if (dto.getStockQuantity() != null) {
             existing.setStockQuantity(dto.getStockQuantity());
+        }
+
+        if (dto.getVatRate() != null) {
+            existing.setVatRate(dto.getVatRate());
         }
 
         if (dto.getActive() != null) {

@@ -30,6 +30,7 @@
             <th>{{ $t("admin.activities.id") }}</th>
             <th>{{ $t("admin.activities.activityTitle") }}</th>
             <th>{{ $t("admin.activities.price") }}</th>
+            <th>{{ $t("admin.activities.vatRate") }}</th>
             <th>{{ $t("admin.activities.partner") }}</th>
             <th>{{ $t("admin.activities.status") }}</th>
             <th class="actions-col">{{ $t("admin.activities.actions") }}</th>
@@ -41,6 +42,7 @@
             <td>{{ activity.id }}</td>
             <td>{{ activity.title }}</td>
             <td>{{ formatPrice(activity.price) }}</td>
+            <td>{{ formatVatRate(activity.vatRate) }}</td>
             <td>{{ activity.partnerName || $t("admin.activities.partnerFallback", { id: activity.partnerId }) }}</td>
 
             <td>
@@ -210,6 +212,14 @@ export default {
         console.error(error);
         this.errorMessage = this.$t("admin.activities.updateError");
       }
+    },
+
+    formatVatRate(vatRate) {
+      if (vatRate === null || vatRate === undefined) {
+        return "—";
+      }
+
+      return `${Number(vatRate)} %`;
     },
 
     formatPrice(price) {

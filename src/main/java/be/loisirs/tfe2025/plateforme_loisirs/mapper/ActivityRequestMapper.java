@@ -27,6 +27,7 @@ public class ActivityRequestMapper {
         activity.setDurationMinutes(dto.getDurationMinutes());
         activity.setMinimumAge(dto.getMinimumAge());
         activity.setEquipmentInformation(dto.getEquipmentInformation());
+        activity.setVatRate(dto.getVatRate());
     }
 
     public void updateEntity(PartnerActivityRequestDTO dto, Activity activity) {
@@ -36,5 +37,6 @@ public class ActivityRequestMapper {
         activity.setDurationMinutes(dto.getDurationMinutes());
         activity.setMinimumAge(dto.getMinimumAge());
         activity.setEquipmentInformation(dto.getEquipmentInformation());
+        activity.setVatRate(dto.getVatRate());
     }
 }

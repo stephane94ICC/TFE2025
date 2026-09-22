@@ -111,6 +111,7 @@ public class ReservationCheckoutService {
         reservation.setSession(session);
         reservation.setQuantity(request.getQuantity());
         reservation.setTotalPrice(totalPrice);
+        reservation.setVatRate(activity.getVatRate());
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setReference("TEMP-" + UUID.randomUUID());
         reservation.setBillingFirstName(user.getFirstName());

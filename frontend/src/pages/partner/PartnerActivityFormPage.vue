@@ -44,6 +44,18 @@
         </label>
 
         <label>
+          {{ $t("partner.activityForm.vatRate") }}
+          <select v-model.number="form.vatRate" required>
+            <option :value="null" disabled>
+              {{ $t("partner.activityForm.vatRatePlaceholder") }}
+            </option>
+            <option v-for="rate in vatRates" :key="rate" :value="rate">
+              {{ rate }} %
+            </option>
+          </select>
+        </label>
+
+        <label>
           {{ $t("partner.activityForm.duration") }}
           <input v-model.number="form.durationMinutes" type="number" min="1" required />
         </label>
@@ -89,6 +101,7 @@ function createEmptyForm() {
     title: "",
     description: "",
     price: null,
+    vatRate: null,
     durationMinutes: null,
     minimumAge: 0,
     equipmentInformation: ""
@@ -108,6 +121,7 @@ export default {
   data() {
     return {
       form: createEmptyForm(),
+      vatRates: [0, 6, 12, 21],
       saving: false,
       errorMessage: ""
     };
@@ -129,6 +143,7 @@ export default {
               title: activity.title || "",
               description: activity.description || "",
               price: activity.price ?? null,
+              vatRate: activity.vatRate ?? null,
               durationMinutes: activity.durationMinutes ?? null,
               minimumAge: activity.minimumAge ?? 0,
               equipmentInformation: activity.equipmentInformation || ""

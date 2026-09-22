@@ -31,6 +31,7 @@ export default {
     id: "ID",
     activityTitle: "Titel",
     price: "Prijs",
+    vatRate: "Btw",
     partner: "Partner",
     status: "Status",
     actions: "Acties",
@@ -69,6 +70,11 @@ export default {
     description: "Beschrijving",
     price: "Prijs",
     city: "Stad",
+    duration: "Duur (minuten)",
+    minimumAge: "Minimumleeftijd",
+    equipmentInformation: "Informatie over de uitrusting",
+    vatRate: "Btw-tarief",
+    vatRatePlaceholder: "Kies een tarief",
     partnerId: "Partner-ID",
 
     cancel: "Annuleren",
@@ -210,6 +216,8 @@ export default {
 
     price: "Prijs",
     stock: "Voorraad",
+    vatRate: "Btw-tarief",
+    vatRatePlaceholder: "Kies een tarief",
 
     activeLabel: "Product actief in de winkel",
 

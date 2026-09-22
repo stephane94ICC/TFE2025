@@ -61,6 +61,18 @@
                 required
             />
           </div>
+
+          <div class="form-group">
+            <label for="vatRate">{{ $t("admin.productForm.vatRate") }}</label>
+            <select id="vatRate" v-model.number="product.vatRate" required>
+              <option :value="null" disabled>
+                {{ $t("admin.productForm.vatRatePlaceholder") }}
+              </option>
+              <option v-for="rate in vatRates" :key="rate" :value="rate">
+                {{ rate }} %
+              </option>
+            </select>
+          </div>
         </div>
 
         <div class="form-check">
@@ -114,8 +126,10 @@ export default {
         description: "",
         price: 0,
         stockQuantity: 0,
+        vatRate: null,
         active: true
       },
+      vatRates: [0, 6, 12, 21],
       loading: false,
       saving: false,
       errorMessage: ""
