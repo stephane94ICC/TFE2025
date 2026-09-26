@@ -33,7 +33,8 @@ public class FrontendController {
             "/admin/activities/new",
             "/admin/activities/edit/{id}",
             "/admin/activities/{id}/images",
-            "/admin/activity-logs"
+            "/admin/activity-logs",
+            "/admin/partners"
 
     })
     public String forward() {

@@ -9,6 +9,8 @@ import com.stripe.model.Account;
 import com.stripe.model.AccountLink;
 import com.stripe.param.AccountCreateParams;
 import com.stripe.param.AccountLinkCreateParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,8 @@ public class StripeConnectService {
         // Le partenaire peut recevoir des paiements
         ACTIVE
     }
+
+    private static final Logger log = LoggerFactory.getLogger(StripeConnectService.class);
 
     private static final String COUNTRY = "BE";
 
@@ -95,7 +99,10 @@ public class StripeConnectService {
             partner.setStripeAccountId(account.getId());
             return partnerRepository.save(partner);
         } catch (StripeException exception) {
-            throw new IllegalStateException("Erreur lors de la création du compte de paiement Stripe.");
+            // Le message de Stripe est conservé dans les logs : sans lui, impossible de diagnostiquer
+            log.error("Stripe a refusé la création du compte du partenaire {} : {}",
+                    partner.getId(), exception.getMessage());
+            throw new IllegalStateException("Erreur lors de la création du compte de paiement Stripe.", exception);
         }
     }
 
@@ -125,7 +132,9 @@ public class StripeConnectService {
             Stripe.apiKey = stripeSecretKey;
             return AccountLink.create(params).getUrl();
         } catch (StripeException exception) {
-            throw new IllegalStateException("Erreur lors de la création du lien d'inscription Stripe.");
+            log.error("Stripe a refusé le lien d'inscription du partenaire {} : {}",
+                    partner.getId(), exception.getMessage());
+            throw new IllegalStateException("Erreur lors de la création du lien d'inscription Stripe.", exception);
         }
     }
 
@@ -150,7 +159,9 @@ public class StripeConnectService {
             }
             return AccountStatus.INCOMPLETE;
         } catch (StripeException exception) {
-            throw new IllegalStateException("Impossible de lire l'état du compte de paiement Stripe.");
+            log.error("Stripe n'a pas renvoyé l'état du compte {} : {}",
+                    partner.getStripeAccountId(), exception.getMessage());
+            throw new IllegalStateException("Impossible de lire l'état du compte de paiement Stripe.", exception);
         }
     }
 

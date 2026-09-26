@@ -5,6 +5,7 @@ const PROFILE_API_URL = "/api/partner/profile";
 const ADDRESSES_API_URL = "/api/partner/addresses";
 const ACTIVITIES_API_URL = "/api/partner/activities";
 const LOCATIONS_API_URL = "/api/partner/locations";
+const PAYMENT_ACCOUNT_API_URL = "/api/partner/payment-account";
 
 function getAuthHeaders() {
   const token = AuthService.getToken();
@@ -112,6 +113,18 @@ export function addPartnerActivitySession(activityId, session) {
   return axios.post(
     `${ACTIVITIES_API_URL}/${activityId}/sessions`,
     session,
+    getAuthHeaders()
+  );
+}
+
+export function getPartnerPaymentAccount() {
+  return axios.get(PAYMENT_ACCOUNT_API_URL, getAuthHeaders());
+}
+
+export function createPartnerOnboardingLink() {
+  return axios.post(
+    `${PAYMENT_ACCOUNT_API_URL}/onboarding-link`,
+    null,
     getAuthHeaders()
   );
 }

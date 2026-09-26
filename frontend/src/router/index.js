@@ -31,6 +31,7 @@ import AdminActivityFormPage from "../pages/admin/AdminActivityFormPage.vue";
 import AdminActivityImagesPage from "../pages/admin/AdminActivityImagesPage.vue";
 
 import AdminActivityLogsPage from "../pages/admin/AdminActivityLogsPage.vue";
+import AdminPartnersPage from "../pages/admin/AdminPartnersPage.vue";
 
 const routes = [
     {
@@ -221,6 +222,15 @@ const routes = [
         path: "/admin/activity-logs",
         name: "AdminActivityLogs",
         component: AdminActivityLogsPage,
+        meta: {
+            requiresAuth: true,
+            roles: ["ADMIN"]
+        }
+    },
+    {
+        path: "/admin/partners",
+        name: "AdminPartners",
+        component: AdminPartnersPage,
         meta: {
             requiresAuth: true,
             roles: ["ADMIN"]

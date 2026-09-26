@@ -16,7 +16,7 @@ export default {
     activityLogDescription: "Consulter l’historique des connexions et des actions réalisées sur la plateforme.",
 
     partnersTitle: "Partenaires",
-    partnersDescription: "Consulter et gérer les partenaires de la plateforme.",
+    partnersDescription: "Gérer la commission et le compte de paiement de chaque partenaire.",
 
     access: "Accéder",
     comingSoon: "Bientôt disponible"
@@ -314,6 +314,40 @@ export default {
       MEMBER: "Membre",
       PARTNER: "Partenaire",
       ADMIN: "Administrateur"
+    }
+  },
+
+  partners: {
+    title: "Partenaires",
+    subtitle: "Taux de commission du contrat et compte de paiement de chaque partenaire.",
+    loading: "Chargement des partenaires...",
+    loadError: "Impossible de charger les partenaires.",
+    empty: "Aucun partenaire.",
+
+    name: "Partenaire",
+    vatNumber: "N° TVA",
+    commission: "Commission (%)",
+    paymentStatus: "Paiements",
+    actions: "Actions",
+
+    rateHint: "Un nouveau taux s'applique aux ventes futures uniquement.",
+    saveRate: "Enregistrer",
+    rateSaved: "Taux de commission de {name} enregistré.",
+    rateError: "Le taux doit être compris entre 1 et 8 %, avec au plus deux décimales.",
+    saveError: "Impossible d'enregistrer le taux de commission.",
+
+    createAccount: "Créer le compte de paiement",
+    creating: "Création...",
+    confirmCreateAccount: "Créer le compte de paiement Stripe de {name} ? Le partenaire devra ensuite compléter lui-même son inscription.",
+    accountCreated: "Compte de paiement de {name} créé. Le partenaire peut maintenant compléter son inscription.",
+    createError: "Impossible de créer le compte de paiement.",
+
+    statuses: {
+      NOT_CREATED: "Aucun compte",
+      INCOMPLETE: "Inscription à compléter",
+      PENDING_VERIFICATION: "Vérification en cours",
+      ACTIVE: "Actif",
+      UNAVAILABLE: "État indisponible"
     }
   }
 };

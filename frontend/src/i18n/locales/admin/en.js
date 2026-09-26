@@ -16,7 +16,7 @@ export default {
     activityLogDescription: "View the history of logins and actions performed on the platform.",
 
     partnersTitle: "Partners",
-    partnersDescription: "View and manage the platform's partners.",
+    partnersDescription: "Manage the commission and payment account of each partner.",
 
     access: "Open",
     comingSoon: "Coming soon"
@@ -314,6 +314,40 @@ export default {
       MEMBER: "Member",
       PARTNER: "Partner",
       ADMIN: "Administrator"
+    }
+  },
+
+  partners: {
+    title: "Partners",
+    subtitle: "Contract commission rate and payment account of each partner.",
+    loading: "Loading partners...",
+    loadError: "Unable to load partners.",
+    empty: "No partners.",
+
+    name: "Partner",
+    vatNumber: "VAT number",
+    commission: "Commission (%)",
+    paymentStatus: "Payments",
+    actions: "Actions",
+
+    rateHint: "A new rate only applies to future sales.",
+    saveRate: "Save",
+    rateSaved: "Commission rate of {name} saved.",
+    rateError: "The rate must be between 1 and 8%, with at most two decimals.",
+    saveError: "Unable to save the commission rate.",
+
+    createAccount: "Create payment account",
+    creating: "Creating...",
+    confirmCreateAccount: "Create the Stripe payment account of {name}? The partner will then have to complete the registration themselves.",
+    accountCreated: "Payment account of {name} created. The partner can now complete the registration.",
+    createError: "Unable to create the payment account.",
+
+    statuses: {
+      NOT_CREATED: "No account",
+      INCOMPLETE: "Registration to complete",
+      PENDING_VERIFICATION: "Verification in progress",
+      ACTIVE: "Active",
+      UNAVAILABLE: "Status unavailable"
     }
   }
 };

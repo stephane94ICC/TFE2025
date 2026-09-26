@@ -22,6 +22,10 @@
       </section>
 
       <section class="partner-section-card">
+        <PartnerPaymentAccount />
+      </section>
+
+      <section class="partner-section-card">
         <PartnerCompanyForm
           :partner="partner"
           :saving="savingProfile"
@@ -70,6 +74,7 @@ import PartnerAddressForm from "./PartnerAddressForm.vue";
 import PartnerAddressList from "./PartnerAddressList.vue";
 import PartnerCompanyForm from "./PartnerCompanyForm.vue";
 import PartnerLogoForm from "./PartnerLogoForm.vue";
+import PartnerPaymentAccount from "./PartnerPaymentAccount.vue";
 
 import "./PartnerPage.css";
 
@@ -80,7 +85,8 @@ export default {
     PartnerAddressForm,
     PartnerAddressList,
     PartnerCompanyForm,
-    PartnerLogoForm
+    PartnerLogoForm,
+    PartnerPaymentAccount
   },
 
   data() {

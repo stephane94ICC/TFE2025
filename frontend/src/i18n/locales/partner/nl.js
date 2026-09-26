@@ -260,5 +260,30 @@ export default {
     confirmAddressDelete: "Dit adres verwijderen?",
     addressDeleteSuccess: "Adres succesvol verwijderd.",
     addressDeleteError: "Het adres kon niet worden verwijderd."
+  },
+
+  payment: {
+    title: "Online betalingen",
+    loading: "Status van uw betaalaccount laden...",
+    loadError: "Kan de status van uw betaalaccount niet lezen.",
+    redirecting: "Doorsturen naar Stripe...",
+    redirectError: "Kan het Stripe-registratieformulier niet openen.",
+    returned: "Terug van Stripe: de status van uw account is bijgewerkt.",
+    start: "Registratie voltooien",
+    update: "Mijn gegevens aanvullen of wijzigen",
+
+    statuses: {
+      NOT_CREATED: "Geen account",
+      INCOMPLETE: "Registratie te voltooien",
+      PENDING_VERIFICATION: "Verificatie bezig",
+      ACTIVE: "Actief"
+    },
+
+    descriptions: {
+      NOT_CREATED: "Uw betaalaccount is nog niet aangemaakt door de beheerder. Uw activiteiten kunnen nog niet online worden gereserveerd.",
+      INCOMPLETE: "Voltooi uw registratie bij Stripe om de betalingen van uw reserveringen te ontvangen. Uw bankgegevens gaan rechtstreeks naar Stripe, nooit naar Bel'Loisirs.",
+      PENDING_VERIFICATION: "Stripe controleert uw gegevens. Uw activiteiten kunnen worden gereserveerd zodra de verificatie is afgerond.",
+      ACTIVE: "Uw account is actief: de betaling van elke reservering wordt aan u overgemaakt, na aftrek van de commissie van het platform."
+    }
   }
 };

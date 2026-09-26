@@ -260,5 +260,30 @@ export default {
     confirmAddressDelete: "Supprimer cette adresse ?",
     addressDeleteSuccess: "Adresse supprimée avec succès.",
     addressDeleteError: "Impossible de supprimer l’adresse."
+  },
+
+  payment: {
+    title: "Paiements en ligne",
+    loading: "Chargement de l'état de votre compte de paiement...",
+    loadError: "Impossible de lire l'état de votre compte de paiement.",
+    redirecting: "Redirection vers Stripe...",
+    redirectError: "Impossible d'ouvrir le formulaire d'inscription Stripe.",
+    returned: "Retour de Stripe : l'état de votre compte a été mis à jour.",
+    start: "Terminer l'inscription",
+    update: "Compléter ou modifier mes informations",
+
+    statuses: {
+      NOT_CREATED: "Aucun compte",
+      INCOMPLETE: "Inscription à compléter",
+      PENDING_VERIFICATION: "Vérification en cours",
+      ACTIVE: "Actif"
+    },
+
+    descriptions: {
+      NOT_CREATED: "Votre compte de paiement n'a pas encore été créé par l'administrateur. Vos activités ne peuvent pas encore être réservées en ligne.",
+      INCOMPLETE: "Terminez votre inscription auprès de Stripe pour recevoir les paiements de vos réservations. Vos informations bancaires sont transmises directement à Stripe, jamais à Bel'Loisirs.",
+      PENDING_VERIFICATION: "Stripe vérifie vos informations. Vos activités pourront être réservées dès la fin de la vérification.",
+      ACTIVE: "Votre compte est actif : le paiement de chaque réservation vous est versé, commission de la plateforme déduite."
+    }
   }
 };

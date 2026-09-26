@@ -260,5 +260,30 @@ export default {
     confirmAddressDelete: "Delete this address?",
     addressDeleteSuccess: "Address deleted successfully.",
     addressDeleteError: "Unable to delete the address."
+  },
+
+  payment: {
+    title: "Online payments",
+    loading: "Loading your payment account status...",
+    loadError: "Unable to read your payment account status.",
+    redirecting: "Redirecting to Stripe...",
+    redirectError: "Unable to open the Stripe registration form.",
+    returned: "Back from Stripe: your account status has been updated.",
+    start: "Complete registration",
+    update: "Complete or update my information",
+
+    statuses: {
+      NOT_CREATED: "No account",
+      INCOMPLETE: "Registration to complete",
+      PENDING_VERIFICATION: "Verification in progress",
+      ACTIVE: "Active"
+    },
+
+    descriptions: {
+      NOT_CREATED: "Your payment account has not been created by the administrator yet. Your activities cannot be booked online yet.",
+      INCOMPLETE: "Complete your Stripe registration to receive payments for your bookings. Your banking details go directly to Stripe, never to Bel'Loisirs.",
+      PENDING_VERIFICATION: "Stripe is verifying your information. Your activities can be booked as soon as the verification is complete.",
+      ACTIVE: "Your account is active: the payment of each booking is transferred to you, minus the platform commission."
+    }
   }
 };

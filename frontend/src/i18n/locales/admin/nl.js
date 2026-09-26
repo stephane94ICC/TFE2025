@@ -16,7 +16,7 @@ export default {
     activityLogDescription: "Bekijk de geschiedenis van aanmeldingen en acties die op het platform zijn uitgevoerd.",
 
     partnersTitle: "Partners",
-    partnersDescription: "Bekijk en beheer de partners van het platform.",
+    partnersDescription: "Beheer de commissie en het betaalaccount van elke partner.",
 
     access: "Openen",
     comingSoon: "Binnenkort beschikbaar"
@@ -314,6 +314,40 @@ export default {
       MEMBER: "Lid",
       PARTNER: "Partner",
       ADMIN: "Beheerder"
+    }
+  },
+
+  partners: {
+    title: "Partners",
+    subtitle: "Commissiepercentage uit het contract en betaalaccount van elke partner.",
+    loading: "Partners laden...",
+    loadError: "Kan de partners niet laden.",
+    empty: "Geen partners.",
+
+    name: "Partner",
+    vatNumber: "Btw-nummer",
+    commission: "Commissie (%)",
+    paymentStatus: "Betalingen",
+    actions: "Acties",
+
+    rateHint: "Een nieuw percentage geldt alleen voor toekomstige verkopen.",
+    saveRate: "Opslaan",
+    rateSaved: "Commissiepercentage van {name} opgeslagen.",
+    rateError: "Het percentage moet tussen 1 en 8% liggen, met hoogstens twee decimalen.",
+    saveError: "Kan het commissiepercentage niet opslaan.",
+
+    createAccount: "Betaalaccount aanmaken",
+    creating: "Aanmaken...",
+    confirmCreateAccount: "Het Stripe-betaalaccount van {name} aanmaken? De partner moet daarna zelf de registratie voltooien.",
+    accountCreated: "Betaalaccount van {name} aangemaakt. De partner kan nu de registratie voltooien.",
+    createError: "Kan het betaalaccount niet aanmaken.",
+
+    statuses: {
+      NOT_CREATED: "Geen account",
+      INCOMPLETE: "Registratie te voltooien",
+      PENDING_VERIFICATION: "Verificatie bezig",
+      ACTIVE: "Actief",
+      UNAVAILABLE: "Status niet beschikbaar"
     }
   }
 };

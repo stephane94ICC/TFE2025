@@ -40,13 +40,13 @@
         <span>{{ $t("admin.dashboard.access") }}</span>
       </router-link>
 
-      <div class="admin-block admin-block-disabled">
+      <router-link to="/admin/partners" class="admin-block admin-block-active">
         <h2>{{ $t("admin.dashboard.partnersTitle") }}</h2>
         <p>
           {{ $t("admin.dashboard.partnersDescription") }}
         </p>
-        <span>{{ $t("admin.dashboard.comingSoon") }}</span>
-      </div>
+        <span>{{ $t("admin.dashboard.access") }}</span>
+      </router-link>
     </section>
   </div>
 </template>
