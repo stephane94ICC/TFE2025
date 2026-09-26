@@ -45,8 +45,13 @@
 
         <label>
           {{ $t("partner.activityForm.vatRate") }}
+          <!--
+            value="" et non :value="null" : Vue retire l'attribut value quand
+            il vaut null, l'option prend alors son libellé comme valeur et
+            « required » la considère comme un choix valide.
+          -->
           <select v-model.number="form.vatRate" required>
-            <option :value="null" disabled>
+            <option value="" disabled>
               {{ $t("partner.activityForm.vatRatePlaceholder") }}
             </option>
             <option v-for="rate in vatRates" :key="rate" :value="rate">
@@ -101,7 +106,7 @@ function createEmptyForm() {
     title: "",
     description: "",
     price: null,
-    vatRate: null,
+    vatRate: "",
     durationMinutes: null,
     minimumAge: 0,
     equipmentInformation: ""
@@ -143,7 +148,7 @@ export default {
               title: activity.title || "",
               description: activity.description || "",
               price: activity.price ?? null,
-              vatRate: activity.vatRate ?? null,
+              vatRate: activity.vatRate ?? "",
               durationMinutes: activity.durationMinutes ?? null,
               minimumAge: activity.minimumAge ?? 0,
               equipmentInformation: activity.equipmentInformation || ""

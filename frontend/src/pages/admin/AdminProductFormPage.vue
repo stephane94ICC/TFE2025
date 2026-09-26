@@ -64,8 +64,13 @@
 
           <div class="form-group">
             <label for="vatRate">{{ $t("admin.productForm.vatRate") }}</label>
+            <!--
+              value="" et non :value="null" : Vue retire l'attribut value quand
+              il vaut null, l'option prend alors son libellé comme valeur et
+              « required » la considère comme un choix valide.
+            -->
             <select id="vatRate" v-model.number="product.vatRate" required>
-              <option :value="null" disabled>
+              <option value="" disabled>
                 {{ $t("admin.productForm.vatRatePlaceholder") }}
               </option>
               <option v-for="rate in vatRates" :key="rate" :value="rate">
@@ -126,7 +131,7 @@ export default {
         description: "",
         price: 0,
         stockQuantity: 0,
-        vatRate: null,
+        vatRate: "",
         active: true
       },
       vatRates: [0, 6, 12, 21],
@@ -159,7 +164,10 @@ export default {
 
       getAdminProductById(this.productId)
           .then(response => {
-            this.product = response.data;
+            this.product = {
+              ...response.data,
+              vatRate: response.data.vatRate ?? ""
+            };
           })
           .catch(error => {
             console.error(error);
