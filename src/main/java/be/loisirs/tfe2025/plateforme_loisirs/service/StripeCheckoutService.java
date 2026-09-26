@@ -1,8 +1,10 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.payment.CheckoutItemRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.payment.CheckoutRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.payment.CheckoutResponseDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Order;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.OrderItem;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.OrderStatus;
@@ -30,6 +32,7 @@ public class StripeCheckoutService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final ActivityLogService activityLogService;
     private final String stripeSecretKey;
     private final String frontendUrl;
     private final long checkoutExpirationMinutes;
@@ -38,6 +41,7 @@ public class StripeCheckoutService {
             UserRepository userRepository,
             ProductRepository productRepository,
             OrderRepository orderRepository,
+            ActivityLogService activityLogService,
             @Value("${stripe.secret-key}") String stripeSecretKey,
             @Value("${app.frontend-url}") String frontendUrl,
             @Value("${stripe.checkout-expiration-minutes}") long checkoutExpirationMinutes
@@ -45,6 +49,7 @@ public class StripeCheckoutService {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+        this.activityLogService = activityLogService;
         this.stripeSecretKey = stripeSecretKey;
         this.frontendUrl = frontendUrl;
         this.checkoutExpirationMinutes = checkoutExpirationMinutes;
@@ -127,7 +132,8 @@ public class StripeCheckoutService {
             Session session = Session.create(sessionBuilder.build());
 
             savedOrder.setStripeSessionId(session.getId());
-            savedOrder.setStripePaymentIntentId(session.getPaymentIntent());
+            // Pas de payment intent ici : Stripe ne le crée qu'au paiement.
+            // Il est enregistré par le webhook, seule source fiable.
             orderRepository.save(savedOrder);
 
             return new CheckoutResponseDTO(
@@ -140,26 +146,69 @@ public class StripeCheckoutService {
         }
     }
 
+    /*
+     * Appelée quand le client revient de Stripe par le lien « retour ».
+     * Même logique que pour les réservations : la session Stripe est expirée
+     * avant de rendre le stock, sinon un retour arrière du navigateur
+     * permettrait de payer une commande dont le stock a déjà été restitué.
+     */
     @Transactional
     public void cancelCheckoutSession(String userEmail, String sessionId) {
         if (sessionId == null || sessionId.isBlank()) {
             throw new IllegalArgumentException("Session Stripe manquante.");
         }
 
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
-
+        // Même réponse pour « inexistante » et « appartient à un autre » :
+        // l'existence d'une commande n'est jamais révélée (anti-IDOR).
         Order order = orderRepository.findByStripeSessionId(sessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Commande introuvable."));
+                .filter(found -> found.getUser() != null
+                        && userEmail.equals(found.getUser().getEmail()))
+                .orElseThrow(() -> new ResourceNotFoundException("Commande introuvable."));
 
-        if (order.getUser() == null || !order.getUser().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("Cette commande ne vous appartient pas.");
+        // Déjà payée ou déjà annulée : rien à faire (rechargement de la page).
+        if (!OrderStatus.PENDING.equals(order.getStatus())) {
+            return;
         }
 
-        if (OrderStatus.PENDING.equals(order.getStatus())) {
-            order.setStatus(OrderStatus.CANCELLED);
-            orderRepository.save(order);
-            restoreStock(order);
+        String stripeStatus = expireStripeSessionIfOpen(sessionId);
+
+        if ("complete".equals(stripeStatus)) {
+            throw new IllegalArgumentException(
+                    "Le paiement a déjà été reçu : la commande ne peut plus être annulée ici.");
+        }
+
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
+        restoreStock(order);
+
+        // Journalisé en dernier : log écrit dans sa propre transaction (REQUIRES_NEW)
+        activityLogService.log(
+                ActivityEventType.ORDER_CANCELLED,
+                "Order",
+                order.getId(),
+                "Commande n°" + order.getId()
+                        + " - " + order.getTotalAmount() + " EUR"
+                        + " - paiement abandonné par le client"
+        );
+    }
+
+    /*
+     * Renvoie l'état de la session Stripe après l'opération :
+     * « expired » (expirée maintenant ou avant) ou « complete » (déjà payée).
+     */
+    private String expireStripeSessionIfOpen(String sessionId) {
+        try {
+            Stripe.apiKey = stripeSecretKey;
+            Session stripeSession = Session.retrieve(sessionId);
+
+            if ("open".equals(stripeSession.getStatus())) {
+                stripeSession = stripeSession.expire();
+            }
+
+            return stripeSession.getStatus();
+        } catch (StripeException exception) {
+            throw new IllegalStateException(
+                    "Impossible de vérifier la session de paiement auprès de Stripe.");
         }
     }
 

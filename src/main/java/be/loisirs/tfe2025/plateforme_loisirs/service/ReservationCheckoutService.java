@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.reservation.ReservationCheckoutRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.reservation.ReservationCheckoutResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Activity;
@@ -154,7 +155,8 @@ public class ReservationCheckoutService {
             Session stripeSession = Session.create(sessionParams);
 
             savedReservation.setStripeSessionId(stripeSession.getId());
-            savedReservation.setStripePaymentIntentId(stripeSession.getPaymentIntent());
+            // Pas de payment intent ici : Stripe ne le crée qu'au paiement.
+            // Il est enregistré par le webhook, seule source fiable.
             reservationRepository.save(savedReservation);
 
             /*
@@ -189,26 +191,70 @@ public class ReservationCheckoutService {
         }
     }
 
+    /*
+     * Appelée quand le client revient de Stripe par le lien « retour ».
+     * La session Stripe reste ouverte tant qu'elle n'a pas expiré :
+     * annuler seulement en base laisserait le client payer par un retour
+     * arrière du navigateur. On expire donc la session chez Stripe avant
+     * de libérer les places.
+     */
     @Transactional
     public void cancelCheckoutSession(String userEmail, String stripeSessionId) {
         if (stripeSessionId == null || stripeSessionId.isBlank()) {
             throw new IllegalArgumentException("Session Stripe manquante.");
         }
 
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
-
+        // Même réponse pour « inexistante » et « appartient à un autre » :
+        // l'existence d'une réservation n'est jamais révélée (anti-IDOR).
         Reservation reservation = reservationRepository.findByStripeSessionId(stripeSessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Réservation introuvable."));
+                .filter(found -> found.getUser() != null
+                        && userEmail.equals(found.getUser().getEmail()))
+                .orElseThrow(() -> new ResourceNotFoundException("Réservation introuvable."));
 
-        if (reservation.getUser() == null || !reservation.getUser().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("Cette réservation ne vous appartient pas.");
+        // Déjà confirmée ou déjà annulée : rien à faire (rechargement de la page).
+        if (!ReservationStatus.PENDING.equals(reservation.getStatus())) {
+            return;
         }
 
-        if (ReservationStatus.PENDING.equals(reservation.getStatus())) {
-            reservation.setStatus(ReservationStatus.CANCELLED);
-            reservation.setCancelledAt(LocalDateTime.now());
-            reservationRepository.save(reservation);
+        String stripeStatus = expireStripeSessionIfOpen(stripeSessionId);
+
+        if ("complete".equals(stripeStatus)) {
+            throw new IllegalArgumentException(
+                    "Le paiement a déjà été reçu : la réservation ne peut plus être annulée ici.");
+        }
+
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservation.setCancelledAt(LocalDateTime.now());
+        reservationRepository.save(reservation);
+
+        activityLogService.log(
+                ActivityEventType.RESERVATION_CANCELLED,
+                "Reservation",
+                reservation.getId(),
+                reservation.getReference()
+                        + " - " + reservation.getSession().getActivity().getTitle()
+                        + " - " + reservation.getQuantity() + " place(s)"
+                        + " - paiement abandonné par le client"
+        );
+    }
+
+    /*
+     * Renvoie l'état de la session Stripe après l'opération :
+     * « expired » (expirée maintenant ou avant) ou « complete » (déjà payée).
+     */
+    private String expireStripeSessionIfOpen(String stripeSessionId) {
+        try {
+            Stripe.apiKey = stripeSecretKey;
+            Session stripeSession = Session.retrieve(stripeSessionId);
+
+            if ("open".equals(stripeSession.getStatus())) {
+                stripeSession = stripeSession.expire();
+            }
+
+            return stripeSession.getStatus();
+        } catch (StripeException exception) {
+            throw new IllegalStateException(
+                    "Impossible de vérifier la session de paiement auprès de Stripe.");
         }
     }
 

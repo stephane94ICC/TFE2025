@@ -19,6 +19,9 @@ public enum ActivityEventType {
     RESERVATION_CANCELLED,
     ORDER_PAID,
     ORDER_CANCELLED,
+    // Paiement reçu sur une vente déjà annulée : rien n'est confirmé,
+    // l'événement signale un remboursement à effectuer.
+    PAYMENT_ON_CANCELLED_SALE,
 
     // --- Administration ---
     ACTIVITY_APPROVED,

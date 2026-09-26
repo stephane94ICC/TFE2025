@@ -161,6 +161,7 @@ export default {
       RESERVATION_CANCELLED: "Reservation cancelled",
       ORDER_PAID: "Order paid",
       ORDER_CANCELLED: "Order cancelled",
+      PAYMENT_ON_CANCELLED_SALE: "Payment received on a cancelled sale — refund required",
       ACTIVITY_APPROVED: "Activity approved",
       ACTIVITY_REJECTED: "Activity rejected",
       USER_MODIFIED_BY_ADMIN: "User modified by an administrator"

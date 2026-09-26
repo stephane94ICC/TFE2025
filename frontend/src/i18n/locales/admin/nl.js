@@ -161,6 +161,7 @@ export default {
       RESERVATION_CANCELLED: "Reservering geannuleerd",
       ORDER_PAID: "Bestelling betaald",
       ORDER_CANCELLED: "Bestelling geannuleerd",
+      PAYMENT_ON_CANCELLED_SALE: "Betaling ontvangen op een geannuleerde verkoop — terug te betalen",
       ACTIVITY_APPROVED: "Activiteit goedgekeurd",
       ACTIVITY_REJECTED: "Activiteit geweigerd",
       USER_MODIFIED_BY_ADMIN: "Gebruiker gewijzigd door een beheerder"
