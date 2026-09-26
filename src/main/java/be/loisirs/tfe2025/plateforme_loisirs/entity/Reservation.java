@@ -41,6 +41,17 @@ public class Reservation {
     @Column(name = "vat_rate", precision = 4, scale = 2)
     private BigDecimal vatRate;
 
+    // Commission figée à l'achat, comme le prix et la TVA.
+    // Les trois sont NULL ensemble pour les ventes antérieures à Stripe Connect.
+    @Column(name = "commission_rate", precision = 4, scale = 2)
+    private BigDecimal commissionRate;
+
+    @Column(name = "commission_htva", precision = 10, scale = 2)
+    private BigDecimal commissionHtva;
+
+    @Column(name = "commission_vat", precision = 10, scale = 2)
+    private BigDecimal commissionVat;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status = ReservationStatus.PENDING;
