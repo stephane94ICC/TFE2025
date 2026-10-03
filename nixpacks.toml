@@ -11,4 +11,8 @@ cmds = [
 ]
 
 [start]
-cmd = "java -jar target/plateforme-loisirs-0.0.1-SNAPSHOT.jar"
+[start]
+# Mémoire bornée explicitement : conteneur Railway limité à 1 Go.
+# Tas 384 Mo + métadonnées de classes 256 Mo + code compilé 96 Mo + threads : environ 850 Mo au maximum.
+# ExitOnOutOfMemoryError : en cas de manque de tas, arrêt immédiat avec un message clair dans les logs.
+cmd = "java -Xmx384m -Xss512k -XX:MaxMetaspaceSize=256m -XX:ReservedCodeCacheSize=96m -XX:+UseSerialGC -XX:+ExitOnOutOfMemoryError -jar target/plateforme-loisirs-0.0.1-SNAPSHOT.jar"
