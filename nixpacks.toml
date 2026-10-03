@@ -10,7 +10,7 @@ cmds = [
     "mvn clean package -DskipTests"
 ]
 
-[start]
+
 [start]
 # Mémoire bornée explicitement : conteneur Railway limité à 1 Go.
 # Tas 384 Mo + métadonnées de classes 256 Mo + code compilé 96 Mo + threads : environ 850 Mo au maximum.
