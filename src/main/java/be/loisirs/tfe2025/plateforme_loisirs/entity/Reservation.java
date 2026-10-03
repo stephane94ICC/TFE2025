@@ -71,6 +71,14 @@ public class Reservation {
     @Column(name = "stripe_payment_intent_id")
     private String stripePaymentIntentId;
 
+    // Remboursement Stripe : identifiant et date sont NULL ensemble (CHECK V14_3).
+    // Une réservation remboursée est toujours CANCELLED.
+    @Column(name = "stripe_refund_id", unique = true)
+    private String stripeRefundId;
+
+    @Column(name = "refunded_at")
+    private LocalDateTime refundedAt;
+
     @Column(name = "billing_first_name", nullable = false)
     private String billingFirstName;
 

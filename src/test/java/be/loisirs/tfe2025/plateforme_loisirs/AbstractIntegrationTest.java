@@ -10,13 +10,16 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivitySessionRepositor
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.service.StripeRefundService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,6 +67,27 @@ public abstract class AbstractIntegrationTest {
     protected ActivitySessionRepository activitySessionRepository;
     @Autowired
     protected ReservationRepository reservationRepository;
+
+    /**
+     * Faux composant de remboursement : aucun test n'appelle Stripe.
+     *
+     * Declare ici, dans le socle, et non dans chaque classe : toutes les
+     * classes partagent ainsi le meme contexte Spring (demarre une seule fois).
+     * Le faux est remis a zero apres chaque test : le comportement par defaut
+     * est donc redefini avant chaque test.
+     */
+    @MockitoBean
+    protected StripeRefundService stripeRefundService;
+
+    /**
+     * Par defaut, le remboursement reussit et renvoie un identifiant unique
+     * (stripe_refund_id est UNIQUE en base).
+     */
+    @BeforeEach
+    void stubRefundSucceeds() {
+        when(stripeRefundService.refund(anyString(), anyLong(), anyBoolean()))
+                .thenAnswer(invocation -> "re_test_" + UUID.randomUUID());
+    }
 
     /**
      * Cree un membre actif dont on connait le mot de passe en clair.
@@ -113,7 +141,11 @@ public abstract class AbstractIntegrationTest {
         return activitySessionRepository.save(session);
     }
 
-    /** Reservation confirmee, donc annulable : le chemin nominal du membre. */
+    /**
+     * Reservation confirmee et payee, donc annulable et remboursable :
+     * le chemin nominal du membre. Le payment intent est factice : le
+     * remboursement passe par le faux composant, jamais par Stripe.
+     */
     protected Reservation createConfirmedReservation(User member, ActivitySession session) {
         Reservation reservation = new Reservation();
         reservation.setUser(member);
@@ -124,6 +156,7 @@ public abstract class AbstractIntegrationTest {
         reservation.setStatus(ReservationStatus.CONFIRMED);
         reservation.setBookedAt(LocalDateTime.now());
         reservation.setConfirmedAt(LocalDateTime.now());
+        reservation.setStripePaymentIntentId("pi_test_" + UUID.randomUUID());
 
         // Instantane de facturation : NOT NULL depuis V12_1.
         reservation.setBillingFirstName(member.getFirstName());

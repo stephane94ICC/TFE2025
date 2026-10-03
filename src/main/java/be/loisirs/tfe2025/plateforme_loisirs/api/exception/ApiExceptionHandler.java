@@ -58,6 +58,17 @@ private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.cl
                         "code", PartnerNotPayableException.CODE));
     }
 
+    // Annulation refusée : vente payée sans remboursement automatique possible.
+    @ExceptionHandler(RefundNotAvailableException.class)
+    public ResponseEntity<Map<String, String>> handleRefundNotAvailable(
+            RefundNotAvailableException exception) {
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "error", exception.getMessage(),
+                        "code", RefundNotAvailableException.CODE));
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
         public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(
                 DataIntegrityViolationException exception) {

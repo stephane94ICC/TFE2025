@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.RefundNotAvailableException;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Reservation;
@@ -16,18 +17,27 @@ public class MemberReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ActivityLogService activityLogService;
+    private final StripeRefundService stripeRefundService;
 
     public MemberReservationService(ReservationRepository reservationRepository,
-                                    ActivityLogService activityLogService) {
+                                    ActivityLogService activityLogService,
+                                    StripeRefundService stripeRefundService) {
         this.reservationRepository = reservationRepository;
         this.activityLogService = activityLogService;
+        this.stripeRefundService = stripeRefundService;
     }
 
     public List<Reservation> getReservations(String email) {
         return reservationRepository.findAllByUser_EmailOrderByBookedAtDesc(email);
     }
 
-
+    /*
+     * Annulation par le membre = remboursement intégral.
+     * Règle : on n'annule jamais une vente payée sans la rembourser.
+     *
+     * Ordre : contrôles, puis Stripe, puis la base.
+     * Si Stripe échoue, rien ne change en base : la réservation reste valide.
+     */
     @Transactional
     public void cancelReservation(String email, Long reservationId) {
 
@@ -47,8 +57,27 @@ public class MemberReservationService {
             );
         }
 
+        // Vente ancienne sans paiement Stripe enregistré : remboursement automatique impossible.
+        String paymentIntentId = reservation.getStripePaymentIntentId();
+
+        if (paymentIntentId == null || paymentIntentId.isBlank()) {
+            throw new RefundNotAvailableException(
+                    "Remboursement automatique impossible pour cette réservation."
+            );
+        }
+
+        // Paramètres décidés d'après la vente figée, pas d'après l'état actuel du partenaire :
+        // une commission enregistrée signifie un paiement partagé avec le partenaire.
+        boolean connectSale = reservation.getCommissionRate() != null;
+
+        String refundId = stripeRefundService.refund(paymentIntentId, reservation.getId(), connectSale);
+
+        LocalDateTime now = LocalDateTime.now();
+
         reservation.setStatus(ReservationStatus.CANCELLED);
-        reservation.setCancelledAt(LocalDateTime.now());
+        reservation.setCancelledAt(now);
+        reservation.setStripeRefundId(refundId);
+        reservation.setRefundedAt(now);
         reservationRepository.save(reservation);
 
         activityLogService.log(
@@ -60,6 +89,7 @@ public class MemberReservationService {
                         + " - " + reservation.getQuantity() + " place(s)"
                         + " - " + reservation.getTotalPrice() + " EUR"
                         + " - annulée par le membre"
+                        + " - remboursée (" + refundId + ")"
         );
     }
 }
