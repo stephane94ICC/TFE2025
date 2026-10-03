@@ -208,5 +208,32 @@ export default {
 
     empty: "Geen producten beschikbaar.",
     loadError: "De producten konden niet worden geladen."
+  },
+
+  terms: {
+    title: "Algemene voorwaarden",
+    subtitle: "Deze voorwaarden zijn van toepassing op reservaties van activiteiten en aankopen van artikelen via Bel'Loisirs.",
+    identityTitle: "Doel en identiteit",
+    identityText: "Bel'Loisirs is een toepassing die werd ontwikkeld als eindwerk bedrijfsinformatica aan het Institut des Carrières Commerciales (ICC), Brussel. Er vinden geen echte verkopen plaats: betalingen gebeuren in testmodus.",
+    rolesTitle: "Rol van elke partij",
+    rolesActivities: "De activiteiten worden aangeboden en verkocht door de partners. Bel'Loisirs treedt op als tussenpersoon: het platform int de betaling voor rekening van de partner en ontvangt een commissie op elke reservatie.",
+    rolesProducts: "De artikelen in de shop worden rechtstreeks door Bel'Loisirs verkocht.",
+    pricesTitle: "Prijzen",
+    pricesText: "De prijzen worden vermeld in euro, alle taksen inbegrepen (Belgische btw inbegrepen). De betaalde prijs is de prijs die op het moment van de bestelling wordt getoond.",
+    paymentTitle: "Betaling",
+    paymentText: "De betaling wordt verwerkt door Stripe. Bel'Loisirs ontvangt en bewaart geen bankkaartgegevens. Een reservatie of bestelling is pas bevestigd nadat de betaling is aanvaard.",
+    reservationsTitle: "Reservaties van activiteiten",
+    reservationsWithdrawal: "Voor vrijetijdsactiviteiten op een bepaalde datum geldt het herroepingsrecht van 14 dagen niet.",
+    reservationsCancellation: "U kunt een bevestigde reservatie wel annuleren via « Mijn aankopen », tot de uiterste reservatiedatum van het tijdslot. Het betaalde bedrag wordt dan volledig terugbetaald op uw betaalmiddel.",
+    reservationsAfterDeadline: "Na deze uiterste datum kan de reservatie niet meer worden geannuleerd of terugbetaald.",
+    productsTitle: "Aankopen van artikelen",
+    productsWithdrawal: "U beschikt over een termijn van 14 dagen vanaf de ontvangst van een artikel om de aankoop te herroepen, zonder opgave van redenen.",
+    productsHow: "Om dit recht uit te oefenen, stuurt u ons uw verzoek per e-mail en stuurt u het artikel terug binnen 14 dagen na dit verzoek. De kosten voor het terugsturen zijn voor uw rekening.",
+    productsRefund: "De terugbetaling gebeurt binnen 14 dagen na uw verzoek. Ze kan worden uitgesteld tot de ontvangst van het artikel of tot het bewijs van de terugzending.",
+    contactTitle: "Contact en klachten",
+    contactText: "Voor vragen of klachten: contact{'@'}belloisirs.example (fictief adres — eindwerk). Op deze voorwaarden is het Belgisch recht van toepassing.",
+    lastUpdate: "Laatst bijgewerkt: 3 oktober 2026",
+    paymentNotice: "Door te betalen, aanvaardt u onze",
+    termsLink: "algemene voorwaarden"
   }
 };

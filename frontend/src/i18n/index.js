@@ -4,6 +4,10 @@ import navbarFr from "./locales/navbar/fr";
 import navbarNl from "./locales/navbar/nl";
 import navbarEn from "./locales/navbar/en";
 
+import footerFr from "./locales/footer/fr";
+import footerNl from "./locales/footer/nl";
+import footerEn from "./locales/footer/en";
+
 import authFr from "./locales/auth/fr";
 import authNl from "./locales/auth/nl";
 import authEn from "./locales/auth/en";
@@ -36,6 +40,7 @@ const i18n = createI18n({
   messages: {
     fr: {
       navbar: navbarFr,
+      footer: footerFr,
       auth: authFr,
       admin: adminFr,
       member: memberFr,
@@ -46,6 +51,7 @@ const i18n = createI18n({
 
     nl: {
       navbar: navbarNl,
+      footer: footerNl,
       auth: authNl,
       admin: adminNl,
       member: memberNl,
@@ -56,6 +62,7 @@ const i18n = createI18n({
 
     en: {
       navbar: navbarEn,
+      footer: footerEn,
       auth: authEn,
       admin: adminEn,
       member: memberEn,
@@ -65,7 +72,6 @@ const i18n = createI18n({
     }
   },
 
-  // Format monétaire utilisé par $price() (main.js), toujours en convention fr : 12,50 €
   numberFormats: {
     fr: { currency: { style: "currency", currency: "EUR" } },
     nl: { currency: { style: "currency", currency: "EUR" } },

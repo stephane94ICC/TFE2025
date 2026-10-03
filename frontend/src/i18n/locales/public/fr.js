@@ -206,5 +206,32 @@ export default {
 
     empty: "Aucun produit disponible.",
     loadError: "Impossible de charger les produits."
+  },
+
+  terms: {
+    title: "Conditions générales",
+    subtitle: "Ces conditions s’appliquent aux réservations d’activités et aux achats d’articles effectués sur Bel'Loisirs.",
+    identityTitle: "Objet et identité",
+    identityText: "Bel'Loisirs est une application réalisée dans le cadre d’un travail de fin d’études en informatique de gestion à l’Institut des Carrières Commerciales (ICC), Bruxelles. Aucune vente réelle n’a lieu : les paiements sont effectués en mode test.",
+    rolesTitle: "Rôle de chacun",
+    rolesActivities: "Les activités sont proposées et vendues par les partenaires. Bel'Loisirs agit comme intermédiaire : la plateforme encaisse le paiement pour le compte du partenaire et perçoit une commission sur chaque réservation.",
+    rolesProducts: "Les articles de la boutique sont vendus directement par Bel'Loisirs.",
+    pricesTitle: "Prix",
+    pricesText: "Les prix sont indiqués en euros, toutes taxes comprises (TVA belge incluse). Le prix payé est celui affiché au moment de la commande.",
+    paymentTitle: "Paiement",
+    paymentText: "Le paiement est traité par Stripe. Bel'Loisirs ne reçoit et ne conserve aucune donnée de carte bancaire. Une réservation ou une commande n’est confirmée qu’après acceptation du paiement.",
+    reservationsTitle: "Réservations d’activités",
+    reservationsWithdrawal: "Les activités de loisirs prévues à une date déterminée ne bénéficient pas du droit de rétractation de 14 jours.",
+    reservationsCancellation: "Vous pouvez néanmoins annuler une réservation confirmée depuis « Mes achats », jusqu’à la date limite de réservation du créneau. Le montant payé est alors remboursé intégralement sur votre moyen de paiement.",
+    reservationsAfterDeadline: "Après cette date limite, la réservation ne peut plus être annulée ni remboursée.",
+    productsTitle: "Achats d’articles",
+    productsWithdrawal: "Vous disposez d’un délai de 14 jours à compter de la réception d’un article pour vous rétracter, sans avoir à motiver votre décision.",
+    productsHow: "Pour exercer ce droit, envoyez-nous votre demande par e-mail, puis renvoyez l’article dans les 14 jours suivant cette demande. Les frais de retour sont à votre charge.",
+    productsRefund: "Le remboursement intervient dans les 14 jours suivant votre demande. Il peut être différé jusqu’à la réception de l’article ou jusqu’à la preuve de son renvoi.",
+    contactTitle: "Contact et réclamations",
+    contactText: "Pour toute question ou réclamation : contact{'@'}belloisirs.example (adresse fictive — projet de fin d’études). Ces conditions sont régies par le droit belge.",
+    lastUpdate: "Dernière mise à jour : 3 octobre 2026",
+    paymentNotice: "En payant, vous acceptez nos",
+    termsLink: "conditions générales"
   }
 };

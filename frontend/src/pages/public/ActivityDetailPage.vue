@@ -155,6 +155,13 @@
                 <button class="btn btn-secondary" @click="cancelBooking">
                   {{ $t("public.activityDetail.cancel") }}
                 </button>
+
+                <!-- Information avant l'achat : lien vers les CGV, ouvert dans un nouvel onglet -->
+                <p class="terms-notice">
+                  {{ $t("public.terms.paymentNotice") }}
+                  <router-link to="/conditions-generales" target="_blank" rel="noopener">
+                    {{ $t("public.terms.termsLink") }}</router-link>.
+                </p>
               </div>
 
               <button

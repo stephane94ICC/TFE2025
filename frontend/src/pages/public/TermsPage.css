@@ -1,0 +1,87 @@
+.terms-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.terms-card {
+  background: var(--bl-surface);
+  border: 1px solid var(--bl-border);
+  border-radius: var(--bl-radius-md);
+  padding: 40px;
+  box-shadow: var(--bl-shadow-soft);
+}
+
+.terms-card h1 {
+  font-size: 32px;
+  margin: 0 0 12px;
+  color: var(--bl-text);
+}
+
+.subtitle {
+  color: var(--bl-muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+
+section {
+  margin-bottom: 24px;
+}
+
+/* Séparateur fin entre deux sections consécutives */
+section + section {
+  padding-top: 24px;
+  border-top: 1px solid var(--bl-border);
+}
+
+section h2 {
+  font-size: 20px;
+  color: var(--bl-primary-dark);
+  margin: 0 0 10px;
+}
+
+/* Longueur de ligne limitée pour la lisibilité (~70 caractères) */
+section p,
+section li {
+  max-width: 70ch;
+  color: var(--bl-text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+section ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+section li + li {
+  margin-top: 4px;
+}
+
+section li::marker {
+  color: var(--bl-primary);
+}
+
+.last-update {
+  color: var(--bl-muted);
+  font-size: 13px;
+  font-style: italic;
+  margin: 32px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--bl-border);
+}
+
+@media (max-width: 600px) {
+  .terms-page {
+    padding: 24px 12px;
+  }
+
+  .terms-card {
+    padding: 24px 20px;
+  }
+
+  .terms-card h1 {
+    font-size: 26px;
+  }
+}

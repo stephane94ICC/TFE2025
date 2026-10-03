@@ -6,6 +6,7 @@ import ActivityDetailPage from '../pages/public/ActivityDetailPage.vue';
 import ShopPage from '../pages/public/ShopPage.vue';
 import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
 import PrivacyPolicyPage from "../pages/public/PrivacyPolicyPage.vue";
+import TermsPage from "../pages/public/TermsPage.vue";
 import PaymentSuccessPage from "../pages/payment/PaymentSuccessPage.vue";
 import PaymentCancelPage from "../pages/payment/PaymentCancelPage.vue";
 
@@ -63,6 +64,11 @@ const routes = [
         path: '/politique-confidentialite',
         name: 'privacy-detail',
         component: PrivacyPolicyPage
+    },
+    {
+        path: '/conditions-generales',
+        name: 'terms',
+        component: TermsPage
     },
     {
         path: '/cart',

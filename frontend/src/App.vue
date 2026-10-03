@@ -5,27 +5,34 @@
     <main class="main-content">
       <router-view />
     </main>
+
+    <AppFooter />
   </div>
 </template>
 
 <script>
 import AppNavbar from './components/AppNavbar.vue';
+import AppFooter from './components/AppFooter.vue';
 
 export default {
   name: 'App',
   components: {
-    AppNavbar
+    AppNavbar,
+    AppFooter
   }
 };
 </script>
 
 <style>
+/* Colonne pleine hauteur : le pied de page reste en bas, même sur une page courte */
 #app {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--bl-background);
 }
 
 .main-content {
-  min-height: calc(100vh - 88px);
+  flex: 1;
 }
 </style>

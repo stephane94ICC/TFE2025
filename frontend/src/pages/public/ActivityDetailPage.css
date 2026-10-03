@@ -300,3 +300,15 @@
         font-size: 30px;
     }
 }
+
+/* Mention des conditions générales sous le bouton de paiement */
+.terms-notice {
+    flex-basis: 100%;
+    margin: 8px 0 0;
+    color: var(--bl-muted);
+    font-size: 13px;
+}
+
+.terms-notice a {
+    color: var(--bl-primary-dark);
+}

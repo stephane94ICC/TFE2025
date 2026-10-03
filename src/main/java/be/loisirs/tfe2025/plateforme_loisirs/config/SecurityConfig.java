@@ -40,6 +40,7 @@ public class SecurityConfig {
                                 "/login",
                                 "/register",
                                 "/politique-confidentialite",
+                                "/conditions-generales",
                                 "/activities/**",
                                 "/shop",
                                 "/products/**",
