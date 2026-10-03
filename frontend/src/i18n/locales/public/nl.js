@@ -107,6 +107,7 @@ export default {
 
     invalidQuantity: "Ongeldig aantal.",
     bookingError: "De reservatie kon niet worden aangemaakt.",
+    partnerNotPayable: "Deze aanbieder aanvaardt nog geen onlinebetalingen.",
     loadError:
       "De details van de activiteit konden niet worden geladen."
   },

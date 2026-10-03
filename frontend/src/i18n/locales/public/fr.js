@@ -107,6 +107,7 @@ export default {
 
     invalidQuantity: "Quantité invalide.",
     bookingError: "Impossible de créer la réservation.",
+    partnerNotPayable: "Ce prestataire n’accepte pas encore les paiements en ligne.",
     loadError: "Impossible de charger le détail de l’activité."
   },
 

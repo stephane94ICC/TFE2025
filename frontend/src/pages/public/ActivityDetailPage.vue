@@ -300,9 +300,15 @@ export default {
         window.location.href = response.data.checkoutUrl;
       } catch (error) {
         console.error(error);
-        this.bookingError =
-            error.response?.data?.message ||
-            this.$t("public.activityDetail.bookingError");
+        // Le texte affiché vient toujours du front (i18n), jamais du back :
+        // le back fournit un statut et un code stable, le front choisit la traduction.
+        const isPartnerNotPayable =
+            error.response?.status === 409 &&
+            error.response?.data?.code === "PARTNER_NOT_PAYABLE";
+
+        this.bookingError = isPartnerNotPayable
+            ? this.$t("public.activityDetail.partnerNotPayable")
+            : this.$t("public.activityDetail.bookingError");
         this.booking = false;
       }
     },
