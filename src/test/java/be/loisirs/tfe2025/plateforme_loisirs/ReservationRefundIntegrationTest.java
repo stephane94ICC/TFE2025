@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -114,5 +115,28 @@ class ReservationRefundIntegrationTest extends AbstractIntegrationTest {
         Reservation after = reservationRepository.findById(reservation.getId()).orElseThrow();
         assertThat(after.getStatus()).isEqualTo(ReservationStatus.CANCELLED);
         assertThat(after.getStripeRefundId()).startsWith("re_test_");
+    }
+
+    @Test
+    @DisplayName("Liste du membre : refundable vrai avec paiement Stripe, faux sans, identifiant Stripe jamais exposé")
+    void reservationListExposesRefundableFlagOnly() throws Exception {
+        User member = createMember("refund-flag@belloisirs.test");
+        ActivitySession session = createUpcomingSession();
+
+        Reservation paid = createConfirmedReservation(member, session);
+
+        Reservation legacy = createConfirmedReservation(member, session);
+        legacy.setStripePaymentIntentId(null);
+        reservationRepository.save(legacy);
+
+        mockMvc.perform(get("/api/member/reservations")
+                        .header(HttpHeaders.AUTHORIZATION, bearer(tokenFor(member.getEmail()))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.reference == '" + paid.getReference() + "')].refundable")
+                        .value(true))
+                .andExpect(jsonPath("$[?(@.reference == '" + legacy.getReference() + "')].refundable")
+                        .value(false))
+                // Le front recoit une decision, jamais l'identifiant Stripe.
+                .andExpect(jsonPath("$[0].stripePaymentIntentId").doesNotExist());
     }
 }

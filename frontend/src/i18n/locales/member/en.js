@@ -84,9 +84,11 @@ export default {
     empty: "No reservations found.",
 
     loadError: "Unable to load your reservations.",
-    cancelConfirmation: "Are you sure you want to cancel reservation {reference}?",
-    cancelSuccess: "Reservation {reference} has been cancelled.",
+    cancelConfirmation: "Are you sure you want to cancel reservation {reference}? The amount paid will be refunded in full.",
+    cancelSuccess: "Reservation {reference} has been cancelled. The refund will appear on your payment method within a few days.",
     cancelError: "Unable to cancel this reservation.",
+    refundNotAvailable: "This reservation cannot be refunded automatically. Please contact us at contact{'@'}belloisirs.example to cancel it.",
+    cancelOnRequest: "Cancellation on request",
 
     statuses: {
       PENDING: "Pending",

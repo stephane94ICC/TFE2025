@@ -25,6 +25,9 @@ public class ReservationMapper {
         dto.setStatus(reservation.getStatus());
         dto.setBookedAt(reservation.getBookedAt());
 
+        String paymentIntentId = reservation.getStripePaymentIntentId();
+        dto.setRefundable(paymentIntentId != null && !paymentIntentId.isBlank());
+
         return dto;
     }
 }

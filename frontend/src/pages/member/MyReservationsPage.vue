@@ -77,6 +77,15 @@
                 }}
               </button>
 
+              <!-- Dans les délais mais sans paiement Stripe : pas de bouton qui échouerait toujours -->
+              <span
+                v-else-if="isWithinCancellationPeriod(reservation)"
+                class="reservation-cancel-closed"
+                :title="$t('member.reservations.refundNotAvailable')"
+              >
+                {{ $t("member.reservations.cancelOnRequest") }}
+              </span>
+
               <span
                 v-else-if="reservation.status === 'CONFIRMED'"
                 class="reservation-cancel-closed"
@@ -228,7 +237,8 @@ export default {
      * règles et reste seul juge. Masquer le bouton évite au membre un
      * clic voué à l'échec, mais ne constitue pas une sécurité.
      */
-    isCancellable(reservation) {
+    // Confirmée et délai d'annulation non dépassé (même règle que le back).
+    isWithinCancellationPeriod(reservation) {
       if (reservation.status !== "CONFIRMED") {
         return false;
       }
@@ -238,6 +248,12 @@ export default {
       }
 
       return new Date(reservation.bookingDeadline) > new Date();
+    },
+
+    // Le bouton reflète la règle du back : annuler = rembourser.
+    // Le back refuse quand même (409) si on l'appelle directement : le front n'est pas la sécurité.
+    isCancellable(reservation) {
+      return this.isWithinCancellationPeriod(reservation) && reservation.refundable === true;
     },
 
     async confirmCancel(reservation) {
@@ -270,7 +286,15 @@ export default {
       } catch (error) {
         console.error(error);
 
-        this.errorMessage = this.$t("member.reservations.cancelError");
+        // Le texte affiché vient toujours du front (i18n), jamais du back :
+        // le back fournit un statut et un code stable, le front choisit la traduction.
+        const isRefundNotAvailable =
+          error.response?.status === 409 &&
+          error.response?.data?.code === "REFUND_NOT_AVAILABLE";
+
+        this.errorMessage = isRefundNotAvailable
+          ? this.$t("member.reservations.refundNotAvailable")
+          : this.$t("member.reservations.cancelError");
       } finally {
         this.cancellingId = null;
       }

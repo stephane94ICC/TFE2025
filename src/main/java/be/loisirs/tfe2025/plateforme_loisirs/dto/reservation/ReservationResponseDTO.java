@@ -22,4 +22,5 @@ public class ReservationResponseDTO {
     private ReservationStatus status;
     private LocalDateTime bookedAt;
     private LocalDateTime bookingDeadline;
+    private boolean refundable;
 }

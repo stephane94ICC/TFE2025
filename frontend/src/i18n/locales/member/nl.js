@@ -84,9 +84,11 @@ export default {
     empty: "Geen reservaties gevonden.",
 
     loadError: "Uw reservaties konden niet worden geladen.",
-    cancelConfirmation: "Wilt u reservatie {reference} echt annuleren?",
-    cancelSuccess: "Reservatie {reference} is geannuleerd.",
+    cancelConfirmation: "Wilt u reservatie {reference} echt annuleren? Het betaalde bedrag wordt volledig terugbetaald.",
+    cancelSuccess: "Reservatie {reference} is geannuleerd. De terugbetaling verschijnt binnen enkele dagen op uw betaalmiddel.",
     cancelError: "Deze reservatie kon niet worden geannuleerd.",
+    refundNotAvailable: "Deze reservatie kan niet automatisch worden terugbetaald. Neem contact met ons op via contact{'@'}belloisirs.example om ze te annuleren.",
+    cancelOnRequest: "Annulering op aanvraag",
 
     statuses: {
       PENDING: "In afwachting",

@@ -84,9 +84,11 @@ export default {
     empty: "Aucune réservation trouvée.",
 
     loadError: "Impossible de charger vos réservations.",
-    cancelConfirmation: "Voulez-vous vraiment annuler la réservation {reference} ?",
-    cancelSuccess: "La réservation {reference} a été annulée.",
+    cancelConfirmation: "Voulez-vous vraiment annuler la réservation {reference} ? Le montant payé vous sera intégralement remboursé.",
+    cancelSuccess: "La réservation {reference} a été annulée. Le remboursement apparaîtra sur votre moyen de paiement d’ici quelques jours.",
     cancelError: "Impossible d’annuler cette réservation.",
+    refundNotAvailable: "Cette réservation ne peut pas être remboursée automatiquement. Contactez-nous à contact{'@'}belloisirs.example pour l’annuler.",
+    cancelOnRequest: "Annulation sur demande",
 
     statuses: {
       PENDING: "En attente",
