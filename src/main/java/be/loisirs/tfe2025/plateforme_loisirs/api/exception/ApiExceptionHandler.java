@@ -46,6 +46,18 @@ private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.cl
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Map.of("error", exception.getMessage()));
     }
+    // Vente refusée : partenaire sans compte de paiement actif.
+    // Le code permet au front de distinguer ce 409 de tout autre conflit.
+    @ExceptionHandler(PartnerNotPayableException.class)
+    public ResponseEntity<Map<String, String>> handlePartnerNotPayable(
+            PartnerNotPayableException exception) {
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "error", exception.getMessage(),
+                        "code", PartnerNotPayableException.CODE));
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
         public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(
                 DataIntegrityViolationException exception) {

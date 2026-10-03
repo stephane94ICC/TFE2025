@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.PartnerNotPayableException;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.reservation.ReservationCheckoutRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.reservation.ReservationCheckoutResponseDTO;
@@ -8,16 +9,21 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySession;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityStatus;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.Partner;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Reservation;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ReservationStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivitySessionRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.util.CommissionCalculator;
+import be.loisirs.tfe2025.plateforme_loisirs.util.CommissionCalculator.CommissionBreakdown;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +38,13 @@ import java.util.UUID;
 @Service
 public class ReservationCheckoutService {
 
+    private static final Logger log = LoggerFactory.getLogger(ReservationCheckoutService.class);
+
     private final UserRepository userRepository;
     private final ActivitySessionRepository activitySessionRepository;
     private final ReservationRepository reservationRepository;
     private final ActivityLogService activityLogService;
+    private final StripeConnectService stripeConnectService;
     private final String stripeSecretKey;
     private final String frontendUrl;
     private final long checkoutExpirationMinutes;
@@ -45,6 +54,7 @@ public class ReservationCheckoutService {
             ActivitySessionRepository activitySessionRepository,
             ReservationRepository reservationRepository,
             ActivityLogService activityLogService,
+            StripeConnectService stripeConnectService,
             @Value("${stripe.secret-key}") String stripeSecretKey,
             @Value("${app.frontend-url}") String frontendUrl,
             @Value("${stripe.checkout-expiration-minutes}") long checkoutExpirationMinutes
@@ -53,6 +63,7 @@ public class ReservationCheckoutService {
         this.activitySessionRepository = activitySessionRepository;
         this.reservationRepository = reservationRepository;
         this.activityLogService = activityLogService;
+        this.stripeConnectService = stripeConnectService;
         this.stripeSecretKey = stripeSecretKey;
         this.frontendUrl = frontendUrl;
         this.checkoutExpirationMinutes = checkoutExpirationMinutes;
@@ -105,7 +116,22 @@ public class ReservationCheckoutService {
             );
         }
 
+
+        Partner partner = activity.getPartner();
+
+        if (!stripeConnectService.canReceivePayments(partner)) {
+            throw new PartnerNotPayableException(
+                    "Ce prestataire n'accepte pas encore les paiements en ligne.");
+        }
+
         BigDecimal totalPrice = activity.getPrice().multiply(BigDecimal.valueOf(request.getQuantity()));
+
+
+        CommissionBreakdown commission = CommissionCalculator.calculate(
+                totalPrice,
+                activity.getVatRate(),
+                partner.getCommissionRate()
+        );
 
         Reservation reservation = new Reservation();
         reservation.setUser(user);
@@ -113,6 +139,9 @@ public class ReservationCheckoutService {
         reservation.setQuantity(request.getQuantity());
         reservation.setTotalPrice(totalPrice);
         reservation.setVatRate(activity.getVatRate());
+        reservation.setCommissionRate(commission.commissionRate());
+        reservation.setCommissionHtva(commission.commissionHtva());
+        reservation.setCommissionVat(commission.commissionVat());
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setReference("TEMP-" + UUID.randomUUID());
         reservation.setBillingFirstName(user.getFirstName());
@@ -132,6 +161,19 @@ public class ReservationCheckoutService {
                 .setExpiresAt(Instant.now().plusSeconds(checkoutExpirationMinutes * 60L).getEpochSecond())
                 .putMetadata("userEmail", userEmail)
                 .putMetadata("reservationId", savedReservation.getId().toString())
+                .putMetadata("partnerId", partner.getId().toString())
+
+                .setPaymentIntentData(
+                        SessionCreateParams.PaymentIntentData.builder()
+                                .setApplicationFeeAmount(toStripeAmount(commission.commissionTotal()))
+                                .setOnBehalfOf(partner.getStripeAccountId())
+                                .setTransferData(
+                                        SessionCreateParams.PaymentIntentData.TransferData.builder()
+                                                .setDestination(partner.getStripeAccountId())
+                                                .build()
+                                )
+                                .build()
+                )
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
                                 .setQuantity((long) request.getQuantity())
@@ -155,20 +197,9 @@ public class ReservationCheckoutService {
             Session stripeSession = Session.create(sessionParams);
 
             savedReservation.setStripeSessionId(stripeSession.getId());
-            // Pas de payment intent ici : Stripe ne le crée qu'au paiement.
-            // Il est enregistré par le webhook, seule source fiable.
-            reservationRepository.save(savedReservation);
+          reservationRepository.save(savedReservation);
 
-            /*
-             * Journalisation volontairement placée après la création réussie
-             * de la session Stripe, et non juste après saveAndFlush.
-             *
-             * Le journal écrit dans sa propre transaction (REQUIRES_NEW) :
-             * son entrée survit à l'annulation de la transaction appelante.
-             * Journaliser plus haut produirait donc une entrée orpheline,
-             * pointant vers une réservation effacée par le rollback si
-             * Session.create venait à échouer.
-             */
+
             activityLogService.log(
                     ActivityEventType.RESERVATION_CREATED,
                     "Reservation",
@@ -177,6 +208,7 @@ public class ReservationCheckoutService {
                             + " - " + activity.getTitle()
                             + " - " + request.getQuantity() + " place(s)"
                             + " - " + totalPrice + " EUR"
+                            + " - commission " + commission.commissionTotal() + " EUR TVAC"
                             + " - en attente de paiement"
             );
 
@@ -187,7 +219,10 @@ public class ReservationCheckoutService {
                     stripeSession.getUrl()
             );
         } catch (StripeException exception) {
-            throw new IllegalStateException("Erreur lors de la création de la session Stripe.");
+            // Le message de Stripe est conservé dans les logs : sans lui, impossible de diagnostiquer
+            log.error("Stripe a refusé la session de paiement de la réservation {} : {}",
+                    savedReservation.getId(), exception.getMessage());
+            throw new IllegalStateException("Erreur lors de la création de la session Stripe.", exception);
         }
     }
 
