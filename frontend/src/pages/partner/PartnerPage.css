@@ -1,72 +1,55 @@
-.partner-payment-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+.partner-page {
+  max-width: 1050px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-.partner-payment-header h2 {
+.partner-page-header {
+  margin-bottom: 24px;
+}
+
+.partner-page-header h1,
+.partner-page-header p {
   margin: 0;
 }
 
-.partner-payment-status {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: var(--bl-radius-pill);
-  font-size: 13px;
-  font-weight: 700;
+.partner-page-header p {
+  margin-top: 8px;
 }
 
-.partner-payment-status-active {
-  background: var(--bl-success-soft);
-  color: var(--bl-success);
+.partner-section-card {
+  margin-bottom: 20px;
+  padding: 24px;
+  background: var(--bl-surface);
+  border-radius: 14px;
+  box-shadow: var(--bl-shadow-soft);
 }
 
-.partner-payment-status-pending {
-  background: var(--bl-warning-soft);
-  color: var(--bl-warning);
+.partner-section-card h2 {
+  margin-top: 0;
 }
 
-.partner-payment-status-none {
-  background: var(--bl-surface-alt);
-  color: var(--bl-muted);
+.partner-section-card .partner-addresses {
+  margin-top: 0;
 }
 
-.partner-payment-info {
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: var(--bl-success-soft);
-  color: var(--bl-success);
-  font-weight: 700;
-}
-
-.partner-payment-error {
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: var(--bl-danger-soft);
-  color: var(--bl-danger);
-  font-weight: 700;
-}
-
-.partner-payment-button {
-  margin-top: 4px;
-  padding: 10px 16px;
+.partner-page button {
+  width: fit-content;
+  padding: 9px 14px;
   border: none;
-  border-radius: 10px;
-  background: var(--bl-primary);
-  color: var(--bl-on-primary);
-  font: inherit;
-  font-weight: 700;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-.partner-payment-button:disabled {
-  opacity: 0.6;
+.partner-page button:disabled {
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.partner-payment-button:focus-visible {
-  outline: 2px solid var(--bl-primary);
-  outline-offset: 2px;
+.partner-success {
+  color: var(--bl-success);
+}
+
+.partner-error {
+  color: var(--bl-danger);
 }
