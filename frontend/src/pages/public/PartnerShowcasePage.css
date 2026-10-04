@@ -1,0 +1,394 @@
+.partner-showcase-page {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: var(--bl-text);
+}
+.showcase-background {
+    --showcase-bg-opacity: 0.15;
+
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    opacity: var(--showcase-bg-opacity);
+    pointer-events: none;
+}
+
+.partner-showcase {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    width: min(1000px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 40px 0 56px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 22px;
+    /* primary-dark : --bl-primary n'atteint que 4,16 sur le fond crème */
+    color: var(--bl-primary-dark);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    color: var(--bl-text);
+    text-decoration: underline;
+}
+
+.showcase-message {
+    margin: 16px 0;
+    color: var(--bl-muted);
+}
+
+.alert {
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    border-radius: var(--bl-radius-sm);
+    font-weight: 600;
+}
+
+.alert-error {
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
+}
+
+/* ---------- Partenaire introuvable ---------- */
+
+.showcase-not-found {
+    padding: 32px;
+    border: 1px solid var(--bl-border);
+    border-radius: var(--bl-radius-md);
+    background: var(--bl-surface);
+    text-align: center;
+}
+
+.showcase-not-found h1 {
+    margin: 0 0 8px;
+    font-family: var(--bl-font-title);
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.showcase-not-found p {
+    margin: 0 0 20px;
+    color: var(--bl-muted);
+}
+
+/* ---------- 1. Titre : cadre ajusté au nom, centré ---------- */
+
+.showcase-header {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 22px 40px;
+    border: 1px solid var(--bl-border);
+    border-radius: var(--bl-radius-md);
+    background: var(--bl-surface);
+    box-shadow: var(--bl-shadow-soft);
+    text-align: center;
+}
+
+.showcase-header h1 {
+    margin: 0;
+    font-family: var(--bl-font-title);
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Sections ---------- */
+
+.showcase-section {
+    margin-top: 44px;
+}
+
+.showcase-section h2 {
+    margin: 0 0 16px;
+    font-family: var(--bl-font-title);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* ---------- 2. Présentation : centrée ---------- */
+
+.showcase-about {
+    text-align: center;
+}
+
+.showcase-description {
+    max-width: 65ch;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.7;
+    /* Conserve les retours à la ligne saisis par le partenaire, sans interpréter de HTML */
+    white-space: pre-line;
+}
+
+/* ---------- 3. Activités ---------- */
+
+.showcase-list {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.showcase-card {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr) auto;
+    overflow: hidden;
+    border: 1px solid var(--bl-border);
+    border-radius: var(--bl-radius-md);
+    background: var(--bl-surface);
+}
+
+.showcase-card__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    background: var(--bl-primary-soft);
+}
+
+.showcase-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.showcase-card__image span {
+    color: var(--bl-primary-dark);
+    font-family: var(--bl-font-title);
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.showcase-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px 20px;
+}
+
+.showcase-card__content h3 {
+    margin: 0;
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.showcase-card__description {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0;
+    color: var(--bl-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.showcase-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    margin: auto 0 0;
+    color: var(--bl-muted);
+    font-size: 0.85rem;
+}
+
+.showcase-badge {
+    padding: 3px 10px;
+    border-radius: var(--bl-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.showcase-badge.is-available {
+    background: var(--bl-success-soft);
+    color: var(--bl-success);
+}
+
+.showcase-badge.is-unavailable {
+    background: var(--bl-surface-alt);
+    color: var(--bl-muted);
+    border: 1px solid var(--bl-border);
+}
+
+.showcase-card__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-left: 1px solid var(--bl-border);
+}
+
+.showcase-card__price {
+    color: var(--bl-primary-dark);
+    font-size: 1.15rem;
+    white-space: nowrap;
+}
+
+/* ---------- 4. Pied de page du partenaire ---------- */
+
+.partner-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--bl-border);
+    background: var(--bl-primary-soft);
+}
+
+.partner-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr);
+    gap: 24px 40px;
+    width: min(1000px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 32px 0;
+}
+
+.partner-footer__identity h2 {
+    margin: 0;
+    font-family: var(--bl-font-title);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.partner-footer__identity p {
+    margin: 6px 0 0;
+    /* --bl-muted sur --bl-primary-soft : 4,6 (AA) */
+    color: var(--bl-muted);
+    font-size: 0.85rem;
+}
+
+.contact-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px 28px;
+    margin: 0;
+}
+
+.contact-list dt {
+    margin-bottom: 4px;
+    color: var(--bl-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.contact-list dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.contact-list address {
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.contact-list a {
+    color: var(--bl-primary-dark);
+    font-weight: 600;
+}
+
+.contact-list a:hover {
+    color: var(--bl-text);
+}
+
+/* Ligne plateforme : discrète, mais toujours présente (liens légaux) */
+.partner-footer__platform {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 24px;
+    padding: 12px 24px;
+    border-top: 1px solid var(--bl-border);
+    background: var(--bl-surface);
+    font-size: 0.85rem;
+}
+
+.partner-footer__platform a {
+    color: var(--bl-muted);
+    text-decoration: none;
+}
+
+.partner-footer__platform a:hover {
+    color: var(--bl-text);
+    text-decoration: underline;
+}
+
+/* ---------- Boutons et focus clavier ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: var(--bl-radius-pill);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--bl-primary);
+    color: var(--bl-on-primary);
+}
+
+.btn-primary:hover {
+    background: var(--bl-primary-dark);
+}
+
+.back-link:focus-visible,
+.btn:focus-visible,
+.contact-list a:focus-visible,
+.partner-footer__platform a:focus-visible {
+    outline: 3px solid var(--bl-primary-dark);
+    outline-offset: 2px;
+}
+
+/* ---------- Écrans étroits ---------- */
+
+@media (max-width: 680px) {
+    .partner-showcase {
+        width: calc(100% - 28px);
+        padding-top: 24px;
+    }
+
+    .showcase-header {
+        padding: 18px 22px;
+    }
+
+    .showcase-card {
+        grid-template-columns: 1fr;
+    }
+
+    .showcase-card__image {
+        height: 170px;
+    }
+
+    .showcase-card__aside {
+        flex-direction: row;
+        align-items: center;
+        border-left: none;
+        border-top: 1px solid var(--bl-border);
+    }
+
+    .partner-footer__inner {
+        grid-template-columns: 1fr;
+        width: calc(100% - 28px);
+        padding: 26px 0;
+    }
+}

@@ -108,6 +108,21 @@
     font-weight: bold;
 }
 
+/* Nom du partenaire : lien vers sa vitrine */
+.partner-link {
+    color: var(--bl-primary-dark);
+    font-weight: bold;
+}
+
+.partner-link:hover {
+    color: var(--bl-text);
+}
+
+.partner-link:focus-visible {
+    outline: 2px solid var(--bl-primary-dark);
+    outline-offset: 2px;
+}
+
 /* Équipement, catégories, villes : affichés seulement s'ils sont remplis */
 .detail-extra {
     margin-top: 20px;

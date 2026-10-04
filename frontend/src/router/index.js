@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../pages/public/HomePage.vue';
 import ActivityListPage from '../pages/public/ActivityListPage.vue';
 import ActivityDetailPage from '../pages/public/ActivityDetailPage.vue';
+import PartnerShowcasePage from "../pages/public/PartnerShowcasePage.vue";
 import ShopPage from '../pages/public/ShopPage.vue';
 import ProductDetailPage from '../pages/public/ProductDetailPage.vue';
 import PrivacyPolicyPage from "../pages/public/PrivacyPolicyPage.vue";
@@ -49,6 +50,14 @@ const routes = [
         path: '/activities/:id',
         name: 'activity-detail',
         component: ActivityDetailPage
+    },
+    {
+        path: '/partners/:slug',
+        name: 'partner-showcase',
+        component: PartnerShowcasePage,
+        meta:{
+            partnerFooter : true
+        }
     },
     {
         path: '/shop',

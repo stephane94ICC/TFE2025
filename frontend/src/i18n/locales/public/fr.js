@@ -3,7 +3,7 @@ export default {
     subtitle: "Plateforme belge de loisirs",
     title: "Des loisirs à réserver et acheter en quelques clics",
     description:
-      "Découvrez des activités, réservez vos créneaux et retrouvez des produits liés à vos loisirs depuis une même plateforme.",
+        "Découvrez des activités, réservez vos créneaux et retrouvez des produits liés à vos loisirs depuis une même plateforme.",
 
     searchPlaceholder: "Rechercher une activité ou un produit",
     searchButton: "Chercher",
@@ -31,7 +31,7 @@ export default {
     loading: "Chargement des suggestions...",
     emptyTitle: "Les suggestions arrivent bientôt",
     emptyText:
-      "Consultez les activités et la boutique pour découvrir les offres disponibles.",
+        "Consultez les activités et la boutique pour découvrir les offres disponibles.",
 
     categories: {
       wellness: "Wellness",
@@ -45,7 +45,7 @@ export default {
   activityList: {
     title: "Activités et expériences",
     subtitle:
-      "Découvrez et comparez les activités disponibles sur la plateforme.",
+        "Découvrez et comparez les activités disponibles sur la plateforme.",
 
     loading: "Chargement des activités...",
     details: "Voir",
@@ -90,7 +90,7 @@ export default {
     sessionsTitle: "Créneaux disponibles",
     sessionsLoading: "Chargement des créneaux...",
     sessionsEmpty:
-      "Aucun créneau n’est proposé pour cette activité pour le moment.",
+        "Aucun créneau n’est proposé pour cette activité pour le moment.",
 
     remainingSeatsPlural: "places restantes",
     remainingSeatsSingular: "place restante",
@@ -114,65 +114,65 @@ export default {
   privacy: {
     title: "Politique de confidentialité",
     subtitle:
-      "Cette page explique comment Bel'Loisirs collecte et traite vos données personnelles, conformément au Règlement Général sur la Protection des Données (RGPD).",
+        "Cette page explique comment Bel'Loisirs collecte et traite vos données personnelles, conformément au Règlement Général sur la Protection des Données (RGPD).",
 
     controllerTitle: "1. Responsable du traitement",
     controllerText:
-      "Bel'Loisirs est une application réalisée dans le cadre d'un travail de fin d'études en informatique de gestion à l'Institut des Carrières Commerciales (ICC), Bruxelles. Contact : contact{'@'}belloisirs.example (adresse fictive — projet de fin d'études).",
+        "Bel'Loisirs est une application réalisée dans le cadre d'un travail de fin d'études en informatique de gestion à l'Institut des Carrières Commerciales (ICC), Bruxelles. Contact : contact{'@'}belloisirs.example (adresse fictive — projet de fin d'études).",
 
     dataTitle: "2. Données collectées",
     dataIntro:
-      "Lors de la création d'un compte et de l'utilisation de la plateforme, les données suivantes sont collectées :",
+        "Lors de la création d'un compte et de l'utilisation de la plateforme, les données suivantes sont collectées :",
 
     dataIdentity: "Identité : nom, prénom",
     dataContact: "Coordonnées : adresse e-mail, numéro de téléphone (facultatif, via le profil)",
     dataPassword:
-      "Mot de passe, stocké sous forme hachée (BCrypt), jamais en clair ni de façon réversible",
+        "Mot de passe, stocké sous forme hachée (BCrypt), jamais en clair ni de façon réversible",
     dataProfilePicture: "Photo de profil (facultative)",
     dataHistory:
-      "Historique des commandes et réservations effectuées sur la plateforme, avec les données de facturation associées",
+        "Historique des commandes et réservations effectuées sur la plateforme, avec les données de facturation associées",
     dataPartners:
-      "Pour les partenaires : nom de l'entreprise, adresse(s) professionnelle(s), logo",
+        "Pour les partenaires : nom de l'entreprise, adresse(s) professionnelle(s), logo",
     dataSecurityLog:
-      "Journal de sécurité : adresse IP, adresse e-mail et type d'action (connexion, inscription, réservation, paiement)",
+        "Journal de sécurité : adresse IP, adresse e-mail et type d'action (connexion, inscription, réservation, paiement)",
 
     paymentData:
-      "Les données de paiement (numéro de carte bancaire, etc.) ne sont jamais stockées par Bel'Loisirs : elles sont traitées directement par notre prestataire de paiement, Stripe.",
+        "Les données de paiement (numéro de carte bancaire, etc.) ne sont jamais stockées par Bel'Loisirs : elles sont traitées directement par notre prestataire de paiement, Stripe.",
 
     purposesTitle: "3. Finalités du traitement",
     purposeAccount: "Gestion du compte utilisateur et authentification",
     purposeReservations: "Réservation d'activités et achat de produits",
     purposePayments: "Traitement des paiements (via Stripe)",
     purposeSecurity:
-      "Sécurité de la plateforme et traçabilité des opérations sensibles (journal d'audit)",
+        "Sécurité de la plateforme et traçabilité des opérations sensibles (journal d'audit)",
 
     legalBasisTitle: "4. Base légale",
     legalBasisText:
-      "Le traitement repose sur l'exécution du contrat pour la gestion du compte, des réservations et des achats ; sur une obligation légale pour la conservation des données de facturation ; et sur l'intérêt légitime de Bel'Loisirs pour le journal de sécurité (prévention des fraudes et des accès abusifs).",
+        "Le traitement repose sur l'exécution du contrat pour la gestion du compte, des réservations et des achats ; sur une obligation légale pour la conservation des données de facturation ; et sur l'intérêt légitime de Bel'Loisirs pour le journal de sécurité (prévention des fraudes et des accès abusifs).",
 
     retentionTitle: "5. Durée de conservation",
     retentionText:
-      "Les données du compte sont conservées jusqu'à sa suppression ; elles sont alors pseudonymisées. Les données de facturation sont conservées 10 ans, conformément aux obligations comptables belges. Le journal de sécurité est conservé 12 mois.",
+        "Les données du compte sont conservées jusqu'à sa suppression ; elles sont alors pseudonymisées. Les données de facturation sont conservées 10 ans, conformément aux obligations comptables belges. Le journal de sécurité est conservé 12 mois.",
 
     recipientsTitle: "6. Destinataires des données",
     recipientsText:
-      "Vos données ne sont partagées qu'avec les prestataires nécessaires au fonctionnement de la plateforme : Stripe (paiement) et Railway (hébergement).",
+        "Vos données ne sont partagées qu'avec les prestataires nécessaires au fonctionnement de la plateforme : Stripe (paiement) et Railway (hébergement).",
 
     rightsTitle: "7. Vos droits",
     rightsText:
-      "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et de portabilité de vos données, ainsi que d'un droit d'opposition au traitement fondé sur l'intérêt légitime.",
+        "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et de portabilité de vos données, ainsi que d'un droit d'opposition au traitement fondé sur l'intérêt légitime.",
     rightsContact:
-      "Pour exercer ces droits, contactez-nous à l'adresse suivante : contact{'@'}belloisirs.example (adresse fictive — projet de fin d'études).",
+        "Pour exercer ces droits, contactez-nous à l'adresse suivante : contact{'@'}belloisirs.example (adresse fictive — projet de fin d'études).",
     complaint:
-      "Vous disposez également du droit d'introduire une réclamation auprès de l'Autorité de protection des données (APD) en Belgique.",
+        "Vous disposez également du droit d'introduire une réclamation auprès de l'Autorité de protection des données (APD) en Belgique.",
 
     securityTitle: "8. Sécurité",
     securityText:
-      "Les mots de passe sont hachés (BCrypt) et l'authentification repose sur des jetons JWT à durée limitée. Aucune donnée de carte bancaire ne transite par nos serveurs.",
+        "Les mots de passe sont hachés (BCrypt) et l'authentification repose sur des jetons JWT à durée limitée. Aucune donnée de carte bancaire ne transite par nos serveurs.",
 
     cookiesTitle: "9. Cookies et stockage local",
     cookiesText:
-      "Bel'Loisirs n'utilise aucun cookie, aucun outil de mesure d'audience ni aucun traceur publicitaire, et les polices de caractères sont hébergées sur nos propres serveurs. Le navigateur conserve uniquement, dans son stockage local, les informations strictement nécessaires au service que vous demandez : la langue choisie, le contenu du panier et vos informations de connexion. Ce stockage étant indispensable au fonctionnement de la plateforme, il ne requiert pas de consentement. Les informations de connexion sont effacées lors de la déconnexion ; l'ensemble peut être supprimé à tout moment via les paramètres de votre navigateur.",
+        "Bel'Loisirs n'utilise aucun cookie, aucun outil de mesure d'audience ni aucun traceur publicitaire, et les polices de caractères sont hébergées sur nos propres serveurs. Le navigateur conserve uniquement, dans son stockage local, les informations strictement nécessaires au service que vous demandez : la langue choisie, le contenu du panier et vos informations de connexion. Ce stockage étant indispensable au fonctionnement de la plateforme, il ne requiert pas de consentement. Les informations de connexion sont effacées lors de la déconnexion ; l'ensemble peut être supprimé à tout moment via les paramètres de votre navigateur.",
 
     lastUpdate: "Dernière mise à jour : 19 septembre 2026"
   },
@@ -198,7 +198,7 @@ export default {
   shop: {
     title: "Boutique",
     subtitle:
-      "Découvrez les produits disponibles pour vos activités de loisirs.",
+        "Découvrez les produits disponibles pour vos activités de loisirs.",
 
     loading: "Chargement des produits...",
     stock: "Stock",
@@ -233,5 +233,29 @@ export default {
     lastUpdate: "Dernière mise à jour : 3 octobre 2026",
     paymentNotice: "En payant, vous acceptez nos",
     termsLink: "conditions générales"
+  },
+
+  partnerShowcase: {
+    back: "Retour aux activités",
+    loading: "Chargement de la page du partenaire...",
+    notFoundTitle: "Partenaire introuvable",
+    notFoundText: "Cette page n’existe pas ou n’est plus en ligne.",
+    browseActivities: "Voir toutes les activités",
+    loadError: "Impossible de charger la page du partenaire.",
+    enterpriseNumber: "N° d’entreprise {number}",
+    about: "Présentation",
+    activitiesTitle: "Nos activités",
+    activitiesEmpty: "Ce partenaire ne propose aucune activité pour le moment.",
+    activitiesLoadError: "Impossible de charger les activités de ce partenaire.",
+    available: "Créneaux disponibles",
+    unavailable: "Aucun créneau ouvert",
+    details: "Voir l’activité",
+    website: "Site web",
+    phone: "Téléphone",
+    email: "E-mail",
+    address: "Adresse",
+    footerLabel: "Coordonnées de {name}",
+    hostedBy: "Vitrine hébergée par Bel'Loisirs",
+    box: "bte {box}"
   }
 };

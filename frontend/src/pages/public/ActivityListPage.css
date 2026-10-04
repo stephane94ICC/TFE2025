@@ -137,6 +137,21 @@
     font-weight: 600;
 }
 
+/* Nom du partenaire : lien vers sa vitrine */
+.activity-partner a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.activity-partner a:hover {
+    text-decoration: underline;
+}
+
+.activity-partner a:focus-visible {
+    outline: 2px solid var(--bl-primary-dark);
+    outline-offset: 2px;
+}
+
 .description {
     display: -webkit-box;
     overflow: hidden;

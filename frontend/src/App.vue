@@ -2,11 +2,14 @@
   <div id="app">
     <AppNavbar />
 
-    <main class="main-content">
+    <main
+      class="main-content"
+      :class="{ 'main-content--column': hasPartnerFooter }"
+    >
       <router-view />
     </main>
 
-    <AppFooter />
+    <AppFooter v-if="!hasPartnerFooter" />
   </div>
 </template>
 
@@ -19,12 +22,17 @@ export default {
   components: {
     AppNavbar,
     AppFooter
+  },
+
+  computed: {
+    hasPartnerFooter() {
+      return this.$route.meta.partnerFooter === true;
+    }
   }
 };
 </script>
 
 <style>
-/* Colonne pleine hauteur : le pied de page reste en bas, même sur une page courte */
 #app {
   min-height: 100vh;
   display: flex;
@@ -34,5 +42,11 @@ export default {
 
 .main-content {
   flex: 1;
+}
+
+/* Vitrine partenaire : la page remplit la hauteur, son pied de page reste en bas */
+.main-content--column {
+  display: flex;
+  flex-direction: column;
 }
 </style>

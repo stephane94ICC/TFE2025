@@ -67,7 +67,16 @@
                   v-if="activity.partnerName"
                   class="activity-partner"
                 >
-                  {{ activity.partnerName }}
+                  <!-- Lien vers la vitrine si le partenaire en a une -->
+                  <router-link
+                    v-if="activity.partnerSlug"
+                    :to="`/partners/${activity.partnerSlug}`"
+                  >
+                    {{ activity.partnerName }}
+                  </router-link>
+                  <template v-else>
+                    {{ activity.partnerName }}
+                  </template>
                 </p>
 
                 <p class="description">

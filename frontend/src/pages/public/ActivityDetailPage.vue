@@ -54,7 +54,14 @@
 
           <div class="info-box">
             <strong>{{ $t("public.activityDetail.partner") }}</strong>
-            <span>{{ activity.partnerName }}</span>
+            <router-link
+                v-if="activity.partnerSlug"
+                :to="`/partners/${activity.partnerSlug}`"
+                class="partner-link"
+            >
+              {{ activity.partnerName }}
+            </router-link>
+            <span v-else>{{ activity.partnerName }}</span>
           </div>
         </div>
 
