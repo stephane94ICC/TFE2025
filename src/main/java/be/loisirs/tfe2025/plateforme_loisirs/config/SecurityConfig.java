@@ -47,6 +47,7 @@ public class SecurityConfig {
                                 "/cart",
                                 "/partner",
                                 "/partner/**",
+                                "/partners/**",
                                 "/admin",
                                 "/admin/**",
                                 "/profile",
@@ -68,6 +69,7 @@ public class SecurityConfig {
                             // API publiques
                             .requestMatchers(HttpMethod.GET, "/api/activities/**").permitAll()
                             .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/api/partners/**").permitAll()
 
                             // API protégées
                             .requestMatchers("/api/admin/**").hasRole("ADMIN")

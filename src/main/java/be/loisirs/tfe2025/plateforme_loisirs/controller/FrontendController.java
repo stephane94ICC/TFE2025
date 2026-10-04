@@ -20,6 +20,7 @@ public class FrontendController {
             "/partner",
             "/partner/activities",
             "/partner/locations",
+            "/partners/{slug}",
             "/reservations",
             "/profile",
             "/payment/success",

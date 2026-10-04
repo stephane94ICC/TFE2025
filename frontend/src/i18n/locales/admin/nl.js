@@ -276,7 +276,7 @@ export default {
     rgpd: "AVG",
     actions: "Acties",
 
-    emailPlaceholder: "voorbeeld@email.com",
+    emailPlaceholder: "voorbeeld{'@'}email.com",
     firstNamePlaceholder: "Voornaam",
     lastNamePlaceholder: "Naam",
     passwordPlaceholder: "Wachtwoord",

@@ -3,6 +3,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.service;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ResourceNotFoundException;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Partner;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.PartnerRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.util.SlugUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +40,25 @@ public class PartnerService {
     }
 
     public Partner addPartner(Partner partner) {
+        if (partner.getSlug() == null || partner.getSlug().isBlank()) {
+            partner.setSlug(generateUniqueSlug(partner.getName()));
+        }
         return partnerRepository.save(partner);
+    }
+
+    /**
+     * Slug lisible et unique : "yoga-center", puis "yoga-center-2", "yoga-center-3"...
+     * La contrainte UNIQUE en base reste le filet de sécurité
+     * si deux créations simultanées passent la vérification en même temps.
+     */
+    private String generateUniqueSlug(String name) {
+        String base = SlugUtils.slugify(name);
+        String candidate = base;
+        int suffix = 2;
+        while (partnerRepository.existsBySlug(candidate)) {
+            candidate = base + "-" + suffix++;
+        }
+        return candidate;
     }
 
     public Partner updatePartner(Long id, Partner partnerToUpdate) {

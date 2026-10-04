@@ -276,7 +276,7 @@ export default {
     rgpd: "GDPR",
     actions: "Actions",
 
-    emailPlaceholder: "example@email.com",
+    emailPlaceholder: "example{'@'}email.com",
     firstNamePlaceholder: "First name",
     lastNamePlaceholder: "Last name",
     passwordPlaceholder: "Password",

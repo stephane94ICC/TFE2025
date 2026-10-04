@@ -26,6 +26,7 @@ public class PublicActivityResponseDTO {
 
     private Long partnerId;
     private String partnerName;
+    private String partnerSlug;
 
     private List<String> imageUrls = new ArrayList<>();
 

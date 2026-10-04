@@ -33,6 +33,7 @@ public class ActivityResponseMapper {
         if (activity.getPartner() != null) {
             dto.setPartnerId(activity.getPartner().getId());
             dto.setPartnerName(activity.getPartner().getName());
+            dto.setPartnerSlug(activity.getPartner().getSlug());
         }
 
         return dto;

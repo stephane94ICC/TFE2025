@@ -1,11 +1,13 @@
 package be.loisirs.tfe2025.plateforme_loisirs.entity;
 
+import be.loisirs.tfe2025.plateforme_loisirs.util.SlugUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "partner")
@@ -29,6 +31,9 @@ public class Partner {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true, updatable = false)
+    private String slug;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -48,11 +53,9 @@ public class Partner {
     @Column(nullable = false)
     private Boolean active = true;
 
-    // Compte Stripe Connect : NULL tant que le partenaire n'a pas commencé son inscription.
     @Column(name = "stripe_account_id", unique = true)
     private String stripeAccountId;
 
-    // Taux du contrat, fixé par l'administrateur. 5 % = taux standard (règle métier).
     @Column(name = "commission_rate", nullable = false, precision = 4, scale = 2)
     private BigDecimal commissionRate = DEFAULT_COMMISSION_RATE;
 
@@ -67,5 +70,9 @@ public class Partner {
         if (active == null) active = true;
         if (commissionRate == null) commissionRate = DEFAULT_COMMISSION_RATE;
         if (createdAt == null) createdAt = LocalDateTime.now();
+
+    if (slug == null || slug.isBlank()) {
+            slug = SlugUtils.slugify(name) + "-" + UUID.randomUUID().toString().substring(0, 8);
+        }
     }
 }
