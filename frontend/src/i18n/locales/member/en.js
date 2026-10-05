@@ -38,6 +38,21 @@ export default {
     photoSuccess: "Profile picture updated successfully.",
     photoError: "Unable to update the profile picture.",
 
+    // Changement de mot de passe
+    changePasswordTitle: "Change my password",
+    changePasswordText: "After the change, you will be signed out and will need to sign in again with your new password.",
+    currentPassword: "Current password",
+    newPassword: "New password",
+    confirmNewPassword: "Confirm new password",
+    passwordRule: "At least 12 characters, including an uppercase letter, a lowercase letter, a digit and a special character.",
+    changePassword: "Change password",
+    changingPassword: "Changing...",
+    passwordTooWeak: "The new password does not meet the security requirements.",
+    passwordMismatch: "The two new passwords do not match.",
+    passwordSameAsCurrent: "The new password must be different from the current one.",
+    currentPasswordIncorrect: "The current password is incorrect.",
+    changePasswordError: "Unable to change the password. Please try again later.",
+
     rolesLabels: {
       MEMBER: "Member",
       PARTNER: "Partner",

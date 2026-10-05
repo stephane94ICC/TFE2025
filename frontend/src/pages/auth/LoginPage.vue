@@ -7,6 +7,10 @@
         {{ $t("auth.login.subtitle") }}
       </p>
 
+      <p v-if="passwordChanged" class="success-message">
+        {{ $t("auth.login.passwordChanged") }}
+      </p>
+
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">{{ $t("auth.login.email") }}</label>
@@ -67,6 +71,13 @@ export default {
       errorMessage: "",
       successMessage: ""
     };
+  },
+
+  computed: {
+    // Arrivée depuis le profil après un changement de mot de passe.
+    passwordChanged() {
+      return this.$route.query.reason === "password-changed";
+    }
   },
 
   methods: {

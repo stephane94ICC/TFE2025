@@ -153,6 +153,8 @@ export default {
       LOGIN_FAILURE: "Échec de connexion",
       REGISTER: "Inscription",
       ACCESS_DENIED_INACTIVE_ACCOUNT: "Accès refusé — compte désactivé",
+      PASSWORD_CHANGED: "Mot de passe modifié",
+      PASSWORD_CHANGE_FAILURE: "Échec du changement de mot de passe",
       PROFILE_UPDATED: "Profil modifié",
       ACCOUNT_DELETION_REQUESTED: "Désinscription demandée",
       ACCOUNT_ANONYMIZED: "Compte anonymisé",

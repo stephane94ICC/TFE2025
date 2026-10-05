@@ -153,6 +153,8 @@ export default {
       LOGIN_FAILURE: "Login failed",
       REGISTER: "Registration",
       ACCESS_DENIED_INACTIVE_ACCOUNT: "Access denied — account disabled",
+      PASSWORD_CHANGED: "Password changed",
+      PASSWORD_CHANGE_FAILURE: "Password change failed",
       PROFILE_UPDATED: "Profile updated",
       ACCOUNT_DELETION_REQUESTED: "Account deletion requested",
       ACCOUNT_ANONYMIZED: "Account anonymised",

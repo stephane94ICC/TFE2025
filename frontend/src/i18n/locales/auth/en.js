@@ -14,7 +14,9 @@ export default {
     noAccount: "Don't have an account yet?",
     register: "Sign up",
 
-    error: "Sign-in failed. Check your email address and password. Contact us if the problem persists."
+    error: "Sign-in failed. Check your email address and password. Contact us if the problem persists.",
+
+    passwordChanged: "Your password has been changed. Sign in with your new password."
   },
 
   register: {

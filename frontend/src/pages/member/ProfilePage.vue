@@ -127,6 +127,8 @@
           </button>
         </div>
 
+        <PasswordChangeForm :email="user.email" />
+
         <div v-if="canDeleteAccount" class="profile-danger-zone">
           <h2 class="profile-danger-title">
             {{ $t("member.profile.deleteAccountTitle") }}
@@ -201,6 +203,7 @@
 
 <script>
 import AuthService from "../../services/AuthService";
+import PasswordChangeForm from "../../components/profile/PasswordChangeForm.vue";
 import {
   uploadProfileImage,
   getMemberProfile,
@@ -211,6 +214,10 @@ import "./ProfilePage.css";
 
 export default {
   name: "ProfilePage",
+
+  components: {
+    PasswordChangeForm
+  },
 
   data() {
     return {

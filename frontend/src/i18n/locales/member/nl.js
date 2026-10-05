@@ -38,6 +38,21 @@ export default {
     photoSuccess: "Profielfoto succesvol bijgewerkt.",
     photoError: "De profielfoto kon niet worden gewijzigd.",
 
+    // Changement de mot de passe
+    changePasswordTitle: "Mijn wachtwoord wijzigen",
+    changePasswordText: "Na de wijziging wordt u afgemeld en moet u zich opnieuw aanmelden met uw nieuwe wachtwoord.",
+    currentPassword: "Huidig wachtwoord",
+    newPassword: "Nieuw wachtwoord",
+    confirmNewPassword: "Bevestig het nieuwe wachtwoord",
+    passwordRule: "Minstens 12 tekens, met een hoofdletter, een kleine letter, een cijfer en een speciaal teken.",
+    changePassword: "Wachtwoord wijzigen",
+    changingPassword: "Bezig met wijzigen...",
+    passwordTooWeak: "Het nieuwe wachtwoord voldoet niet aan de beveiligingsregels.",
+    passwordMismatch: "De twee nieuwe wachtwoorden komen niet overeen.",
+    passwordSameAsCurrent: "Het nieuwe wachtwoord moet verschillen van het huidige wachtwoord.",
+    currentPasswordIncorrect: "Het huidige wachtwoord is onjuist.",
+    changePasswordError: "Het wachtwoord kon niet worden gewijzigd. Probeer het later opnieuw.",
+
     rolesLabels: {
       MEMBER: "Lid",
       PARTNER: "Partner",

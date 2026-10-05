@@ -153,6 +153,8 @@ export default {
       LOGIN_FAILURE: "Aanmelding mislukt",
       REGISTER: "Registratie",
       ACCESS_DENIED_INACTIVE_ACCOUNT: "Toegang geweigerd — account gedeactiveerd",
+      PASSWORD_CHANGED: "Wachtwoord gewijzigd",
+      PASSWORD_CHANGE_FAILURE: "Wachtwoordwijziging mislukt",
       PROFILE_UPDATED: "Profiel gewijzigd",
       ACCOUNT_DELETION_REQUESTED: "Uitschrijving aangevraagd",
       ACCOUNT_ANONYMIZED: "Account geanonimiseerd",

@@ -38,6 +38,21 @@ export default {
     photoSuccess: "Photo de profil mise à jour avec succès.",
     photoError: "Impossible de modifier la photo de profil.",
 
+    // Changement de mot de passe
+    changePasswordTitle: "Changer mon mot de passe",
+    changePasswordText: "Après le changement, vous serez déconnecté et devrez vous reconnecter avec votre nouveau mot de passe.",
+    currentPassword: "Mot de passe actuel",
+    newPassword: "Nouveau mot de passe",
+    confirmNewPassword: "Confirmer le nouveau mot de passe",
+    passwordRule: "12 caractères minimum, avec une majuscule, une minuscule, un chiffre et un caractère spécial.",
+    changePassword: "Changer le mot de passe",
+    changingPassword: "Modification...",
+    passwordTooWeak: "Le nouveau mot de passe ne respecte pas les règles de sécurité.",
+    passwordMismatch: "Les deux nouveaux mots de passe ne correspondent pas.",
+    passwordSameAsCurrent: "Le nouveau mot de passe doit être différent du mot de passe actuel.",
+    currentPasswordIncorrect: "Le mot de passe actuel est incorrect.",
+    changePasswordError: "Impossible de changer le mot de passe. Réessayez plus tard.",
+
     rolesLabels: {
       MEMBER: "Membre",
       PARTNER: "Partenaire",

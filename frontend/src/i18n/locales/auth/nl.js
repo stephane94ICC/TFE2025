@@ -14,7 +14,9 @@ export default {
     noAccount: "Hebt u nog geen account?",
     register: "Registreren",
 
-    error: "Aanmelden mislukt. Controleer uw e-mailadres en wachtwoord. Neem contact met ons op als het probleem aanhoudt."
+    error: "Aanmelden mislukt. Controleer uw e-mailadres en wachtwoord. Neem contact met ons op als het probleem aanhoudt.",
+
+    passwordChanged: "Uw wachtwoord is gewijzigd. Meld u aan met uw nieuwe wachtwoord."
   },
 
   register: {

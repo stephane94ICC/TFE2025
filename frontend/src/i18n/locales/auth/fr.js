@@ -14,7 +14,9 @@ export default {
     noAccount: "Vous n’avez pas encore de compte ?",
     register: "S'inscrire",
 
-    error: "Connexion impossible. Vérifiez votre adresse e-mail et votre mot de passe. Si le problème persiste, contactez-nous."
+    error: "Connexion impossible. Vérifiez votre adresse e-mail et votre mot de passe. Si le problème persiste, contactez-nous.",
+
+    passwordChanged: "Votre mot de passe a été modifié. Connectez-vous avec votre nouveau mot de passe."
   },
 
   register: {

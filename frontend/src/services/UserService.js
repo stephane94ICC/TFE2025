@@ -38,6 +38,14 @@ export function deleteMemberAccount(password) {
         getAuthHeaders()
     );
 }
+
+export function changeMemberPassword(currentPassword, newPassword) {
+    return axios.put(
+        `${MEMBER_PROFILE_API_URL}/password`,
+        { currentPassword, newPassword },
+        getAuthHeaders()
+    );
+}
 export function getUsers() {
     return axios.get(API_URL, getAuthHeaders());
 }
