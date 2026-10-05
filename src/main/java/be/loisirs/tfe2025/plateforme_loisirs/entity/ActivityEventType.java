@@ -5,6 +5,8 @@ public enum ActivityEventType {
     // --- Sécurité / authentification ---
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
+    // Début d'un blocage de connexion (trop d'échecs) : écrit une fois par blocage, pas à chaque essai.
+    LOGIN_RATE_LIMITED,
     REGISTER,
     ACCESS_DENIED_INACTIVE_ACCOUNT,
     PASSWORD_CHANGED,
@@ -21,6 +23,8 @@ public enum ActivityEventType {
     RESERVATION_CANCELLED,
     ORDER_PAID,
     ORDER_CANCELLED,
+    // Paiement reçu sur une vente déjà annulée : rien n'est confirmé,
+    // l'événement signale un remboursement à effectuer.
     PAYMENT_ON_CANCELLED_SALE,
 
     // --- Administration ---

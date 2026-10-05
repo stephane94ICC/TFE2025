@@ -7,6 +7,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivityLogRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.ActivityLogDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.mapper.ActivityLogMapper;
+import be.loisirs.tfe2025.plateforme_loisirs.util.ClientIp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -133,24 +132,9 @@ public class ActivityLogService {
     }
 
 
-    /**
-     * Adresse IP du client, telle que déterminée par le serveur.
-     *
-     * L'en-tête X-Forwarded-For n'est volontairement PAS lu ici : n'importe
-     * quel client peut l'envoyer avec une valeur inventée. C'est Tomcat
-     * (server.forward-headers-strategy=native) qui le prend en compte, et
-     * uniquement lorsqu'il provient d'un proxy de confiance (réseau interne
-     * de l'hébergeur). getRemoteAddr() renvoie alors la bonne adresse.
-     */
+    /** Adresse IP du client : règle unique, voir {@link ClientIp}. */
     private String currentIpAddress() {
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
-        if (attributes == null) {
-            return null;
-        }
-
-        return attributes.getRequest().getRemoteAddr();
+        return ClientIp.current();
     }
 
     private String truncate(String details) {

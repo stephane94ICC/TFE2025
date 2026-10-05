@@ -1,6 +1,7 @@
 package be.loisirs.tfe2025.plateforme_loisirs.service;
 
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
+import be.loisirs.tfe2025.plateforme_loisirs.api.exception.TooManyLoginAttemptsException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,6 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -54,6 +57,8 @@ class AuthServiceTest {
     private JwtService jwtService;
     @Mock
     private ActivityLogService activityLogService;
+    @Mock
+    private LoginAttemptLimiter loginAttemptLimiter;
 
     @InjectMocks
     private AuthService authService;
@@ -125,6 +130,8 @@ class AuthServiceTest {
         verify(activityLogService).logForEmail(
                 eq(ActivityEventType.LOGIN_FAILURE), isNull(), eq(EMAIL), anyString());
         verifyNoInteractions(jwtService, passwordEncoder);
+        // E-mail inconnu compté comme un autre : le blocage ne révèle pas quels comptes existent.
+        verify(loginAttemptLimiter).recordFailure(eq(EMAIL), any());
     }
 
     @Test
@@ -141,6 +148,36 @@ class AuthServiceTest {
         assertThat(reponse.getRoles()).containsExactly("MEMBER");
         verify(activityLogService).logForEmail(
                 eq(ActivityEventType.LOGIN_SUCCESS), eq(USER_ID), eq(EMAIL), isNull());
+        verify(loginAttemptLimiter).recordSuccess(eq(EMAIL), any());
+    }
+
+    @Test
+    @DisplayName("Blocage en cours : refus AVANT toute vérification, même avec le bon mot de passe")
+    void blocageVerifieAvantLeMotDePasse() {
+        doThrow(new TooManyLoginAttemptsException(900))
+                .when(loginAttemptLimiter).checkAllowed(eq(EMAIL), any());
+
+        assertThatThrownBy(() -> authService.login(requete))
+                .isInstanceOf(TooManyLoginAttemptsException.class);
+
+        // Ni recherche du compte, ni comparaison du mot de passe, ni jeton :
+        // l'attaquant ne peut pas savoir s'il a trouvé le bon mot de passe.
+        verifyNoInteractions(userRepository, passwordEncoder, jwtService);
+    }
+
+    @Test
+    @DisplayName("Début d'un blocage : journalisé une seule fois (LOGIN_RATE_LIMITED)")
+    void debutDeBlocageJournalise() {
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(membre));
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);
+        when(loginAttemptLimiter.recordFailure(eq(EMAIL), any()))
+                .thenReturn(List.of("Compte + IP : blocage de 15 min"));
+
+        assertThatThrownBy(() -> authService.login(requete))
+                .isInstanceOf(InvalidCredentialsException.class);
+
+        verify(activityLogService).logForEmail(
+                ActivityEventType.LOGIN_RATE_LIMITED, USER_ID, EMAIL, "Compte + IP : blocage de 15 min");
     }
 
 }

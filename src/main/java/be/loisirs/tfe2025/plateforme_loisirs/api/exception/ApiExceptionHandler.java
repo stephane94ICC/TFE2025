@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.api.exception;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -37,6 +38,19 @@ private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.cl
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", exception.getMessage()));
+    }
+
+    // Connexion refusée : trop d'échecs récents. Retry-After (en secondes)
+    // indique au client quand réessayer ; le code permet au front de traduire le message.
+    @ExceptionHandler(TooManyLoginAttemptsException.class)
+    public ResponseEntity<Map<String, String>> handleTooManyLoginAttempts(
+            TooManyLoginAttemptsException exception) {
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .header(HttpHeaders.RETRY_AFTER, String.valueOf(exception.getRetryAfterSeconds()))
+                .body(Map.of(
+                        "error", exception.getMessage(),
+                        "code", TooManyLoginAttemptsException.CODE));
     }
 
     @ExceptionHandler(EmailAlreadyUsedException.class)

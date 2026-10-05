@@ -10,6 +10,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.util.ClientIp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,18 +26,21 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final ActivityLogService activityLogService;
+    private final LoginAttemptLimiter loginAttemptLimiter;
 
     public AuthService(
             UserRepository userRepository,
             RoleRepository roleRepository,
             BCryptPasswordEncoder passwordEncoder,
             JwtService jwtService,
-            ActivityLogService activityLogService) {
+            ActivityLogService activityLogService,
+            LoginAttemptLimiter loginAttemptLimiter) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.activityLogService = activityLogService;
+        this.loginAttemptLimiter = loginAttemptLimiter;
     }
 
     public AuthResponseDTO register(RegisterRequestDTO registerRequestDTO) {
@@ -73,6 +77,12 @@ public class AuthService {
 
     public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
         String email = loginRequestDTO.getEmail();
+        String ip = ClientIp.current();
+
+        // Garde n°1 : blocage vérifié AVANT tout le reste. Pendant un blocage,
+        // même le bon mot de passe est refusé, et un e-mail inconnu est traité
+        // exactement comme un e-mail existant (pas d'énumération des comptes).
+        loginAttemptLimiter.checkAllowed(email, ip);
 
         User user = userRepository.findByEmail(email).orElse(null);
 
@@ -80,12 +90,14 @@ public class AuthService {
         if (user == null) {
             activityLogService.logForEmail(
                     ActivityEventType.LOGIN_FAILURE, null, email, "Adresse e-mail inconnue");
+            recordFailure(email, ip, null);
             throw new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect.");
         }
 
         if (!passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
             activityLogService.logForEmail(
                     ActivityEventType.LOGIN_FAILURE, user.getId(), email, "Mot de passe incorrect");
+            recordFailure(email, ip, user.getId());
             throw new InvalidCredentialsException("Adresse e-mail ou mot de passe incorrect.");
         }
 
@@ -96,10 +108,21 @@ public class AuthService {
             throw new InvalidCredentialsException("Ce compte n'est plus actif.");
         }
 
+        // Succès : seul le compteur compte + IP est remis à zéro (jamais celui de l'IP seule).
+        loginAttemptLimiter.recordSuccess(email, ip);
+
         activityLogService.logForEmail(
                 ActivityEventType.LOGIN_SUCCESS, user.getId(), email, null);
 
         return buildAuthResponse(user, "Connexion réussie.");
+    }
+
+    /** Compte l'échec ; journalise une seule fois le DÉBUT de chaque blocage. */
+    private void recordFailure(String email, String ip, Long userId) {
+        for (String startedBlock : loginAttemptLimiter.recordFailure(email, ip)) {
+            activityLogService.logForEmail(
+                    ActivityEventType.LOGIN_RATE_LIMITED, userId, email, startedBlock);
+        }
     }
 
     private AuthResponseDTO buildAuthResponse(User user, String message) {
