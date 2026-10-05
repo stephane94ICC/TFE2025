@@ -283,6 +283,8 @@ export default {
     firstNamePlaceholder: "Voornaam",
     lastNamePlaceholder: "Naam",
     passwordPlaceholder: "Wachtwoord",
+    passwordRule: "Minstens 12 tekens, met een hoofdletter, een kleine letter, een cijfer en een speciaal teken.",
+    passwordTooWeak: "Het wachtwoord voldoet niet aan de beveiligingsregels.",
     unchangedPasswordPlaceholder: "Leeg laten indien ongewijzigd",
 
     rgpdInfo: "De AVG-toestemming wordt door de gebruiker gegeven bij de registratie.",

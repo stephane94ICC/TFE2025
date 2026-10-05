@@ -188,3 +188,26 @@
         flex-direction: column;
     }
 }
+
+/* Tableau plus large que l'écran : il défile horizontalement DANS sa carte
+   au lieu de déborder de la page (même principe que la page des produits). */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Colonnes qui rétrécissent avec la fenêtre (comme la page des produits) :
+   - taille de texte alignée sur les produits ;
+   - les e-mails, mots sans espace, peuvent se couper n'importe où,
+     sinon ils imposent leur largeur à toute la colonne. */
+.user-table td {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+    .user-table th,
+    .user-table td {
+        padding: 10px 8px;
+    }
+}

@@ -283,6 +283,8 @@ export default {
     firstNamePlaceholder: "Prénom",
     lastNamePlaceholder: "Nom",
     passwordPlaceholder: "Mot de passe",
+    passwordRule: "12 caractères minimum, avec une majuscule, une minuscule, un chiffre et un caractère spécial.",
+    passwordTooWeak: "Le mot de passe ne respecte pas les règles de sécurité.",
     unchangedPasswordPlaceholder: "Laisser vide si inchangé",
 
     rgpdInfo: "Le consentement RGPD est donné par l’utilisateur lors de son inscription.",

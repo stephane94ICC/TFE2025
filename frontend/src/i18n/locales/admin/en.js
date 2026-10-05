@@ -283,6 +283,8 @@ export default {
     firstNamePlaceholder: "First name",
     lastNamePlaceholder: "Last name",
     passwordPlaceholder: "Password",
+    passwordRule: "At least 12 characters, including an uppercase letter, a lowercase letter, a digit and a special character.",
+    passwordTooWeak: "The password does not meet the security requirements.",
     unchangedPasswordPlaceholder: "Leave blank if unchanged",
 
     rgpdInfo: "GDPR consent is given by the user during registration.",

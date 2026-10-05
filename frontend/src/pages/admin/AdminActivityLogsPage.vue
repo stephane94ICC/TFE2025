@@ -68,33 +68,35 @@
 
       <p v-if="loading">{{ $t("admin.activityLogs.loading") }}</p>
 
-      <table v-else-if="logs.length" class="log-table">
-        <thead>
-        <tr>
-          <th>{{ $t("admin.activityLogs.date") }}</th>
-          <th>{{ $t("admin.activityLogs.event") }}</th>
-          <th>{{ $t("admin.activityLogs.user") }}</th>
-          <th>{{ $t("admin.activityLogs.details") }}</th>
-          <th>{{ $t("admin.activityLogs.ipAddress") }}</th>
-        </tr>
-        </thead>
+      <div v-else-if="logs.length" class="table-wrapper">
+        <table class="log-table">
+          <thead>
+          <tr>
+            <th>{{ $t("admin.activityLogs.date") }}</th>
+            <th>{{ $t("admin.activityLogs.event") }}</th>
+            <th>{{ $t("admin.activityLogs.user") }}</th>
+            <th>{{ $t("admin.activityLogs.details") }}</th>
+            <th>{{ $t("admin.activityLogs.ipAddress") }}</th>
+          </tr>
+          </thead>
 
-        <tbody>
-        <tr v-for="entry in logs" :key="entry.id">
-          <td class="cell-date">{{ formatDate(entry.createdAt) }}</td>
+          <tbody>
+          <tr v-for="entry in logs" :key="entry.id">
+            <td class="cell-date">{{ formatDate(entry.createdAt) }}</td>
 
-          <td>
-            <span :class="badgeClass(entry.eventType)">
-              {{ formatEventType(entry.eventType) }}
-            </span>
-          </td>
+            <td>
+              <span :class="badgeClass(entry.eventType)">
+                {{ formatEventType(entry.eventType) }}
+              </span>
+            </td>
 
-          <td>{{ entry.userEmail || '—' }}</td>
-          <td>{{ entry.details || '—' }}</td>
-          <td class="cell-ip">{{ entry.ipAddress || '—' }}</td>
-        </tr>
-        </tbody>
-      </table>
+            <td>{{ entry.userEmail || '—' }}</td>
+            <td>{{ entry.details || '—' }}</td>
+            <td class="cell-ip">{{ entry.ipAddress || '—' }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
       <p v-else>{{ $t("admin.activityLogs.empty") }}</p>
 

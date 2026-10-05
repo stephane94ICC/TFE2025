@@ -205,3 +205,18 @@
         grid-template-columns: 1fr;
     }
 }
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.log-table td {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+    .log-table th,
+    .log-table td {
+        padding: 10px 8px;
+    }
+}

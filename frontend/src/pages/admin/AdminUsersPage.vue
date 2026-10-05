@@ -58,6 +58,7 @@
               type="password"
               :placeholder="$t('admin.users.passwordPlaceholder')"
           >
+          <small>{{ $t("admin.users.passwordRule") }}</small>
         </div>
 
         <div class="form-group">
@@ -112,6 +113,7 @@
               type="password"
               :placeholder="$t('admin.users.unchangedPasswordPlaceholder')"
           >
+          <small>{{ $t("admin.users.passwordRule") }}</small>
         </div>
 
         <div class="form-group">
@@ -141,50 +143,52 @@
 
       <p v-if="loading">{{ $t("admin.users.loading") }}</p>
 
-      <table v-else-if="users.length" class="user-table">
-        <thead>
-        <tr>
-          <th>{{ $t("admin.users.id") }}</th>
-          <th>{{ $t("admin.users.email") }}</th>
-          <th>{{ $t("admin.users.firstName") }}</th>
-          <th>{{ $t("admin.users.lastName") }}</th>
-          <th>{{ $t("admin.users.role") }}</th>
-          <th>{{ $t("admin.users.rgpd") }}</th>
-          <th>{{ $t("admin.users.actions") }}</th>
-        </tr>
-        </thead>
+      <div v-else-if="users.length" class="table-wrapper">
+        <table class="user-table">
+          <thead>
+          <tr>
+            <th>{{ $t("admin.users.id") }}</th>
+            <th>{{ $t("admin.users.email") }}</th>
+            <th>{{ $t("admin.users.firstName") }}</th>
+            <th>{{ $t("admin.users.lastName") }}</th>
+            <th>{{ $t("admin.users.role") }}</th>
+            <th>{{ $t("admin.users.rgpd") }}</th>
+            <th>{{ $t("admin.users.actions") }}</th>
+          </tr>
+          </thead>
 
-        <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.id }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
+          <tbody>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
 
-          <td>
-            <span class="badge badge-role">
-              {{ formatRole(user.role) }}
-            </span>
-          </td>
+            <td>
+              <span class="badge badge-role">
+                {{ formatRole(user.role) }}
+              </span>
+            </td>
 
-          <td>
-            <span :class="user.consentRgpd ? 'badge badge-success' : 'badge badge-danger'">
-              {{ user.consentRgpd ? $t("admin.users.yes") : $t("admin.users.no") }}
-            </span>
-          </td>
+            <td>
+              <span :class="user.consentRgpd ? 'badge badge-success' : 'badge badge-danger'">
+                {{ user.consentRgpd ? $t("admin.users.yes") : $t("admin.users.no") }}
+              </span>
+            </td>
 
-          <td class="table-actions">
-            <button class="btn btn-small btn-secondary" @click="startEdit(user)">
-              {{ $t("admin.users.edit") }}
-            </button>
+            <td class="table-actions">
+              <button class="btn btn-small btn-secondary" @click="startEdit(user)">
+                {{ $t("admin.users.edit") }}
+              </button>
 
-            <button class="btn btn-small btn-danger" @click="deleteUser(user.id)">
-              {{ $t("admin.users.delete") }}
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+              <button class="btn btn-small btn-danger" @click="deleteUser(user.id)">
+                {{ $t("admin.users.delete") }}
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
       <p v-else>{{ $t("admin.users.empty") }}</p>
     </div>
@@ -198,6 +202,7 @@ import {
   updateUser as apiUpdateUser,
   deleteUser as apiDeleteUser
 } from '../../services/UserService';
+import { isStrongPassword } from '../../utils/passwordPolicy';
 
 export default {
   name: 'AdminUsersPage',
@@ -265,6 +270,12 @@ export default {
         return;
       }
 
+      // Même règle qu'à l'inscription ; le serveur revalide de toute façon.
+      if (!isStrongPassword(this.newUser.password)) {
+        this.errorMessage = this.$t("admin.users.passwordTooWeak");
+        return;
+      }
+
       apiCreateUser(this.newUser)
           .then(() => {
             this.successMessage = this.$t("admin.users.createSuccess");
@@ -319,6 +330,11 @@ export default {
       };
 
       if (this.editForm.password && this.editForm.password.trim() !== '') {
+        if (!isStrongPassword(this.editForm.password)) {
+          this.errorMessage = this.$t("admin.users.passwordTooWeak");
+          return;
+        }
+
         payload.password = this.editForm.password;
       }
 
