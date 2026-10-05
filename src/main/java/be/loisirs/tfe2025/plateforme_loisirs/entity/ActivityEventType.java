@@ -7,6 +7,8 @@ public enum ActivityEventType {
     LOGIN_FAILURE,
     REGISTER,
     ACCESS_DENIED_INACTIVE_ACCOUNT,
+    PASSWORD_CHANGED,
+    PASSWORD_CHANGE_FAILURE,
 
     // --- Données personnelles (RGPD) ---
     PROFILE_UPDATED,
@@ -19,8 +21,6 @@ public enum ActivityEventType {
     RESERVATION_CANCELLED,
     ORDER_PAID,
     ORDER_CANCELLED,
-    // Paiement reçu sur une vente déjà annulée : rien n'est confirmé,
-    // l'événement signale un remboursement à effectuer.
     PAYMENT_ON_CANCELLED_SALE,
 
     // --- Administration ---

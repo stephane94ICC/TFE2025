@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.dto;
 
+import be.loisirs.tfe2025.plateforme_loisirs.util.PasswordPolicy;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -34,9 +35,6 @@ public class RegisterRequestDTO {
     private Boolean consentRgpd;
 
     @NotBlank(message = "Le mot de passe est obligatoire.")
-    @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{12,}$",
-            message = "Le mot de passe doit contenir au moins 12 caractères, avec une majuscule, une minuscule, un chiffre et un caractère spécial."
-    )
+    @Pattern(regexp = PasswordPolicy.PATTERN, message = PasswordPolicy.MESSAGE)
     private String password;
 }

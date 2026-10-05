@@ -3,6 +3,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.service;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AccountDeletionRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.MemberProfileResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.MemberProfileUpdateDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.user.PasswordChangeRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ReservationStatus;
@@ -95,6 +96,43 @@ public class MemberProfileService {
         );
 
         return toDTO(savedUser);
+    }
+
+    /**
+     * Changement du mot de passe par l'utilisateur connecté (tous les rôles).
+     * Le mot de passe actuel est revérifié : un jeton volé ne suffit pas pour changer le mot de passe.
+     * La robustesse du nouveau mot de passe est validée par le DTO (PasswordPolicy).
+     * Aucun mot de passe, ni en clair ni haché, n'est écrit dans le journal.
+     */
+    @Transactional
+    public void changePassword(String email, PasswordChangeRequestDTO request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            activityLogService.log(
+                    ActivityEventType.PASSWORD_CHANGE_FAILURE,
+                    "User",
+                    user.getId(),
+                    "Mot de passe actuel incorrect"
+            );
+            throw new IllegalArgumentException("Le mot de passe actuel est incorrect.");
+        }
+
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+            throw new IllegalArgumentException(
+                    "Le nouveau mot de passe doit être différent du mot de passe actuel.");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        activityLogService.log(
+                ActivityEventType.PASSWORD_CHANGED,
+                "User",
+                user.getId(),
+                "Mot de passe modifié par l'utilisateur"
+        );
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.api.controller.member;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AccountDeletionRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.MemberProfileResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.MemberProfileUpdateDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.user.PasswordChangeRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.ProfileImageResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.service.MemberProfileService;
@@ -42,6 +43,21 @@ public class MemberProfileApiController {
         return ResponseEntity.ok(
                 memberProfileService.updateProfile(principal.getName(), request)
         );
+    }
+
+    /**
+     * Changement du mot de passe de l'utilisateur connecté (MEMBER, PARTNER, ADMIN :
+     * /api/member/** est ouvert aux trois rôles dans SecurityConfig).
+     * 204 si succès ; 400 si mot de passe actuel incorrect, nouveau trop faible ou identique.
+     */
+    @PutMapping("/password")
+    public ResponseEntity<Void> changePassword(
+            @Valid @RequestBody PasswordChangeRequestDTO request,
+            Principal principal
+    ) {
+        memberProfileService.changePassword(principal.getName(), request);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/deletion")
