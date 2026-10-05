@@ -235,7 +235,8 @@ export default {
     badgeClass(eventType) {
       if (eventType === 'LOGIN_FAILURE'
           || eventType === 'ACCESS_DENIED_INACTIVE_ACCOUNT'
-          || eventType === 'PASSWORD_CHANGE_FAILURE') {
+          || eventType === 'PASSWORD_CHANGE_FAILURE'
+          || eventType === 'LOGIN_RATE_LIMITED') {
         return 'badge badge-danger';
       }
       if (eventType === 'ACCOUNT_DELETION_REQUESTED' || eventType === 'ACCOUNT_ANONYMIZED') {

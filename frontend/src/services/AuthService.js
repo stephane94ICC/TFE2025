@@ -34,6 +34,8 @@ class AuthService {
         const data = await response.json().catch(() => null);
         const err = new Error(data && data.error ? data.error : "LOGIN_FAILED");
         err.status = response.status;
+        // 429 : délai avant de réessayer, en secondes (en-tête Retry-After).
+        err.retryAfter = Number(response.headers.get("Retry-After")) || 0;
         throw err;
       }
 

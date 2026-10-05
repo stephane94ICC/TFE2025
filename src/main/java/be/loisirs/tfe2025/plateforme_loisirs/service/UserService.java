@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
@@ -81,6 +83,7 @@ public class UserService {
 
         if (user.getPassword() != null && !user.getPassword().isBlank()) {
             existing.setPassword(encodePassword(user.getPassword()));
+            existing.setPasswordChangedAt( LocalDateTime.now().truncatedTo( ChronoUnit.SECONDS));
         }
 
         if (roleName != null && !roleName.isBlank()) {

@@ -16,7 +16,9 @@ export default {
 
     error: "Aanmelden mislukt. Controleer uw e-mailadres en wachtwoord. Neem contact met ons op als het probleem aanhoudt.",
 
-    passwordChanged: "Uw wachtwoord is gewijzigd. Meld u aan met uw nieuwe wachtwoord."
+    passwordChanged: "Uw wachtwoord is gewijzigd. Meld u aan met uw nieuwe wachtwoord.",
+
+    tooManyAttempts: "Te veel aanmeldpogingen. Probeer het opnieuw over {minutes} min."
   },
 
   register: {

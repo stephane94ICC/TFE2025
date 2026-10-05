@@ -57,6 +57,14 @@ public class User {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
+    /**
+     * Dernier changement de mot de passe, à la seconde (comme la date d'émission d'un JWT).
+     * Le filtre JWT refuse tout jeton émis avant cette date. NULL : jamais changé.
+     */
+    @JsonIgnore
+    @Column(name = "password_changed_at")
+    private LocalDateTime passwordChangedAt;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name ="user_role",

@@ -151,6 +151,7 @@ export default {
     eventTypes: {
       LOGIN_SUCCESS: "Aanmelding geslaagd",
       LOGIN_FAILURE: "Aanmelding mislukt",
+      LOGIN_RATE_LIMITED: "Aanmelden geblokkeerd (te veel mislukte pogingen)",
       REGISTER: "Registratie",
       ACCESS_DENIED_INACTIVE_ACCOUNT: "Toegang geweigerd — account gedeactiveerd",
       PASSWORD_CHANGED: "Wachtwoord gewijzigd",

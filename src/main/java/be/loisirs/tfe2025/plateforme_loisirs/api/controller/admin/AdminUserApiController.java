@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.api.controller.admin;
 
+import jakarta.validation.Valid;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AdminUserCreateDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AdminUserUpdateDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.UserResponseDTO;
@@ -49,7 +50,7 @@ public class AdminUserApiController {
 
     // CREATE USER BY ADMIN
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody AdminUserCreateDTO dto) {
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody AdminUserCreateDTO dto) {
 
         if (dto.getEmail() == null || dto.getEmail().isBlank()) {
             return ResponseEntity.badRequest().build();
@@ -70,7 +71,7 @@ public class AdminUserApiController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable Long id,
-            @RequestBody AdminUserUpdateDTO dto
+            @Valid @RequestBody AdminUserUpdateDTO dto
     ) {
         // a mettre dans one note ici transformes le DTO en objet User.
         User userToUpdate = userMapper.toEntity(dto);

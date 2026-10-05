@@ -151,6 +151,7 @@ export default {
     eventTypes: {
       LOGIN_SUCCESS: "Login successful",
       LOGIN_FAILURE: "Login failed",
+      LOGIN_RATE_LIMITED: "Sign-in blocked (too many failures)",
       REGISTER: "Registration",
       ACCESS_DENIED_INACTIVE_ACCOUNT: "Access denied — account disabled",
       PASSWORD_CHANGED: "Password changed",

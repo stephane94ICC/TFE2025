@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -81,6 +84,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        // Jeton émis avant le dernier changement de mot de passe : refusé.
+        // Pas de journalisation ici : un onglet resté ouvert écrirait une ligne à chaque requête.
+        if (issuedBeforePasswordChange(claims, user)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         List<String> roles = claims.get("roles", List.class);
 
         Collection<SimpleGrantedAuthority> authorities = roles.stream()
@@ -93,5 +103,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * Compare la date d'émission du jeton (iat, à la seconde) à la date du dernier
+     * changement de mot de passe (enregistrée à la seconde). Un jeton émis dans la même
+     * seconde que le changement est accepté : c'est le cas de la reconnexion immédiate.
+     */
+    private boolean issuedBeforePasswordChange(Claims claims, User user) {
+        LocalDateTime passwordChangedAt = user.getPasswordChangedAt();
+
+        if (passwordChangedAt == null) {
+            return false;
+        }
+
+        Date issuedAt = claims.getIssuedAt();
+
+        if (issuedAt == null) {
+            return true; // Jeton sans date d'émission : refusé par prudence.
+        }
+
+        LocalDateTime tokenIssuedAt = LocalDateTime.ofInstant(issuedAt.toInstant(), ZoneId.systemDefault());
+
+        return tokenIssuedAt.isBefore(passwordChangedAt);
     }
 }

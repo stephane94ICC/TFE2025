@@ -151,6 +151,7 @@ export default {
     eventTypes: {
       LOGIN_SUCCESS: "Connexion réussie",
       LOGIN_FAILURE: "Échec de connexion",
+      LOGIN_RATE_LIMITED: "Connexion bloquée (trop d'échecs)",
       REGISTER: "Inscription",
       ACCESS_DENIED_INACTIVE_ACCOUNT: "Accès refusé — compte désactivé",
       PASSWORD_CHANGED: "Mot de passe modifié",

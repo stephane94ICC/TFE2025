@@ -93,6 +93,14 @@ export default {
         })
         .catch(error => {
           console.error(error);
+
+          if (error.status === 429) {
+            // Trop d'échecs récents : on affiche le délai, arrondi à la minute supérieure.
+            const minutes = Math.max(1, Math.ceil(error.retryAfter / 60));
+            this.errorMessage = this.$t("auth.login.tooManyAttempts", { minutes });
+            return;
+          }
+
           this.errorMessage = this.$t("auth.login.error");
         });
     }

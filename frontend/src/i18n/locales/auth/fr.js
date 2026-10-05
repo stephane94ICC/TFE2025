@@ -16,7 +16,9 @@ export default {
 
     error: "Connexion impossible. Vérifiez votre adresse e-mail et votre mot de passe. Si le problème persiste, contactez-nous.",
 
-    passwordChanged: "Votre mot de passe a été modifié. Connectez-vous avec votre nouveau mot de passe."
+    passwordChanged: "Votre mot de passe a été modifié. Connectez-vous avec votre nouveau mot de passe.",
+
+    tooManyAttempts: "Trop de tentatives de connexion. Réessayez dans {minutes} min."
   },
 
   register: {

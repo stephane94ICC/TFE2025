@@ -16,7 +16,9 @@ export default {
 
     error: "Sign-in failed. Check your email address and password. Contact us if the problem persists.",
 
-    passwordChanged: "Your password has been changed. Sign in with your new password."
+    passwordChanged: "Your password has been changed. Sign in with your new password.",
+
+    tooManyAttempts: "Too many sign-in attempts. Try again in {minutes} min."
   },
 
   register: {
