@@ -3,7 +3,23 @@
     <header class="admin-partners-header">
       <h1>{{ $t("admin.partners.title") }}</h1>
       <p>{{ $t("admin.partners.subtitle") }}</p>
+
+      <button
+        v-if="!showCreateForm"
+        type="button"
+        class="admin-partners-btn admin-partners-btn-primary admin-partners-create-btn"
+        @click="openCreateForm"
+      >
+        {{ $t("admin.partners.create.open") }}
+      </button>
     </header>
+
+    <!-- Compte + fiche créés ensemble (POST /api/admin/partners) -->
+    <PartnerCreateForm
+      v-if="showCreateForm"
+      @created="onPartnerCreated"
+      @cancel="showCreateForm = false"
+    />
 
     <p v-if="errorMessage" class="admin-partners-alert admin-partners-alert-error">
       {{ errorMessage }}
@@ -96,6 +112,7 @@
 </template>
 
 <script>
+import PartnerCreateForm from "../../components/admin/PartnerCreateForm.vue";
 import {
   createPartnerPaymentAccount,
   getAdminPartners,
@@ -104,6 +121,8 @@ import {
 
 export default {
   name: "AdminPartnersPage",
+
+  components: { PartnerCreateForm },
 
   data() {
     return {
@@ -114,6 +133,7 @@ export default {
       loading: true,
       savingId: null,
       creatingId: null,
+      showCreateForm: false,
       errorMessage: "",
       successMessage: ""
     };
@@ -175,6 +195,17 @@ export default {
       } finally {
         this.creatingId = null;
       }
+    },
+
+    openCreateForm() {
+      this.clearMessages();
+      this.showCreateForm = true;
+    },
+
+    onPartnerCreated(partner) {
+      this.showCreateForm = false;
+      this.successMessage = this.$t("admin.partners.create.success", { name: partner.name });
+      this.loadPartners();
     },
 
     replacePartner(updated) {

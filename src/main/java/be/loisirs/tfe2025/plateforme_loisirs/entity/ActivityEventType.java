@@ -30,5 +30,7 @@ public enum ActivityEventType {
     // --- Administration ---
     ACTIVITY_APPROVED,
     ACTIVITY_REJECTED,
-    USER_MODIFIED_BY_ADMIN
+    USER_MODIFIED_BY_ADMIN,
+
+    PARTNER_CREATED
 }

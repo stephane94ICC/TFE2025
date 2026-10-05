@@ -63,11 +63,14 @@
 
         <div class="form-group">
           <label>{{ $t("admin.users.role") }}</label>
+          <!-- PARTNER absent : un partenaire se crée depuis /admin/partners (compte + fiche) -->
           <select v-model="newUser.role">
             <option value="MEMBER">{{ $t("admin.users.roles.MEMBER") }}</option>
-            <option value="PARTNER">{{ $t("admin.users.roles.PARTNER") }}</option>
             <option value="ADMIN">{{ $t("admin.users.roles.ADMIN") }}</option>
           </select>
+          <small>
+            <router-link to="/admin/partners">{{ $t("admin.users.partnerRoleHint") }}</router-link>
+          </small>
         </div>
       </div>
 
@@ -118,11 +121,16 @@
 
         <div class="form-group">
           <label>{{ $t("admin.users.role") }}</label>
-          <select v-model="editForm.role">
+          <!--
+            Rôle PARTNER lié à une fiche : ni attribué ni retiré ici (le serveur refuse aussi).
+            Pour un partenaire, la liste est figée sur PARTNER et renvoyée telle quelle.
+          -->
+          <select v-model="editForm.role" :disabled="isEditingPartner">
             <option value="MEMBER">{{ $t("admin.users.roles.MEMBER") }}</option>
-            <option value="PARTNER">{{ $t("admin.users.roles.PARTNER") }}</option>
+            <option v-if="isEditingPartner" value="PARTNER">{{ $t("admin.users.roles.PARTNER") }}</option>
             <option value="ADMIN">{{ $t("admin.users.roles.ADMIN") }}</option>
           </select>
+          <small v-if="isEditingPartner">{{ $t("admin.users.partnerRoleHint") }}</small>
         </div>
       </div>
 
@@ -236,6 +244,12 @@ export default {
 
   mounted() {
     this.loadUsers();
+  },
+
+  computed: {
+    isEditingPartner() {
+      return this.editingUser?.role === "PARTNER";
+    }
   },
 
   methods: {

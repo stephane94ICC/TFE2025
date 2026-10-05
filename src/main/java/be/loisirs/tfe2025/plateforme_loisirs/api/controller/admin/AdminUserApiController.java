@@ -16,6 +16,9 @@ import java.util.List;
 @RequestMapping("/api/admin/users")
 public class AdminUserApiController {
 
+
+    private static final String PARTNER_ROLE = "PARTNER";
+
     private final UserService userService;
     private final UserMapper userMapper;
 
@@ -60,6 +63,11 @@ public class AdminUserApiController {
             return ResponseEntity.badRequest().build();
         }
 
+        if (isPartnerRole(dto.getRole())) {
+            throw new IllegalArgumentException(
+                    "Un partenaire se crée depuis la gestion des partenaires (compte et fiche ensemble).");
+        }
+
         User user = userMapper.toEntity(dto);
         User savedUser = userService.addUser(user, dto.getRole());
 
@@ -73,6 +81,25 @@ public class AdminUserApiController {
             @PathVariable Long id,
             @Valid @RequestBody AdminUserUpdateDTO dto
     ) {
+        // Garder PARTNER pour un partenaire est permis (le front renvoie le rôle actuel
+        // à chaque modification) ; seul le passage vers ou depuis PARTNER est refusé.
+        if (dto.getRole() != null && !dto.getRole().isBlank()) {
+            User existing = userService.getUser(id);
+
+            if (existing == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            boolean isPartner = existing.getRoles()
+                    .stream()
+                    .anyMatch(role -> PARTNER_ROLE.equals(role.getName()));
+
+            if (isPartner != isPartnerRole(dto.getRole())) {
+                throw new IllegalArgumentException(
+                        "Le rôle partenaire ne peut être ni attribué ni retiré ici : il est lié à la fiche partenaire.");
+            }
+        }
+
         // a mettre dans one note ici transformes le DTO en objet User.
         User userToUpdate = userMapper.toEntity(dto);
         userToUpdate.setId(id);
@@ -101,5 +128,9 @@ public class AdminUserApiController {
         userService.deleteUser(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    private static boolean isPartnerRole(String role) {
+        return role != null && PARTNER_ROLE.equalsIgnoreCase(role.trim());
     }
 }

@@ -1,10 +1,12 @@
 package be.loisirs.tfe2025.plateforme_loisirs.api.controller.admin;
 
+import be.loisirs.tfe2025.plateforme_loisirs.dto.partner.AdminPartnerCreateDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.partner.AdminPartnerResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.partner.CommissionRateRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.service.AdminPartnerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,12 @@ public class AdminPartnerApiController {
     public List<AdminPartnerResponseDTO> getPartners() {
         return adminPartnerService.getPartners();
     }
-
+    @PostMapping
+    public ResponseEntity<AdminPartnerResponseDTO> createPartner(
+            @Valid @RequestBody AdminPartnerCreateDTO dto
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(adminPartnerService.createPartner(dto));
+    }
     @PutMapping("/{id}/commission-rate")
     public ResponseEntity<AdminPartnerResponseDTO> updateCommissionRate(
             @PathVariable Long id,

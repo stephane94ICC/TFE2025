@@ -60,6 +60,17 @@ private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.cl
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Map.of("error", exception.getMessage()));
     }
+    // Création de partenaire refusée : numéro d'entreprise déjà enregistré.
+    @ExceptionHandler(EnterpriseNumberAlreadyUsedException.class)
+    public ResponseEntity<Map<String, String>> handleEnterpriseNumberAlreadyUsed(
+            EnterpriseNumberAlreadyUsedException exception) {
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "error", exception.getMessage(),
+                        "code", EnterpriseNumberAlreadyUsedException.CODE));
+    }
+
     // Vente refusée : partenaire sans compte de paiement actif.
     // Le code permet au front de distinguer ce 409 de tout autre conflit.
     @ExceptionHandler(PartnerNotPayableException.class)

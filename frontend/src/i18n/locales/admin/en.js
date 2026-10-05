@@ -167,7 +167,8 @@ export default {
       PAYMENT_ON_CANCELLED_SALE: "Payment received on a cancelled sale — refund required",
       ACTIVITY_APPROVED: "Activity approved",
       ACTIVITY_REJECTED: "Activity rejected",
-      USER_MODIFIED_BY_ADMIN: "User modified by an administrator"
+      USER_MODIFIED_BY_ADMIN: "User modified by an administrator",
+      PARTNER_CREATED: "Partner created by an administrator"
     }
   },
 
@@ -284,6 +285,7 @@ export default {
     lastNamePlaceholder: "Last name",
     passwordPlaceholder: "Password",
     passwordRule: "At least 12 characters, including an uppercase letter, a lowercase letter, a digit and a special character.",
+    partnerRoleHint: "Partners are created from the Partners page (account and profile together). Their role cannot be changed here.",
     passwordTooWeak: "The password does not meet the security requirements.",
     unchangedPasswordPlaceholder: "Leave blank if unchanged",
 
@@ -353,6 +355,36 @@ export default {
       PENDING_VERIFICATION: "Verification in progress",
       ACTIVE: "Active",
       UNAVAILABLE: "Status unavailable"
+    },
+
+    create: {
+      open: "New partner",
+      title: "New partner",
+      intro: "The login account and the partner profile are created together. The partner will add their address, logo and description themselves.",
+      accountSection: "Login account",
+      companySection: "Company",
+      email: "Login email",
+      password: "Temporary password",
+      firstName: "Contact person's first name",
+      lastName: "Contact person's last name",
+      name: "Trade name",
+      enterpriseNumber: "Company number",
+      enterpriseNumberHint: "10 digits, for example 0123.456.749. The VAT number is derived automatically (BE + number).",
+      phone: "Phone",
+      contactEmail: "Contact email (public)",
+      website: "Website",
+      optional: "optional",
+      submit: "Create partner",
+      submitting: "Creating...",
+      cancel: "Cancel",
+      required: "Please fill in all required fields.",
+      passwordTooWeak: "The password does not meet the security rule.",
+      invalidEnterpriseNumber: "Invalid company number: 10 digits, starting with 0 or 1, with a correct check number.",
+      emailTaken: "An account already exists with this email address.",
+      enterpriseNumberTaken: "A partner already exists with this company number.",
+      invalidData: "Some data is invalid. Please check the form.",
+      error: "Unable to create the partner.",
+      success: "Partner {name} created. They can now log in and complete their profile."
     }
   }
 };

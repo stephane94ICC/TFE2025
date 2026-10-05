@@ -1,0 +1,114 @@
+/* Formulaire « Nouveau partenaire » — styles propres au composant (scoped). */
+.partner-create {
+    margin-bottom: 24px;
+    padding: 20px 24px;
+    border-radius: 14px;
+    background: var(--bl-surface);
+    box-shadow: var(--bl-shadow-soft);
+}
+
+.partner-create-title {
+    margin: 0 0 6px;
+    font-size: 20px;
+}
+
+.partner-create-intro {
+    margin: 0 0 16px;
+    color: var(--bl-muted);
+}
+
+.partner-create-error {
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
+    font-weight: 700;
+}
+
+.partner-create-section {
+    margin: 0 0 16px;
+    padding: 12px 16px 16px;
+    border: 1px solid var(--bl-border);
+    border-radius: 10px;
+}
+
+.partner-create-section legend {
+    padding: 0 6px;
+    font-weight: 700;
+}
+
+.partner-create-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px 20px;
+}
+
+.partner-create-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.partner-create-field input {
+    padding: 9px 12px;
+    border: 1px solid var(--bl-border);
+    border-radius: 8px;
+    background: var(--bl-surface-alt);
+    color: inherit;
+    font: inherit;
+    font-weight: 400;
+}
+
+.partner-create-field input:focus-visible {
+    outline: 2px solid var(--bl-primary);
+    outline-offset: 1px;
+}
+
+.partner-create-field small {
+    color: var(--bl-muted);
+    font-weight: 400;
+}
+
+.partner-create-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.partner-create-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.partner-create-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.partner-create-btn:focus-visible {
+    outline: 2px solid var(--bl-primary);
+    outline-offset: 2px;
+}
+
+.partner-create-btn-primary {
+    background: var(--bl-primary);
+    color: var(--bl-on-primary);
+}
+
+.partner-create-btn-secondary {
+    background: var(--bl-border);
+    color: var(--bl-text);
+}
+
+.partner-create-field .partner-create-vat {
+    color: var(--bl-success);
+}
+
+.partner-create-field .partner-create-invalid {
+    color: var(--bl-danger);
+}

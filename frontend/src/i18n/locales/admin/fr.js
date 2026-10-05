@@ -167,7 +167,8 @@ export default {
       PAYMENT_ON_CANCELLED_SALE: "Paiement reçu sur une vente annulée — à rembourser",
       ACTIVITY_APPROVED: "Activité approuvée",
       ACTIVITY_REJECTED: "Activité refusée",
-      USER_MODIFIED_BY_ADMIN: "Utilisateur modifié par un administrateur"
+      USER_MODIFIED_BY_ADMIN: "Utilisateur modifié par un administrateur",
+      PARTNER_CREATED: "Partenaire créé par un administrateur"
     }
   },
 
@@ -284,6 +285,7 @@ export default {
     lastNamePlaceholder: "Nom",
     passwordPlaceholder: "Mot de passe",
     passwordRule: "12 caractères minimum, avec une majuscule, une minuscule, un chiffre et un caractère spécial.",
+    partnerRoleHint: "Un partenaire se crée depuis la page Partenaires (compte et fiche ensemble). Son rôle ne peut pas être modifié ici.",
     passwordTooWeak: "Le mot de passe ne respecte pas les règles de sécurité.",
     unchangedPasswordPlaceholder: "Laisser vide si inchangé",
 
@@ -353,6 +355,36 @@ export default {
       PENDING_VERIFICATION: "Vérification en cours",
       ACTIVE: "Actif",
       UNAVAILABLE: "État indisponible"
+    },
+
+    create: {
+      open: "Nouveau partenaire",
+      title: "Nouveau partenaire",
+      intro: "Le compte de connexion et la fiche sont créés ensemble. Le partenaire complétera lui-même son adresse, son logo et sa présentation.",
+      accountSection: "Compte de connexion",
+      companySection: "Entreprise",
+      email: "E-mail de connexion",
+      password: "Mot de passe provisoire",
+      firstName: "Prénom du responsable",
+      lastName: "Nom du responsable",
+      name: "Nom commercial",
+      enterpriseNumber: "N° d'entreprise",
+      enterpriseNumberHint: "10 chiffres, par exemple 0123.456.749. La TVA est déduite automatiquement (BE + numéro).",
+      phone: "Téléphone",
+      contactEmail: "E-mail de contact (public)",
+      website: "Site web",
+      optional: "facultatif",
+      submit: "Créer le partenaire",
+      submitting: "Création...",
+      cancel: "Annuler",
+      required: "Veuillez remplir tous les champs obligatoires.",
+      passwordTooWeak: "Le mot de passe ne respecte pas la règle de sécurité.",
+      invalidEnterpriseNumber: "Numéro d'entreprise invalide : 10 chiffres, commençant par 0 ou 1, avec une clé de contrôle correcte.",
+      emailTaken: "Un compte existe déjà avec cette adresse e-mail.",
+      enterpriseNumberTaken: "Un partenaire existe déjà avec ce numéro d'entreprise.",
+      invalidData: "Certaines données sont invalides. Vérifiez le formulaire.",
+      error: "Impossible de créer le partenaire.",
+      success: "Partenaire {name} créé. Il peut maintenant se connecter et compléter sa fiche."
     }
   }
 };

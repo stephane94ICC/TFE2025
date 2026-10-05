@@ -32,3 +32,7 @@ export function createPartnerPaymentAccount(partnerId) {
     getAuthHeaders()
   );
 }
+
+export function createPartner(payload) {
+  return axios.post(ADMIN_PARTNERS_API_URL, payload, getAuthHeaders());
+}

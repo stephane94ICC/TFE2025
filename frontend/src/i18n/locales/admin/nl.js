@@ -167,7 +167,8 @@ export default {
       PAYMENT_ON_CANCELLED_SALE: "Betaling ontvangen op een geannuleerde verkoop — terug te betalen",
       ACTIVITY_APPROVED: "Activiteit goedgekeurd",
       ACTIVITY_REJECTED: "Activiteit geweigerd",
-      USER_MODIFIED_BY_ADMIN: "Gebruiker gewijzigd door een beheerder"
+      USER_MODIFIED_BY_ADMIN: "Gebruiker gewijzigd door een beheerder",
+      PARTNER_CREATED: "Partner aangemaakt door een beheerder"
     }
   },
 
@@ -284,6 +285,7 @@ export default {
     lastNamePlaceholder: "Naam",
     passwordPlaceholder: "Wachtwoord",
     passwordRule: "Minstens 12 tekens, met een hoofdletter, een kleine letter, een cijfer en een speciaal teken.",
+    partnerRoleHint: "Een partner wordt aangemaakt via de pagina Partners (account en fiche samen). Zijn rol kan hier niet worden gewijzigd.",
     passwordTooWeak: "Het wachtwoord voldoet niet aan de beveiligingsregels.",
     unchangedPasswordPlaceholder: "Leeg laten indien ongewijzigd",
 
@@ -353,6 +355,36 @@ export default {
       PENDING_VERIFICATION: "Verificatie bezig",
       ACTIVE: "Actief",
       UNAVAILABLE: "Status niet beschikbaar"
+    },
+
+    create: {
+      open: "Nieuwe partner",
+      title: "Nieuwe partner",
+      intro: "Het inlogaccount en de fiche worden samen aangemaakt. De partner vult zelf zijn adres, logo en voorstelling aan.",
+      accountSection: "Inlogaccount",
+      companySection: "Onderneming",
+      email: "Inlog-e-mailadres",
+      password: "Voorlopig wachtwoord",
+      firstName: "Voornaam verantwoordelijke",
+      lastName: "Naam verantwoordelijke",
+      name: "Handelsnaam",
+      enterpriseNumber: "Ondernemingsnummer",
+      enterpriseNumberHint: "10 cijfers, bijvoorbeeld 0123.456.749. Het btw-nummer wordt automatisch afgeleid (BE + nummer).",
+      phone: "Telefoon",
+      contactEmail: "Contact-e-mailadres (openbaar)",
+      website: "Website",
+      optional: "optioneel",
+      submit: "Partner aanmaken",
+      submitting: "Aanmaken...",
+      cancel: "Annuleren",
+      required: "Vul alle verplichte velden in.",
+      passwordTooWeak: "Het wachtwoord voldoet niet aan de beveiligingsregel.",
+      invalidEnterpriseNumber: "Ongeldig ondernemingsnummer: 10 cijfers, beginnend met 0 of 1, met een correct controlegetal.",
+      emailTaken: "Er bestaat al een account met dit e-mailadres.",
+      enterpriseNumberTaken: "Er bestaat al een partner met dit ondernemingsnummer.",
+      invalidData: "Sommige gegevens zijn ongeldig. Controleer het formulier.",
+      error: "De partner kan niet worden aangemaakt.",
+      success: "Partner {name} aangemaakt. Hij kan nu inloggen en zijn fiche aanvullen."
     }
   }
 };

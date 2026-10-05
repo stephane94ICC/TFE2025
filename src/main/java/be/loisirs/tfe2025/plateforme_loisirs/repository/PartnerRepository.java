@@ -15,5 +15,7 @@ public interface PartnerRepository extends JpaRepository<Partner, Long> {
 
     boolean existsBySlug(String slug);
 
+    boolean existsByEnterpriseNumber(String enterpriseNumber);
+
     Optional<Partner> findBySlugAndActiveTrue(String slug);
 }
