@@ -1,0 +1,116 @@
+.partner-sales-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.partner-sales-header {
+    margin-bottom: 24px;
+}
+
+.partner-sales-header h1,
+.partner-sales-header p {
+    margin: 0;
+}
+
+.partner-sales-header p {
+    margin-top: 8px;
+}
+
+.partner-sales-card {
+    overflow-x: auto;
+    border-radius: 14px;
+    background: var(--bl-surface);
+    box-shadow: var(--bl-shadow-soft);
+}
+
+.partner-sales-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.partner-sales-card th,
+.partner-sales-card td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--bl-border);
+    text-align: left;
+    font-size: 14px;
+}
+
+.partner-sales-card thead {
+    background: var(--bl-surface-alt);
+}
+
+.partner-sale-reference {
+    font-weight: 700;
+    font-family: monospace;
+}
+
+/* Sous la référence : la cellule est en monospace, le badge reprend la police du site. */
+.partner-sale-refunded {
+    display: block;
+    width: fit-content;
+    margin-top: 6px;
+    padding: 3px 9px;
+    border-radius: var(--bl-radius-pill);
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
+    font-family: var(--bl-font-body);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: help;
+}
+
+.partner-sale-documents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.partner-sale-document-button {
+    padding: 7px 14px;
+    border: 1px solid var(--bl-primary);
+    border-radius: 8px;
+    background: var(--bl-surface);
+    color: var(--bl-primary);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.partner-sale-document-button:hover:not(:disabled) {
+    background: var(--bl-primary);
+    color: var(--bl-on-primary);
+}
+
+.partner-sale-document-button:focus-visible {
+    outline: 2px solid var(--bl-primary);
+    outline-offset: 2px;
+}
+
+.partner-sale-document-button:disabled {
+    border-color: var(--bl-border);
+    color: var(--bl-muted);
+    cursor: wait;
+}
+
+.partner-sale-document-unavailable {
+    color: var(--bl-muted);
+    font-size: 13px;
+    font-style: italic;
+    cursor: help;
+}
+
+.partner-sales-error,
+.partner-sales-empty {
+    padding: 18px;
+    text-align: center;
+}
+
+.partner-sales-error {
+    border-radius: 8px;
+    background: var(--bl-danger-soft);
+    color: var(--bl-danger);
+}

@@ -11,6 +11,7 @@ export default {
   partnerSpace: "Espace partenaire",
   myActivities: "Mes activités",
   myLocations: "Mes lieux",
+  mySales: "Mes ventes",
   adminActivities: "Activités",
   login: "Connexion",
   register: "Inscription",

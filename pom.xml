@@ -95,6 +95,12 @@
 			<version>24.8.0</version>
 		</dependency>
 
+		<!-- PDF : justificatifs des partenaires -->
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+			<version>3.0.5</version>
+		</dependency>
 
 		<!-- Lombok -->
 		<dependency>

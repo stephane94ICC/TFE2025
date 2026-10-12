@@ -285,5 +285,40 @@ export default {
       PENDING_VERIFICATION: "Stripe vérifie vos informations. Vos activités pourront être réservées dès la fin de la vérification.",
       ACTIVE: "Votre compte est actif : le paiement de chaque réservation vous est versé, commission de la plateforme déduite."
     }
+  },
+
+  sales: {
+    title: "Mes ventes",
+    subtitle: "Réservations payées de vos activités. Téléchargez la facture ou le justificatif de chaque vente, et la note de crédit en cas de remboursement.",
+    loading: "Chargement des ventes...",
+    loadError: "Impossible de charger vos ventes.",
+    empty: "Aucune vente pour le moment.",
+
+    reference: "Référence",
+    activity: "Activité",
+    session: "Créneau",
+    customer: "Client",
+    places: "Places",
+    total: "Total",
+    paidAt: "Payée le",
+    document: "Document",
+
+    refunded: "Remboursée",
+    refundedHint: "Réservation annulée et remboursée au client : la note de crédit annule la facture.",
+
+    invoice: "Facture",
+    receipt: "Justificatif",
+    creditNote: "Note de crédit",
+    downloading: "Téléchargement...",
+    unavailable: "Indisponible",
+    unavailableHint: "Vente sans TVA ni date de paiement enregistrées (données de démonstration) : aucun document possible.",
+
+    errors: {
+      notAvailable: "Aucun document possible pour cette vente : la TVA ou la date de paiement n'ont pas été enregistrées.",
+      creditNoteNotAvailable: "Note de crédit impossible : cette vente n'a pas de facture ou n'a pas été remboursée.",
+      legalAddressMissing: "Ajoutez l'adresse légale de votre entreprise dans l'espace partenaire, puis réessayez.",
+      notFound: "Vente introuvable.",
+      generic: "Impossible de télécharger le document."
+    }
   }
 };

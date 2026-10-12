@@ -159,6 +159,9 @@ public class ReservationCheckoutService {
                 .setSuccessUrl(frontendUrl + "/payment/success?type=reservation&session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl(frontendUrl + "/payment/cancel?type=reservation&session_id={CHECKOUT_SESSION_ID}")
                 .setExpiresAt(Instant.now().plusSeconds(checkoutExpirationMinutes * 60L).getEpochSecond())
+                // Adresse obligatoire : elle est figée sur la réservation au paiement (webhook)
+                // et permet au partenaire d'émettre une vraie facture.
+                .setBillingAddressCollection(SessionCreateParams.BillingAddressCollection.REQUIRED)
                 .putMetadata("userEmail", userEmail)
                 .putMetadata("reservationId", savedReservation.getId().toString())
                 .putMetadata("partnerId", partner.getId().toString())

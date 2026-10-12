@@ -94,6 +94,18 @@ private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.cl
                         "code", RefundNotAvailableException.CODE));
     }
 
+    // Justificatif refusé : vente sans TVA figée, ou siège du partenaire manquant.
+    // Le code indique au front lequel des deux messages traduits afficher.
+    @ExceptionHandler(ReceiptNotAvailableException.class)
+    public ResponseEntity<Map<String, String>> handleReceiptNotAvailable(
+            ReceiptNotAvailableException exception) {
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "error", exception.getMessage(),
+                        "code", exception.getCode()));
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
         public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(
                 DataIntegrityViolationException exception) {

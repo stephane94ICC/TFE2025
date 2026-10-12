@@ -88,6 +88,23 @@ public class Reservation {
     @Column(name = "billing_email", nullable = false)
     private String billingEmail;
 
+    // Adresse de facturation figée au paiement (V18_1), fournie par Stripe Checkout.
+    // NULL pour les ventes antérieures : elles ne reçoivent qu'un justificatif, pas une facture.
+    @Column(name = "billing_address_line1")
+    private String billingAddressLine1;
+
+    @Column(name = "billing_address_line2")
+    private String billingAddressLine2;
+
+    @Column(name = "billing_postal_code", length = 20)
+    private String billingPostalCode;
+
+    @Column(name = "billing_city", length = 100)
+    private String billingCity;
+
+    @Column(name = "billing_country", length = 2)
+    private String billingCountry;
+
     @PrePersist
     public void prePersist() {
         if (this.bookedAt == null) {

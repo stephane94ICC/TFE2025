@@ -68,6 +68,14 @@
         </router-link>
 
         <router-link
+            v-if="isPartner"
+            to="/partner/sales"
+            class="nav-link"
+        >
+          {{ $t("navbar.mySales") }}
+        </router-link>
+
+        <router-link
             v-if="isAdmin"
             to="/admin"
             class="nav-link"

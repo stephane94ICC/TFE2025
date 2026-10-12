@@ -8,6 +8,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ReservationStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.OrderRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.util.StripeBillingAddress;
 import com.stripe.exception.EventDataObjectDeserializationException;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
@@ -188,6 +189,8 @@ public class StripeWebhookService {
         reservation.setConfirmedAt(LocalDateTime.now());
         // Indispensable pour pouvoir rembourser : Stripe rembourse un payment intent.
         reservation.setStripePaymentIntentId(session.getPaymentIntent());
+        // Adresse saisie dans Stripe Checkout, figée comme le nom et l'e-mail de facturation.
+        StripeBillingAddress.copyTo(reservation, session.getCustomerDetails());
         reservationRepository.save(reservation);
 
         logSystemEvent(

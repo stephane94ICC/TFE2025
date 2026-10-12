@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.repository;
 
+import be.loisirs.tfe2025.plateforme_loisirs.entity.DocumentType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Reservation;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,23 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("status") ReservationStatus status,
             @Param("now") LocalDateTime now
     );
+
+
+    @Query("SELECT r FROM Reservation r " +
+            "JOIN FETCH r.session s " +
+            "JOIN FETCH s.activity a " +
+            "WHERE a.partner.user.email = :email " +
+            "AND (r.status = :confirmed " +
+            "     OR (r.refundedAt IS NOT NULL AND EXISTS (" +
+            "         SELECT d.id FROM PartnerDocument d " +
+            "         WHERE d.reservation = r AND d.documentType = :invoice))) " +
+            "ORDER BY r.bookedAt DESC, r.id DESC")
+    List<Reservation> findPartnerSales(
+            @Param("email") String email,
+            @Param("confirmed") ReservationStatus confirmed,
+            @Param("invoice") DocumentType invoice
+    );
+
+
+    Optional<Reservation> findByIdAndSession_Activity_Partner_User_Email(Long id, String email);
 }

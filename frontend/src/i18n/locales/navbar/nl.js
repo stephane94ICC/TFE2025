@@ -11,6 +11,7 @@ export default {
   partnerSpace: "Partneromgeving",
   myActivities: "Mijn activiteiten",
   myLocations: "Mijn locaties",
+  mySales: "Mijn verkopen",
   adminActivities: "Activiteiten",
   login: "Aanmelden",
   register: "Registreren",

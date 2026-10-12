@@ -6,6 +6,7 @@ const ADDRESSES_API_URL = "/api/partner/addresses";
 const ACTIVITIES_API_URL = "/api/partner/activities";
 const LOCATIONS_API_URL = "/api/partner/locations";
 const PAYMENT_ACCOUNT_API_URL = "/api/partner/payment-account";
+const RESERVATIONS_API_URL = "/api/partner/reservations";
 
 function getAuthHeaders() {
   const token = AuthService.getToken();
@@ -127,4 +128,24 @@ export function createPartnerOnboardingLink() {
     null,
     getAuthHeaders()
   );
+}
+
+export function getPartnerSales() {
+  return axios.get(RESERVATIONS_API_URL, getAuthHeaders());
+}
+
+export function downloadPartnerReceipt(reservationId, lang) {
+  return axios.get(`${RESERVATIONS_API_URL}/${reservationId}/receipt`, {
+    ...getAuthHeaders(),
+    params: { lang },
+    responseType: "blob"
+  });
+}
+
+export function downloadPartnerCreditNote(reservationId, lang) {
+  return axios.get(`${RESERVATIONS_API_URL}/${reservationId}/credit-note`, {
+    ...getAuthHeaders(),
+    params: { lang },
+    responseType: "blob"
+  });
 }

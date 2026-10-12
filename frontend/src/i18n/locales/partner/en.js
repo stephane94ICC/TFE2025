@@ -285,5 +285,40 @@ export default {
       PENDING_VERIFICATION: "Stripe is verifying your information. Your activities can be booked as soon as the verification is complete.",
       ACTIVE: "Your account is active: the payment of each booking is transferred to you, minus the platform commission."
     }
+  },
+
+  sales: {
+    title: "My sales",
+    subtitle: "Paid reservations for your activities. Download the invoice or payment receipt for each sale, and the credit note if it was refunded.",
+    loading: "Loading sales...",
+    loadError: "Unable to load your sales.",
+    empty: "No sales yet.",
+
+    reference: "Reference",
+    activity: "Activity",
+    session: "Time slot",
+    customer: "Customer",
+    places: "Places",
+    total: "Total",
+    paidAt: "Paid on",
+    document: "Document",
+
+    refunded: "Refunded",
+    refundedHint: "Reservation cancelled and refunded to the customer: the credit note cancels the invoice.",
+
+    invoice: "Invoice",
+    receipt: "Receipt",
+    creditNote: "Credit note",
+    downloading: "Downloading...",
+    unavailable: "Unavailable",
+    unavailableHint: "Sale without recorded VAT or payment date (demo data): no document possible.",
+
+    errors: {
+      notAvailable: "No document possible for this sale: the VAT or the payment date was not recorded.",
+      creditNoteNotAvailable: "No credit note possible: this sale has no invoice or was not refunded.",
+      legalAddressMissing: "Add your company's registered office in the partner area, then try again.",
+      notFound: "Sale not found.",
+      generic: "Unable to download the document."
+    }
   }
 };

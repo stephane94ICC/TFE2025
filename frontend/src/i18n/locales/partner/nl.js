@@ -285,5 +285,40 @@ export default {
       PENDING_VERIFICATION: "Stripe controleert uw gegevens. Uw activiteiten kunnen worden gereserveerd zodra de verificatie is afgerond.",
       ACTIVE: "Uw account is actief: de betaling van elke reservering wordt aan u overgemaakt, na aftrek van de commissie van het platform."
     }
+  },
+
+  sales: {
+    title: "Mijn verkopen",
+    subtitle: "Betaalde reservaties van uw activiteiten. Download de factuur of het betalingsbewijs van elke verkoop, en de creditnota bij een terugbetaling.",
+    loading: "Verkopen laden...",
+    loadError: "Uw verkopen konden niet worden geladen.",
+    empty: "Nog geen verkopen.",
+
+    reference: "Referentie",
+    activity: "Activiteit",
+    session: "Tijdslot",
+    customer: "Klant",
+    places: "Plaatsen",
+    total: "Totaal",
+    paidAt: "Betaald op",
+    document: "Document",
+
+    refunded: "Terugbetaald",
+    refundedHint: "Geannuleerde en aan de klant terugbetaalde reservatie: de creditnota annuleert de factuur.",
+
+    invoice: "Factuur",
+    receipt: "Betalingsbewijs",
+    creditNote: "Creditnota",
+    downloading: "Downloaden...",
+    unavailable: "Niet beschikbaar",
+    unavailableHint: "Verkoop zonder geregistreerde btw of betaaldatum (demonstratiegegevens): geen document mogelijk.",
+
+    errors: {
+      notAvailable: "Geen document mogelijk voor deze verkoop: de btw of de betaaldatum werd niet geregistreerd.",
+      creditNoteNotAvailable: "Geen creditnota mogelijk: deze verkoop heeft geen factuur of werd niet terugbetaald.",
+      legalAddressMissing: "Voeg de maatschappelijke zetel van uw onderneming toe in de partneromgeving en probeer het opnieuw.",
+      notFound: "Verkoop niet gevonden.",
+      generic: "Het document kon niet worden gedownload."
+    }
   }
 };

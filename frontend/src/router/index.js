@@ -34,6 +34,7 @@ import AdminActivityImagesPage from "../pages/admin/AdminActivityImagesPage.vue"
 
 import AdminActivityLogsPage from "../pages/admin/AdminActivityLogsPage.vue";
 import AdminPartnersPage from "../pages/admin/AdminPartnersPage.vue";
+import PartnerSalesPage from "@/pages/partner/PartnerSalesPage.vue";
 
 const routes = [
     {
@@ -130,6 +131,15 @@ const routes = [
         path: "/partner/locations",
         name: "PartnerLocations",
         component: PartnerLocationsPage,
+        meta: {
+            requiresAuth: true,
+            roles: ["PARTNER"]
+        }
+    },
+    {
+        path: "/partner/sales",
+        name: "PartnerSales",
+        component: PartnerSalesPage,
         meta: {
             requiresAuth: true,
             roles: ["PARTNER"]
