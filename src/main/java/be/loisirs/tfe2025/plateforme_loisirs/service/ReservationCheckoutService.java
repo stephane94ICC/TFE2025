@@ -18,6 +18,8 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.util.CommissionCalculator;
 import be.loisirs.tfe2025.plateforme_loisirs.util.CommissionCalculator.CommissionBreakdown;
+import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator;
+import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator.FeeBreakdown;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
@@ -48,6 +50,8 @@ public class ReservationCheckoutService {
     private final String stripeSecretKey;
     private final String frontendUrl;
     private final long checkoutExpirationMinutes;
+    private final BigDecimal feeMaxPercent;
+    private final BigDecimal feeMaxFixed;
 
     public ReservationCheckoutService(
             UserRepository userRepository,
@@ -57,7 +61,9 @@ public class ReservationCheckoutService {
             StripeConnectService stripeConnectService,
             @Value("${stripe.secret-key}") String stripeSecretKey,
             @Value("${app.frontend-url}") String frontendUrl,
-            @Value("${stripe.checkout-expiration-minutes}") long checkoutExpirationMinutes
+            @Value("${stripe.checkout-expiration-minutes}") long checkoutExpirationMinutes,
+            @Value("${stripe.fee.max-percent}") BigDecimal feeMaxPercent,
+            @Value("${stripe.fee.max-fixed}") BigDecimal feeMaxFixed
     ) {
         this.userRepository = userRepository;
         this.activitySessionRepository = activitySessionRepository;
@@ -67,6 +73,8 @@ public class ReservationCheckoutService {
         this.stripeSecretKey = stripeSecretKey;
         this.frontendUrl = frontendUrl;
         this.checkoutExpirationMinutes = checkoutExpirationMinutes;
+        this.feeMaxPercent = feeMaxPercent;
+        this.feeMaxFixed = feeMaxFixed;
     }
 
     @Transactional
@@ -133,6 +141,18 @@ public class ReservationCheckoutService {
                 partner.getCommissionRate()
         );
 
+        // Frais Stripe à la charge du partenaire. La carte du client est encore inconnue :
+        // la plateforme retient d'abord les frais maximaux, puis le webhook les remplace
+        // par les frais réels et rend la différence au partenaire.
+        FeeBreakdown maxFee = PaymentFeeCalculator.withVat(
+                PaymentFeeCalculator.maxFee(totalPrice, feeMaxPercent, feeMaxFixed));
+        BigDecimal retention = commission.commissionTotal().add(maxFee.total());
+
+        // Stripe refuse une retenue égale ou supérieure au paiement.
+        if (retention.compareTo(totalPrice) >= 0) {
+            throw new IllegalArgumentException("Montant trop faible pour un paiement en ligne.");
+        }
+
         Reservation reservation = new Reservation();
         reservation.setUser(user);
         reservation.setSession(session);
@@ -142,6 +162,8 @@ public class ReservationCheckoutService {
         reservation.setCommissionRate(commission.commissionRate());
         reservation.setCommissionHtva(commission.commissionHtva());
         reservation.setCommissionVat(commission.commissionVat());
+        reservation.setPaymentFeeHtva(maxFee.feeHtva());
+        reservation.setPaymentFeeVat(maxFee.feeVat());
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setReference("TEMP-" + UUID.randomUUID());
         reservation.setBillingFirstName(user.getFirstName());
@@ -166,9 +188,11 @@ public class ReservationCheckoutService {
                 .putMetadata("reservationId", savedReservation.getId().toString())
                 .putMetadata("partnerId", partner.getId().toString())
 
+                // Retenue de la plateforme : commission + frais maximaux, TVA comprise.
+                // Le reste est viré au partenaire (destination charge).
                 .setPaymentIntentData(
                         SessionCreateParams.PaymentIntentData.builder()
-                                .setApplicationFeeAmount(toStripeAmount(commission.commissionTotal()))
+                                .setApplicationFeeAmount(toStripeAmount(retention))
                                 .setOnBehalfOf(partner.getStripeAccountId())
                                 .setTransferData(
                                         SessionCreateParams.PaymentIntentData.TransferData.builder()
@@ -212,6 +236,7 @@ public class ReservationCheckoutService {
                             + " - " + request.getQuantity() + " place(s)"
                             + " - " + totalPrice + " EUR"
                             + " - commission " + commission.commissionTotal() + " EUR TVAC"
+                            + " - frais de paiement max " + maxFee.total() + " EUR TVAC"
                             + " - en attente de paiement"
             );
 

@@ -52,6 +52,15 @@ public class Reservation {
     @Column(name = "commission_vat", precision = 10, scale = 2)
     private BigDecimal commissionVat;
 
+    // Frais de paiement Stripe à la charge du partenaire, TVA de la plateforme à part (V19_1).
+    // Au paiement : frais maximaux, provisoires. À la confirmation : frais réels lus chez Stripe.
+    // Les deux sont NULL ensemble pour les ventes antérieures à ce calcul.
+    @Column(name = "payment_fee_htva", precision = 10, scale = 2)
+    private BigDecimal paymentFeeHtva;
+
+    @Column(name = "payment_fee_vat", precision = 10, scale = 2)
+    private BigDecimal paymentFeeVat;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status = ReservationStatus.PENDING;

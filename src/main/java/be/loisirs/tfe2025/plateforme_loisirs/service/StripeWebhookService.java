@@ -8,6 +8,9 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.ReservationStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.OrderRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.service.StripePaymentFeeService.PaymentFees;
+import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator;
+import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator.FeeAdjustment;
 import be.loisirs.tfe2025.plateforme_loisirs.util.StripeBillingAddress;
 import com.stripe.exception.EventDataObjectDeserializationException;
 import com.stripe.exception.SignatureVerificationException;
@@ -22,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
@@ -37,6 +41,7 @@ public class StripeWebhookService {
     private final ReservationRepository reservationRepository;
     private final StripeCheckoutService stripeCheckoutService;
     private final ActivityLogService activityLogService;
+    private final StripePaymentFeeService stripePaymentFeeService;
     private final String stripeWebhookSecret;
 
     public StripeWebhookService(
@@ -44,12 +49,14 @@ public class StripeWebhookService {
             ReservationRepository reservationRepository,
             StripeCheckoutService stripeCheckoutService,
             ActivityLogService activityLogService,
+            StripePaymentFeeService stripePaymentFeeService,
             @Value("${stripe.webhook-secret}") String stripeWebhookSecret
     ) {
         this.orderRepository = orderRepository;
         this.reservationRepository = reservationRepository;
         this.stripeCheckoutService = stripeCheckoutService;
         this.activityLogService = activityLogService;
+        this.stripePaymentFeeService = stripePaymentFeeService;
         this.stripeWebhookSecret = stripeWebhookSecret;
     }
 
@@ -191,6 +198,7 @@ public class StripeWebhookService {
         reservation.setStripePaymentIntentId(session.getPaymentIntent());
         // Adresse saisie dans Stripe Checkout, figée comme le nom et l'e-mail de facturation.
         StripeBillingAddress.copyTo(reservation, session.getCustomerDetails());
+        adjustPaymentFee(reservation, session.getPaymentIntent());
         reservationRepository.save(reservation);
 
         logSystemEvent(
@@ -202,8 +210,61 @@ public class StripeWebhookService {
                         + " - " + reservation.getSession().getActivity().getTitle()
                         + " - " + reservation.getQuantity() + " place(s)"
                         + " - " + reservation.getTotalPrice() + " EUR"
+                        + paymentFeeDetails(reservation)
                         + " - paiement confirmé"
         );
+    }
+
+    /*
+     * Au paiement, la retenue de la plateforme contenait les frais maximaux : la carte du
+     * client était inconnue. On lit maintenant les frais réels chez Stripe et on rend la
+     * différence au partenaire.
+     *
+     * Si Stripe ne répond pas, l'exception annule toute la confirmation, et Stripe renverra
+     * l'événement plus tard. La différence est calculée sur ce que la plateforme retient
+     * encore : un renvoi ne rend donc jamais deux fois.
+     */
+    private void adjustPaymentFee(Reservation reservation, String paymentIntentId) {
+        // Vente créée avant le calcul des frais : sa retenue ne contient que la commission.
+        if (reservation.getPaymentFeeHtva() == null || paymentIntentId == null) {
+            return;
+        }
+
+        Optional<PaymentFees> fees = stripePaymentFeeService.findFees(paymentIntentId);
+
+        if (fees.isEmpty()) {
+            log.warn("Frais réels indisponibles pour la réservation {} : frais maximaux conservés.",
+                    reservation.getReference());
+            return;
+        }
+
+        FeeAdjustment adjustment = PaymentFeeCalculator.adjust(
+                fees.get().currentRetention(),
+                reservation.getCommissionHtva().add(reservation.getCommissionVat()),
+                reservation.getPaymentFeeHtva(),
+                fees.get().stripeFee()
+        );
+
+        if (adjustment.amountToReturn().signum() > 0) {
+            stripePaymentFeeService.returnToPartner(
+                    fees.get().applicationFeeId(),
+                    adjustment.amountToReturn(),
+                    "fee-adjustment-res-" + reservation.getId()
+            );
+        }
+
+        reservation.setPaymentFeeHtva(adjustment.partnerFee().feeHtva());
+        reservation.setPaymentFeeVat(adjustment.partnerFee().feeVat());
+    }
+
+    private String paymentFeeDetails(Reservation reservation) {
+        if (reservation.getPaymentFeeHtva() == null) {
+            return "";
+        }
+
+        BigDecimal total = reservation.getPaymentFeeHtva().add(reservation.getPaymentFeeVat());
+
+        return " - frais de paiement " + total + " EUR TVAC";
     }
 
     /*
