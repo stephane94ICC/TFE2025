@@ -283,7 +283,7 @@ export default {
       NOT_CREATED: "Votre compte de paiement n'a pas encore été créé par l'administrateur. Vos activités ne peuvent pas encore être réservées en ligne.",
       INCOMPLETE: "Terminez votre inscription auprès de Stripe pour recevoir les paiements de vos réservations. Vos informations bancaires sont transmises directement à Stripe, jamais à Bel'Loisirs.",
       PENDING_VERIFICATION: "Stripe vérifie vos informations. Vos activités pourront être réservées dès la fin de la vérification.",
-      ACTIVE: "Votre compte est actif : le paiement de chaque réservation vous est versé, commission de la plateforme déduite."
+      ACTIVE: "Votre compte est actif : le paiement de chaque réservation vous est versé, déduction faite de la commission de la plateforme et des frais de paiement Stripe (facturés avec 21 % de TVA). Si une réservation est annulée et remboursée, la commission vous est rendue ; les frais de paiement restent à votre charge."
     }
   },
 

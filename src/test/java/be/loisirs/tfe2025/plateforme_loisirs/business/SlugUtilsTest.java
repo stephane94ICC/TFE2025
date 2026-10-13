@@ -1,5 +1,7 @@
-package be.loisirs.tfe2025.plateforme_loisirs.util;
+package be.loisirs.tfe2025.plateforme_loisirs.business;
 
+import be.loisirs.tfe2025.plateforme_loisirs.util.SlugUtils;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +29,7 @@ class SlugUtilsTest {
             "Bruxelles Yoga Studio      | bruxelles-yoga-studio"
     })
     void slugifiesReadableNames(String name, String expected) {
-        assertThat(SlugUtils.slugify(name)).isEqualTo(expected);
+        Assertions.assertThat( SlugUtils.slugify(name)).isEqualTo(expected);
     }
 
     @ParameterizedTest(name = "[{0}] → \"partenaire\"")

@@ -1,5 +1,6 @@
-package be.loisirs.tfe2025.plateforme_loisirs;
+package be.loisirs.tfe2025.plateforme_loisirs.security;
 
+import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityLog;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivityLogRepository;

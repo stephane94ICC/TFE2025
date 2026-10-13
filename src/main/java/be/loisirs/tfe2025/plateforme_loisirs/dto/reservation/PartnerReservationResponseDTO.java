@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,7 +26,6 @@ public class PartnerReservationResponseDTO {
     private Integer quantity;
     private BigDecimal totalPrice;
     private LocalDateTime paidAt;
-    private boolean receiptAvailable;
 
     /** INVOICE, RECEIPT, ou null si aucun document n'est possible (ventes de démonstration). */
     private String documentType;

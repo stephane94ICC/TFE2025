@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs;
+package be.loisirs.tfe2025.plateforme_loisirs.common;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

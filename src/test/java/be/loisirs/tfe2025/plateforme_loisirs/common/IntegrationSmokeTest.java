@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs;
+package be.loisirs.tfe2025.plateforme_loisirs.common;
 
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import org.junit.jupiter.api.DisplayName;

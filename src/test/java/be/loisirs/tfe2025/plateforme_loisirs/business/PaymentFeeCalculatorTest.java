@@ -1,7 +1,9 @@
-package be.loisirs.tfe2025.plateforme_loisirs.util;
+package be.loisirs.tfe2025.plateforme_loisirs.business;
 
+import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator;
 import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator.FeeAdjustment;
 import be.loisirs.tfe2025.plateforme_loisirs.util.PaymentFeeCalculator.FeeBreakdown;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +43,7 @@ class PaymentFeeCalculatorTest {
     @Test
     @DisplayName("18 € à 3,15 % + 0,25 € → 0,82 € (0,817 arrondi au cent)")
     void maxFeeOfTestSale() {
-        assertThat(PaymentFeeCalculator.maxFee(bd("18.00"), MAX_PERCENT, MAX_FIXED)).isEqualTo(MAX_FEE);
+        Assertions.assertThat( PaymentFeeCalculator.maxFee(bd("18.00"), MAX_PERCENT, MAX_FIXED)).isEqualTo(MAX_FEE);
     }
 
     @Test
@@ -106,21 +108,23 @@ class PaymentFeeCalculatorTest {
     // ---------- Remboursement de la réservation ----------
 
     @Test
-    @DisplayName("Remboursement : la plateforme rend sa commission (0,90 €), les frais restent au partenaire")
+    @DisplayName("Remboursement : la plateforme garde les frais (0,63 €) et rend sa commission (0,90 €)")
     void refundReturnsCommissionOnly() {
-        assertThat(PaymentFeeCalculator.commissionToReturn(bd("1.53"), COMMISSION_TOTAL)).isEqualTo(bd("0.90"));
+        // Retenue après l'ajustement d'une carte belge : 1,89 - 0,36 = 1,53 €.
+        assertThat(PaymentFeeCalculator.amountToReturnOnRefund(bd("1.53"), bd("0.63"))).isEqualTo(bd("0.90"));
     }
 
     @Test
-    @DisplayName("Vente antérieure aux frais (retenue = commission) : toute la retenue est rendue, comme avant")
+    @DisplayName("Vente antérieure aux frais (frais du partenaire à zéro) : toute la retenue est rendue, comme avant")
     void refundOfOlderSaleReturnsWholeRetention() {
-        assertThat(PaymentFeeCalculator.commissionToReturn(COMMISSION_TOTAL, COMMISSION_TOTAL)).isEqualTo(bd("0.90"));
+        assertThat(PaymentFeeCalculator.amountToReturnOnRefund(COMMISSION_TOTAL, bd("0.00"))).isEqualTo(bd("0.90"));
     }
 
     @Test
-    @DisplayName("Remboursement : jamais plus que ce qui est encore retenu")
-    void neverReturnsMoreThanRetained() {
-        assertThat(PaymentFeeCalculator.commissionToReturn(bd("0.40"), COMMISSION_TOTAL)).isEqualTo(bd("0.40"));
+    @DisplayName("Seconde tentative de remboursement : la commission déjà rendue ne l'est pas une seconde fois")
+    void secondRefundAttemptReturnsNothing() {
+        // La commission a déjà été rendue : il ne reste que les frais du partenaire.
+        assertThat(PaymentFeeCalculator.amountToReturnOnRefund(bd("0.63"), bd("0.63"))).isEqualTo(bd("0.00"));
     }
 
     // ---------- Refus ----------
@@ -136,7 +140,7 @@ class PaymentFeeCalculatorTest {
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> PaymentFeeCalculator.adjust(RETENTION, COMMISSION_TOTAL, MAX_FEE, null))
                 .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> PaymentFeeCalculator.commissionToReturn(bd("-0.01"), COMMISSION_TOTAL))
+        assertThatThrownBy(() -> PaymentFeeCalculator.amountToReturnOnRefund(bd("-0.01"), bd("0.63")))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

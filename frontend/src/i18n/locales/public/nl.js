@@ -216,7 +216,7 @@ export default {
     identityTitle: "Doel en identiteit",
     identityText: "Bel'Loisirs is een toepassing die werd ontwikkeld als eindwerk bedrijfsinformatica aan het Institut des Carrières Commerciales (ICC), Brussel. Er vinden geen echte verkopen plaats: betalingen gebeuren in testmodus.",
     rolesTitle: "Rol van elke partij",
-    rolesActivities: "De activiteiten worden aangeboden en verkocht door de partners. Bel'Loisirs treedt op als tussenpersoon: het platform int de betaling voor rekening van de partner en ontvangt een commissie op elke reservatie.",
+    rolesActivities: "De activiteiten worden aangeboden en verkocht door de partners. Bel'Loisirs treedt op als tussenpersoon: het platform int de betaling voor rekening van de partner en ontvangt een commissie op elke reservatie. De Stripe-betalingskosten zijn voor rekening van de partner: ze veranderen niets aan de prijs die de klant betaalt.",
     rolesProducts: "De artikelen in de shop worden rechtstreeks door Bel'Loisirs verkocht.",
     pricesTitle: "Prijzen",
     pricesText: "De prijzen worden vermeld in euro, alle taksen inbegrepen (Belgische btw inbegrepen). De betaalde prijs is de prijs die op het moment van de bestelling wordt getoond.",
@@ -232,7 +232,7 @@ export default {
     productsRefund: "De terugbetaling gebeurt binnen 14 dagen na uw verzoek. Ze kan worden uitgesteld tot de ontvangst van het artikel of tot het bewijs van de terugzending.",
     contactTitle: "Contact en klachten",
     contactText: "Voor vragen of klachten: contact{'@'}belloisirs.example (fictief adres — eindwerk). Op deze voorwaarden is het Belgisch recht van toepassing.",
-    lastUpdate: "Laatst bijgewerkt: 3 oktober 2026",
+    lastUpdate: "Laatst bijgewerkt: 13 oktober 2026",
     paymentNotice: "Door te betalen, aanvaardt u onze",
     termsLink: "algemene voorwaarden"
   },

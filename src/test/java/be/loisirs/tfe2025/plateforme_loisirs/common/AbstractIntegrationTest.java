@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs;
+package be.loisirs.tfe2025.plateforme_loisirs.common;
 
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySession;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
@@ -10,6 +10,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivitySessionRepositor
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.service.StripePaymentFeeService;
 import be.loisirs.tfe2025.plateforme_loisirs.service.StripeRefundService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,12 +81,21 @@ public abstract class AbstractIntegrationTest {
     protected StripeRefundService stripeRefundService;
 
     /**
+     * Faux composant des frais de paiement, pour la meme raison : aucun appel
+     * a Stripe, et un seul contexte Spring pour toutes les classes.
+     * Sans reglage, il ne trouve aucun frais (Optional vide) : la confirmation
+     * d'un paiement garde alors les frais maximaux.
+     */
+    @MockitoBean
+    protected StripePaymentFeeService stripePaymentFeeService;
+
+    /**
      * Par defaut, le remboursement reussit et renvoie un identifiant unique
      * (stripe_refund_id est UNIQUE en base).
      */
     @BeforeEach
     void stubRefundSucceeds() {
-        when(stripeRefundService.refund(anyString(), anyLong(), anyBoolean()))
+        when(stripeRefundService.refund(anyString(), anyLong(), anyBoolean(), anyBoolean()))
                 .thenAnswer(invocation -> "re_test_" + UUID.randomUUID());
     }
 

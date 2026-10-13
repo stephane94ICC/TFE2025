@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs.service;
+package be.loisirs.tfe2025.plateforme_loisirs.security;
 
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.TooManyLoginAttemptsException;
@@ -9,6 +9,10 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.service.ActivityLogService;
+import be.loisirs.tfe2025.plateforme_loisirs.service.AuthService;
+import be.loisirs.tfe2025.plateforme_loisirs.service.JwtService;
+import be.loisirs.tfe2025.plateforme_loisirs.service.LoginAttemptLimiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package be.loisirs.tfe2025.plateforme_loisirs.service;
+package be.loisirs.tfe2025.plateforme_loisirs.rgpd;
 
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.user.AccountDeletionRequestDTO;
@@ -8,6 +8,9 @@ import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.service.ActivityLogService;
+import be.loisirs.tfe2025.plateforme_loisirs.service.ImageStorageService;
+import be.loisirs.tfe2025.plateforme_loisirs.service.MemberProfileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -283,7 +283,7 @@ export default {
       NOT_CREATED: "Your payment account has not been created by the administrator yet. Your activities cannot be booked online yet.",
       INCOMPLETE: "Complete your Stripe registration to receive payments for your bookings. Your banking details go directly to Stripe, never to Bel'Loisirs.",
       PENDING_VERIFICATION: "Stripe is verifying your information. Your activities can be booked as soon as the verification is complete.",
-      ACTIVE: "Your account is active: the payment of each booking is transferred to you, minus the platform commission."
+      ACTIVE: "Your account is active: the payment of each booking is transferred to you, minus the platform commission and the Stripe payment fees (invoiced with 21% VAT). If a booking is cancelled and refunded, the commission is returned to you; the payment fees remain payable by you."
     }
   },
 

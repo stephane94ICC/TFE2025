@@ -1,6 +1,7 @@
-package be.loisirs.tfe2025.plateforme_loisirs;
+package be.loisirs.tfe2025.plateforme_loisirs.business;
 
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.ReceiptNotAvailableException;
+import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySession;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.AddressType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.DocumentType;
@@ -31,8 +32,10 @@ import java.time.ZoneId;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -142,7 +145,7 @@ class PartnerReservationIntegrationTest extends AbstractIntegrationTest {
         mockMvc.perform(get(SALES_URL)
                         .header(HttpHeaders.AUTHORIZATION, bearer(token)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(sale(reservation) + ".receiptAvailable").value(false));
+                .andExpect(jsonPath(sale(reservation) + ".documentType").value(contains(nullValue())));
 
         // Comme une vente payée en ligne : taux figé au paiement.
         reservation.setVatRate(new BigDecimal("21.00"));
@@ -151,7 +154,7 @@ class PartnerReservationIntegrationTest extends AbstractIntegrationTest {
         mockMvc.perform(get(SALES_URL)
                         .header(HttpHeaders.AUTHORIZATION, bearer(token)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(sale(reservation) + ".receiptAvailable").value(true));
+                .andExpect(jsonPath(sale(reservation) + ".documentType").value("RECEIPT"));
     }
 
     @Test

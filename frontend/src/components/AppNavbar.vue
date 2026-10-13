@@ -52,30 +52,6 @@
         </router-link>
 
         <router-link
-            v-if="isPartner"
-            to="/partner/activities"
-            class="nav-link"
-        >
-          {{ $t("navbar.myActivities") }}
-        </router-link>
-
-        <router-link
-            v-if="isPartner"
-            to="/partner/locations"
-            class="nav-link"
-        >
-          {{ $t("navbar.myLocations") }}
-        </router-link>
-
-        <router-link
-            v-if="isPartner"
-            to="/partner/sales"
-            class="nav-link"
-        >
-          {{ $t("navbar.mySales") }}
-        </router-link>
-
-        <router-link
             v-if="isAdmin"
             to="/admin"
             class="nav-link"
@@ -143,6 +119,29 @@
               </button>
             </template>
           </div>
+
+          <!-- Pages du partenaire : dans le menu, pour que la barre tienne sur une ligne. -->
+          <template v-if="isPartner">
+            <div class="menu-divider"></div>
+
+            <div class="menu-section">
+              <span class="menu-section-title">
+                {{ $t("navbar.partnerSpace") }}
+              </span>
+
+              <router-link to="/partner/activities" class="account-menu-link">
+                {{ $t("navbar.myActivities") }}
+              </router-link>
+
+              <router-link to="/partner/locations" class="account-menu-link">
+                {{ $t("navbar.myLocations") }}
+              </router-link>
+
+              <router-link to="/partner/sales" class="account-menu-link">
+                {{ $t("navbar.mySales") }}
+              </router-link>
+            </div>
+          </template>
 
           <div class="menu-divider"></div>
 

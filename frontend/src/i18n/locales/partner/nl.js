@@ -283,7 +283,7 @@ export default {
       NOT_CREATED: "Uw betaalaccount is nog niet aangemaakt door de beheerder. Uw activiteiten kunnen nog niet online worden gereserveerd.",
       INCOMPLETE: "Voltooi uw registratie bij Stripe om de betalingen van uw reserveringen te ontvangen. Uw bankgegevens gaan rechtstreeks naar Stripe, nooit naar Bel'Loisirs.",
       PENDING_VERIFICATION: "Stripe controleert uw gegevens. Uw activiteiten kunnen worden gereserveerd zodra de verificatie is afgerond.",
-      ACTIVE: "Uw account is actief: de betaling van elke reservering wordt aan u overgemaakt, na aftrek van de commissie van het platform."
+      ACTIVE: "Uw account is actief: de betaling van elke reservering wordt aan u overgemaakt, na aftrek van de commissie van het platform en de Stripe-betalingskosten (gefactureerd met 21 % btw). Wordt een reservering geannuleerd en terugbetaald, dan krijgt u de commissie terug; de betalingskosten blijven voor uw rekening."
     }
   },
 

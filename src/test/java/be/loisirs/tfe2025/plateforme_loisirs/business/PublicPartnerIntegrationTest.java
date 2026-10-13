@@ -1,5 +1,6 @@
-package be.loisirs.tfe2025.plateforme_loisirs;
+package be.loisirs.tfe2025.plateforme_loisirs.business;
 
+import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Partner;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.PartnerRepository;
 import org.junit.jupiter.api.DisplayName;

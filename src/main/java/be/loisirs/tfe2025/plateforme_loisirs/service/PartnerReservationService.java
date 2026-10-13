@@ -28,12 +28,6 @@ public class PartnerReservationService {
         this.documentRepository = documentRepository;
     }
 
-    /**
-     * Ventes confirmées des activités du partenaire, et ventes remboursées qui ont une
-     * facture (à annuler par une note de crédit), la plus récente d'abord.
-     * Le partenaire est identifié par son jeton (Principal), jamais par un paramètre
-     * de la requête : impossible de demander les ventes d'un autre.
-     */
     @Transactional(readOnly = true)
     public List<PartnerReservationResponseDTO> getSales(String partnerEmail) {
         List<Reservation> sales = reservationRepository
@@ -53,7 +47,11 @@ public class PartnerReservationService {
                 .toList();
     }
 
-
+    /**
+     * Un document de vente n'est possible que pour une vente payée en ligne, dont la TVA
+     * et la date de paiement sont figées. Les réservations du jeu de démonstration,
+     * antérieures à ces colonnes, n'en ont pas : aucun document chiffré sans taux figé.
+     */
     public static boolean isReceiptAvailable(Reservation reservation) {
         return reservation.getStatus() == ReservationStatus.CONFIRMED
                 && reservation.getVatRate() != null
@@ -90,7 +88,6 @@ public class PartnerReservationService {
         dto.setTotalPrice(reservation.getTotalPrice());
         dto.setPaidAt(reservation.getConfirmedAt());
         dto.setStatus(reservation.getStatus().name());
-        dto.setReceiptAvailable(invoiced || isReceiptAvailable(reservation));
 
         // Une facture émise reste téléchargeable, même après le remboursement.
         if (invoiced || isInvoiceAvailable(reservation)) {

@@ -67,11 +67,14 @@ public final class PaymentFeeCalculator {
     }
 
 
-    public static BigDecimal commissionToReturn(BigDecimal currentRetention, BigDecimal commissionTotal) {
+    public static BigDecimal amountToReturnOnRefund(BigDecimal currentRetention, BigDecimal partnerFeeTotal) {
         requireAmount(currentRetention, "retenue");
-        requireAmount(commissionTotal, "commission");
+        requireAmount(partnerFeeTotal, "frais du partenaire");
 
-        return commissionTotal.min(currentRetention).setScale(SCALE, ROUNDING);
+        return currentRetention
+                .subtract(partnerFeeTotal)
+                .max(BigDecimal.ZERO)
+                .setScale(SCALE, ROUNDING);
     }
 
     private static void requireAmount(BigDecimal amount, String label) {

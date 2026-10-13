@@ -21,7 +21,20 @@ public class StripeRefundService {
         this.stripeSecretKey = stripeSecretKey;
     }
 
-    public String refund(String paymentIntentId, Long reservationId, boolean connectSale) {
+    /**
+     * Rembourse le client en entier.
+     *
+     * @param connectSale          paiement partagé avec un partenaire : le virement qui lui
+     *                             a été fait est repris (reverse_transfer)
+     * @param refundApplicationFee Stripe rend aussi au partenaire toute la retenue de la
+     *                             plateforme. Faux d'ordinaire : la plateforme ne lui rend que
+     *                             sa commission (MemberReservationService), les frais de
+     *                             paiement restent à sa charge.
+     */
+    public String refund(String paymentIntentId,
+                         Long reservationId,
+                         boolean connectSale,
+                         boolean refundApplicationFee) {
         try {
             Stripe.apiKey = stripeSecretKey;
 
@@ -31,7 +44,7 @@ public class StripeRefundService {
 
             if (connectSale) {
                 params.setReverseTransfer(true)
-                        .setRefundApplicationFee(true);
+                        .setRefundApplicationFee(refundApplicationFee);
             }
 
             RequestOptions options = RequestOptions.builder()

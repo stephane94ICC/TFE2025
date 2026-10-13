@@ -1,5 +1,6 @@
-package be.loisirs.tfe2025.plateforme_loisirs.util;
+package be.loisirs.tfe2025.plateforme_loisirs.business;
 
+import be.loisirs.tfe2025.plateforme_loisirs.util.CommissionCalculator;
 import be.loisirs.tfe2025.plateforme_loisirs.util.CommissionCalculator.CommissionBreakdown;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

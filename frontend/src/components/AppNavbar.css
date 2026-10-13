@@ -192,6 +192,20 @@
     color: var(--bl-primary-dark);
 }
 
+/* Section du partenaire dans le menu : même intertitre que « Langue ». */
+.menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-section-title {
+    padding: 4px 8px 2px;
+    color: var(--bl-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
 .logout-menu-button {
     color: var(--bl-danger);
 }
