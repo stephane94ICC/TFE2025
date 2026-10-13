@@ -26,7 +26,7 @@ class InactiveAccountTokenIntegrationTest extends AbstractIntegrationTest {
         User member = createMember("inactive-token@belloisirs.test");
         String token = tokenFor(member.getEmail());
 
-        // 1. Le jeton fonctionne. Sans cette etape, le 403 qui suit
+        // 1. Le jeton fonctionne. Sans cette etape, le 401 qui suit
         //    pourrait vouloir dire "ce jeton n'a jamais ete valide".
         mockMvc.perform(get("/api/member/profile")
                         .header(HttpHeaders.AUTHORIZATION, bearer(token)))
@@ -40,7 +40,7 @@ class InactiveAccountTokenIntegrationTest extends AbstractIntegrationTest {
         // 3. Le MEME jeton est desormais refuse.
         mockMvc.perform(get("/api/member/profile")
                         .header(HttpHeaders.AUTHORIZATION, bearer(token)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
 }

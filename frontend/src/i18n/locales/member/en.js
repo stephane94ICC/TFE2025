@@ -114,14 +114,21 @@ export default {
 
   cart: {
     title: "My cart",
+    subtitle: "Check your items, then pay securely with Stripe.",
     empty: "Your cart is empty.",
+    continueShopping: "Browse the shop",
 
-    quantity: "Quantity:",
-    subtotal: "Subtotal:",
-    delete: "Delete",
+    unitPrice: "{price} each",
+    quantity: "Quantity",
+    decrease: "Remove one: {name}",
+    increase: "Add one: {name}",
+    delete: "Remove",
 
-    total: "Total:",
+    summaryTitle: "Summary",
+    items: "Items",
+    total: "Total incl. VAT",
     clear: "Clear cart",
+    confirmClear: "Clear your cart? All items will be removed.",
 
     stripeRedirect: "Redirecting to Stripe...",
     payWithStripe: "Pay with Stripe",

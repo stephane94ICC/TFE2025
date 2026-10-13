@@ -2,7 +2,6 @@ package be.loisirs.tfe2025.plateforme_loisirs.security;
 
 import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
-import be.loisirs.tfe2025.plateforme_loisirs.service.AuthCookieService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +31,7 @@ class LoginRateLimitIntegrationTest extends AbstractIntegrationTest {
 
     private ResultActions login(String email, String password, String ip) throws Exception {
         return mockMvc.perform(post("/api/auth/login")
+                .with(withCsrf())
                 .with(request -> {
                     request.setRemoteAddr(ip);
                     return request;
@@ -61,7 +61,7 @@ class LoginRateLimitIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(header().string(HttpHeaders.RETRY_AFTER, "900"))
                 .andExpect(jsonPath("$.code").value("TOO_MANY_LOGIN_ATTEMPTS"))
                 // Bloqué : aucun cookie de connexion n'est posé.
-                .andExpect(cookie().doesNotExist(AuthCookieService.COOKIE_NAME));
+                .andExpect(cookie().doesNotExist(authCookieName()));
     }
 
     @Test
@@ -74,7 +74,7 @@ class LoginRateLimitIntegrationTest extends AbstractIntegrationTest {
         login(member.getEmail(), PASSWORD, "10.20.0.3")
                 .andExpect(status().isOk())
                 // Connecté : le jeton est dans le cookie, jamais dans le corps JSON.
-                .andExpect(cookie().exists(AuthCookieService.COOKIE_NAME))
+                .andExpect(cookie().exists(authCookieName()))
                 .andExpect(jsonPath("$.token").doesNotExist());
     }
 

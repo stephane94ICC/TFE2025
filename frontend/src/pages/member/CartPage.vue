@@ -1,81 +1,107 @@
 <template>
   <div class="cart-page">
-    <h1>{{ $t("member.cart.title") }}</h1>
+    <header class="cart-header">
+      <h1>{{ $t("member.cart.title") }}</h1>
+      <p v-if="cart.length > 0">{{ $t("member.cart.subtitle") }}</p>
+    </header>
 
-    <div v-if="errorMessage" class="cart-alert cart-alert-error">
+    <p v-if="errorMessage" class="cart-alert" role="alert">
       {{ errorMessage }}
+    </p>
+
+    <div v-if="cart.length === 0" class="cart-empty">
+      <p>{{ $t("member.cart.empty") }}</p>
+
+      <router-link to="/shop" class="cart-button cart-button--primary">
+        {{ $t("member.cart.continueShopping") }}
+      </router-link>
     </div>
 
-    <div v-if="cart.length === 0" class="empty-cart">
-      {{ $t("member.cart.empty") }}
-    </div>
+    <div v-else class="cart-layout">
+      <ul class="cart-items">
+        <li v-for="item in cart" :key="item.id" class="cart-item">
+          <div class="cart-item__image">
+            <img v-if="item.imageUrl" :src="item.imageUrl" alt="">
+            <span v-else aria-hidden="true">{{ item.name.charAt(0) }}</span>
+          </div>
 
-    <div v-else class="cart-content">
-      <div
-        v-for="item in cart"
-        :key="item.id"
-        class="cart-item"
-      >
-        <div class="cart-item-image">
-          <img
-            v-if="item.imageUrl"
-            :src="item.imageUrl"
-            :alt="item.name"
-          >
-          <span v-else>{{ item.name.charAt(0) }}</span>
-        </div>
+          <div class="cart-item__info">
+            <h2 class="cart-item__name">{{ item.name }}</h2>
 
-        <div class="cart-item-info">
-          <h2>{{ item.name }}</h2>
-          <p>{{ item.description }}</p>
-          <p class="price">{{ $price(item.price) }}</p>
+            <p class="cart-item__unit-price">
+              {{ $t("member.cart.unitPrice", { price: $price(item.price) }) }}
+            </p>
 
-          <label>
-            {{ $t("member.cart.quantity") }}
-            <input
-              type="number"
-              min="1"
-              :value="item.quantity"
-              @change="updateQuantity(item.id, $event)"
-            >
-          </label>
+            <div class="cart-item__controls">
+              <div class="cart-quantity" role="group" :aria-label="$t('member.cart.quantity')">
+                <button
+                  type="button"
+                  class="cart-quantity__button"
+                  :disabled="item.quantity <= 1"
+                  :aria-label="$t('member.cart.decrease', { name: item.name })"
+                  @click="changeQuantity(item, -1)"
+                >
+                  −
+                </button>
 
-          <p class="subtotal">
-            {{ $t("member.cart.subtotal") }} {{ $price(item.price * item.quantity) }}
-          </p>
+                <span class="cart-quantity__value">{{ item.quantity }}</span>
 
-          <button class="btn btn-danger" @click="removeItem(item.id)">
-            {{ $t("member.cart.delete") }}
-          </button>
-        </div>
-      </div>
+                <button
+                  type="button"
+                  class="cart-quantity__button"
+                  :disabled="item.quantity >= maxQuantity"
+                  :aria-label="$t('member.cart.increase', { name: item.name })"
+                  @click="changeQuantity(item, 1)"
+                >
+                  +
+                </button>
+              </div>
 
-      <div class="cart-summary">
-        <h2>{{ $t("member.cart.total") }} {{ $price(total) }}</h2>
+              <button type="button" class="cart-item__remove" @click="removeItem(item.id)">
+                {{ $t("member.cart.delete") }}
+              </button>
+            </div>
+          </div>
 
-        <button class="btn btn-secondary" @click="clearCart">
-          {{ $t("member.cart.clear") }}
-        </button>
+          <p class="cart-item__total">{{ $price(item.price * item.quantity) }}</p>
+        </li>
+      </ul>
+
+      <aside class="cart-summary">
+        <h2>{{ $t("member.cart.summaryTitle") }}</h2>
+
+        <dl class="cart-summary__lines">
+          <div class="cart-summary__line">
+            <dt>{{ $t("member.cart.items") }}</dt>
+            <dd>{{ itemCount }}</dd>
+          </div>
+
+          <div class="cart-summary__line cart-summary__line--total">
+            <dt>{{ $t("member.cart.total") }}</dt>
+            <dd>{{ $price(total) }}</dd>
+          </div>
+        </dl>
 
         <button
-          class="btn btn-primary"
+          type="button"
+          class="cart-button cart-button--primary cart-button--block"
           :disabled="paymentLoading"
           @click="payWithStripe"
         >
-          {{
-            paymentLoading
-              ? $t("member.cart.stripeRedirect")
-              : $t("member.cart.payWithStripe")
-          }}
+          {{ paymentLoading ? $t("member.cart.stripeRedirect") : $t("member.cart.payWithStripe") }}
+        </button>
+
+        <button type="button" class="cart-summary__clear" @click="clearCart">
+          {{ $t("member.cart.clear") }}
         </button>
 
         <!-- Information avant l'achat : lien vers les CGV, ouvert dans un nouvel onglet -->
-        <p class="terms-notice">
+        <p class="cart-summary__terms">
           {{ $t("public.terms.paymentNotice") }}
           <router-link to="/conditions-generales" target="_blank" rel="noopener">
             {{ $t("public.terms.termsLink") }}</router-link>.
         </p>
-      </div>
+      </aside>
     </div>
   </div>
 </template>
@@ -84,12 +110,16 @@
 import CartService from "../../services/CartService";
 import PaymentService from "../../services/PaymentService";
 
+// Le stock réel est contrôlé par le serveur au paiement ; ici, seulement une borne d'interface.
+const MAX_QUANTITY = 99;
+
 export default {
   name: "CartPage",
 
   data() {
     return {
       cart: [],
+      maxQuantity: MAX_QUANTITY,
       paymentLoading: false,
       errorMessage: ""
     };
@@ -97,9 +127,11 @@ export default {
 
   computed: {
     total() {
-      return this.cart.reduce((sum, item) => {
-        return sum + item.price * item.quantity;
-      }, 0);
+      return this.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    },
+
+    itemCount() {
+      return this.cart.reduce((sum, item) => sum + item.quantity, 0);
     }
   },
 
@@ -108,9 +140,14 @@ export default {
   },
 
   methods: {
-    updateQuantity(productId, event) {
-      const quantity = Number(event.target.value);
-      CartService.updateQuantity(productId, quantity);
+    changeQuantity(item, delta) {
+      const quantity = item.quantity + delta;
+
+      if (quantity < 1 || quantity > MAX_QUANTITY) {
+        return;
+      }
+
+      CartService.updateQuantity(item.id, quantity);
       this.cart = CartService.getCart();
     },
 
@@ -120,11 +157,15 @@ export default {
     },
 
     clearCart() {
+      if (!confirm(this.$t("member.cart.confirmClear"))) {
+        return;
+      }
+
       CartService.clearCart();
       this.cart = [];
     },
 
-    payWithStripe() {
+    async payWithStripe() {
       this.errorMessage = "";
 
       if (this.cart.length === 0) {
@@ -134,23 +175,21 @@ export default {
 
       this.paymentLoading = true;
 
-      PaymentService.createCheckoutSession(this.cart)
-        .then(response => {
-          const checkoutUrl = response.data.checkoutUrl;
+      try {
+        const response = await PaymentService.createCheckoutSession(this.cart);
+        const checkoutUrl = response.data.checkoutUrl;
 
-          if (!checkoutUrl) {
-            throw new Error("URL Stripe absente.");
-          }
+        if (!checkoutUrl) {
+          throw new Error("URL Stripe absente.");
+        }
 
-          window.location.href = checkoutUrl;
-        })
-        .catch(error => {
-          console.error(error);
-          this.errorMessage = this.$t("member.cart.paymentError");
-        })
-        .finally(() => {
-          this.paymentLoading = false;
-        });
+        // Le bouton reste désactivé pendant la redirection vers Stripe.
+        window.location.href = checkoutUrl;
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = this.$t("member.cart.paymentError");
+        this.paymentLoading = false;
+      }
     }
   }
 };

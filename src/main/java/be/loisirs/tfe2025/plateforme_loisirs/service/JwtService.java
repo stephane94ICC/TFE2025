@@ -18,6 +18,8 @@ import java.util.Date;
 @Service
 public class JwtService {
 
+    public static final String SESSION_VERSION_CLAIM = "sv";
+
     private final SecretKey signingKey;
     private final Duration expiration;
 
@@ -34,6 +36,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("id", user.getId())
+                .claim(SESSION_VERSION_CLAIM, user.getSessionVersion())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(expiration)))
                 .signWith(signingKey)
@@ -48,6 +51,10 @@ public class JwtService {
                 .getPayload();
     }
 
+
+    public Instant extractExpiration(String token) {
+        return extractAllClaims(token).getExpiration().toInstant();
+    }
 
     public boolean isTokenValid(String token) {
         try {

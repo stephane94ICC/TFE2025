@@ -14,7 +14,10 @@ class AuthService {
 
     const user = this.getConnectedUser();
 
-    if (user) {
+    // Session déjà expirée à l'ouverture du site : on repart déconnecté, sans message.
+    if (user && isExpired(user)) {
+      this.clearConnectedUser();
+    } else if (user) {
       this.saveConnectedUser(user);
     }
   }
@@ -54,11 +57,11 @@ class AuthService {
 
   /** Liste fermée de champs : le téléphone ou toute autre donnée du profil ne sont jamais stockés ici. */
   saveConnectedUser(user) {
-    const { id, firstName, lastName, email, roles, profileImageUrl } = user;
+    const { id, firstName, lastName, email, roles, profileImageUrl, expiresAt } = user;
 
     localStorage.setItem(
       CONNECTED_USER_KEY,
-      JSON.stringify({ id, firstName, lastName, email, roles, profileImageUrl })
+      JSON.stringify({ id, firstName, lastName, email, roles, profileImageUrl, expiresAt })
     );
   }
 
@@ -84,13 +87,23 @@ class AuthService {
   }
 
   isLoggedIn() {
-    return this.getConnectedUser() !== null;
+    const user = this.getConnectedUser();
+
+    return user !== null && !isExpired(user);
+  }
+
+  /** Heure de fin de session donnée par le serveur à la connexion ; null si inconnue. */
+  getSessionExpiresAt() {
+    const expiresAt = toTime(this.getConnectedUser()?.expiresAt);
+
+    return Number.isNaN(expiresAt) ? null : new Date(expiresAt);
   }
 
   getRoles() {
     const user = this.getConnectedUser();
 
-    if (!user || !user.roles) {
+    // Session expirée : aucun rôle, pour que la barre de navigation reste cohérente.
+    if (!user || !user.roles || isExpired(user)) {
       return [];
     }
 
@@ -100,6 +113,17 @@ class AuthService {
   hasRole(role) {
     return this.getRoles().includes(role);
   }
+}
+
+function toTime(isoDate) {
+  return isoDate ? new Date(isoDate).getTime() : NaN;
+}
+
+// Sans heure d'expiration (connexion antérieure à cette version), la réponse 401 du serveur fait foi.
+function isExpired(user) {
+  const expiresAt = toTime(user.expiresAt);
+
+  return !Number.isNaN(expiresAt) && expiresAt <= Date.now();
 }
 
 /** Même forme d'erreur qu'avant : message = code d'erreur du serveur, status = code HTTP. */

@@ -65,6 +65,11 @@ public class User {
     @Column(name = "password_changed_at")
     private LocalDateTime passwordChangedAt;
 
+    // Augmentée à chaque déconnexion : un jeton qui porte une autre version est refusé.
+    @JsonIgnore
+    @Column(name = "session_version", nullable = false)
+    private int sessionVersion;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name ="user_role",

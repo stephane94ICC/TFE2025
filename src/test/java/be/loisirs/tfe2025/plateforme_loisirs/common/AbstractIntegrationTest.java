@@ -25,10 +25,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +59,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public abstract class AbstractIntegrationTest {
 
     protected static final String PASSWORD = "MotDePasseTest1!";
+    private static final String TEST_CSRF_TOKEN = "jeton-csrf-de-test";
 
     @Autowired
     protected MockMvc mockMvc;
@@ -72,6 +75,8 @@ public abstract class AbstractIntegrationTest {
     protected ActivitySessionRepository activitySessionRepository;
     @Autowired
     protected ReservationRepository reservationRepository;
+    @Autowired
+    protected AuthCookieService authCookieService;
 
     /**
      * Faux composant de remboursement : aucun test n'appelle Stripe.
@@ -194,6 +199,7 @@ public abstract class AbstractIntegrationTest {
      */
     protected String loginToken(String email, String password) throws Exception {
         MvcResult result = mockMvc.perform(post("/api/auth/login")
+                        .with(withCsrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "email", email,
@@ -201,13 +207,35 @@ public abstract class AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        Cookie cookie = result.getResponse().getCookie(AuthCookieService.COOKIE_NAME);
+        Cookie cookie = result.getResponse().getCookie(authCookieName());
 
         if (cookie == null || cookie.getValue().isBlank()) {
-            throw new IllegalStateException("Connexion reussie sans cookie " + AuthCookieService.COOKIE_NAME);
+            throw new IllegalStateException("Connexion reussie sans cookie " + authCookieName());
         }
 
         return cookie.getValue();
+    }
+
+    /** Nom du cookie de connexion : __Host-BL_AUTH en HTTPS (valeur par defaut des tests), BL_AUTH en local. */
+    protected String authCookieName() {
+        return authCookieService.getCookieName();
+    }
+
+    protected Cookie authCookie(String token) {
+        return new Cookie(authCookieName(), token);
+    }
+
+    /** Double soumission, comme axios : le meme jeton dans le cookie XSRF-TOKEN et dans l'en-tete X-XSRF-TOKEN. */
+    protected static RequestPostProcessor withCsrf() {
+        return request -> {
+            Cookie[] existing = request.getCookies();
+            Cookie[] cookies = existing == null ? new Cookie[1] : Arrays.copyOf(existing, existing.length + 1);
+            cookies[cookies.length - 1] = new Cookie("XSRF-TOKEN", TEST_CSRF_TOKEN);
+
+            request.setCookies(cookies);
+            request.addHeader("X-XSRF-TOKEN", TEST_CSRF_TOKEN);
+            return request;
+        };
     }
 
     /** "Bearer " est un mot litteral, suivi d'un espace, sans guillemets. */

@@ -18,7 +18,14 @@ export default {
 
     passwordChanged: "Votre mot de passe a été modifié. Connectez-vous avec votre nouveau mot de passe.",
 
-    tooManyAttempts: "Trop de tentatives de connexion. Réessayez dans {minutes} min."
+    tooManyAttempts: "Trop de tentatives de connexion. Réessayez dans {minutes} min.",
+
+    sessionExpired: "Votre session a expiré. Veuillez vous reconnecter."
+  },
+
+  session: {
+    expiryWarning: "Votre session expire dans {minutes} min (expire à {time}). Enregistrez votre travail : vous devrez ensuite vous reconnecter.",
+    dismiss: "Compris"
   },
 
   register: {

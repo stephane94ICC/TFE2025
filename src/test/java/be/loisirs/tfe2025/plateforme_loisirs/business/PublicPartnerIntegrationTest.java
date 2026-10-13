@@ -80,9 +80,9 @@ class PublicPartnerIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DisplayName("Sécurité : ouvrir /api/partners/** n'ouvre pas l'espace partenaire /api/partner/**")
     void partnerSpaceStaysProtected() throws Exception {
-        // Sans formLogin ni httpBasic, Spring Security repond 403 a un anonyme
+        // Anonyme : 401, via le point d'entree HttpStatusEntryPoint de SecurityConfig
         mockMvc.perform(get("/api/partner/profile"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

@@ -14,6 +14,7 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.util.ClientIp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -118,6 +119,12 @@ public class AuthService {
         return buildAuthResult(user, "Connexion réussie.");
     }
 
+    // Nouvelle version de session : les jetons déjà émis sont refusés, sur tous les appareils.
+    @Transactional
+    public void logout(String email) {
+        userRepository.incrementSessionVersion(email);
+    }
+
     /** Compte l'échec ; journalise une seule fois le DÉBUT de chaque blocage. */
     private void recordFailure(String email, String ip, Long userId) {
         for (String startedBlock : loginAttemptLimiter.recordFailure(email, ip)) {
@@ -133,6 +140,8 @@ public class AuthService {
                 .map(Role::getName)
                 .collect(Collectors.toSet());
 
+        String token = jwtService.generateToken(user);
+
         AuthResponseDTO response = new AuthResponseDTO(
                 user.getId(),
                 user.getFirstName(),
@@ -140,9 +149,10 @@ public class AuthService {
                 user.getEmail(),
                 roles,
                 user.getProfileImageUrl(),
+                jwtService.extractExpiration(token),
                 message
         );
 
-        return new AuthResult(response, jwtService.generateToken(user));
+        return new AuthResult(response, token);
     }
 }

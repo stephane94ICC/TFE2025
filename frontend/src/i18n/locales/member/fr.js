@@ -114,14 +114,21 @@ export default {
 
   cart: {
     title: "Mon panier",
+    subtitle: "Vérifiez vos articles, puis payez en toute sécurité avec Stripe.",
     empty: "Votre panier est vide.",
+    continueShopping: "Voir la boutique",
 
-    quantity: "Quantité :",
-    subtotal: "Sous-total :",
-    delete: "Supprimer",
+    unitPrice: "{price} / pièce",
+    quantity: "Quantité",
+    decrease: "Retirer un exemplaire : {name}",
+    increase: "Ajouter un exemplaire : {name}",
+    delete: "Retirer",
 
-    total: "Total :",
+    summaryTitle: "Récapitulatif",
+    items: "Articles",
+    total: "Total TVA comprise",
     clear: "Vider le panier",
+    confirmClear: "Vider le panier ? Tous les articles seront retirés.",
 
     stripeRedirect: "Redirection vers Stripe...",
     payWithStripe: "Payer avec Stripe",

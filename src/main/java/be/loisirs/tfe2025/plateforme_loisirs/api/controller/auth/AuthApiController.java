@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,8 +39,13 @@ public class AuthApiController {
         return withAuthCookie(authService.login(loginRequestDTO));
     }
 
+    // Anonyme (cookie absent ou expiré) : il ne reste qu'à effacer le cookie.
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
+    public ResponseEntity<Void> logout(Principal principal) {
+        if (principal != null) {
+            authService.logout(principal.getName());
+        }
+
         return ResponseEntity.noContent()
                 .header(HttpHeaders.SET_COOKIE, authCookieService.clear().toString())
                 .build();

@@ -10,18 +10,22 @@
     </main>
 
     <AppFooter v-if="!hasPartnerFooter" />
+
+    <SessionExpiryNotice />
   </div>
 </template>
 
 <script>
 import AppNavbar from './components/AppNavbar.vue';
 import AppFooter from './components/AppFooter.vue';
+import SessionExpiryNotice from './components/SessionExpiryNotice.vue';
 
 export default {
   name: 'App',
   components: {
     AppNavbar,
-    AppFooter
+    AppFooter,
+    SessionExpiryNotice
   },
 
   computed: {
@@ -44,7 +48,6 @@ export default {
   flex: 1;
 }
 
-/* Vitrine partenaire : la page remplit la hauteur, son pied de page reste en bas */
 .main-content--column {
   display: flex;
   flex-direction: column;

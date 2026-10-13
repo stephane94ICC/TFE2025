@@ -1,0 +1,48 @@
+/* En bas de l'écran : toujours visible, même si l'utilisateur a fait défiler la page. */
+.session-notice {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    z-index: 1050;
+    width: min(640px, calc(100% - 32px));
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--bl-warning);
+    border-radius: var(--bl-radius-md);
+    background: var(--bl-warning-soft);
+    color: var(--bl-warning);
+    box-shadow: var(--bl-shadow-soft);
+    font-family: var(--bl-font-body);
+}
+
+.session-notice__text {
+    flex: 1;
+    margin: 0;
+    line-height: 1.45;
+}
+
+.session-notice__button {
+    flex-shrink: 0;
+    padding: 8px 18px;
+    border: none;
+    border-radius: var(--bl-radius-pill);
+    background: var(--bl-warning);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.session-notice__button:hover {
+    filter: brightness(0.9);
+}
+
+@media (max-width: 520px) {
+    .session-notice {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+}

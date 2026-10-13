@@ -111,6 +111,7 @@ class PasswordChangeIntegrationTest extends AbstractIntegrationTest {
     private ResultActions login(String email, String password)
             throws Exception {
         return mockMvc.perform(post("/api/auth/login")
+                .with(withCsrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(Map.of(
                         "email", email,

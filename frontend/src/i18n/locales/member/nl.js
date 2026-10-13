@@ -114,14 +114,21 @@ export default {
 
   cart: {
     title: "Mijn winkelmandje",
+    subtitle: "Controleer uw artikelen en betaal daarna veilig met Stripe.",
     empty: "Uw winkelmandje is leeg.",
+    continueShopping: "Naar de winkel",
 
-    quantity: "Aantal:",
-    subtotal: "Subtotaal:",
+    unitPrice: "{price} per stuk",
+    quantity: "Aantal",
+    decrease: "Eén exemplaar minder: {name}",
+    increase: "Eén exemplaar meer: {name}",
     delete: "Verwijderen",
 
-    total: "Totaal:",
+    summaryTitle: "Overzicht",
+    items: "Artikelen",
+    total: "Totaal incl. btw",
     clear: "Winkelmandje leegmaken",
+    confirmClear: "Winkelmandje leegmaken? Alle artikelen worden verwijderd.",
 
     stripeRedirect: "Doorsturen naar Stripe...",
     payWithStripe: "Betalen met Stripe",

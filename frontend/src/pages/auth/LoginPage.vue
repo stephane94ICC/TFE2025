@@ -11,6 +11,10 @@
         {{ $t("auth.login.passwordChanged") }}
       </p>
 
+      <p v-if="sessionExpired" class="warning-message">
+        {{ $t("auth.login.sessionExpired") }}
+      </p>
+
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">{{ $t("auth.login.email") }}</label>
@@ -77,6 +81,11 @@ export default {
     // Arrivée depuis le profil après un changement de mot de passe.
     passwordChanged() {
       return this.$route.query.reason === "password-changed";
+    },
+
+    // Arrivée depuis le bandeau d'expiration : la session a pris fin pendant l'utilisation.
+    sessionExpired() {
+      return this.$route.query.reason === "session-expired";
     }
   },
 
@@ -86,23 +95,23 @@ export default {
       this.successMessage = "";
 
       AuthService.login(this.form)
-        .then(response => {
-          AuthService.saveConnectedUser(response);
-          this.successMessage = response.message;
-          this.$router.push("/");
-        })
-        .catch(error => {
-          console.error(error);
+          .then(response => {
+            AuthService.saveConnectedUser(response);
+            this.successMessage = response.message;
+            this.$router.push("/");
+          })
+          .catch(error => {
+            console.error(error);
 
-          if (error.status === 429) {
-            // Trop d'échecs récents : on affiche le délai, arrondi à la minute supérieure.
-            const minutes = Math.max(1, Math.ceil(error.retryAfter / 60));
-            this.errorMessage = this.$t("auth.login.tooManyAttempts", { minutes });
-            return;
-          }
+            if (error.status === 429) {
+              // Trop d'échecs récents : on affiche le délai, arrondi à la minute supérieure.
+              const minutes = Math.max(1, Math.ceil(error.retryAfter / 60));
+              this.errorMessage = this.$t("auth.login.tooManyAttempts", { minutes });
+              return;
+            }
 
-          this.errorMessage = this.$t("auth.login.error");
-        });
+            this.errorMessage = this.$t("auth.login.error");
+          });
     }
   }
 };

@@ -57,6 +57,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.activityLogService = activityLogService;
     }
 
+    // Seules les routes /api/** ont besoin d'authentification : pages, scripts et images passent sans lecture en base.
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return !request.getRequestURI().startsWith("/api/");
+    }
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -102,6 +108,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        // Déconnexion faite depuis un appareil : les jetons de l'ancienne version sont refusés partout.
+        if (!hasCurrentSessionVersion(claims, user)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // Rôles lus en base, jamais dans le jeton.
         Collection<SimpleGrantedAuthority> authorities = user.getRoles()
                 .stream()
@@ -129,6 +141,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return authCookieService.read(request);
+    }
+
+    private boolean hasCurrentSessionVersion(Claims claims, User user) {
+        Integer tokenVersion = claims.get(JwtService.SESSION_VERSION_CLAIM, Integer.class);
+
+        return tokenVersion != null && tokenVersion == user.getSessionVersion();
     }
 
     /**

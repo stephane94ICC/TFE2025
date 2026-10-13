@@ -18,7 +18,14 @@ export default {
 
     passwordChanged: "Your password has been changed. Sign in with your new password.",
 
-    tooManyAttempts: "Too many sign-in attempts. Try again in {minutes} min."
+    tooManyAttempts: "Too many sign-in attempts. Try again in {minutes} min.",
+
+    sessionExpired: "Your session has expired. Please sign in again."
+  },
+
+  session: {
+    expiryWarning: "Your session expires in {minutes} min (expires at {time}). Save your work: you will then need to sign in again.",
+    dismiss: "Got it"
   },
 
   register: {

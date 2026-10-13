@@ -14,16 +14,24 @@ import java.util.Optional;
 @Service
 public class AuthCookieService {
 
-    public static final String COOKIE_NAME = "BL_AUTH";
-    private static final String COOKIE_PATH = "/api";
+    // En HTTPS, le préfixe __Host- fait exiger par le navigateur Secure, Path=/ et aucun domaine.
+    public static final String HTTPS_COOKIE_NAME = "__Host-BL_AUTH";
+    // En local (http://localhost), Chrome refuse ce préfixe : nom simple, sans Secure.
+    public static final String LOCAL_COOKIE_NAME = "BL_AUTH";
 
     private final boolean secure;
+    private final String cookieName;
     private final Duration maxAge;
 
     public AuthCookieService(@Value("${app.auth.cookie-secure}") boolean secure,
                              JwtService jwtService) {
         this.secure = secure;
+        this.cookieName = secure ? HTTPS_COOKIE_NAME : LOCAL_COOKIE_NAME;
         this.maxAge = jwtService.getExpiration();
+    }
+
+    public String getCookieName() {
+        return cookieName;
     }
 
     /** Cookie posé à la connexion et à l'inscription. */
@@ -45,7 +53,7 @@ public class AuthCookieService {
         }
 
         return Arrays.stream(cookies)
-                .filter(cookie -> COOKIE_NAME.equals(cookie.getName()))
+                .filter(cookie -> cookieName.equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .filter(value -> value != null && !value.isBlank())
                 .findFirst();
@@ -53,10 +61,10 @@ public class AuthCookieService {
 
     /** Attributs communs : la suppression doit reprendre le même nom et le même chemin. */
     private ResponseCookie.ResponseCookieBuilder builder(String value) {
-        return ResponseCookie.from(COOKIE_NAME, value)
+        return ResponseCookie.from(cookieName, value)
                 .httpOnly(true)
                 .secure(secure)
                 .sameSite("Lax")
-                .path(COOKIE_PATH);
+                .path("/");
     }
 }

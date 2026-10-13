@@ -18,7 +18,14 @@ export default {
 
     passwordChanged: "Uw wachtwoord is gewijzigd. Meld u aan met uw nieuwe wachtwoord.",
 
-    tooManyAttempts: "Te veel aanmeldpogingen. Probeer het opnieuw over {minutes} min."
+    tooManyAttempts: "Te veel aanmeldpogingen. Probeer het opnieuw over {minutes} min.",
+
+    sessionExpired: "Uw sessie is verlopen. Meld u opnieuw aan."
+  },
+
+  session: {
+    expiryWarning: "Uw sessie verloopt over {minutes} min (verloopt om {time}). Sla uw werk op: daarna moet u zich opnieuw aanmelden.",
+    dismiss: "Begrepen"
   },
 
   register: {

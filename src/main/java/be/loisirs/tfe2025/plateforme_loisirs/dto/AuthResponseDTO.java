@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.Instant;
 import java.util.Set;
 
 
@@ -24,6 +25,9 @@ public class AuthResponseDTO {
     private Set<String> roles;
 
     private String profileImageUrl;
+
+    // Fin de validité du jeton (non secrète) : le front avertit 10 minutes avant.
+    private Instant expiresAt;
 
     private String message;
 }

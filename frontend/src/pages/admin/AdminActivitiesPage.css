@@ -63,7 +63,6 @@
 
 table {
   width: 100%;
-  min-width: 1100px;
   border-collapse: collapse;
 }
 
@@ -87,15 +86,10 @@ td {
   color: var(--bl-text);
 }
 
-.actions-col {
-  width: 420px;
-}
-
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  white-space: normal;
 }
 
 .loading,
@@ -144,3 +138,11 @@ td {
 .activity-status-approved { background: var(--bl-success-soft); color: var(--bl-success); }
 .activity-status-rejected { background: var(--bl-danger-soft); color: var(--bl-danger); }
 .activity-status-disabled { background: var(--bl-border); color: var(--bl-text); }
+
+/* Écran étroit : boutons empilés, comme sur la page des produits. */
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

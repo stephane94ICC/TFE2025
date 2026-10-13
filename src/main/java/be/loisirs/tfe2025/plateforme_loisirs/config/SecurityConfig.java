@@ -1,12 +1,18 @@
 package be.loisirs.tfe2025.plateforme_loisirs.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.http.HttpMethod;
 
 @Configuration
@@ -26,10 +32,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        // Double soumission : le front renvoie la valeur du cookie XSRF-TOKEN dans l'en-tête X-XSRF-TOKEN.
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie.sameSite("Lax"));
+
+        // Le navigateur d'un autre site ne peut pas ajouter cet en-tête : pas de risque CSRF.
+        RequestMatcher bearerRequest = SecurityConfig::hasBearerToken;
+
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(csrfTokenRepository)
+                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
+                        // Stripe signe ses appels : la signature remplace le jeton CSRF.
+                        .ignoringRequestMatchers("/api/stripe/webhook")
+                        .ignoringRequestMatchers(bearerRequest)
+                )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                // Anonyme ou jeton refusé : 401 (le front renvoie vers la connexion). Rôle insuffisant : 403.
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
                 .authorizeHttpRequests(auth -> auth
                         //routes frontend controllé via Routeur
@@ -88,5 +111,11 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    private static boolean hasBearerToken(HttpServletRequest request) {
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        return authorization != null && authorization.startsWith("Bearer ");
     }
 }

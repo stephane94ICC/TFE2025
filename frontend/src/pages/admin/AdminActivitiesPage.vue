@@ -26,88 +26,91 @@
     <div v-else class="table-card">
       <table>
         <thead>
-          <tr>
-            <th>{{ $t("admin.activities.id") }}</th>
-            <th>{{ $t("admin.activities.activityTitle") }}</th>
-            <th>{{ $t("admin.activities.price") }}</th>
-            <th>{{ $t("admin.activities.vatRate") }}</th>
-            <th>{{ $t("admin.activities.partner") }}</th>
-            <th>{{ $t("admin.activities.status") }}</th>
-            <th class="actions-col">{{ $t("admin.activities.actions") }}</th>
-          </tr>
+        <tr>
+          <th>{{ $t("admin.activities.id") }}</th>
+          <th>{{ $t("admin.activities.activityTitle") }}</th>
+          <th>{{ $t("admin.activities.price") }}</th>
+          <th>{{ $t("admin.activities.vatRate") }}</th>
+          <th>{{ $t("admin.activities.partner") }}</th>
+          <th>{{ $t("admin.activities.status") }}</th>
+          <th>{{ $t("admin.activities.actions") }}</th>
+        </tr>
         </thead>
 
         <tbody>
-          <tr v-for="activity in activities" :key="activity.id">
-            <td>{{ activity.id }}</td>
-            <td>{{ activity.title }}</td>
-            <td>{{ formatPrice(activity.price) }}</td>
-            <td>{{ formatVatRate(activity.vatRate) }}</td>
-            <td>{{ activity.partnerName || $t("admin.activities.partnerFallback", { id: activity.partnerId }) }}</td>
+        <tr v-for="activity in activities" :key="activity.id">
+          <td>{{ activity.id }}</td>
+          <td>{{ activity.title }}</td>
+          <td>{{ formatPrice(activity.price) }}</td>
+          <td>{{ formatVatRate(activity.vatRate) }}</td>
+          <td>{{ activity.partnerName || $t("admin.activities.partnerFallback", { id: activity.partnerId }) }}</td>
 
-            <td>
+          <td>
               <span :class="['activity-status', statusClass(activity.status)]">
                 {{ statusLabel(activity.status) }}
               </span>
-            </td>
+          </td>
 
-            <td class="actions">
+          <td>
+            <!-- Un div flex dans la cellule : une cellule en display:flex sort du tableau et décale les lignes. -->
+            <div class="actions">
               <router-link
-                :to="`/admin/activities/edit/${activity.id}`"
-                class="btn-edit"
+                  :to="`/admin/activities/edit/${activity.id}`"
+                  class="btn-edit"
               >
                 {{ $t("admin.activities.edit") }}
               </router-link>
 
               <router-link
-                :to="`/admin/activities/${activity.id}/images`"
-                class="btn-images"
+                  :to="`/admin/activities/${activity.id}/images`"
+                  class="btn-images"
               >
                 {{ $t("admin.activities.images") }}
               </router-link>
 
               <button
-                v-if="activity.status !== 'APPROVED'"
-                type="button"
-                class="btn-approve"
-                @click="reviewSelectedActivity(activity.id, 'APPROVED')"
+                  v-if="activity.status !== 'APPROVED'"
+                  type="button"
+                  class="btn-approve"
+                  @click="reviewSelectedActivity(activity.id, 'APPROVED')"
               >
                 {{ $t("admin.activities.approve") }}
               </button>
 
               <button
-                v-if="activity.status !== 'REJECTED'"
-                type="button"
-                class="btn-reject"
-                @click="openRejectModal(activity.id)"
+                  v-if="activity.status !== 'REJECTED'"
+                  type="button"
+                  class="btn-reject"
+                  @click="openRejectModal(activity.id)"
               >
                 {{ $t("admin.activities.reject") }}
               </button>
 
               <button
-                v-if="activity.status !== 'DISABLED'"
-                type="button"
-                class="btn-disable"
-                @click="reviewSelectedActivity(activity.id, 'DISABLED')"
+                  v-if="activity.status !== 'DISABLED'"
+                  type="button"
+                  class="btn-disable"
+                  @click="reviewSelectedActivity(activity.id, 'DISABLED')"
               >
                 {{ $t("admin.activities.disable") }}
               </button>
-            </td>
-          </tr>
+            </div>
+          </td>
+        </tr>
 
-          <tr v-if="activities.length === 0">
-            <td colspan="6" class="empty">
-              {{ $t("admin.activities.empty") }}
-            </td>
-          </tr>
+        <tr v-if="activities.length === 0">
+          <td colspan="7" class="empty">
+            {{ $t("admin.activities.empty") }}
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
 
     <AdminActivityReviewModal
-      :visible="showRejectModal"
-      @confirm="confirmRejection"
-      @close="closeRejectModal"
+        :visible="showRejectModal"
+        @confirm="confirmRejection"
+        @close="closeRejectModal"
     />
   </div>
 </template>
@@ -165,7 +168,7 @@ export default {
       };
 
       const confirmed = confirm(
-        this.$t("admin.activities.confirmReview", { action: labels[status] })
+          this.$t("admin.activities.confirmReview", { action: labels[status] })
       );
 
       if (!confirmed) {
@@ -191,9 +194,9 @@ export default {
       }
 
       await this.updateActivityStatus(
-        this.selectedActivityId,
-        "REJECTED",
-        reviewComment
+          this.selectedActivityId,
+          "REJECTED",
+          reviewComment
       );
 
       this.closeRejectModal();

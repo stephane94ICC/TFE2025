@@ -53,6 +53,7 @@ class ClientIpSpoofingIntegrationTest extends AbstractIntegrationTest {
         String body = "{\"email\":\"" + email + "\",\"password\":\"" + PASSWORD + "\"}";
 
         mockMvc.perform(post("/api/auth/login")
+                        .with(withCsrf())
                         .header("X-Forwarded-For", SPOOFED_IP)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))

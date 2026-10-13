@@ -3,7 +3,6 @@ package be.loisirs.tfe2025.plateforme_loisirs.security;
 import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
-import be.loisirs.tfe2025.plateforme_loisirs.service.AuthCookieService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +34,7 @@ class TokenRevocationIntegrationTest extends AbstractIntegrationTest {
         User member = createMember("revoke-own@belloisirs.test");
         String oldToken = tokenFor(member.getEmail());
 
-        // 1. L'ancien jeton fonctionne (sinon le 403 final ne prouverait rien).
+        // 1. L'ancien jeton fonctionne (sinon le 401 final ne prouverait rien).
         mockMvc.perform(get(PROFILE_URL).header(HttpHeaders.AUTHORIZATION, bearer(oldToken)))
                 .andExpect(status().isOk());
 
@@ -50,11 +49,11 @@ class TokenRevocationIntegrationTest extends AbstractIntegrationTest {
                                 "newPassword", NEW_PASSWORD))))
                 .andExpect(status().isNoContent())
                 // Le cookie de connexion est effacé dans la même réponse.
-                .andExpect(cookie().maxAge(AuthCookieService.COOKIE_NAME, 0));
+                .andExpect(cookie().maxAge(authCookieName(), 0));
 
         // 3. Le MÊME jeton est désormais refusé (signature et expiration pourtant valides).
         mockMvc.perform(get(PROFILE_URL).header(HttpHeaders.AUTHORIZATION, bearer(oldToken)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
 
         // 4. Un jeton obtenu avec le nouveau mot de passe fonctionne.
         String newToken = loginToken(member.getEmail(), NEW_PASSWORD);
@@ -85,6 +84,6 @@ class TokenRevocationIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk());
 
         mockMvc.perform(get(PROFILE_URL).header(HttpHeaders.AUTHORIZATION, bearer(memberToken)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 }
