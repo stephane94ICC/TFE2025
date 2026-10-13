@@ -1,33 +1,52 @@
 package be.loisirs.tfe2025.plateforme_loisirs.api.controller.auth;
 
 import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResult;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.RegisterRequestDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.service.AuthCookieService;
 import be.loisirs.tfe2025.plateforme_loisirs.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class AuthApiController {
 
     private final AuthService authService;
+    private final AuthCookieService authCookieService;
 
-    public AuthApiController(AuthService authService) {
+    public AuthApiController(AuthService authService, AuthCookieService authCookieService) {
         this.authService = authService;
+        this.authCookieService = authCookieService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
-        AuthResponseDTO response = authService.register(registerRequestDTO);
-        return ResponseEntity.ok(response);
+        return withAuthCookie(authService.register(registerRequestDTO));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        AuthResponseDTO response = authService.login(loginRequestDTO);
-        return ResponseEntity.ok(response);
+        return withAuthCookie(authService.login(loginRequestDTO));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.SET_COOKIE, authCookieService.clear().toString())
+                .build();
+    }
+
+    private ResponseEntity<AuthResponseDTO> withAuthCookie(AuthResult result) {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, authCookieService.create(result.token()).toString())
+                .body(result.response());
     }
 }

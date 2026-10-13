@@ -3,6 +3,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.service;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.EmailAlreadyUsedException;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResult;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.RegisterRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
@@ -43,7 +44,7 @@ public class AuthService {
         this.loginAttemptLimiter = loginAttemptLimiter;
     }
 
-    public AuthResponseDTO register(RegisterRequestDTO registerRequestDTO) {
+    public AuthResult register(RegisterRequestDTO registerRequestDTO) {
         if (userRepository.existsByEmail(registerRequestDTO.getEmail())) {
             throw new EmailAlreadyUsedException("Un compte existe déjà avec cette adresse e-mail.");
         }
@@ -72,10 +73,10 @@ public class AuthService {
         activityLogService.logForEmail(
                 ActivityEventType.REGISTER, savedUser.getId(), savedUser.getEmail(), null);
 
-        return buildAuthResponse(savedUser, "Inscription réussie.");
+        return buildAuthResult(savedUser, "Inscription réussie.");
     }
 
-    public AuthResponseDTO login(LoginRequestDTO loginRequestDTO) {
+    public AuthResult login(LoginRequestDTO loginRequestDTO) {
         String email = loginRequestDTO.getEmail();
         String ip = ClientIp.current();
 
@@ -114,7 +115,7 @@ public class AuthService {
         activityLogService.logForEmail(
                 ActivityEventType.LOGIN_SUCCESS, user.getId(), email, null);
 
-        return buildAuthResponse(user, "Connexion réussie.");
+        return buildAuthResult(user, "Connexion réussie.");
     }
 
     /** Compte l'échec ; journalise une seule fois le DÉBUT de chaque blocage. */
@@ -125,22 +126,23 @@ public class AuthService {
         }
     }
 
-    private AuthResponseDTO buildAuthResponse(User user, String message) {
+    /** Réponse d'affichage et jeton, séparés : le jeton part dans le cookie, jamais dans le JSON. */
+    private AuthResult buildAuthResult(User user, String message) {
         Set<String> roles = user.getRoles()
                 .stream()
                 .map(Role::getName)
                 .collect(Collectors.toSet());
-        String token = jwtService.generateToken(user);
 
-        return new AuthResponseDTO(
+        AuthResponseDTO response = new AuthResponseDTO(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
                 roles,
                 user.getProfileImageUrl(),
-                token,
                 message
         );
+
+        return new AuthResult(response, jwtService.generateToken(user));
     }
 }

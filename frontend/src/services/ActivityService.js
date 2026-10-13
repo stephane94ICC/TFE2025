@@ -1,18 +1,7 @@
 import axios from 'axios';
-import AuthService from "./AuthService";
 
 const PUBLIC_API_URL = '/api/activities';
 const ADMIN_API_URL = '/api/admin/activities';
-
-function getAuthConfig() {
-    const token = AuthService.getToken();
-
-    return {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
-}
 
 // PUBLIC
 export function getActivities() {
@@ -29,43 +18,42 @@ export function getActivitySessions(activityId) {
 
 // ADMIN
 export function getAdminActivities() {
-    return axios.get(ADMIN_API_URL, getAuthConfig());
+    return axios.get(ADMIN_API_URL);
 }
 
 export function getAdminActivityById(id) {
-    return axios.get(`${ADMIN_API_URL}/${id}`, getAuthConfig());
+    return axios.get(`${ADMIN_API_URL}/${id}`);
 }
 
 export function createActivity(activity) {
-    return axios.post(ADMIN_API_URL, activity, getAuthConfig());
+    return axios.post(ADMIN_API_URL, activity);
 }
 
 export function updateActivity(id, activity) {
-    return axios.put(`${ADMIN_API_URL}/${id}`, activity, getAuthConfig());
+    return axios.put(`${ADMIN_API_URL}/${id}`, activity);
 }
 
 export function deleteActivity(id) {
-    return axios.delete(`${ADMIN_API_URL}/${id}`, getAuthConfig());
+    return axios.delete(`${ADMIN_API_URL}/${id}`);
 }
 
 export function getActivityImages(activityId) {
-    return axios.get(`${ADMIN_API_URL}/${activityId}/images`, getAuthConfig());
+    return axios.get(`${ADMIN_API_URL}/${activityId}/images`);
 }
 
 export function reviewActivity(id, status, reviewComment = "") {
     return axios.patch(
         `${ADMIN_API_URL}/${id}/review`,
-        { status, reviewComment },
-        getAuthConfig()
+        { status, reviewComment }
     );
 }
 
 export function uploadActivityImage(activityId, file) {
     const formData = new FormData();
     formData.append("file", file);
-    return axios.post(`${ADMIN_API_URL}/${activityId}/images`, formData, getAuthConfig());
+    return axios.post(`${ADMIN_API_URL}/${activityId}/images`, formData);
 }
 
 export function deleteActivityImage(activityId, imageId) {
-    return axios.delete(`${ADMIN_API_URL}/${activityId}/images/${imageId}`, getAuthConfig());
+    return axios.delete(`${ADMIN_API_URL}/${activityId}/images/${imageId}`);
 }

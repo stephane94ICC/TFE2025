@@ -2,7 +2,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.security;
 
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.InvalidCredentialsException;
 import be.loisirs.tfe2025.plateforme_loisirs.api.exception.TooManyLoginAttemptsException;
-import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResponseDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.AuthResult;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.LoginRequestDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
@@ -145,11 +145,12 @@ class AuthServiceTest {
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
         when(jwtService.generateToken(membre)).thenReturn("jeton.de.test");
 
-        AuthResponseDTO reponse = authService.login(requete);
+        AuthResult resultat = authService.login(requete);
 
-        assertThat(reponse.getToken()).isEqualTo("jeton.de.test");
-        assertThat(reponse.getEmail()).isEqualTo(EMAIL);
-        assertThat(reponse.getRoles()).containsExactly("MEMBER");
+        // Le jeton voyage à côté de la réponse (vers le cookie), jamais dedans.
+        assertThat(resultat.token()).isEqualTo("jeton.de.test");
+        assertThat(resultat.response().getEmail()).isEqualTo(EMAIL);
+        assertThat(resultat.response().getRoles()).containsExactly("MEMBER");
         verify(activityLogService).logForEmail(
                 eq(ActivityEventType.LOGIN_SUCCESS), eq(USER_ID), eq(EMAIL), isNull());
         verify(loginAttemptLimiter).recordSuccess(eq(EMAIL), any());

@@ -1,15 +1,18 @@
 package be.loisirs.tfe2025.plateforme_loisirs.config;
 
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityEventType;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.service.ActivityLogService;
+import be.loisirs.tfe2025.plateforme_loisirs.service.AuthCookieService;
 import be.loisirs.tfe2025.plateforme_loisirs.service.JwtService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,22 +22,37 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 import java.util.Optional;
 
+/**
+ * Authentifie chaque requête à partir du jeton de connexion.
+ *
+ * Le jeton est cherché d'abord dans l'en-tête "Authorization: Bearer"
+ * (tests, clients hors navigateur), puis dans le cookie BL_AUTH (navigateur).
+ *
+ * Les rôles sont relus en base à chaque requête, pas dans le jeton :
+ * un rôle retiré par l'administrateur prend effet immédiatement.
+ * Cela ne coûte aucune requête de plus : l'utilisateur est déjà chargé
+ * pour vérifier son état, et ses rôles sont chargés avec lui (EAGER).
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final String BEARER_PREFIX = "Bearer ";
+
     private final JwtService jwtService;
+    private final AuthCookieService authCookieService;
     private final UserRepository userRepository;
     private final ActivityLogService activityLogService;
 
     public JwtAuthenticationFilter(JwtService jwtService,
+                                   AuthCookieService authCookieService,
                                    UserRepository userRepository,
                                    ActivityLogService activityLogService) {
         this.jwtService = jwtService;
+        this.authCookieService = authCookieService;
         this.userRepository = userRepository;
         this.activityLogService = activityLogService;
     }
@@ -46,21 +64,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authorizationHeader = request.getHeader("Authorization");
+        Optional<String> optionalToken = resolveToken(request);
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (optionalToken.isEmpty() || !jwtService.isTokenValid(optionalToken.get())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authorizationHeader.substring(7);
-
-        if (!jwtService.isTokenValid(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        Claims claims = jwtService.extractAllClaims(token);
+        Claims claims = jwtService.extractAllClaims(optionalToken.get());
         String email = claims.getSubject();
 
         Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -91,9 +102,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        List<String> roles = claims.get("roles", List.class);
-
-        Collection<SimpleGrantedAuthority> authorities = roles.stream()
+        // Rôles lus en base, jamais dans le jeton.
+        Collection<SimpleGrantedAuthority> authorities = user.getRoles()
+                .stream()
+                .map(Role::getName)
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .toList();
 
@@ -103,6 +115,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * L'en-tête est prioritaire sur le cookie. Le navigateur n'envoie jamais
+     * cet en-tête de lui-même : il n'expose donc pas aux attaques CSRF.
+     */
+    private Optional<String> resolveToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
+            return Optional.of(authorizationHeader.substring(BEARER_PREFIX.length()));
+        }
+
+        return authCookieService.read(request);
     }
 
     /**

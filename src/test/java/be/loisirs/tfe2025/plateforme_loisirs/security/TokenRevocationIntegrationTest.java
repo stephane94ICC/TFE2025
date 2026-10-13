@@ -3,6 +3,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.security;
 import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Role;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.User;
+import be.loisirs.tfe2025.plateforme_loisirs.service.AuthCookieService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -13,8 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -47,21 +48,16 @@ class TokenRevocationIntegrationTest extends AbstractIntegrationTest {
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "currentPassword", PASSWORD,
                                 "newPassword", NEW_PASSWORD))))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                // Le cookie de connexion est effacé dans la même réponse.
+                .andExpect(cookie().maxAge(AuthCookieService.COOKIE_NAME, 0));
 
         // 3. Le MÊME jeton est désormais refusé (signature et expiration pourtant valides).
         mockMvc.perform(get(PROFILE_URL).header(HttpHeaders.AUTHORIZATION, bearer(oldToken)))
                 .andExpect(status().isForbidden());
 
         // 4. Un jeton obtenu avec le nouveau mot de passe fonctionne.
-        String newToken = objectMapper.readTree(mockMvc.perform(post("/api/auth/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(Map.of(
-                                        "email", member.getEmail(),
-                                        "password", NEW_PASSWORD))))
-                        .andExpect(status().isOk())
-                        .andReturn().getResponse().getContentAsString())
-                .get("token").asText();
+        String newToken = loginToken(member.getEmail(), NEW_PASSWORD);
 
         mockMvc.perform(get(PROFILE_URL).header(HttpHeaders.AUTHORIZATION, bearer(newToken)))
                 .andExpect(status().isOk());

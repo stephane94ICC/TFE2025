@@ -10,9 +10,11 @@ import be.loisirs.tfe2025.plateforme_loisirs.repository.ActivitySessionRepositor
 import be.loisirs.tfe2025.plateforme_loisirs.repository.ReservationRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.RoleRepository;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.UserRepository;
+import be.loisirs.tfe2025.plateforme_loisirs.service.AuthCookieService;
 import be.loisirs.tfe2025.plateforme_loisirs.service.StripePaymentFeeService;
 import be.loisirs.tfe2025.plateforme_loisirs.service.StripeRefundService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,11 +24,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -181,17 +185,29 @@ public abstract class AbstractIntegrationTest {
      * Aucun raccourci : la chaine de filtres complete sera traversee.
      */
     protected String tokenFor(String email) throws Exception {
-        String body = "{\"email\":\"" + email + "\",\"password\":\"" + PASSWORD + "\"}";
+        return loginToken(email, PASSWORD);
+    }
 
-        String response = mockMvc.perform(post("/api/auth/login")
+    /**
+     * Se connecte et renvoie le jeton lu dans le cookie BL_AUTH.
+     * Le jeton n'est plus dans le corps JSON : seul le cookie le transporte.
+     */
+    protected String loginToken(String email, String password) throws Exception {
+        MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
+                        .content(objectMapper.writeValueAsString(Map.of(
+                                "email", email,
+                                "password", password))))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andReturn();
 
-        return objectMapper.readTree(response).get("token").asText();
+        Cookie cookie = result.getResponse().getCookie(AuthCookieService.COOKIE_NAME);
+
+        if (cookie == null || cookie.getValue().isBlank()) {
+            throw new IllegalStateException("Connexion reussie sans cookie " + AuthCookieService.COOKIE_NAME);
+        }
+
+        return cookie.getValue();
     }
 
     /** "Bearer " est un mot litteral, suivi d'un espace, sans guillemets. */

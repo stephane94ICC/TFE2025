@@ -150,8 +150,9 @@ export default {
 
         await changeMemberPassword(currentPassword, newPassword);
 
-        // Déconnexion : l'utilisateur se reconnecte avec son nouveau mot de passe.
-        AuthService.logout();
+        // Le serveur a déjà effacé le cookie dans sa réponse : il reste à vider l'interface.
+        // L'utilisateur se reconnecte avec son nouveau mot de passe.
+        AuthService.clearConnectedUser();
         this.$router.push({ path: "/login", query: { reason: "password-changed" } });
       } catch (error) {
         // Ne jamais journaliser l'objet d'erreur complet : error.config.data

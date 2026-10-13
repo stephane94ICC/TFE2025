@@ -122,15 +122,10 @@ export default {
 
       AuthService.register(this.form)
           .then(response => {
-            this.successMessage = response.message;
-
-            this.form = {
-              firstName: "",
-              lastName: "",
-              email: "",
-              password: "",
-              consentRgpd: false
-            };
+            // Le serveur a posé le cookie de connexion : l'utilisateur est connecté,
+            // comme après la page de connexion.
+            AuthService.saveConnectedUser(response);
+            this.$router.push("/");
           })
           .catch(error => {
             console.error(error);

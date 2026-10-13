@@ -343,7 +343,8 @@ export default {
 
         await deleteMemberAccount(this.deletePassword);
 
-        AuthService.logout();
+        // Le serveur a déjà effacé le cookie dans sa réponse : il reste à vider l'interface.
+        AuthService.clearConnectedUser();
         this.$router.push("/");
       } catch (error) {
         console.error(error);

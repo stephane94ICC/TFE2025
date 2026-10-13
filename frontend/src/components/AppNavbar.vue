@@ -313,10 +313,11 @@ export default {
       this.isMenuOpen = false;
     },
 
-    logout() {
-      AuthService.logout();
-      this.refreshAuthState();
+    // Attend la réponse du serveur (cookie effacé) avant de quitter la page.
+    async logout() {
       this.closeMenu();
+      await AuthService.logout();
+      this.refreshAuthState();
       this.$router.push("/login");
     }
   }

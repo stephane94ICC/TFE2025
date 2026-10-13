@@ -279,7 +279,7 @@ export default {
     },
 
     bookSession(session) {
-      if (!AuthService.getToken()) {
+      if (!AuthService.isLoggedIn()) {
         this.$router.push("/login");
         return;
       }

@@ -1,54 +1,65 @@
+import axios from "axios";
+
 const API_URL = "/api/auth";
 const CONNECTED_USER_KEY = "connectedUser";
-const TOKEN_KEY = "token";
+
+// Avant le passage au cookie HttpOnly, le jeton était stocké sous cette clé.
+const LEGACY_TOKEN_KEY = "token";
+
 
 class AuthService {
-  register(registerData) {
-    return fetch(`${API_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(registerData)
-    }).then(async response => {
-      if (!response.ok) {
-        const data = await response.json().catch(() => null);
-        const err = new Error(data && data.error ? data.error : "REGISTER_FAILED");
-        err.status = response.status;
-        throw err;
-      }
 
-      return response.json();
-    });
-  }
+  constructor() {
+    localStorage.removeItem(LEGACY_TOKEN_KEY);
 
-  login(loginData) {
-    return fetch(`${API_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(loginData)
-    }).then(async response => {
-      if (!response.ok) {
-        const data = await response.json().catch(() => null);
-        const err = new Error(data && data.error ? data.error : "LOGIN_FAILED");
-        err.status = response.status;
-        // 429 : délai avant de réessayer, en secondes (en-tête Retry-After).
-        err.retryAfter = Number(response.headers.get("Retry-After")) || 0;
-        throw err;
-      }
+    const user = this.getConnectedUser();
 
-      return response.json();
-    });
-  }
-
-  saveConnectedUser(user) {
-    localStorage.setItem(CONNECTED_USER_KEY, JSON.stringify(user));
-
-    if (user.token) {
-      localStorage.setItem(TOKEN_KEY, user.token);
+    if (user) {
+      this.saveConnectedUser(user);
     }
+  }
+
+  async register(registerData) {
+    try {
+      const response = await axios.post(`${API_URL}/register`, registerData);
+      return response.data;
+    } catch (error) {
+      throw toAuthError(error, "REGISTER_FAILED");
+    }
+  }
+
+  async login(loginData) {
+    try {
+      const response = await axios.post(`${API_URL}/login`, loginData);
+      return response.data;
+    } catch (error) {
+      const authError = toAuthError(error, "LOGIN_FAILED");
+      // 429 : délai avant de réessayer, en secondes (en-tête Retry-After).
+      authError.retryAfter = Number(error.response?.headers?.["retry-after"]) || 0;
+      throw authError;
+    }
+  }
+
+  /** Demande au serveur d'effacer le cookie, puis vide l'interface. */
+  async logout() {
+    try {
+      await axios.post(`${API_URL}/logout`);
+    } catch (error) {
+      // Serveur injoignable ou cookie déjà expiré : l'interface est déconnectée quand même.
+      console.warn("Déconnexion côté serveur impossible :", error.response?.status);
+    } finally {
+      this.clearConnectedUser();
+    }
+  }
+
+  /** Liste fermée de champs : le téléphone ou toute autre donnée du profil ne sont jamais stockés ici. */
+  saveConnectedUser(user) {
+    const { id, firstName, lastName, email, roles, profileImageUrl } = user;
+
+    localStorage.setItem(
+      CONNECTED_USER_KEY,
+      JSON.stringify({ id, firstName, lastName, email, roles, profileImageUrl })
+    );
   }
 
   getConnectedUser() {
@@ -58,15 +69,22 @@ class AuthService {
       return null;
     }
 
-    return JSON.parse(user);
+    try {
+      return JSON.parse(user);
+    } catch {
+      // Valeur illisible (modifiée à la main) : on repart d'un état déconnecté.
+      this.clearConnectedUser();
+      return null;
+    }
   }
 
-  getToken() {
-    return localStorage.getItem(TOKEN_KEY);
+  /** Vide l'interface sans appeler le serveur (cookie déjà effacé par lui, ou expiré). */
+  clearConnectedUser() {
+    localStorage.removeItem(CONNECTED_USER_KEY);
   }
 
   isLoggedIn() {
-    return this.getConnectedUser() !== null && this.getToken() !== null;
+    return this.getConnectedUser() !== null;
   }
 
   getRoles() {
@@ -82,11 +100,14 @@ class AuthService {
   hasRole(role) {
     return this.getRoles().includes(role);
   }
+}
 
-  logout() {
-    localStorage.removeItem(CONNECTED_USER_KEY);
-    localStorage.removeItem(TOKEN_KEY);
-  }
+/** Même forme d'erreur qu'avant : message = code d'erreur du serveur, status = code HTTP. */
+function toAuthError(error, fallbackCode) {
+  const data = error.response?.data;
+  const authError = new Error(data?.error || fallbackCode);
+  authError.status = error.response?.status ?? 0;
+  return authError;
 }
 
 export default new AuthService();

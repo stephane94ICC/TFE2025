@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Set;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,8 +24,6 @@ public class AuthResponseDTO {
     private Set<String> roles;
 
     private String profileImageUrl;
-
-    private String token;
 
     private String message;
 }
