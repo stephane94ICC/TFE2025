@@ -57,16 +57,22 @@
 }
 
 .navbar-right {
+    flex: 1 1 auto;
     min-width: 0;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 18px;
 }
 
+/* Les liens passent à la ligne s'ils manquent de place, quelle que soit la largeur :
+   la barre ne déborde jamais, même en néerlandais (libellés plus longs). */
 .navbar-links {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 18px;
+    justify-content: flex-end;
+    gap: 2px 18px;
 }
 
 .nav-link {
@@ -125,9 +131,9 @@
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
+            background 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
 }
 
 .menu-button:hover {
@@ -182,8 +188,8 @@
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        color 0.2s ease;
+            background 0.2s ease,
+            color 0.2s ease;
 }
 
 .account-menu-link:hover,
@@ -307,6 +313,14 @@
 /* =========================
    RESPONSIVE
    ========================= */
+
+/* Sous 1300 px, la barre d'un partenaire peut passer sur deux lignes :
+   un arrondi plus doux qu'une pilule garde une forme nette. */
+@media (max-width: 1300px) {
+    .navbar {
+        border-radius: 28px;
+    }
+}
 
 @media (max-width: 1050px) {
     .navbar {
