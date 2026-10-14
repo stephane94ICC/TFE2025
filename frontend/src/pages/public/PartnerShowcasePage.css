@@ -392,3 +392,65 @@
         padding: 26px 0;
     }
 }
+
+/* ---------- 4. Lieux ---------- */
+
+.showcase-intro {
+    margin: -8px 0 16px;
+    color: var(--bl-muted);
+}
+
+.showcase-locations {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.showcase-location {
+    padding: 18px 20px;
+    border: 1px solid var(--bl-border);
+    border-radius: var(--bl-radius-md);
+    background: var(--bl-surface);
+}
+
+.showcase-location h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.showcase-location address {
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.showcase-location__access {
+    margin: 10px 0 0;
+    color: var(--bl-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.showcase-location__activities {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--bl-border);
+}
+
+.showcase-location__activities h4 {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.showcase-location__activities ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.showcase-location__activities a {
+    color: var(--bl-primary-dark);
+}

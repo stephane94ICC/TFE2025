@@ -1,17 +1,30 @@
 package be.loisirs.tfe2025.plateforme_loisirs.mapper;
 
+import be.loisirs.tfe2025.plateforme_loisirs.dto.location.PublicLocationDTO;
+import be.loisirs.tfe2025.plateforme_loisirs.dto.location.PublicLocationDTO.LinkedActivity;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.partner.PublicPartnerResponseDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.dto.partner.PublicPartnerResponseDTO.PublicAddress;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityLocation;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Address;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Partner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PublicPartnerMapper {
 
-    public PublicPartnerResponseDTO toPublicDTO(Partner partner, List<Address> addresses) {
+    private final PublicLocationMapper publicLocationMapper;
+
+    public PublicPartnerMapper(PublicLocationMapper publicLocationMapper) {
+        this.publicLocationMapper = publicLocationMapper;
+    }
+
+    public PublicPartnerResponseDTO toPublicDTO(Partner partner,
+                                                List<Address> addresses,
+                                                List<ActivityLocation> locations,
+                                                Map<Long, List<LinkedActivity>> activitiesByLocationId) {
         if (partner == null) {
             return null;
         }
@@ -29,6 +42,20 @@ public class PublicPartnerMapper {
         if (addresses != null) {
             dto.setAddresses(addresses.stream().map(this::toPublicAddress).toList());
         }
+
+        if (locations != null) {
+            dto.setLocations(locations.stream()
+                    .map(location -> toPublicLocation(location, activitiesByLocationId))
+                    .toList());
+        }
+
+        return dto;
+    }
+
+    private PublicLocationDTO toPublicLocation(ActivityLocation location,
+                                               Map<Long, List<LinkedActivity>> activitiesByLocationId) {
+        PublicLocationDTO dto = publicLocationMapper.toPublicDTO(location);
+        dto.setActivities(activitiesByLocationId.getOrDefault(location.getId(), List.of()));
 
         return dto;
     }

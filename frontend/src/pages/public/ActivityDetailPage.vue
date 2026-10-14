@@ -46,8 +46,8 @@
             <span>
               {{
                 activity.minimumAge > 0
-                  ? $t("public.activityDetail.ageValue", { age: activity.minimumAge })
-                  : $t("public.activityDetail.allAges")
+                    ? $t("public.activityDetail.ageValue", { age: activity.minimumAge })
+                    : $t("public.activityDetail.allAges")
               }}
             </span>
           </div>
@@ -120,9 +120,19 @@
               {{ formatTime(session.startAt) }} – {{ formatTime(session.endAt) }}
             </p>
 
-            <p class="session-location">
-              📍 {{ session.locationName }}
-            </p>
+            <div class="session-location">
+              <p>📍 {{ session.locationName }}</p>
+
+              <p v-if="session.location">
+                {{ formatStreet(session.location) }}, {{ formatCity(session.location) }}
+              </p>
+
+              <!-- Infos d'accès repliées : un clic les affiche, sans encombrer la liste des créneaux -->
+              <details v-if="session.location && session.location.accessInformation" class="session-access">
+                <summary>{{ $t("public.activityDetail.accessInfo") }}</summary>
+                <p>{{ session.location.accessInformation }}</p>
+              </details>
+            </div>
           </div>
 
           <div class="session-aside">
@@ -130,8 +140,8 @@
               {{ session.remainingSeats }}
               {{
                 session.remainingSeats > 1
-                  ? $t("public.activityDetail.remainingSeatsPlural")
-                  : $t("public.activityDetail.remainingSeatsSingular")
+                    ? $t("public.activityDetail.remainingSeatsPlural")
+                    : $t("public.activityDetail.remainingSeatsSingular")
               }}
             </p>
 
@@ -154,8 +164,8 @@
                 >
                   {{
                     booking
-                      ? $t("public.activityDetail.redirecting")
-                      : $t("public.activityDetail.pay")
+                        ? $t("public.activityDetail.redirecting")
+                        : $t("public.activityDetail.pay")
                   }}
                 </button>
 
@@ -199,6 +209,7 @@
 import { getActivityById, getActivitySessions } from '../../services/ActivityService';
 import AuthService from '../../services/AuthService';
 import ReservationService from '../../services/ReservationService';
+import { formatCity, formatStreet } from "../../utils/address";
 
 export default {
   name: 'ActivityDetailPage',
@@ -223,6 +234,9 @@ export default {
   },
 
   methods: {
+    formatStreet,
+    formatCity,
+
     loadActivity() {
       const id = this.$route.params.id;
 

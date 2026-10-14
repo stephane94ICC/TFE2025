@@ -73,6 +73,7 @@ export default {
   },
 
   activityDetail: {
+    accessInfo: "Comment s’y rendre",
     back: "Retour aux activités",
     loading: "Chargement de l’activité...",
 
@@ -168,13 +169,22 @@ export default {
 
     securityTitle: "8. Sécurité",
     securityText:
-        "Les mots de passe sont hachés (BCrypt) et l'authentification repose sur des jetons JWT à durée limitée. Aucune donnée de carte bancaire ne transite par nos serveurs.",
+        "Les mots de passe sont hachés (BCrypt). La connexion repose sur un jeton à durée limitée (2 heures), conservé dans un cookie que les scripts de la page ne peuvent pas lire ; la déconnexion l'invalide sur tous vos appareils. Les actions sensibles sont protégées contre les requêtes envoyées depuis un autre site (CSRF). Aucune donnée de carte bancaire ne transite par nos serveurs.",
 
     cookiesTitle: "9. Cookies et stockage local",
-    cookiesText:
-        "Bel'Loisirs n'utilise aucun cookie, aucun outil de mesure d'audience ni aucun traceur publicitaire, et les polices de caractères sont hébergées sur nos propres serveurs. Le navigateur conserve uniquement, dans son stockage local, les informations strictement nécessaires au service que vous demandez : la langue choisie, le contenu du panier et vos informations de connexion. Ce stockage étant indispensable au fonctionnement de la plateforme, il ne requiert pas de consentement. Les informations de connexion sont effacées lors de la déconnexion ; l'ensemble peut être supprimé à tout moment via les paramètres de votre navigateur.",
+    cookiesIntro:
+        "Bel'Loisirs n'utilise aucun outil de mesure d'audience ni aucun traceur publicitaire, et les polices de caractères sont hébergées sur nos propres serveurs. Le site dépose uniquement deux cookies, strictement nécessaires au service que vous demandez :",
 
-    lastUpdate: "Dernière mise à jour : 19 septembre 2026"
+    cookieAuth:
+        "__Host-BL_AUTH : maintient votre connexion. Les scripts de la page ne peuvent pas le lire ; il est supprimé à la déconnexion et expire au plus tard 2 heures après la connexion.",
+
+    cookieCsrf:
+        "XSRF-TOKEN : protège vos actions contre les requêtes envoyées à votre insu depuis un autre site (attaque dite CSRF). Il ne contient aucune donnée personnelle et disparaît à la fermeture du navigateur.",
+
+    cookiesStorage:
+        "Le navigateur conserve aussi, dans son stockage local, la langue choisie, le contenu du panier et les informations de votre compte affichées à l'écran (nom, rôle, photo) ; ces dernières sont effacées à la déconnexion. Ces cookies et ce stockage étant indispensables au fonctionnement de la plateforme, ils ne requièrent pas de consentement. Vous pouvez les supprimer à tout moment via les paramètres de votre navigateur. La page de paiement, hébergée par Stripe, dépose ses propres cookies, régis par la politique de confidentialité de Stripe.",
+
+    lastUpdate: "Dernière mise à jour : 13 octobre 2026"
   },
 
   productDetail: {
@@ -253,7 +263,10 @@ export default {
     website: "Site web",
     phone: "Téléphone",
     email: "E-mail",
-    address: "Adresse",
+    contactAddress: "Adresse de contact",
+    locationsTitle: "Nos lieux",
+    locationsIntro: "Les activités se déroulent à ces adresses.",
+    locationActivities: "Activités à venir ici",
     footerLabel: "Coordonnées de {name}",
     hostedBy: "Vitrine hébergée par Bel'Loisirs",
     box: "bte {box}"

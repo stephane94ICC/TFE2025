@@ -73,6 +73,7 @@ export default {
   },
 
   activityDetail: {
+    accessInfo: "Hoe er te komen",
     back: "Terug naar de activiteiten",
     loading: "Activiteit laden...",
 
@@ -170,13 +171,22 @@ export default {
 
     securityTitle: "8. Beveiliging",
     securityText:
-        "Wachtwoorden worden gehasht met BCrypt en de authenticatie maakt gebruik van JWT-tokens met een beperkte geldigheidsduur. Er worden geen bankkaartgegevens via onze servers verwerkt.",
+        "Wachtwoorden worden gehasht met BCrypt. De aanmelding steunt op een token met een beperkte geldigheidsduur (2 uur), bewaard in een cookie die de scripts van de pagina niet kunnen lezen; afmelden maakt het token ongeldig op al uw toestellen. Gevoelige handelingen zijn beschermd tegen verzoeken die vanaf een andere website worden verstuurd (CSRF). Er worden geen bankkaartgegevens via onze servers verwerkt.",
 
     cookiesTitle: "9. Cookies en lokale opslag",
-    cookiesText:
-        "Bel'Loisirs gebruikt geen cookies, geen tools voor bezoekersstatistieken en geen advertentietrackers, en de lettertypen worden op onze eigen servers gehost. De browser bewaart in zijn lokale opslag enkel de informatie die strikt noodzakelijk is voor de dienst die u vraagt: de gekozen taal, de inhoud van het winkelmandje en uw aanmeldingsgegevens. Aangezien deze opslag onmisbaar is voor de werking van het platform, is er geen toestemming voor vereist. De aanmeldingsgegevens worden bij het afmelden gewist; alles kan op elk moment worden verwijderd via de instellingen van uw browser.",
+    cookiesIntro:
+        "Bel'Loisirs gebruikt geen tools voor bezoekersstatistieken en geen advertentietrackers, en de lettertypen worden op onze eigen servers gehost. De website plaatst enkel twee cookies, die strikt noodzakelijk zijn voor de dienst die u vraagt:",
 
-    lastUpdate: "Laatste update: 19 september 2026"
+    cookieAuth:
+        "__Host-BL_AUTH: houdt u aangemeld. De scripts van de pagina kunnen deze cookie niet lezen; hij wordt verwijderd bij het afmelden en verloopt uiterlijk 2 uur na het aanmelden.",
+
+    cookieCsrf:
+        "XSRF-TOKEN: beschermt uw handelingen tegen verzoeken die zonder uw medeweten vanaf een andere website worden verstuurd (zogenaamde CSRF-aanval). Deze cookie bevat geen persoonsgegevens en verdwijnt wanneer u de browser sluit.",
+
+    cookiesStorage:
+        "De browser bewaart daarnaast in zijn lokale opslag de gekozen taal, de inhoud van het winkelmandje en de gegevens van uw account die op het scherm worden getoond (naam, rol, foto); die laatste worden gewist bij het afmelden. Aangezien deze cookies en deze opslag onmisbaar zijn voor de werking van het platform, is er geen toestemming voor nodig. U kunt ze op elk moment verwijderen via de instellingen van uw browser. De betaalpagina, gehost door Stripe, plaatst eigen cookies, waarop het privacybeleid van Stripe van toepassing is.",
+
+    lastUpdate: "Laatste update: 13 oktober 2026"
   },
 
   productDetail: {
@@ -255,7 +265,10 @@ export default {
     website: "Website",
     phone: "Telefoon",
     email: "E-mail",
-    address: "Adres",
+    contactAddress: "Contactadres",
+    locationsTitle: "Onze locaties",
+    locationsIntro: "De activiteiten vinden plaats op deze adressen.",
+    locationActivities: "Komende activiteiten hier",
     footerLabel: "Contactgegevens van {name}",
     hostedBy: "Etalage gehost door Bel'Loisirs",
     box: "bus {box}"

@@ -248,6 +248,26 @@
     color: var(--bl-muted);
 }
 
+.session-location p + p {
+    margin-top: 2px;
+}
+
+.session-access {
+    margin-top: 4px;
+}
+
+.session-access summary {
+    color: var(--bl-primary-dark);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.session-access p {
+    max-width: 60ch;
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
 .session-aside {
     display: flex;
     flex-direction: column;

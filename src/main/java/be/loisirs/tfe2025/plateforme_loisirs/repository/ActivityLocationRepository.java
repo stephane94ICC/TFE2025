@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface ActivityLocationRepository extends JpaRepository<ActivityLocation, Long> {
 
     List<ActivityLocation> findAllByPartner_User_Email(String email);
-
     Optional<ActivityLocation> findByIdAndPartner_User_Email(Long id, String email);
+    List<ActivityLocation> findAllByPartner_IdAndActiveTrueOrderByNameAsc(Long partnerId);
 }

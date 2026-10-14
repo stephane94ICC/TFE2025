@@ -73,6 +73,7 @@ export default {
   },
 
   activityDetail: {
+    accessInfo: "Getting there",
     back: "Back to activities",
     loading: "Loading activity...",
 
@@ -168,13 +169,22 @@ export default {
 
     securityTitle: "8. Security",
     securityText:
-        "Passwords are hashed (BCrypt) and authentication relies on time-limited JWT tokens. No bank card data passes through our servers.",
+        "Passwords are hashed (BCrypt). Sign-in relies on a time-limited token (2 hours), kept in a cookie that the page's scripts cannot read; signing out invalidates it on all your devices. Sensitive actions are protected against requests sent from another website (CSRF). No bank card data passes through our servers.",
 
     cookiesTitle: "9. Cookies and local storage",
-    cookiesText:
-        "Bel'Loisirs uses no cookies, no audience measurement tools and no advertising trackers, and fonts are hosted on our own servers. The browser only keeps, in its local storage, the information strictly necessary for the service you request: the selected language, the contents of the cart and your login information. As this storage is essential to the operation of the platform, it does not require consent. Login information is erased when you log out; everything can be deleted at any time through your browser settings.",
+    cookiesIntro:
+        "Bel'Loisirs uses no audience measurement tools and no advertising trackers, and fonts are hosted on our own servers. The website sets only two cookies, strictly necessary for the service you request:",
 
-    lastUpdate: "Last updated: 19 September 2026"
+    cookieAuth:
+        "__Host-BL_AUTH: keeps you signed in. The page's scripts cannot read it; it is deleted when you sign out and expires at the latest 2 hours after you sign in.",
+
+    cookieCsrf:
+        "XSRF-TOKEN: protects your actions against requests sent without your knowledge from another website (a so-called CSRF attack). It contains no personal data and is deleted when you close your browser.",
+
+    cookiesStorage:
+        "The browser also keeps, in its local storage, the selected language, the contents of the cart and the account details shown on screen (name, role, photo); the latter are erased when you sign out. As these cookies and this storage are essential to the operation of the platform, they do not require consent. You can delete them at any time in your browser settings. The payment page, hosted by Stripe, sets its own cookies, governed by Stripe's privacy policy.",
+
+    lastUpdate: "Last updated: 13 October 2026"
   },
 
   productDetail: {
@@ -253,7 +263,10 @@ export default {
     website: "Website",
     phone: "Phone",
     email: "Email",
-    address: "Address",
+    contactAddress: "Contact address",
+    locationsTitle: "Our venues",
+    locationsIntro: "Activities take place at these addresses.",
+    locationActivities: "Upcoming activities here",
     footerLabel: "Contact details of {name}",
     hostedBy: "Showcase hosted by Bel'Loisirs",
     box: "box {box}"

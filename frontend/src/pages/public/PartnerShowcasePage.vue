@@ -119,10 +119,53 @@
             </li>
           </ul>
         </section>
+
+        <!-- 4. Lieux : où se déroulent les activités, à ne pas confondre avec l'adresse de contact -->
+        <section
+            v-if="partner.locations && partner.locations.length"
+            class="showcase-section"
+            aria-labelledby="showcase-locations-title"
+        >
+          <h2 id="showcase-locations-title">
+            {{ $t("public.partnerShowcase.locationsTitle") }}
+          </h2>
+
+          <p class="showcase-intro">
+            {{ $t("public.partnerShowcase.locationsIntro") }}
+          </p>
+
+          <ul class="showcase-locations">
+            <li
+                v-for="(location, index) in partner.locations"
+                :key="index"
+                class="showcase-location"
+            >
+              <h3>{{ location.name }}</h3>
+
+              <address>
+                {{ formatStreet(location) }}<br />
+                {{ formatCity(location) }}
+              </address>
+
+              <p v-if="location.accessInformation" class="showcase-location__access">
+                {{ location.accessInformation }}
+              </p>
+
+              <div v-if="location.activities && location.activities.length" class="showcase-location__activities">
+                <h4>{{ $t("public.partnerShowcase.locationActivities") }}</h4>
+                <ul>
+                  <li v-for="activity in location.activities" :key="activity.id">
+                    <router-link :to="`/activities/${activity.id}`">{{ activity.title }}</router-link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </section>
       </template>
     </div>
 
-    <!-- 4. Pied de page du partenaire : remplace celui du site sur cette page
+    <!-- 5. Pied de page du partenaire : remplace celui du site sur cette page
          (route meta.partnerFooter). Les liens légaux de la plateforme restent
          accessibles dans la dernière ligne : obligation sur toutes les pages. -->
     <footer
@@ -167,11 +210,11 @@
           </div>
 
           <div v-for="(address, index) in partner.addresses" :key="index">
-            <dt>{{ $t("public.partnerShowcase.address") }}</dt>
+            <dt>{{ $t("public.partnerShowcase.contactAddress") }}</dt>
             <dd>
               <address>
                 {{ formatStreet(address) }}<br />
-                {{ address.postalCode }} {{ address.city }}<br />
+                {{ formatCity(address) }}<br />
                 {{ address.country }}
               </address>
             </dd>
@@ -198,6 +241,7 @@
 <script>
 import { getPublicPartner } from "../../services/PublicPartnerService";
 import { getActivities } from "../../services/ActivityService";
+import { formatCity, formatStreet } from "../../utils/address";
 
 // Chemin attribué par Partner.prePersist quand aucun logo n'est envoyé
 const DEFAULT_LOGO_URL = "/uploads/partners/default-logo.png";
@@ -328,13 +372,9 @@ export default {
           });
     },
 
-    formatStreet(address) {
-      const street = `${address.street} ${address.houseNumber}`;
+    formatStreet,
+    formatCity,
 
-      return address.box
-          ? `${street} ${this.$t("public.partnerShowcase.box", { box: address.box })}`
-          : street;
-    },
 
     getActivityImage(activity) {
       return activity.imageUrls && activity.imageUrls.length > 0

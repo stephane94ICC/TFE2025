@@ -75,11 +75,13 @@ export default {
     equipmentInformation: "Informations sur l’équipement",
     vatRate: "Taux de TVA",
     vatRatePlaceholder: "Choisissez un taux",
-    partnerId: "ID partenaire",
+    partner: "Partenaire",
+    partnerPlaceholder: "Choisissez un partenaire",
 
     cancel: "Annuler",
     save: "Enregistrer",
 
+    partnersLoadError: "Impossible de charger la liste des partenaires.",
     loadError: "Impossible de charger l’activité.",
     saveError: "Impossible d’enregistrer l’activité."
   },

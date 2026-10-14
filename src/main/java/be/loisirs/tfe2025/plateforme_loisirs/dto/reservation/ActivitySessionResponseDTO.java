@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.dto.reservation;
 
+import be.loisirs.tfe2025.plateforme_loisirs.dto.location.PublicLocationDTO;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
 import lombok.*;
 
@@ -15,6 +16,7 @@ public class ActivitySessionResponseDTO {
     private Long activityId;
     private Long locationId;
     private String locationName;
+    private PublicLocationDTO location;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private Integer capacity;

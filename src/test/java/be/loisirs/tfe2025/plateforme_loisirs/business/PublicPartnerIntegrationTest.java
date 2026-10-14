@@ -1,6 +1,7 @@
 package be.loisirs.tfe2025.plateforme_loisirs.business;
 
 import be.loisirs.tfe2025.plateforme_loisirs.common.AbstractIntegrationTest;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySession;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.Partner;
 import be.loisirs.tfe2025.plateforme_loisirs.repository.PartnerRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -46,6 +47,40 @@ class PublicPartnerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.addresses", not(empty())))
                 .andExpect(jsonPath("$.addresses[*].type", everyItem(is("CONTACT"))));
+    }
+
+    @Test
+    @DisplayName("La vitrine publie les lieux actifs du partenaire, avec leur adresse")
+    void showcasePublishesActiveLocations() throws Exception {
+        mockMvc.perform(get("/api/partners/{slug}", SLUG))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.locations[*].name", hasItem("Studio Loi")))
+                .andExpect(jsonPath("$.locations[?(@.name == 'Studio Loi')].street", hasItem("Rue de la Loi")))
+                .andExpect(jsonPath("$.locations[?(@.name == 'Studio Loi')].city", hasItem("Bruxelles")));
+    }
+
+    @Test
+    @DisplayName("Chaque lieu de la vitrine liste les activités qui y ont un créneau à venir")
+    void showcaseLocationListsUpcomingActivities() throws Exception {
+        ActivitySession session = createUpcomingSession();
+
+        mockMvc.perform(get("/api/partners/{slug}", session.getActivity().getPartner().getSlug()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.locations[*].activities[*].title",
+                        hasItem(session.getActivity().getTitle())));
+    }
+
+    @Test
+    @DisplayName("Chaque créneau public porte l'adresse de son propre lieu")
+    void publicSessionCarriesItsLocationAddress() throws Exception {
+        ActivitySession session = createUpcomingSession();
+
+        mockMvc.perform(get("/api/activities/{id}/sessions", session.getActivity().getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.id == " + session.getId() + ")].location.street",
+                        hasItem(session.getLocation().getStreet())))
+                .andExpect(jsonPath("$[?(@.id == " + session.getId() + ")].location.city",
+                        hasItem(session.getLocation().getCity())));
     }
 
     @Test

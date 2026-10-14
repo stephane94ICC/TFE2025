@@ -12,9 +12,12 @@ import java.util.List;
 public class ActivitySessionMapper {
 
     private final ReservationRepository reservationRepository;
+    private final PublicLocationMapper publicLocationMapper;
 
-    public ActivitySessionMapper(ReservationRepository reservationRepository) {
+    public ActivitySessionMapper(ReservationRepository reservationRepository,
+                                 PublicLocationMapper publicLocationMapper) {
         this.reservationRepository = reservationRepository;
+        this.publicLocationMapper = publicLocationMapper;
     }
 
     public ActivitySessionResponseDTO toDTO(ActivitySession session) {
@@ -30,6 +33,7 @@ public class ActivitySessionMapper {
         dto.setActivityId(session.getActivity().getId());
         dto.setLocationId(session.getLocation().getId());
         dto.setLocationName(session.getLocation().getName());
+        dto.setLocation(publicLocationMapper.toPublicDTO(session.getLocation()));
         dto.setStartAt(session.getStartAt());
         dto.setEndAt(session.getEndAt());
         dto.setCapacity(session.getCapacity());

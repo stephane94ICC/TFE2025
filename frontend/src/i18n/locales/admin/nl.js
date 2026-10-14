@@ -75,11 +75,13 @@ export default {
     equipmentInformation: "Informatie over de uitrusting",
     vatRate: "Btw-tarief",
     vatRatePlaceholder: "Kies een tarief",
-    partnerId: "Partner-ID",
+    partner: "Partner",
+    partnerPlaceholder: "Kies een partner",
 
     cancel: "Annuleren",
     save: "Opslaan",
 
+    partnersLoadError: "De lijst met partners kon niet worden geladen.",
     loadError: "De activiteit kon niet worden geladen.",
     saveError: "De activiteit kon niet worden opgeslagen."
   },

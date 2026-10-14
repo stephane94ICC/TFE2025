@@ -2,6 +2,7 @@ package be.loisirs.tfe2025.plateforme_loisirs.repository;
 
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySession;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivitySessionStatus;
+import be.loisirs.tfe2025.plateforme_loisirs.entity.ActivityStatus;
 import be.loisirs.tfe2025.plateforme_loisirs.entity.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,6 @@ import java.util.Optional;
 @Repository
 public interface ActivitySessionRepository extends JpaRepository<ActivitySession, Long> {
 
-    // Planning du partenaire : ordre chronologique, prochain créneau en haut
     List<ActivitySession> findAllByActivity_IdAndActivity_Partner_User_EmailOrderByStartAtAsc(
             Long activityId,
             String email
@@ -52,6 +52,24 @@ public interface ActivitySessionRepository extends JpaRepository<ActivitySession
             """)
     List<Object[]> findDistinctCitiesByActivityIds(
             @Param("activityIds") List<Long> activityIds
+    );
+
+    // Vitrine : par lieu du partenaire, les activités approuvées qui y ont un créneau à venir.
+    // Chaque ligne : [id du lieu, id de l'activité, titre de l'activité]
+    @Query("""
+            SELECT DISTINCT s.location.id, s.activity.id, s.activity.title
+            FROM ActivitySession s
+            WHERE s.location.partner.id = :partnerId
+              AND s.activity.status = :activityStatus
+              AND s.status = :sessionStatus
+              AND s.startAt > :now
+            ORDER BY s.activity.title
+            """)
+    List<Object[]> findUpcomingActivitiesByLocation(
+            @Param("partnerId") Long partnerId,
+            @Param("activityStatus") ActivityStatus activityStatus,
+            @Param("sessionStatus") ActivitySessionStatus sessionStatus,
+            @Param("now") LocalDateTime now
     );
 
     @Query("""

@@ -75,11 +75,13 @@ export default {
     equipmentInformation: "Equipment information",
     vatRate: "VAT rate",
     vatRatePlaceholder: "Choose a rate",
-    partnerId: "Partner ID",
+    partner: "Partner",
+    partnerPlaceholder: "Choose a partner",
 
     cancel: "Cancel",
     save: "Save",
 
+    partnersLoadError: "Unable to load the list of partners.",
     loadError: "Unable to load the activity.",
     saveError: "Unable to save the activity."
   },

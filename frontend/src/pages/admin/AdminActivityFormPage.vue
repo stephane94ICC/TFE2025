@@ -11,31 +11,31 @@
         <div class="form-group">
           <label for="title">{{ $t("admin.activityForm.title") }}</label>
           <input
-            id="title"
-            v-model="form.title"
-            type="text"
-            required
+              id="title"
+              v-model="form.title"
+              type="text"
+              required
           />
         </div>
 
         <div class="form-group">
           <label for="description">{{ $t("admin.activityForm.description") }}</label>
           <textarea
-            id="description"
-            v-model="form.description"
-            rows="4"
+              id="description"
+              v-model="form.description"
+              rows="4"
           ></textarea>
         </div>
 
         <div class="form-group">
           <label for="price">{{ $t("admin.activityForm.price") }}</label>
           <input
-            id="price"
-            v-model.number="form.price"
-            type="number"
-            step="0.01"
-            min="0"
-            required
+              id="price"
+              v-model.number="form.price"
+              type="number"
+              step="0.01"
+              min="0"
+              required
           />
         </div>
 
@@ -59,43 +59,45 @@
         <div class="form-group">
           <label for="durationMinutes">{{ $t("admin.activityForm.duration") }}</label>
           <input
-            id="durationMinutes"
-            v-model.number="form.durationMinutes"
-            type="number"
-            min="1"
-            required
+              id="durationMinutes"
+              v-model.number="form.durationMinutes"
+              type="number"
+              min="1"
+              required
           />
         </div>
 
         <div class="form-group">
           <label for="minimumAge">{{ $t("admin.activityForm.minimumAge") }}</label>
           <input
-            id="minimumAge"
-            v-model.number="form.minimumAge"
-            type="number"
-            min="0"
-            required
+              id="minimumAge"
+              v-model.number="form.minimumAge"
+              type="number"
+              min="0"
+              required
           />
         </div>
 
         <div class="form-group">
           <label for="equipmentInformation">{{ $t("admin.activityForm.equipmentInformation") }}</label>
           <textarea
-            id="equipmentInformation"
-            v-model="form.equipmentInformation"
-            rows="3"
+              id="equipmentInformation"
+              v-model="form.equipmentInformation"
+              rows="3"
           ></textarea>
         </div>
 
         <div class="form-group">
-          <label for="partnerId">{{ $t("admin.activityForm.partnerId") }}</label>
-          <input
-            id="partnerId"
-            v-model.number="form.partnerId"
-            type="number"
-            min="1"
-            required
-          />
+          <label for="partnerId">{{ $t("admin.activityForm.partner") }}</label>
+          <!-- Le nom est affiché, l'identifiant est envoyé. value="" : même raison que pour la TVA. -->
+          <select id="partnerId" v-model.number="form.partnerId" required>
+            <option value="" disabled>
+              {{ $t("admin.activityForm.partnerPlaceholder") }}
+            </option>
+            <option v-for="partner in partners" :key="partner.id" :value="partner.id">
+              {{ partner.name }}
+            </option>
+          </select>
         </div>
 
         <div class="form-actions">
@@ -118,6 +120,7 @@ import {
   createActivity,
   updateActivity
 } from "@/services/ActivityService";
+import { getAdminPartners } from "@/services/AdminPartnerService";
 
 export default {
   name: "AdminActivityFormPage",
@@ -132,9 +135,10 @@ export default {
         durationMinutes: null,
         minimumAge: 0,
         equipmentInformation: "",
-        partnerId: null
+        partnerId: ""
       },
       vatRates: [0, 6, 12, 21],
+      partners: [],
       errorMessage: ""
     };
   },
@@ -146,12 +150,24 @@ export default {
   },
 
   mounted() {
+    this.loadPartners();
+
     if (this.isEditMode) {
       this.loadActivity();
     }
   },
 
   methods: {
+    async loadPartners() {
+      try {
+        const response = await getAdminPartners();
+        this.partners = [...response.data].sort((a, b) => a.name.localeCompare(b.name));
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = this.$t("admin.activityForm.partnersLoadError");
+      }
+    },
+
     async loadActivity() {
       try {
         const response = await getAdminActivityById(this.$route.params.id);
@@ -163,7 +179,7 @@ export default {
           durationMinutes: response.data.durationMinutes ?? null,
           minimumAge: response.data.minimumAge ?? 0,
           equipmentInformation: response.data.equipmentInformation || "",
-          partnerId: response.data.partnerId ?? null
+          partnerId: response.data.partnerId ?? ""
         };
       } catch (error) {
         console.error(error);

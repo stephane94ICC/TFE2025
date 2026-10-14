@@ -1,5 +1,6 @@
 package be.loisirs.tfe2025.plateforme_loisirs.dto.partner;
 
+import be.loisirs.tfe2025.plateforme_loisirs.dto.location.PublicLocationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class PublicPartnerResponseDTO {
     private String enterpriseNumber;
 
     private List<PublicAddress> addresses = new ArrayList<>();
+
+    private List<PublicLocationDTO> locations = new ArrayList<>();
 
     @Getter
     @Setter
